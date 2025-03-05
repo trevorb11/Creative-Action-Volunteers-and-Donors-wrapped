@@ -12,7 +12,7 @@ export const donations = pgTable("donations", {
   id: serial("id").primaryKey(),
   amount: numeric("amount").notNull(),
   timestamp: text("timestamp").notNull(),
-  email: text("email"),
+  email: text("email").notNull().default(''), // Make email required with empty default
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({

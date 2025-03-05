@@ -7,6 +7,8 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   createDonation(donation: InsertDonation): Promise<Donation>;
   getDonations(): Promise<Donation[]>;
+  getDonationByEmail(email: string): Promise<Donation | undefined>;
+  getDonationByIdentifier(identifier: string): Promise<Donation | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -41,13 +43,35 @@ export class MemStorage implements IStorage {
 
   async createDonation(insertDonation: InsertDonation): Promise<Donation> {
     const id = this.currentDonationId++;
-    const donation: Donation = { ...insertDonation, id };
+    // Make sure email is always a string (empty if not provided)
+    const email = insertDonation.email || '';
+    const donation: Donation = { 
+      ...insertDonation, 
+      id,
+      email 
+    };
     this.donations.set(id, donation);
     return donation;
   }
 
   async getDonations(): Promise<Donation[]> {
     return Array.from(this.donations.values());
+  }
+
+  async getDonationByEmail(email: string): Promise<Donation | undefined> {
+    return Array.from(this.donations.values()).find(
+      (donation) => donation.email === email
+    );
+  }
+
+  async getDonationByIdentifier(identifier: string): Promise<Donation | undefined> {
+    // First try to find by email
+    const emailDonation = await this.getDonationByEmail(identifier);
+    if (emailDonation) return emailDonation;
+
+    // Could be extended to search by other identifiers like phone, ID, etc.
+    // For now, just email is implemented as the identifier
+    return undefined;
   }
 }
 

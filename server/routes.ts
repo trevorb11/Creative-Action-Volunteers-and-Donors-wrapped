@@ -70,6 +70,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/almanac-data', (req, res) => {
     res.json({ data: almanacData });
   });
+  
+  // API endpoint to get donor information by identifier
+  app.get('/api/donor/:identifier', async (req, res) => {
+    try {
+      const { identifier } = req.params;
+      if (!identifier) {
+        return res.status(400).json({ error: 'Identifier is required' });
+      }
+      
+      const donation = await storage.getDonationByIdentifier(identifier);
+      
+      if (!donation) {
+        return res.status(404).json({ error: 'Donor not found' });
+      }
+      
+      res.json({ donation });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch donor information' });
+    }
+  });
 
   const httpServer = createServer(app);
 
