@@ -1,9 +1,6 @@
-import { neon, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from '../shared/schema';
-
-// Configure neon to use HTTP during development (WebSocket not available in Replit)
-neonConfig.httpAgent = true;
 
 // For replit, use the provided environment variables
 const databaseUrl = process.env.DATABASE_URL;

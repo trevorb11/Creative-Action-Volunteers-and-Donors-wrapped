@@ -1,10 +1,6 @@
-import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import { neon, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from '../shared/schema';
-
-// Configure neon to use HTTP during development (WebSocket not available in Replit)
-neonConfig.httpAgent = true;
 
 // Function to set up the database schema
 export async function setupDatabase() {
@@ -20,7 +16,7 @@ export async function setupDatabase() {
   const sql = neon(databaseUrl);
   
   // Create a Drizzle client
-  const db = drizzle(sql, { schema });
+  const db = drizzle(sql);
 
   try {
     // Create the tables if they don't exist
@@ -46,6 +42,15 @@ export async function setupDatabase() {
         donor_id INTEGER REFERENCES donors(id),
         external_donation_id TEXT,
         imported INTEGER DEFAULT 0
+      );
+    `;
+    
+    // Create users table if it doesn't exist (for authentication)
+    await sql`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL
       );
     `;
     
