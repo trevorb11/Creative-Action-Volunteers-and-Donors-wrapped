@@ -79,13 +79,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Identifier is required' });
       }
       
-      const donation = await storage.getDonationByIdentifier(identifier);
+      // Decode the identifier (in case it's a URL-encoded email)
+      const decodedIdentifier = decodeURIComponent(identifier);
+      
+      // First try to get by email directly
+      let donation = await storage.getDonationByEmail(decodedIdentifier);
+      
+      // If no result, try the more general identifier lookup
+      if (!donation) {
+        donation = await storage.getDonationByIdentifier(decodedIdentifier);
+      }
       
       if (!donation) {
         return res.status(404).json({ error: 'Donor not found' });
       }
       
-      res.json({ donation });
+      // Calculate the impact
+      const amount = parseFloat(donation.amount.toString());
+      const impact = calculateImpact(amount);
+      
+      res.json({ 
+        donation, 
+        impact 
+      });
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch donor information' });
     }
