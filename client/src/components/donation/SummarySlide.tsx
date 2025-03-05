@@ -9,9 +9,22 @@ interface SummarySlideProps {
   impact: DonationImpact;
   onReset: () => void;
   onShare: () => void;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
 }
 
-export default function SummarySlide({ amount, impact, onReset, onShare }: SummarySlideProps) {
+export default function SummarySlide({ 
+  amount, 
+  impact, 
+  onReset, 
+  onShare,
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide
+}: SummarySlideProps) {
   const impactItems = [
     { 
       text: `Provided ${impact.mealsProvided.toLocaleString()} nutritious meals` 
@@ -32,6 +45,10 @@ export default function SummarySlide({ amount, impact, onReset, onShare }: Summa
       title="Your Impact Summary"
       variant="summary"
       quote="Thank you for making a difference in our community!"
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <motion.div 
         className="bg-white/20 p-8 rounded-xl mb-10"
