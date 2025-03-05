@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { SLIDE_COLORS } from "@/lib/constants";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface SlideLayoutProps {
   children: ReactNode;
@@ -8,6 +9,10 @@ interface SlideLayoutProps {
   variant: keyof typeof SLIDE_COLORS;
   subtitle?: string;
   quote?: string;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
 }
 
 export default function SlideLayout({
@@ -15,12 +20,28 @@ export default function SlideLayout({
   title,
   variant,
   subtitle,
-  quote
+  quote,
+  onNext,
+  onPrevious,
+  isFirstSlide = false,
+  isLastSlide = false
 }: SlideLayoutProps) {
   const bgColor = SLIDE_COLORS[variant];
   
   return (
-    <div className={`min-h-screen w-full flex items-center justify-center ${bgColor} text-white`}>
+    <div className={`min-h-screen w-full flex items-center justify-center ${bgColor} text-white relative`}>
+      {/* Left navigation arrow */}
+      {onPrevious && !isFirstSlide && (
+        <button 
+          onClick={onPrevious}
+          className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 text-white transition-all duration-300 z-10"
+          aria-label="Previous slide"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+      )}
+      
+      {/* Main content */}
       <div className="container mx-auto px-6 py-12 flex flex-col items-center justify-center">
         <div className="text-center max-w-3xl mx-auto">
           <motion.h2 
@@ -64,6 +85,17 @@ export default function SlideLayout({
           )}
         </div>
       </div>
+      
+      {/* Right navigation arrow */}
+      {onNext && !isLastSlide && (
+        <button 
+          onClick={onNext}
+          className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 text-white transition-all duration-300 z-10"
+          aria-label="Next slide"
+        >
+          <ArrowRight className="h-6 w-6" />
+        </button>
+      )}
     </div>
   );
 }

@@ -25,12 +25,8 @@ export function useDonationImpact() {
       setState(prev => ({ 
         ...prev, 
         impact: data.impact,
-        isLoading: false,
-        step: SlideNames.MEALS 
+        isLoading: false
       }));
-
-      // Auto-advance slides after loading is complete
-      startAutoAdvance();
     },
     onError: (error) => {
       setState(prev => ({ 
@@ -63,15 +59,12 @@ export function useDonationImpact() {
         step: SlideNames.MEALS
       }));
       
-      // Start auto-advancing slides
-      startAutoAdvance();
-      
       // Also call the server for logging purposes
       calculateImpactMutation.mutate(amount);
     }, SLIDE_CONFIG.progressDuration);
   };
 
-  // Auto-advance to next slide
+  // Go to next slide
   const goToNextSlide = () => {
     setState(prev => {
       // If we're at the last slide, don't advance
@@ -82,18 +75,15 @@ export function useDonationImpact() {
     });
   };
 
-  // Start timer to auto-advance slides
-  const startAutoAdvance = () => {
-    const timer = setInterval(() => {
-      setState(prev => {
-        // If we've reached the summary slide, stop auto-advancing
-        if (prev.step >= SlideNames.SUMMARY - 1) {
-          clearInterval(timer);
-          return { ...prev, step: SlideNames.SUMMARY };
-        }
-        return { ...prev, step: prev.step + 1 };
-      });
-    }, SLIDE_CONFIG.autoAdvanceDuration);
+  // Go to previous slide
+  const goToPreviousSlide = () => {
+    setState(prev => {
+      // If we're at the first content slide or earlier, don't go back
+      if (prev.step <= SlideNames.MEALS) {
+        return prev;
+      }
+      return { ...prev, step: prev.step - 1 };
+    });
   };
 
   // Reset to beginning
@@ -107,10 +97,23 @@ export function useDonationImpact() {
     });
   };
 
+  // Check if current slide is the first content slide
+  const isFirstSlide = () => {
+    return state.step <= SlideNames.MEALS;
+  };
+
+  // Check if current slide is the last slide
+  const isLastSlide = () => {
+    return state.step >= SlideNames.SUMMARY;
+  };
+
   return {
     state,
     handleFormSubmit,
     goToNextSlide,
-    resetDonation
+    goToPreviousSlide,
+    resetDonation,
+    isFirstSlide,
+    isLastSlide
   };
 }

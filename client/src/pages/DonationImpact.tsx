@@ -14,7 +14,16 @@ import SummarySlide from "@/components/donation/SummarySlide";
 import { useToast } from "@/hooks/use-toast";
 
 export default function DonationImpact() {
-  const { state, handleFormSubmit, resetDonation } = useDonationImpact();
+  const { 
+    state, 
+    handleFormSubmit, 
+    resetDonation, 
+    goToNextSlide, 
+    goToPreviousSlide,
+    isFirstSlide,
+    isLastSlide
+  } = useDonationImpact();
+  
   const { toast } = useToast();
   
   useEffect(() => {
@@ -48,6 +57,14 @@ export default function DonationImpact() {
     }
   };
 
+  // Common navigation props for all slides
+  const navigationProps = {
+    onNext: goToNextSlide,
+    onPrevious: goToPreviousSlide,
+    isFirstSlide: isFirstSlide(),
+    isLastSlide: isLastSlide()
+  };
+
   return (
     <div className="min-h-screen relative font-sans overflow-hidden">
       {state.step === SlideNames.WELCOME && (
@@ -59,31 +76,31 @@ export default function DonationImpact() {
       )}
       
       {state.step === SlideNames.MEALS && state.impact && (
-        <MealsSlide impact={state.impact} />
+        <MealsSlide impact={state.impact} {...navigationProps} />
       )}
       
       {state.step === SlideNames.NUTRITION && state.impact && (
-        <NutritionSlide impact={state.impact} />
+        <NutritionSlide impact={state.impact} {...navigationProps} />
       )}
       
       {state.step === SlideNames.PEOPLE && state.impact && (
-        <PeopleSlide impact={state.impact} />
+        <PeopleSlide impact={state.impact} {...navigationProps} />
       )}
       
       {state.step === SlideNames.ENVIRONMENT && state.impact && (
-        <EnvironmentSlide impact={state.impact} />
+        <EnvironmentSlide impact={state.impact} {...navigationProps} />
       )}
       
       {state.step === SlideNames.FOOD_RESCUE && state.impact && (
-        <FoodRescueSlide impact={state.impact} />
+        <FoodRescueSlide impact={state.impact} {...navigationProps} />
       )}
       
       {state.step === SlideNames.VOLUNTEER && (
-        <VolunteerSlide />
+        <VolunteerSlide {...navigationProps} />
       )}
       
       {state.step === SlideNames.PARTNER && (
-        <PartnerSlide />
+        <PartnerSlide {...navigationProps} />
       )}
       
       {state.step === SlideNames.SUMMARY && state.impact && (
@@ -92,6 +109,7 @@ export default function DonationImpact() {
           impact={state.impact} 
           onReset={resetDonation}
           onShare={handleShare}
+          {...navigationProps}
         />
       )}
     </div>
