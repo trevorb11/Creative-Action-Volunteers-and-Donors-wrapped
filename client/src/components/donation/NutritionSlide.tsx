@@ -5,9 +5,19 @@ import { motion } from "framer-motion";
 
 interface NutritionSlideProps {
   impact: DonationImpact;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
 }
 
-export default function NutritionSlide({ impact }: NutritionSlideProps) {
+export default function NutritionSlide({ 
+  impact,
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide
+}: NutritionSlideProps) {
   const produceBarRef = useRef<HTMLDivElement>(null);
   const dairyBarRef = useRef<HTMLDivElement>(null);
   const proteinBarRef = useRef<HTMLDivElement>(null);
@@ -54,6 +64,10 @@ export default function NutritionSlide({ impact }: NutritionSlideProps) {
       title="Your Food Breakdown"
       variant="nutrition"
       quote="72% of distribution consisted of fresh produce, dairy, and high-protein foods, supporting healthy and balanced diets."
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <motion.div 

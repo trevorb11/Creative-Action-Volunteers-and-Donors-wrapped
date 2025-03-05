@@ -7,9 +7,19 @@ import { SLIDE_CONFIG } from "@/lib/constants";
 
 interface PeopleSlideProps {
   impact: DonationImpact;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
 }
 
-export default function PeopleSlide({ impact }: PeopleSlideProps) {
+export default function PeopleSlide({ 
+  impact,
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide 
+}: PeopleSlideProps) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
   
@@ -32,6 +42,10 @@ export default function PeopleSlide({ impact }: PeopleSlideProps) {
       title="You Helped Serve"
       variant="people"
       quote="Our direct distribution programs served nearly 18,000 individuals across Boulder and Broomfield Counties, representing a 72% increase from 2023."
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <div className="relative mb-8">
         <div className="text-6xl md:text-8xl font-heading font-extrabold">

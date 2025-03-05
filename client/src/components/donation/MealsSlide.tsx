@@ -6,9 +6,19 @@ import { SLIDE_CONFIG } from "@/lib/constants";
 
 interface MealsSlideProps {
   impact: DonationImpact;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
 }
 
-export default function MealsSlide({ impact }: MealsSlideProps) {
+export default function MealsSlide({ 
+  impact,
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide
+}: MealsSlideProps) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
   const barRef = useRef<HTMLDivElement>(null);
@@ -44,6 +54,10 @@ export default function MealsSlide({ impact }: MealsSlideProps) {
       title="Your Donation Provides"
       variant="meals"
       quote="Community Food Share distributes enough food for nearly 30,000 meals each day."
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <div className="text-6xl md:text-8xl font-heading font-extrabold mb-4">
         <motion.span>{rounded}</motion.span>

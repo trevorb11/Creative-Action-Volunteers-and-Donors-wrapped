@@ -6,9 +6,19 @@ import { Leaf, Droplet } from "lucide-react";
 
 interface EnvironmentSlideProps {
   impact: DonationImpact;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
 }
 
-export default function EnvironmentSlide({ impact }: EnvironmentSlideProps) {
+export default function EnvironmentSlide({ 
+  impact, 
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide
+}: EnvironmentSlideProps) {
   const co2Count = useMotionValue(0);
   const roundedCO2 = useTransform(co2Count, (latest) => Math.round(latest));
   
@@ -37,6 +47,10 @@ export default function EnvironmentSlide({ impact }: EnvironmentSlideProps) {
       title="Your Environmental Impact"
       variant="environment"
       quote="Our food rescue efforts prevent over 9,000 tons of CO2 emissions annually, equivalent to removing 2,200 cars from the road for a year."
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
         <motion.div 

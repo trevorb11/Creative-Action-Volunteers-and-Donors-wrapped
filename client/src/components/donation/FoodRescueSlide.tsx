@@ -5,9 +5,19 @@ import SlideLayout from "./SlideLayout";
 
 interface FoodRescueSlideProps {
   impact: DonationImpact;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
 }
 
-export default function FoodRescueSlide({ impact }: FoodRescueSlideProps) {
+export default function FoodRescueSlide({ 
+  impact,
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide
+}: FoodRescueSlideProps) {
   const foodCount = useMotionValue(0);
   const roundedFood = useTransform(foodCount, (latest) => Math.round(latest));
   
@@ -25,6 +35,10 @@ export default function FoodRescueSlide({ impact }: FoodRescueSlideProps) {
       title="Food Rescue Impact"
       variant="foodRescue"
       quote="Community Food Share rescues 11 tons of food each day that would otherwise go to waste, that's the equivalent weight of 112 baby elephants, 11 bison, or 5 and a half cars!"
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <div className="mb-10">
         <div className="text-6xl md:text-7xl font-heading font-extrabold mb-4">

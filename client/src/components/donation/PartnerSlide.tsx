@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
 import SlideLayout from "./SlideLayout";
 
-export default function PartnerSlide() {
+interface PartnerSlideProps {
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
+}
+
+export default function PartnerSlide({
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide
+}: PartnerSlideProps) {
   const metrics = [
     { title: "7.5 Million", subtitle: "Meals provided", footnote: "Value: $17.6 million" },
     { title: "301,000", subtitle: "Food pantry visits", footnote: "Plus 670,000 meals & snacks" }
@@ -12,6 +24,10 @@ export default function PartnerSlide() {
       title="Community Network"
       variant="partner"
       quote="In FY24, our Partner Agencies were responsible for distributing 68% of the total food provided by Community Food Share."
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <div className="mb-8">
         <motion.div 

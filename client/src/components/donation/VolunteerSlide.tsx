@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
 import SlideLayout from "./SlideLayout";
 
-export default function VolunteerSlide() {
+interface VolunteerSlideProps {
+  onNext?: () => void;
+  onPrevious?: () => void;
+  isFirstSlide?: boolean;
+  isLastSlide?: boolean;
+}
+
+export default function VolunteerSlide({
+  onNext,
+  onPrevious,
+  isFirstSlide,
+  isLastSlide
+}: VolunteerSlideProps) {
   const counters = [
     { value: "2,357", label: "Volunteers annually" },
     { value: "25%", label: "Of all hours worked" }
@@ -12,6 +24,10 @@ export default function VolunteerSlide() {
       title="Volunteer Power"
       variant="volunteer"
       quote="Volunteers contribute 25% of all hours worked at Community Food Share, saving the organization $969,250 in labor costs."
+      onNext={onNext}
+      onPrevious={onPrevious}
+      isFirstSlide={isFirstSlide}
+      isLastSlide={isLastSlide}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
         {counters.map((counter, index) => (
