@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { DonationState, SlideNames } from "@/types/donation";
 import { DonationImpact } from "@shared/schema";
@@ -7,6 +8,7 @@ import { SLIDE_CONFIG } from "@/lib/constants";
 import { calculateDonationImpact } from "@/lib/donation-calculator";
 
 export function useDonationImpact() {
+  const [, setLocation] = useLocation();
   const [state, setState] = useState<DonationState>({
     amount: 0,
     step: SlideNames.WELCOME,
@@ -47,6 +49,11 @@ export function useDonationImpact() {
       isLoading: true,
       error: null
     }));
+    
+    // Navigate to impact page if we're not already there
+    if (window.location.pathname !== '/impact') {
+      setLocation('/impact');
+    }
 
     // Simulate loading for better user experience
     setTimeout(() => {
@@ -95,6 +102,9 @@ export function useDonationImpact() {
       isLoading: false,
       error: null,
     });
+    
+    // Return to the landing page
+    setLocation('/');
   };
 
   // Check if current slide is the first content slide
