@@ -61,6 +61,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Community Food Share Brand Colors
+        cfs: {
+          darkGreen: "#0c4428",
+          teal: "#227d7f",
+          brightGreen: "#8dc53e",
+          yellow: "#efeb03",
+          darkGray: "#414042",
+          lightBlue: "#00d6dd",
+        },
       },
       keyframes: {
         "accordion-down": {

@@ -21,13 +21,13 @@ export const SLIDE_CONFIG = {
 
 export const SLIDE_COLORS = {
   welcome: "bg-white",
-  loading: "bg-primary", 
-  meals: "bg-[#3F51B5]", // Secondary color
-  nutrition: "bg-[#FF9800]", // Accent color
-  people: "bg-[#2AB674]", // Primary color
-  environment: "bg-[#43A047]",
-  foodRescue: "bg-[#5E35B1]",
-  volunteer: "bg-[#1976D2]",
-  partner: "bg-[#D32F2F]",
-  summary: "bg-[#2AB674]", // Primary color
+  loading: "bg-cfs-darkGreen", 
+  meals: "bg-cfs-teal", // Main brand color - teal
+  nutrition: "bg-cfs-brightGreen", // Bright green
+  people: "bg-cfs-darkGreen", // Dark green
+  environment: "bg-cfs-teal",
+  foodRescue: "bg-cfs-brightGreen",
+  volunteer: "bg-cfs-darkGreen",
+  partner: "bg-cfs-teal",
+  summary: "bg-cfs-darkGreen", // Dark green
 };
