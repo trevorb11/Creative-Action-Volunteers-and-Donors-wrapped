@@ -37,25 +37,42 @@ export default function LoadingScreen() {
   const offset = circumference - (progress / 100) * circumference;
   
   return (
-    <div className={`min-h-screen ${SLIDE_COLORS.loading} flex items-center justify-center`}>
-      <div className="container mx-auto px-6 flex flex-col items-center justify-center">
+    <div className={`min-h-screen ${SLIDE_COLORS.loading} flex items-center justify-center relative overflow-hidden`}>
+      {/* Decorative background patterns */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-10">
+        <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-cfs-brightGreen"></div>
+        <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-cfs-teal"></div>
+      </div>
+      
+      {/* Community Food Share logo */}
+      <div className="absolute top-6 left-6">
+        <div className="flex items-center">
+          <h3 className="text-lg md:text-xl font-bold text-white">
+            Community Food Share
+          </h3>
+        </div>
+      </div>
+      
+      <div className="container mx-auto px-6 flex flex-col items-center justify-center relative z-10">
         <div className="text-center text-white">
           <motion.h2 
-            className="text-3xl md:text-4xl font-heading font-bold mb-6"
+            className="text-3xl md:text-5xl font-bold mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            style={{ fontFamily: 'Spectral, serif' }}
           >
             Calculating Your Impact
           </motion.h2>
           
           <motion.p 
-            className="text-xl mb-8"
+            className="text-xl mb-12 font-light max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
+            style={{ fontFamily: 'Open Sans, sans-serif' }}
           >
-            Analyzing how your generosity helps our community...
+            Analyzing how your generosity helps our neighbors in Boulder and Broomfield Counties...
           </motion.p>
           
           <div className="relative w-64 h-64 mx-auto">
@@ -66,7 +83,7 @@ export default function LoadingScreen() {
                 cy="100" 
                 r="80" 
                 fill="none" 
-                stroke="white" 
+                stroke="#8dc53e" 
                 strokeWidth="12" 
                 strokeDasharray={circumference} 
                 strokeDashoffset={offset}
@@ -79,7 +96,23 @@ export default function LoadingScreen() {
               <span>{Math.round(progress)}%</span>
             </div>
           </div>
+          
+          <motion.div 
+            className="mt-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1 }}
+          >
+            <p className="text-white/80 text-sm italic">
+              "Every dollar you give turns into fresh meals for neighbors in need."
+            </p>
+          </motion.div>
         </div>
+      </div>
+      
+      {/* Footer */}
+      <div className="absolute bottom-4 w-full text-center text-white/70 text-sm">
+        <p>Together, we're building a hunger-free community</p>
       </div>
     </div>
   );
