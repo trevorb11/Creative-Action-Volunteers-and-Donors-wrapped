@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { DonationFormValues } from "@/types/donation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface DonationFormProps {
-  onSubmit: (amount: number) => void;
+  onSubmit: (amount: number, email?: string) => void;
 }
 
 export default function DonationForm({ onSubmit }: DonationFormProps) {
@@ -18,22 +19,26 @@ export default function DonationForm({ onSubmit }: DonationFormProps) {
       .number()
       .min(1, "Amount must be at least $1")
       .max(1000000, "Amount must be less than $1,000,000"),
+    email: z.string().email("Please enter a valid email").optional(),
   });
 
   const form = useForm<DonationFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       amount: 100, // Default value for demonstration
+      email: "",
     },
   });
 
   const handleSubmit = (values: DonationFormValues) => {
-    onSubmit(values.amount);
+    // Pass both amount and email (if provided) to the onSubmit handler
+    onSubmit(values.amount, values.email);
   };
 
   // Predefined donation amounts
   const presetAmounts = [25, 50, 100, 250, 500];
   const [selectedAmount, setSelectedAmount] = useState<number | null>(100);
+  const [includeEmail, setIncludeEmail] = useState(false);
 
   const handlePresetAmount = (amount: number) => {
     form.setValue('amount', amount);
@@ -96,6 +101,49 @@ export default function DonationForm({ onSubmit }: DonationFormProps) {
             </FormItem>
           )}
         />
+
+        {/* Email option with checkbox to toggle */}
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id="includeEmail" 
+              checked={includeEmail}
+              onCheckedChange={(checked) => {
+                setIncludeEmail(checked as boolean);
+                if (!checked) {
+                  form.setValue('email', '');
+                }
+              }}
+            />
+            <label
+              htmlFor="includeEmail"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Save my donation information
+            </label>
+          </div>
+          
+          {includeEmail && (
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="your.email@example.com"
+                      {...field}
+                      className="w-full p-2 border border-gray-300 rounded-lg"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-600 text-sm" />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
 
         <Button
           type="submit"

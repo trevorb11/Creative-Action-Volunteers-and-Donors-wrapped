@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { DonationState, SlideNames } from "@/types/donation";
@@ -15,6 +15,7 @@ export function useDonationImpact() {
     impact: null,
     isLoading: false,
     error: null,
+    donorEmail: null
   });
 
   // Mutation to calculate impact
@@ -40,14 +41,75 @@ export function useDonationImpact() {
     }
   });
 
-  // Handle form submission
-  const handleFormSubmit = (amount: number) => {
+  // Mutation to log a donation
+  const logDonationMutation = useMutation({
+    mutationFn: async ({ amount, email }: { amount: number, email?: string }) => {
+      // Create a timestamp for the donation
+      const timestamp = new Date().toISOString();
+      
+      // Prepare donation data
+      const donationData = {
+        amount: amount.toString(),
+        timestamp,
+        email: email || ''
+      };
+      
+      const res = await apiRequest('POST', '/api/log-donation', donationData);
+      return res.json();
+    },
+    onSuccess: (data) => {
+      // Successfully logged the donation
+      console.log('Donation logged:', data);
+    },
+    onError: (error) => {
+      console.error('Failed to log donation:', error);
+    }
+  });
+
+  // Function to fetch donor information by identifier
+  const fetchDonorInfo = async (identifier: string) => {
+    try {
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      
+      const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(identifier)}`, null);
+      const data = await res.json();
+      
+      if (data.donation && data.impact) {
+        // We have both donation and impact data from the server
+        const amount = parseFloat(data.donation.amount.toString());
+        
+        setState(prev => ({
+          ...prev,
+          amount,
+          impact: data.impact,
+          isLoading: false,
+          step: SlideNames.MEALS,
+          donorEmail: data.donation.email || null
+        }));
+        
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error fetching donor info:', error);
+      setState(prev => ({ 
+        ...prev, 
+        isLoading: false,
+        error: 'Failed to retrieve donor information.'
+      }));
+      return false;
+    }
+  };
+
+  // Handle form submission for a new donation
+  const handleFormSubmit = (amount: number, email?: string) => {
     setState(prev => ({ 
       ...prev, 
       amount,
       step: SlideNames.LOADING,
       isLoading: true,
-      error: null
+      error: null,
+      donorEmail: email || prev.donorEmail
     }));
     
     // Navigate to impact page if we're not already there
@@ -66,7 +128,15 @@ export function useDonationImpact() {
         step: SlideNames.MEALS
       }));
       
-      // Also call the server for logging purposes
+      // Log the donation with email if provided
+      if (email) {
+        logDonationMutation.mutate({ amount, email });
+      } else {
+        // Still log the donation without email
+        logDonationMutation.mutate({ amount });
+      }
+      
+      // Also call the server for more accurate impact calculation
       calculateImpactMutation.mutate(amount);
     }, SLIDE_CONFIG.progressDuration);
   };
@@ -101,6 +171,7 @@ export function useDonationImpact() {
       impact: null,
       isLoading: false,
       error: null,
+      donorEmail: null
     });
     
     // Return to the landing page
@@ -120,6 +191,7 @@ export function useDonationImpact() {
   return {
     state,
     handleFormSubmit,
+    fetchDonorInfo,
     goToNextSlide,
     goToPreviousSlide,
     resetDonation,

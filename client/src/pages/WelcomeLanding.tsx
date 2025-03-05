@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
 import { useDonationImpact } from "@/hooks/use-donation-impact";
 
 export default function WelcomeLanding() {
   const [, setLocation] = useLocation();
   const [, params] = useRoute("/:identifier");
-  const { handleFormSubmit } = useDonationImpact();
+  const { fetchDonorInfo } = useDonationImpact();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -21,44 +20,47 @@ export default function WelcomeLanding() {
     return searchParams.get(name);
   };
 
+  // Check for identifiers in URL parameters or route parameters
   useEffect(() => {
-    // Check for identifiers in URL parameters or route parameters
-    const identifier = getQueryParam("donor") || getQueryParam("email") || params?.identifier;
-    
-    if (identifier) {
-      setIsLoading(true);
-      setErrorMessage(null);
+    const checkForDonorInUrl = async () => {
+      // Get donor identifier from query params or route params
+      const identifier = getQueryParam("donor") || 
+                          getQueryParam("email") || 
+                          getQueryParam("id") || 
+                          params?.identifier;
       
-      // Try to fetch donor information
-      fetchDonorInfo(identifier);
-    }
-  }, [params]);
-
-  const fetchDonorInfo = async (identifier: string) => {
-    try {
-      const response = await apiRequest("GET", `/api/donor/${encodeURIComponent(identifier)}`, null);
-      const data = await response.json();
-      
-      if (data.donation) {
-        // Found the donor - automatically submit with the donation amount
-        const amount = parseFloat(data.donation.amount);
-        toast({
-          title: "Welcome back!",
-          description: "We've found your donation information.",
-        });
+      if (identifier) {
+        setIsLoading(true);
+        setErrorMessage(null);
         
-        // Submit to the donation impact calculator
-        handleFormSubmit(amount);
+        try {
+          // Use the hook's fetchDonorInfo function
+          const success = await fetchDonorInfo(identifier);
+          
+          if (success) {
+            toast({
+              title: "Welcome back!",
+              description: "We've found your donation information.",
+            });
+            
+            // The hook will handle navigation to the impact page
+          } else {
+            setIsLoading(false);
+            setErrorMessage("We couldn't find your donation information. Please enter your donation manually.");
+          }
+        } catch (error) {
+          console.error("Error fetching donor info:", error);
+          setIsLoading(false);
+          setErrorMessage("There was a problem retrieving your donation. Please try again.");
+        }
       } else {
+        // No identifier found in URL
         setIsLoading(false);
-        setErrorMessage("We couldn't find your donation information. Please enter your donation manually.");
       }
-    } catch (error) {
-      console.error("Error fetching donor info:", error);
-      setIsLoading(false);
-      // No need to show error - just go to manual input if we can't find donation
-    }
-  };
+    };
+    
+    checkForDonorInUrl();
+  }, [params, fetchDonorInfo, toast]);
 
   const handleGetStarted = () => {
     // Navigate to the donation impact page

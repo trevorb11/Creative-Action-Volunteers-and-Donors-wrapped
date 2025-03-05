@@ -3,7 +3,7 @@ import DonationForm from "./DonationForm";
 import { SLIDE_COLORS } from "@/lib/constants";
 
 interface WelcomeScreenProps {
-  onSubmit: (amount: number) => void;
+  onSubmit: (amount: number, email?: string) => void;
 }
 
 export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {

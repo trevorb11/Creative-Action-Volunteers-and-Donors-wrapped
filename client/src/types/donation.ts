@@ -2,6 +2,7 @@ import { DonationImpact } from "@shared/schema";
 
 export interface DonationFormValues {
   amount: number;
+  email?: string;
 }
 
 export interface DonationState {
@@ -10,6 +11,7 @@ export interface DonationState {
   impact: DonationImpact | null;
   isLoading: boolean;
   error: string | null;
+  donorEmail: string | null;
 }
 
 export enum SlideNames {
