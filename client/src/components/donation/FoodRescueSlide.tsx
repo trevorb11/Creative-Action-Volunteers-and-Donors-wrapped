@@ -82,6 +82,18 @@ export default function FoodRescueSlide({
           </motion.div>
         </div>
       </div>
+
+      {/* LLM-enhanced dynamic content */}
+      <motion.div
+        className="bg-white/10 p-5 rounded-xl mt-4 text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+      >
+        <p className="text-lg italic">
+          "This rescued food weighs as much as {impact.babyElephants} - imagine the impact you're making!"
+        </p>
+      </motion.div>
     </SlideLayout>
   );
 }

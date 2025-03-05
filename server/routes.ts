@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertDonationSchema, almanacData } from "@shared/schema";
 import { z } from "zod";
+import { generateCreativeComparisons } from "./llm-storyteller";
 
 export function calculateImpact(amount: number) {
   return {
@@ -39,7 +40,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const { amount } = schema.parse(req.body);
-      const impact = calculateImpact(amount);
+      
+      // Calculate basic impact metrics
+      let impact = calculateImpact(amount);
+      
+      // Enhance with LLM-generated creative storytelling
+      // In a production environment, this would call an actual LLM API
+      impact = await generateCreativeComparisons(impact);
       
       res.json({ impact });
     } catch (error) {

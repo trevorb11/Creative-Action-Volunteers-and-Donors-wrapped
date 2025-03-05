@@ -76,6 +76,18 @@ export default function PeopleSlide({
       <p className="text-xl mb-8">
         That's approximately <span className="font-bold">{impact.peoplePercentage}%</span> of the 60,000 individuals served in Boulder and Broomfield Counties this year.
       </p>
+
+      {/* LLM-enhanced dynamic content */}
+      <motion.div
+        className="bg-white/10 p-5 rounded-xl mt-4 text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+      >
+        <p className="text-lg italic">
+          "Your donation helped provide {impact.daysFed} to {impact.peopleFed}. That's making a real difference in our community!"
+        </p>
+      </motion.div>
     </SlideLayout>
   );
 }
