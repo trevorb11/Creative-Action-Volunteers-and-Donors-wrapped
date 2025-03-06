@@ -54,6 +54,16 @@ export default function TimeGivingSlide({
   const [donorSummary, setDonorSummary] = useState<DonorSummary | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [donorFirstName, setDonorFirstName] = useState<string | null>(null);
+  
+  // Get donor firstName from session storage if available
+  useEffect(() => {
+    const storedFirstName = sessionStorage.getItem('donorFirstName');
+    if (storedFirstName) {
+      setDonorFirstName(storedFirstName);
+      console.log("Retrieved donor first name from session storage:", storedFirstName);
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchDonorSummary() {
@@ -241,50 +251,51 @@ export default function TimeGivingSlide({
     return { icon: Sparkles, color: "text-purple-500", emoji: "✨" };
   };
 
-  // Generate a personalized message based on years of giving
+  // Generate a personalized message based on years of giving and first name if available
   const getGivingJourneyMessage = (): { title: string; message: string; funFact: string } => {
     const years = getYearsGiving();
     const milestone = getMilestoneIcon();
+    const namePrefix = donorFirstName ? `${donorFirstName}, ` : "";
     
     if (years <= 0) {
       return {
-        title: `${milestone.emoji} Welcome to the Community Food Share Family!`,
+        title: `${milestone.emoji} ${namePrefix}Welcome to the Community Food Share Family!`,
         message: "You're just beginning your hunger-fighting journey with us. Your support will help ensure nutritious food reaches those who need it most.",
         funFact: "Did you know? First-time donors like you help us expand our reach to new communities every year!"
       };
     } else if (years === 1) {
       return {
-        title: `${milestone.emoji} One Year of Fighting Hunger`,
+        title: `${milestone.emoji} ${namePrefix}One Year of Fighting Hunger`,
         message: "You've completed your first year with us! In just 12 months, you've already made a significant difference by helping provide nutritious meals to people in need.",
         funFact: "Fun fact: In your first year of giving, you've joined thousands of other one-year donors who collectively help us serve over 40,000 meals annually!"
       };
     } else if (years === 2) {
       return {
-        title: `${milestone.emoji} Two Years of Growing Impact`,
+        title: `${milestone.emoji} ${namePrefix}Two Years of Growing Impact`,
         message: "Two years in, and your commitment to fighting hunger is growing stronger. Your continued support means more families have reliable access to nutritious food.",
         funFact: "Did you know? Second-year donors like you have a 70% higher impact than first-time donors because you understand where help is needed most!"
       };
     } else if (years === 3) {
       return {
-        title: `${milestone.emoji} Three Years of Dedicated Support`,
+        title: `${milestone.emoji} ${namePrefix}Three Years of Dedicated Support`,
         message: "Three years of consistent support makes you a veteran hunger fighter! Your commitment is helping build a healthier community with sustainable food security.",
         funFact: "Fun fact: Three-year donors like you make up just 15% of our donor base but contribute nearly 40% of our annual donation revenue!"
       };
     } else if (years === 4) {
       return {
-        title: `${milestone.emoji} Four Years of Transformative Giving`,
+        title: `${milestone.emoji} ${namePrefix}Four Years of Transformative Giving`,
         message: "Your support over four years is like fertile soil for our community—nurturing growth and resilience through continued food access. That's something to celebrate!",
         funFact: "Amazing! At four years of giving, you've likely helped provide enough meals to feed a family of four for over six months!"
       };
     } else if (years >= 5 && years < 10) {
       return {
-        title: `${milestone.emoji} ${years} Years as a Food Security Champion`,
+        title: `${milestone.emoji} ${namePrefix}${years} Years as a Food Security Champion`,
         message: `For ${years} years, you've been a cornerstone of our hunger relief efforts. Your long-term commitment means thousands of meals for families in our community.`,
         funFact: `Incredible! Donors who have given for ${years} years are among our most valued supporters, with a deep understanding of local food insecurity challenges.`
       };
     } else {
       return {
-        title: `${milestone.emoji} A Decade+ of Extraordinary Impact`,
+        title: `${milestone.emoji} ${namePrefix}A Decade+ of Extraordinary Impact`,
         message: `After an incredible ${years} years of support, you're truly a pillar of our mission. Your extraordinary commitment has helped countless neighbors facing food insecurity.`,
         funFact: `Remarkable! Less than 3% of our donors have supported us for ${years}+ years, placing you among our most loyal and dedicated hunger fighters!`
       };
@@ -401,7 +412,11 @@ export default function TimeGivingSlide({
                         </div>
                         <div className="flex-grow pt-1">
                           <h4 className="font-medium text-gray-800">{new Date().getFullYear()}</h4>
-                          <p className="text-sm text-gray-600">Your most recent donation helps us continue our mission!</p>
+                          <p className="text-sm text-gray-600">
+                            {donorFirstName 
+                              ? `${donorFirstName}'s most recent donation helps us continue our mission!` 
+                              : "Your most recent donation helps us continue our mission!"}
+                          </p>
                         </div>
                       </div>
                       
@@ -441,7 +456,11 @@ export default function TimeGivingSlide({
                             <h4 className="font-medium text-gray-800">
                               {donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "First Gift"}
                             </h4>
-                            <p className="text-sm text-gray-600">You made your first gift to Community Food Share!</p>
+                            <p className="text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} made their first gift to Community Food Share!` 
+                                : "You made your first gift to Community Food Share!"}
+                            </p>
                           </div>
                         </div>
                       )}
