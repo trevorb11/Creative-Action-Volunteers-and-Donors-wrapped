@@ -86,6 +86,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API endpoint to retrieve donor information by email
+  app.get('/api/donor/:identifier', async (req, res) => {
+    try {
+      const { identifier } = req.params;
+      
+      // Decode the identifier (email)
+      const email = decodeURIComponent(identifier);
+      
+      // Look up the donor by email
+      const donor = await storage.getDonorByEmail(email);
+      
+      if (!donor) {
+        return res.status(404).json({ error: 'Donor not found' });
+      }
+      
+      // Get the donor's donations
+      const donations = await storage.getDonorDonations(donor.id);
+      
+      if (!donations || donations.length === 0) {
+        return res.status(404).json({ 
+          error: 'No donations found for this donor',
+          donor
+        });
+      }
+      
+      // Sort donations by timestamp (newest first)
+      const sortedDonations = [...donations].sort(
+        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      );
+      
+      // Get the most recent donation
+      const latestDonation = sortedDonations[0];
+      
+      // Calculate impact based on the latest donation amount
+      const amount = parseFloat(latestDonation.amount.toString());
+      const impact = calculateImpact(amount);
+      
+      // Return donor information, latest donation, and impact
+      res.json({
+        donor,
+        donation: latestDonation,
+        impact,
+        totalDonations: sortedDonations.length,
+        lifetimeGiving: sortedDonations.reduce((sum, donation) => 
+          sum + parseFloat(donation.amount.toString()), 0),
+      });
+      
+    } catch (error) {
+      console.error('Error retrieving donor:', error);
+      res.status(500).json({ error: 'Failed to retrieve donor information' });
+    }
+  });
+
   // API endpoint to log a donation
   app.post('/api/log-donation', async (req, res) => {
     try {

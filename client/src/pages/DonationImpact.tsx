@@ -21,10 +21,34 @@ export default function DonationImpact() {
     goToNextSlide, 
     goToPreviousSlide,
     isFirstSlide,
-    isLastSlide
+    isLastSlide,
+    fetchDonorInfo
   } = useDonationImpact();
   
   const { toast } = useToast();
+  
+  // Check for email parameter in URL when component mounts
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const email = queryParams.get('email');
+    
+    if (email) {
+      console.log("Found email in URL:", email);
+      fetchDonorInfo(email).then(success => {
+        if (!success) {
+          toast({
+            title: "Donor Not Found",
+            description: "We couldn't find donation information for the provided email. Please enter a donation amount to see its impact.",
+          });
+        } else {
+          toast({
+            title: "Welcome Back!",
+            description: "We've loaded your previous donation information. Explore the impact of your generosity!",
+          });
+        }
+      });
+    }
+  }, [fetchDonorInfo, toast]);
   
   useEffect(() => {
     if (state.error) {
