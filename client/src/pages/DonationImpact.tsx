@@ -540,7 +540,12 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         )}
         
         {state.step === SlideNames.NUTRITION && state.impact && (
-          <NutritionSlide impact={state.impact} {...navigationProps} />
+          <NutritionSlide 
+            impact={state.impact} 
+            donorEmail={state.donorEmail}
+            amount={state.amount}
+            {...navigationProps} 
+          />
         )}
         
         {state.step === SlideNames.PEOPLE && state.impact && (
