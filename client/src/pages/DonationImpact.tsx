@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDonationImpact } from "@/hooks/use-donation-impact";
 import { SlideNames } from "@/types/donation";
 import WelcomeScreen from "@/components/donation/WelcomeScreen";
@@ -27,13 +27,18 @@ export default function DonationImpact() {
   
   const { toast } = useToast();
   
+  // Ref to track if we've already attempted to fetch donor info
+  const attemptedRef = useRef(false);
+  
   // Check for email parameter in URL when component mounts
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const email = queryParams.get('email');
     
-    if (email) {
+    if (email && !attemptedRef.current) {
+      attemptedRef.current = true; // Mark that we've attempted to fetch
       console.log("Found email in URL:", email);
+      
       fetchDonorInfo(email).then(success => {
         if (!success) {
           toast({
@@ -46,6 +51,13 @@ export default function DonationImpact() {
             description: "We've loaded your previous donation information. Explore the impact of your generosity!",
           });
         }
+      }).catch(error => {
+        console.error("Error fetching donor info:", error);
+        toast({
+          title: "Error",
+          description: "There was a problem retrieving your donation information. Please try again later.",
+          variant: "destructive",
+        });
       });
     }
   }, [fetchDonorInfo, toast]);
