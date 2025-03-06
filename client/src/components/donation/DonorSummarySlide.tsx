@@ -117,7 +117,7 @@ export default function DonorSummarySlide({
     : "Welcome Back!";
 
   const donationThisTime = amount > 0 
-    ? `Your Donation Today: ${formatCurrency(amount)}`
+    ? `Your Most Recent Donation`
     : "";
 
   return (
@@ -608,18 +608,19 @@ export default function DonorSummarySlide({
                       whileHover={{ scale: 1.05 }}
                     >
                       <Gift className="inline-block mr-2 h-5 w-5 text-green-600" />
-                      Your Donation Today: <CountUpAnimation 
+                      Your Most Recent Donation: <CountUpAnimation 
                         value={amount}
                         className="ml-1 font-semibold"
                         delay={0.3}
                       />
+                      <span className="block text-sm font-medium mt-1">{donorSummary.lastGift.date}</span>
                     </motion.span>
                   </motion.p>
                 </motion.div>
               )}
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2 my-8">
               {/* Card 1: Fiscal Year Giving */}
               <motion.div
                 initial={{ x: -50, opacity: 0 }}
@@ -682,7 +683,7 @@ export default function DonorSummarySlide({
                       </CardTitle>
                     </CardHeader>
                     
-                    <CardContent className="p-6 text-center relative bg-gradient-to-b from-white to-green-50/50">
+                    <CardContent className="p-8 text-center relative bg-gradient-to-b from-white to-green-50/50 min-h-[200px] flex flex-col justify-center">
                       <motion.div
                         className="mb-1"
                         initial={{ scale: 0.5, opacity: 0 }}
@@ -783,7 +784,7 @@ export default function DonorSummarySlide({
                       </CardTitle>
                     </CardHeader>
                     
-                    <CardContent className="p-6 text-center relative bg-gradient-to-b from-white to-teal-50/50">
+                    <CardContent className="p-8 text-center relative bg-gradient-to-b from-white to-teal-50/50 min-h-[200px] flex flex-col justify-center">
                       <motion.div
                         className="mb-1"
                         initial={{ scale: 0.5, opacity: 0 }}
@@ -885,7 +886,7 @@ export default function DonorSummarySlide({
                       </CardTitle>
                     </CardHeader>
                     
-                    <CardContent className="p-6 text-center relative bg-gradient-to-b from-white to-indigo-50/50">
+                    <CardContent className="p-8 text-center relative bg-gradient-to-b from-white to-indigo-50/50 min-h-[200px] flex flex-col justify-center">
                       <motion.div
                         className="mb-1 relative"
                         initial={{ scale: 0.5, opacity: 0 }}
@@ -992,7 +993,7 @@ export default function DonorSummarySlide({
                 {/* Main content box with gradient border */}
                 <div className="relative z-10">
                   <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-green-300 via-primary to-indigo-400 opacity-20 blur-lg"></div>
-                  <div className="relative bg-gradient-to-b from-white/90 to-white/70 backdrop-blur-md rounded-xl p-8 shadow-xl overflow-hidden">
+                  <div className="relative bg-gradient-to-b from-white/95 to-white/90 backdrop-blur-md rounded-xl p-8 shadow-xl overflow-hidden">
                     {/* Decorative diagonal lines */}
                     <div className="absolute inset-0 overflow-hidden opacity-5 pointer-events-none">
                       {[...Array(10)].map((_, i) => (
@@ -1054,15 +1055,15 @@ export default function DonorSummarySlide({
                     </motion.h3>
                     
                     <motion.p 
-                      className="text-gray-700 mb-8 max-w-xl mx-auto"
+                      className="text-gray-700 mb-8 max-w-xl mx-auto text-lg font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.2, duration: 0.5 }}
                     >
-                      Your generosity is making a real difference in our community. Let's explore how your current donation of <span className="font-semibold text-primary inline-block">
+                      Your generosity is making a real difference in our community. Let's explore how your current donation of <span className="font-bold text-primary inline-block text-xl">
                         <CountUpAnimation 
                           value={amount}
-                          className="font-semibold text-primary"
+                          className="font-bold text-primary"
                           delay={1.2}
                         />
                       </span> will transform lives and nourish our neighbors.
