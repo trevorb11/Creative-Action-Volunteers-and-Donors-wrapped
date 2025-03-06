@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { AlertCircle, Check, Loader2, Upload } from 'lucide-react';
 
@@ -70,27 +70,35 @@ export default function ImportForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <label htmlFor="file" className="text-sm font-medium leading-none">
-                Excel File
-              </label>
-              <input
-                id="file"
-                type="file"
-                onChange={handleFileChange}
-                accept=".xlsx,.xls"
-                className="border border-gray-300 rounded-md p-2"
-              />
-            </div>
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="file" className="block text-sm font-medium mb-1">
+              Excel File
+            </label>
+            <input
+              id="file"
+              type="file"
+              onChange={handleFileChange}
+              accept=".xlsx,.xls"
+              className="w-full border border-gray-300 rounded-md p-2"
+            />
           </div>
-
-          <div className="flex justify-between mt-4">
-            <Button type="button" variant="outline" onClick={() => setFile(null)} disabled={isUploading}>
+          
+          <div className="flex justify-end space-x-2">
+            <Button 
+              type="button"
+              variant="outline" 
+              onClick={() => setFile(null)} 
+              disabled={isUploading}
+            >
               Cancel
             </Button>
-            <Button type="submit" disabled={!file || isUploading}>
+            <Button 
+              type="button"
+              onClick={handleSubmit} 
+              disabled={!file || isUploading}
+              className="bg-green-700 hover:bg-green-800"
+            >
               {isUploading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -106,7 +114,7 @@ export default function ImportForm() {
           </div>
 
           {error && (
-            <Alert variant="destructive" className="mt-4">
+            <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
@@ -114,7 +122,7 @@ export default function ImportForm() {
           )}
 
           {result && (
-            <Alert variant={result.failed > 0 ? 'destructive' : 'default'} className="mt-4">
+            <Alert variant={result.failed > 0 ? 'destructive' : 'default'}>
               <Check className="h-4 w-4" />
               <AlertTitle>Import Results</AlertTitle>
               <AlertDescription>
@@ -125,8 +133,8 @@ export default function ImportForm() {
                     <p>Failed: {result.failed}</p>
                     {result.errors.length > 0 && (
                       <details>
-                        <summary>View errors</summary>
-                        <ul className="text-xs mt-2">
+                        <summary className="cursor-pointer text-sm font-medium">View errors</summary>
+                        <ul className="text-xs mt-2 list-disc pl-5">
                           {result.errors.map((err, i) => (
                             <li key={i}>{err}</li>
                           ))}
@@ -138,7 +146,7 @@ export default function ImportForm() {
               </AlertDescription>
             </Alert>
           )}
-        </form>
+        </div>
       </CardContent>
     </Card>
   );
