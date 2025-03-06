@@ -1,9 +1,19 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertDonationSchema, insertDonorSchema, almanacData, importDonorSchema } from "@shared/schema";
 import { z } from "zod";
 import { generateCreativeComparisons } from "./llm-storyteller";
+import multer from "multer";
+import { parseExcelDonors } from "./excel-importer";
+
+// Set up multer for file uploads
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  }
+});
 
 export function calculateImpact(amount: number) {
   return {
@@ -252,6 +262,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error importing donors:", error);
       res.status(400).json({ error: 'Invalid import data' });
+    }
+  });
+  
+  // API endpoint to upload Excel file and import donors
+  app.post('/api/import/excel', upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+      
+      // Get the file buffer
+      const buffer = req.file.buffer;
+      
+      // Parse the Excel file
+      const importData = parseExcelDonors(buffer);
+      
+      if (importData.length === 0) {
+        return res.status(400).json({ error: 'No valid donor data found in the file' });
+      }
+      
+      const result = {
+        total: importData.length,
+        successful: 0,
+        failed: 0,
+        errors: [] as string[],
+      };
+      
+      // Process each donor
+      for (const donorImport of importData) {
+        try {
+          // Create or update the donor
+          const donor = await storage.createDonor({
+            email: donorImport.email,
+            first_name: donorImport.first_name,
+            last_name: donorImport.last_name,
+            phone: donorImport.phone,
+            external_id: donorImport.external_id,
+          });
+          
+          // Process the donor's donations if any
+          if (donorImport.donations && donorImport.donations.length > 0) {
+            for (const donationImport of donorImport.donations) {
+              // Convert amount to numeric if it's a string
+              const amount = typeof donationImport.amount === 'string' 
+                ? parseFloat(donationImport.amount) 
+                : donationImport.amount;
+              
+              // Convert timestamp to Date if it's a string
+              const timestamp = typeof donationImport.timestamp === 'string'
+                ? new Date(donationImport.timestamp)
+                : donationImport.timestamp;
+              
+              // Create the donation linked to the donor
+              await storage.createDonation({
+                amount: amount.toString(),
+                timestamp,
+                email: donorImport.email,
+                donor_id: donor.id,
+                external_donation_id: donationImport.external_donation_id,
+                imported: 1, // Mark as imported
+              });
+            }
+          }
+          
+          result.successful++;
+        } catch (error) {
+          result.failed++;
+          result.errors.push(`Failed to import donor ${donorImport.email}: ${error}`);
+        }
+      }
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Error importing Excel file:", error);
+      res.status(500).json({ error: 'Failed to process Excel file' });
     }
   });
 
