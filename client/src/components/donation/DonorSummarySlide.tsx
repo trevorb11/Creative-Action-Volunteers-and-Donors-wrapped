@@ -42,7 +42,41 @@ export default function DonorSummarySlide({
 
   useEffect(() => {
     async function fetchDonorSummary() {
-      if (!donorEmail) return;
+      // First check if we have wrapped donor data in sessionStorage
+      const wrappedDataStr = sessionStorage.getItem('wrappedDonorData');
+      
+      if (wrappedDataStr) {
+        try {
+          const wrappedData = JSON.parse(wrappedDataStr);
+          console.log("Using wrapped donor data from sessionStorage:", wrappedData);
+          
+          // Calculate this year's donations if available
+          const totalLastYear = 0; // We don't have this information from URL parameters
+          
+          // Create a donor summary from wrapped data
+          setDonorSummary({
+            totalLastYear,
+            lastGift: {
+              amount: wrappedData.lastGiftAmount || 0,
+              date: wrappedData.lastGiftDate || 'N/A'
+            },
+            lifetimeGiving: wrappedData.lifetimeGiving || 0,
+            name: undefined // We don't have the name from URL parameters
+          });
+          
+          setIsLoading(false);
+          return; // Exit early since we've set the donor summary
+        } catch (err) {
+          console.error("Error parsing wrapped donor data:", err);
+          // Fall through to fetch from server if parsing fails
+        }
+      }
+      
+      // If no wrapped data or parsing failed, fetch from server if we have an email
+      if (!donorEmail) {
+        setIsLoading(false);
+        return;
+      }
 
       setIsLoading(true);
       setError(null);
