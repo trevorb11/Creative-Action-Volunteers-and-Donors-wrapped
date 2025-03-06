@@ -201,35 +201,66 @@ async function processCsvFile(filePath: string) {
     // Convert the raw data to our wrapped donor format
     const wrappedDonorData: WrappedDonorData[] = [];
     
+    // Define a type for our CSV row data
+    type CsvRow = {
+      [key: string]: string | number | undefined;
+    };
+    
     // Process each row with error handling
     for (let i = 0; i < rawData.length; i++) {
       try {
-        const row = rawData[i] as Record<string, any>;
+        // Cast row to our expected type
+        const row = rawData[i] as CsvRow;
         
         // Debug output for the first few rows
         if (i < 3) {
           console.log('Sample row:', JSON.stringify(row));
         }
         
+        // Safely access properties with type checking
+        const constituentId = row['Constituent ID'];
+        const name = row['Name'] as string | undefined; 
+        const location = row['Preferred City_ State'] as string | undefined;
+        const email = row['Email Address'] as string | undefined;
+        const phone = row['Phone Number'] as string | undefined;
+        const totalGifts = row['Total Number of Gifts'];
+        const lifetimeGiving = row['Lifetime Giving'];
+        const lastGiftDate = row['Last Gift Date'];
+        const lastGiftAmount = row['Last Gift Amount'];
+        const firstGiftDate = row['First Gift Date'];
+        const firstGiftAmount = row['First Gift Amount'];
+        const largestGiftDate = row['Largest Gift Date'];
+        const largestGiftAmount = row['Largest Gift Amount'];
+        const totalGivingFY22 = row['Total Giving FY22'];
+        const totalGivingFY23 = row['Total Giving FY23'];
+        const totalGivingFY24 = row['Total Giving FY24'];
+        const totalGivingFY25 = row['Total Giving FY25'];
+        
+        // Skip rows without a name
+        if (!name) {
+          console.log(`Skipping row ${i} - no name provided`);
+          continue;
+        }
+        
         const donorData: WrappedDonorData = {
-          id: row['Constituent ID'],
-          name: row['Name'],
-          location: row['Preferred City_ State'],
-          email: row['Email Address'],
-          phone: row['Phone Number'],
-          totalGifts: parseInt(row['Total Number of Gifts'] || '0', 10),
-          lifetimeGiving: cleanCurrencyString(row['Lifetime Giving']),
-          lastGiftDate: parseDate(row['Last Gift Date']),
-          lastGiftAmount: cleanCurrencyString(row['Last Gift Amount']),
-          firstGiftDate: parseDate(row['First Gift Date']),
-          firstGiftAmount: cleanCurrencyString(row['First Gift Amount']),
-          largestGiftDate: parseDate(row['Largest Gift Date']),
-          largestGiftAmount: cleanCurrencyString(row['Largest Gift Amount']),
+          id: constituentId || i,
+          name: name,
+          location: location,
+          email: email,
+          phone: phone,
+          totalGifts: parseInt(String(totalGifts || '0'), 10),
+          lifetimeGiving: cleanCurrencyString(lifetimeGiving),
+          lastGiftDate: parseDate(lastGiftDate),
+          lastGiftAmount: cleanCurrencyString(lastGiftAmount),
+          firstGiftDate: parseDate(firstGiftDate),
+          firstGiftAmount: cleanCurrencyString(firstGiftAmount),
+          largestGiftDate: parseDate(largestGiftDate),
+          largestGiftAmount: cleanCurrencyString(largestGiftAmount),
           recentGifts: {
-            fy22: cleanCurrencyString(row['Total Giving FY22']),
-            fy23: cleanCurrencyString(row['Total Giving FY23']),
-            fy24: cleanCurrencyString(row['Total Giving FY24']),
-            fy25: cleanCurrencyString(row['Total Giving FY25'])
+            fy22: cleanCurrencyString(totalGivingFY22),
+            fy23: cleanCurrencyString(totalGivingFY23),
+            fy24: cleanCurrencyString(totalGivingFY24),
+            fy25: cleanCurrencyString(totalGivingFY25)
           }
         };
         
@@ -245,12 +276,19 @@ async function processCsvFile(filePath: string) {
     
     console.log(`Converted ${importDonors.length} donors to import format`);
     
-    // Write the result to a JSON file for inspection
+    // Write the full result to a JSON file
     const outputPath = 'wrapped-donors.json';
     fs.writeFileSync(outputPath, JSON.stringify(importDonors, null, 2));
     
+    // Also create a sample version with just 100 donors for testing
+    const sampleDonors = importDonors.slice(0, 100);
+    const samplePath = 'wrapped-donors-sample.json';
+    fs.writeFileSync(samplePath, JSON.stringify(sampleDonors, null, 2));
+    
     console.log(`Conversion complete! Output saved to ${outputPath}`);
-    console.log(`Use this file with the import script: tsx server/import-excel.ts ${outputPath}`);
+    console.log(`Sample file with 100 donors saved to ${samplePath}`);
+    console.log(`For testing, use: tsx server/import-excel.ts ${samplePath}`);
+    console.log(`For full import, use: tsx server/import-excel.ts ${outputPath}`);
     
     // Example segmentation analytics
     const segmentStats = {
