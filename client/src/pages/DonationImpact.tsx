@@ -29,6 +29,9 @@ function getParamsFromURL() {
   // Get donor email if available
   const email = params.get('email');
   
+  // Get donor first name if available
+  const firstName = params.get('firstName') || params.get('First Name') || params.get('first_name');
+  
   // Create a dictionary of all parameters for easy access and preservation
   const allParams = Object.fromEntries(params.entries());
   console.log("URL parameters:", allParams);
@@ -87,6 +90,7 @@ function getParamsFromURL() {
   
   return {
     email,
+    firstName,
     hasWrappedData,
     wrappedData,
     allParams,
@@ -136,12 +140,18 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     // Add a small delay to ensure URL is fully loaded
     setTimeout(() => {
       console.log("Checking URL parameters from current location:", window.location.href);
-      const { email, hasWrappedData, wrappedData, allParams, originalParamString } = getParamsFromURL();
+      const { email, firstName, hasWrappedData, wrappedData, allParams, originalParamString } = getParamsFromURL();
       
       // Store original parameters in sessionStorage for future navigation
       if (originalParamString) {
         sessionStorage.setItem('originalUrlParams', originalParamString);
         console.log("Stored original URL parameters in session storage:", originalParamString);
+      }
+      
+      // Store firstName in sessionStorage if available
+      if (firstName) {
+        sessionStorage.setItem('donorFirstName', firstName);
+        console.log("Stored donor first name in session storage:", firstName);
       }
       
       // If we have wrapped data in the URL parameters, use that directly

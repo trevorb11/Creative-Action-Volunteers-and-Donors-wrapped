@@ -46,11 +46,13 @@ export default function DonorSummarySlide({
       const wrappedDataStr = sessionStorage.getItem('wrappedDonorData');
       const donorParams = sessionStorage.getItem('donorParams');
       const storedEmail = sessionStorage.getItem('donorEmail');
+      const storedFirstName = sessionStorage.getItem('donorFirstName');
       
       console.log("DonorSummarySlide - Checking storage:", { 
         hasWrappedData: !!wrappedDataStr, 
         hasParams: !!donorParams,
         hasStoredEmail: !!storedEmail,
+        hasFirstName: !!storedFirstName,
         propEmail: donorEmail 
       });
       
