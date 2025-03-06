@@ -94,7 +94,7 @@ export default function DonorSummarySlide({
       
       // If no wrapped data or parsing failed, fetch from server if we have an email
       // First check if we have a prop email, if not, check sessionStorage
-      const emailToUse = donorEmail || storedEmail;
+      const emailToUse = donorEmail || storedEmail || '';
       
       if (!emailToUse) {
         console.log("No donor email found (neither in props nor in sessionStorage)");
@@ -108,7 +108,15 @@ export default function DonorSummarySlide({
       setError(null);
 
       try {
-        const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(emailToUse)}`);
+        // Make sure we have a valid string for the API request
+        const donorId = emailToUse.trim();
+        if (!donorId) {
+          console.log("Empty donor email, skipping API request");
+          setIsLoading(false);
+          return;
+        }
+        
+        const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(donorId)}`);
         const data = await res.json();
 
         if (data.donor && data.donations) {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation, useRoute } from "wouter";
+import { useLocation, useRoute, Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2, TestTube, Wrench } from "lucide-react";
 
 export default function WelcomeLanding() {
   const [, setLocation] = useLocation();
@@ -69,6 +69,22 @@ export default function WelcomeLanding() {
             </>
           )}
         </CardContent>
+        
+        <CardFooter className="flex justify-between text-sm text-gray-500 border-t pt-4">
+          <Link href="/admin">
+            <Button size="sm" variant="ghost" className="flex items-center gap-1">
+              <Wrench className="h-4 w-4" />
+              Admin
+            </Button>
+          </Link>
+          
+          <Link href="/test-url">
+            <Button size="sm" variant="ghost" className="flex items-center gap-1">
+              <TestTube className="h-4 w-4" />
+              URL Tester
+            </Button>
+          </Link>
+        </CardFooter>
       </Card>
     </div>
   );

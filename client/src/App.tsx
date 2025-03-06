@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import DonationImpactPage from "@/pages/DonationImpact";
 import WelcomeLanding from "@/pages/WelcomeLanding";
 import Admin from "@/pages/Admin";
+import TestUrl from "@/pages/TestUrl";
 
 // Custom wrapper for the DonationImpact page to handle the routing props issue
 const DonationImpactWrapper = (props: any) => <DonationImpactPage {...props} />;
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/" component={WelcomeLanding} />
       <Route path="/impact" component={DonationImpactWrapper} />
       <Route path="/admin" component={Admin} />
+      <Route path="/test-url" component={TestUrl} />
       <Route path="/:identifier" component={WelcomeLanding} />
       <Route component={NotFound} />
     </Switch>
