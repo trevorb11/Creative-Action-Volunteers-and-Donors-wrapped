@@ -9,6 +9,7 @@ interface SlideLayoutProps {
   variant: keyof typeof SLIDE_COLORS;
   subtitle?: string;
   quote?: string;
+  titleClassName?: string; // Added for custom title styling
   onNext?: () => void;
   onPrevious?: () => void;
   isFirstSlide?: boolean;
@@ -21,6 +22,7 @@ export default function SlideLayout({
   variant,
   subtitle,
   quote,
+  titleClassName = "",
   onNext,
   onPrevious,
   isFirstSlide = false,
@@ -54,7 +56,7 @@ export default function SlideLayout({
       <div className="container mx-auto px-6 py-12 flex flex-col items-center justify-center">
         <div className="text-center max-w-3xl mx-auto">
           <motion.h2 
-            className="text-3xl md:text-5xl font-bold mb-6"
+            className={`text-3xl md:text-5xl font-bold mb-6 ${titleClassName}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}

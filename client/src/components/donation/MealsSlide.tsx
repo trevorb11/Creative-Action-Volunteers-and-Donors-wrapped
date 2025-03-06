@@ -4,6 +4,7 @@ import { DonationImpact } from "@shared/schema";
 import SlideLayout from "./SlideLayout";
 import { SLIDE_CONFIG } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface MealsSlideProps {
   impact: DonationImpact;
@@ -53,6 +54,7 @@ export default function MealsSlide({
   return (
     <SlideLayout
       title="Your Donation Provides"
+      titleClassName="text-white" // Add white color to title
       variant="meals"
       quote="Community Food Share distributes enough food for nearly 30,000 meals each day."
       onNext={onNext}
@@ -75,14 +77,22 @@ export default function MealsSlide({
       </div>
 
       <div className="flex justify-between w-full">
-        {!isFirstSlide && onPrevious && (
-          <Button onClick={onPrevious} className="px-6 py-3 bg-white text-black rounded-lg shadow-md">
-            Back
+        {onPrevious && (
+          <Button 
+            onClick={onPrevious} 
+            className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
+            size="icon"
+          >
+            <ChevronLeft className="h-5 w-5" />
           </Button>
         )}
-        {!isLastSlide && onNext && (
-          <Button onClick={onNext} className="px-6 py-3 bg-white text-black rounded-lg shadow-md ml-auto">
-            Next
+        {onNext && (
+          <Button 
+            onClick={onNext} 
+            className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors ml-auto"
+            size="icon"
+          >
+            <ChevronRight className="h-5 w-5" />
           </Button>
         )}
       </div>
