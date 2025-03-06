@@ -46,6 +46,12 @@ function getParamsFromURL() {
   const largestGiftAmount = params.get('largestGiftAmount');
   const largestGiftDate = params.get('largestGiftDate');
   
+  // Check for fiscal year giving parameters
+  const givingFY22 = params.get('givingFY22');
+  const givingFY23 = params.get('givingFY23');
+  const givingFY24 = params.get('givingFY24');
+  const givingFY25 = params.get('givingFY25');
+  
   // Debug log for the actual parameter values
   console.log("Wrapped donor data parameters:", {
     firstGiftDate,
@@ -55,7 +61,11 @@ function getParamsFromURL() {
     consecutiveYearsGiving,
     totalGifts,
     largestGiftAmount,
-    largestGiftDate
+    largestGiftDate,
+    givingFY22,
+    givingFY23,
+    givingFY24,
+    givingFY25
   });
   
   // Check if we have wrapped donor data from URL
@@ -83,7 +93,12 @@ function getParamsFromURL() {
     consecutiveYearsGiving: consecutiveYearsGiving && consecutiveYearsGiving !== '*|CONSYEARSG|*' ? parseInt(consecutiveYearsGiving || '0', 10) : 0,
     totalGifts: totalGifts && totalGifts !== '*|TOTALGIFTS|*' ? parseInt(totalGifts || '0', 10) : 0,
     largestGiftAmount: largestGiftAmount && largestGiftAmount !== '*|LARG_GIF_A|*' ? parseFloat(largestGiftAmount || '0') : 0,
-    largestGiftDate: largestGiftDate && largestGiftDate !== '*|LARG_GIF_D|*' ? largestGiftDate : null
+    largestGiftDate: largestGiftDate && largestGiftDate !== '*|LARG_GIF_D|*' ? largestGiftDate : null,
+    // Include fiscal year giving data
+    givingFY22: givingFY22 && givingFY22 !== '*|GIVINGFY22|*' ? parseFloat(givingFY22 || '0') : 0,
+    givingFY23: givingFY23 && givingFY23 !== '*|GIVINGFY23|*' ? parseFloat(givingFY23 || '0') : 0,
+    givingFY24: givingFY24 && givingFY24 !== '*|GIVINGFY24|*' ? parseFloat(givingFY24 || '0') : 0,
+    givingFY25: givingFY25 && givingFY25 !== '*|GIVINGFY25|*' ? parseFloat(givingFY25 || '0') : 0
   } : null;
   
   console.log("Wrapped data object:", wrappedData);

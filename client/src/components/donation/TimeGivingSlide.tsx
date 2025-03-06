@@ -55,13 +55,53 @@ export default function TimeGivingSlide({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [donorFirstName, setDonorFirstName] = useState<string | null>(null);
+  const [fiscalYearGiving, setFiscalYearGiving] = useState<{
+    fy22?: number;
+    fy23?: number;
+    fy24?: number;
+    fy25?: number;
+  }>({});
   
-  // Get donor firstName from session storage if available
+  // Get donor firstName and fiscal year giving data from session storage if available
   useEffect(() => {
+    // Get firstName from session storage
     const storedFirstName = sessionStorage.getItem('donorFirstName');
     if (storedFirstName) {
       setDonorFirstName(storedFirstName);
       console.log("Retrieved donor first name from session storage:", storedFirstName);
+    }
+    
+    // Get fiscal year giving data from URL parameters or session storage
+    const urlParams = new URLSearchParams(window.location.search);
+    const donorParams = sessionStorage.getItem('donorParams');
+    const parsedParams = donorParams ? JSON.parse(donorParams) : {};
+    
+    // Look for fiscal year parameters in URL or session storage
+    const getFYValue = (year: string): number | undefined => {
+      const urlValue = urlParams.get(`giving${year.toUpperCase()}`);
+      if (urlValue && urlValue !== `*|GIVING${year.toUpperCase()}|*`) {
+        return parseFloat(urlValue);
+      }
+      
+      const sessionValue = parsedParams[`giving${year.toUpperCase()}`];
+      if (sessionValue && sessionValue !== `*|GIVING${year.toUpperCase()}|*`) {
+        return parseFloat(sessionValue);
+      }
+      
+      return undefined;
+    };
+    
+    // Get values for each fiscal year
+    const fy22 = getFYValue('fy22');
+    const fy23 = getFYValue('fy23');
+    const fy24 = getFYValue('fy24');
+    const fy25 = getFYValue('fy25');
+    
+    // Set fiscal year giving data if any values are present
+    if (fy22 || fy23 || fy24 || fy25) {
+      const fyData = { fy22, fy23, fy24, fy25 };
+      setFiscalYearGiving(fyData);
+      console.log("Retrieved fiscal year giving data:", fyData);
     }
   }, []);
 
@@ -307,19 +347,50 @@ export default function TimeGivingSlide({
   const MilestoneIcon = milestone.icon;
   const years = getYearsGiving();
 
-  // Calculate journey stats
+  // Calculate journey stats based on actual fiscal year giving data if available
   const getJourneyStats = () => {
-    // These would ideally be calculated from real data, but for now using estimations
-    const estimatedMealsProvided = years * 500; // Rough estimate
-    const estimatedPeopleHelped = years * 120;
-    const estimatedVisits = years * 4; // Assuming quarterly donations
-    const estimatedVolunteerHours = years * 2; // Just a sample statistic
+    // Calculate total from fiscal year giving data
+    let totalFromFiscalYears = 0;
+    let yearCount = 0;
+    
+    if (fiscalYearGiving.fy22 !== undefined && fiscalYearGiving.fy22 > 0) {
+      totalFromFiscalYears += fiscalYearGiving.fy22;
+      yearCount++;
+    }
+    
+    if (fiscalYearGiving.fy23 !== undefined && fiscalYearGiving.fy23 > 0) {
+      totalFromFiscalYears += fiscalYearGiving.fy23;
+      yearCount++;
+    }
+    
+    if (fiscalYearGiving.fy24 !== undefined && fiscalYearGiving.fy24 > 0) {
+      totalFromFiscalYears += fiscalYearGiving.fy24;
+      yearCount++;
+    }
+    
+    if (fiscalYearGiving.fy25 !== undefined && fiscalYearGiving.fy25 > 0) {
+      totalFromFiscalYears += fiscalYearGiving.fy25;
+      yearCount++;
+    }
+    
+    // Use actual data if available, otherwise fallback to estimates
+    const actualYears = yearCount > 0 ? yearCount : years;
+    const lifetimeAmount = totalFromFiscalYears > 0 ? totalFromFiscalYears : (donorSummary?.lifetimeGiving || 0);
+    
+    // Calculate estimates based on actual data when available
+    const mealsPerDollar = 2; // Each dollar provides approximately 2 meals
+    const estimatedMealsProvided = Math.round(lifetimeAmount * mealsPerDollar);
+    const estimatedPeopleHelped = Math.round(estimatedMealsProvided / 12); // Assume 12 meals per person helped
+    const estimatedVisits = Math.max(actualYears * 3, 1); // Assume 3 donations per year on average
+    const estimatedVolunteerHours = Math.max(actualYears * 2, 2); // Assume 2 volunteer hours per year
     
     return {
       mealsProvided: estimatedMealsProvided,
       peopleHelped: estimatedPeopleHelped,
       visits: estimatedVisits,
-      volunteerHours: estimatedVolunteerHours
+      volunteerHours: estimatedVolunteerHours,
+      totalGiving: lifetimeAmount,
+      years: actualYears
     };
   };
   
@@ -420,28 +491,70 @@ export default function TimeGivingSlide({
                         </div>
                       </div>
                       
-                      {/* Show recent years in giving journey if they have a history */}
-                      {years >= 1 && (
+                      {/* Show fiscal year 2025 giving data if available */}
+                      {fiscalYearGiving.fy25 !== undefined && fiscalYearGiving.fy25 > 0 && (
                         <div className="flex items-start">
                           <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-blue-400 text-white mr-4">
                             <Calendar className="h-5 w-5" />
                           </div>
                           <div className="flex-grow pt-1">
-                            <h4 className="font-medium text-gray-800">{new Date().getFullYear() - 1}</h4>
-                            <p className="text-sm text-gray-600">Your generous support helped provide meals to {journeyStats.peopleHelped} people!</p>
+                            <h4 className="font-medium text-gray-800">FY 2025</h4>
+                            <p className="text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!` 
+                                : `You gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!`}
+                            </p>
                           </div>
                         </div>
                       )}
                       
-                      {/* If they have 3+ years, show middle point */}
-                      {years >= 3 && (
+                      {/* Show fiscal year 2024 giving data if available */}
+                      {fiscalYearGiving.fy24 !== undefined && fiscalYearGiving.fy24 > 0 && (
                         <div className="flex items-start">
-                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-indigo-400 text-white mr-4">
-                            <Award className="h-5 w-5" />
+                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-teal-400 text-white mr-4">
+                            <Calendar className="h-5 w-5" />
                           </div>
                           <div className="flex-grow pt-1">
-                            <h4 className="font-medium text-gray-800">{donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() + Math.floor(years/2) : "Mid-journey"}</h4>
-                            <p className="text-sm text-gray-600">You've become a consistent supporter of our hunger relief programs!</p>
+                            <h4 className="font-medium text-gray-800">FY 2024</h4>
+                            <p className="text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!` 
+                                : `You contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!`}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Show fiscal year 2023 giving data if available */}
+                      {fiscalYearGiving.fy23 !== undefined && fiscalYearGiving.fy23 > 0 && (
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-indigo-400 text-white mr-4">
+                            <Calendar className="h-5 w-5" />
+                          </div>
+                          <div className="flex-grow pt-1">
+                            <h4 className="font-medium text-gray-800">FY 2023</h4>
+                            <p className="text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName}'s ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.` 
+                                : `Your ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.`}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Show fiscal year 2022 giving data if available */}
+                      {fiscalYearGiving.fy22 !== undefined && fiscalYearGiving.fy22 > 0 && (
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-purple-400 text-white mr-4">
+                            <Calendar className="h-5 w-5" />
+                          </div>
+                          <div className="flex-grow pt-1">
+                            <h4 className="font-medium text-gray-800">FY 2022</h4>
+                            <p className="text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.` 
+                                : `You donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.`}
+                            </p>
                           </div>
                         </div>
                       )}
@@ -481,7 +594,7 @@ export default function TimeGivingSlide({
                   <CardContent className="p-4 flex flex-col items-center text-center">
                     <Clock className="h-8 w-8 text-blue-500 mb-2" />
                     <p className="text-2xl font-bold text-blue-700">
-                      {years} {years === 1 ? "Year" : "Years"}
+                      {journeyStats.years > 0 ? journeyStats.years : years} {(journeyStats.years || years) === 1 ? "Year" : "Years"}
                     </p>
                     <p className="text-sm text-blue-600">Years of Support</p>
                   </CardContent>
@@ -491,7 +604,7 @@ export default function TimeGivingSlide({
                   <CardContent className="p-4 flex flex-col items-center text-center">
                     <Award className="h-8 w-8 text-green-500 mb-2" />
                     <p className="text-2xl font-bold text-green-700">
-                      {formatCurrency(donorSummary?.lifetimeGiving || 0)}
+                      {formatCurrency(journeyStats.totalGiving || donorSummary?.lifetimeGiving || 0)}
                     </p>
                     <p className="text-sm text-green-600">Lifetime Impact</p>
                   </CardContent>
