@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { TrendingUp, Heart, Calendar, Award, Gift, Sparkles, BarChart3, Users } from "lucide-react";
+import CountUpAnimation from "./CountUpAnimation";
 
 interface DonorSummarySlideProps {
   impact: DonationImpact;
@@ -607,7 +608,11 @@ export default function DonorSummarySlide({
                       whileHover={{ scale: 1.05 }}
                     >
                       <Gift className="inline-block mr-2 h-5 w-5 text-green-600" />
-                      {donationThisTime}
+                      Your Donation Today: <CountUpAnimation 
+                        value={amount}
+                        className="ml-1 font-semibold"
+                        delay={0.3}
+                      />
                     </motion.span>
                   </motion.p>
                 </motion.div>
@@ -689,9 +694,10 @@ export default function DonorSummarySlide({
                           stiffness: 200
                         }}
                       >
-                        <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-emerald-600">
-                          {formatCurrency(donorSummary.totalLastYear)}
-                        </span>
+                        <CountUpAnimation 
+                          value={donorSummary.totalLastYear}
+                          className="text-4xl font-bold text-primary"
+                        />
                       </motion.div>
                       
                       <motion.p 
@@ -789,9 +795,11 @@ export default function DonorSummarySlide({
                           stiffness: 200
                         }}
                       >
-                        <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-emerald-600">
-                          {formatCurrency(donorSummary.lastGift.amount)}
-                        </span>
+                        <CountUpAnimation 
+                          value={donorSummary.lastGift.amount}
+                          className="text-4xl font-bold text-teal-600"
+                          delay={0.2}
+                        />
                       </motion.div>
                       
                       <motion.p 
@@ -902,9 +910,11 @@ export default function DonorSummarySlide({
                             repeatType: "reverse"
                           }}
                         />
-                        <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-primary relative z-10">
-                          {formatCurrency(donorSummary.lifetimeGiving)}
-                        </span>
+                        <CountUpAnimation 
+                          value={donorSummary.lifetimeGiving}
+                          className="text-4xl font-bold text-indigo-600 relative z-10"
+                          delay={0.4}
+                        />
                       </motion.div>
                       
                       <motion.p 
@@ -1049,7 +1059,13 @@ export default function DonorSummarySlide({
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.2, duration: 0.5 }}
                     >
-                      Your generosity is making a real difference in our community. Let's explore how your current donation of {formatCurrency(amount)} will transform lives and nourish our neighbors.
+                      Your generosity is making a real difference in our community. Let's explore how your current donation of <span className="font-semibold text-primary inline-block">
+                        <CountUpAnimation 
+                          value={amount}
+                          className="font-semibold text-primary"
+                          delay={1.2}
+                        />
+                      </span> will transform lives and nourish our neighbors.
                     </motion.p>
                     
                     {/* Button with special effects */}
@@ -1228,7 +1244,13 @@ export default function DonorSummarySlide({
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.8, duration: 0.5 }}
                   >
-                    We're thrilled to welcome you as a new donor! Your generosity of <span className="font-bold text-white">{formatCurrency(amount)}</span> will make a meaningful impact in our community.
+                    We're thrilled to welcome you as a new donor! Your generosity of <span className="font-bold text-white inline-block">
+                      <CountUpAnimation 
+                        value={amount}
+                        className="font-bold text-white"
+                        delay={0.8}
+                      />
+                    </span> will make a meaningful impact in our community.
                   </motion.p>
                   
                   {/* Button with shining animation */}
