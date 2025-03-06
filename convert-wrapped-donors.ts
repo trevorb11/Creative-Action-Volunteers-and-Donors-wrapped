@@ -33,25 +33,52 @@ interface WrappedDonorData {
 }
 
 // Function to clean currency string (remove $ and commas)
-function cleanCurrencyString(currencyStr: string | undefined): number {
-  if (!currencyStr) return 0;
+function cleanCurrencyString(currencyStr: string | undefined | number): number {
+  if (currencyStr === undefined || currencyStr === null) return 0;
+  
+  // If it's already a number, return it
+  if (typeof currencyStr === 'number') return currencyStr;
   
   // Remove $ and commas, then convert to number
   const cleanStr = currencyStr.replace(/[$,]/g, '').trim();
   return cleanStr ? parseFloat(cleanStr) : 0;
 }
 
-// Function to parse date string into a Date object
-function parseDate(dateStr: string | undefined): Date | null {
-  if (!dateStr || dateStr.trim() === '') return null;
+// Function to parse date values into a Date object
+function parseDate(dateValue: string | number | undefined): Date | null {
+  if (dateValue === undefined || dateValue === null) return null;
   
-  // Parse dates in MM/DD/YYYY format
-  const parts = dateStr.split('/');
-  if (parts.length === 3) {
-    const month = parseInt(parts[0], 10) - 1; // JS months are 0-based
-    const day = parseInt(parts[1], 10);
-    const year = parseInt(parts[2], 10);
-    return new Date(year, month, day);
+  // If it's a string, handle various string formats
+  if (typeof dateValue === 'string') {
+    if (dateValue.trim() === '') return null;
+    
+    // Parse dates in MM/DD/YYYY format
+    const parts = dateValue.split('/');
+    if (parts.length === 3) {
+      const month = parseInt(parts[0], 10) - 1; // JS months are 0-based
+      const day = parseInt(parts[1], 10);
+      const year = parseInt(parts[2], 10);
+      return new Date(year, month, day);
+    }
+    
+    // Try to parse as ISO date
+    const isoDate = new Date(dateValue);
+    if (!isNaN(isoDate.getTime())) {
+      return isoDate;
+    }
+  }
+  
+  // If it's a number, it might be Excel's date format (days since 1/1/1900 or 1/1/1904)
+  // Excel uses different epoch depending on the system
+  if (typeof dateValue === 'number') {
+    // For Excel's 1900 date system (PC & modern Mac)
+    // Subtracting 2 accounts for Excel's leap year bug
+    const excelEpoch1900 = new Date(1900, 0, 1);
+    const daysSince1900 = dateValue - 2;
+    const date1900 = new Date(excelEpoch1900);
+    date1900.setDate(excelEpoch1900.getDate() + daysSince1900);
+    
+    return date1900;
   }
   
   return null;
@@ -83,19 +110,16 @@ function convertToImportFormat(donorData: WrappedDonorData[]): ImportDonor[] {
     const firstName = nameParts[0] || '';
     const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
     
-    // Create the import donor object
-    const importDonor: ImportDonor = {
-      email,
-      first_name: firstName,
-      last_name: lastName,
-      phone: donor.phone,
-      external_id: donor.id.toString(),
-      donations: [] // Initialize empty donations array
-    };
+    // Create donations array
+    const donations: Array<{ 
+      amount: number;
+      timestamp: Date | string;
+      external_donation_id?: string;
+    }> = [];
     
     // Add the most recent donation (if available)
     if (donor.lastGiftAmount) {
-      importDonor.donations.push({
+      donations.push({
         amount: donor.lastGiftAmount,
         timestamp: donor.lastGiftDate || new Date(),
         external_donation_id: `${donor.id}-last`
@@ -105,7 +129,7 @@ function convertToImportFormat(donorData: WrappedDonorData[]): ImportDonor[] {
     // Add historical donations by fiscal year
     if (donor.recentGifts) {
       if (donor.recentGifts.fy22 && donor.recentGifts.fy22 > 0) {
-        importDonor.donations.push({
+        donations.push({
           amount: donor.recentGifts.fy22,
           timestamp: new Date('2022-01-01'),
           external_donation_id: `${donor.id}-fy22`
@@ -113,7 +137,7 @@ function convertToImportFormat(donorData: WrappedDonorData[]): ImportDonor[] {
       }
       
       if (donor.recentGifts.fy23 && donor.recentGifts.fy23 > 0) {
-        importDonor.donations.push({
+        donations.push({
           amount: donor.recentGifts.fy23,
           timestamp: new Date('2023-01-01'),
           external_donation_id: `${donor.id}-fy23`
@@ -121,7 +145,7 @@ function convertToImportFormat(donorData: WrappedDonorData[]): ImportDonor[] {
       }
       
       if (donor.recentGifts.fy24 && donor.recentGifts.fy24 > 0) {
-        importDonor.donations.push({
+        donations.push({
           amount: donor.recentGifts.fy24,
           timestamp: new Date('2024-01-01'),
           external_donation_id: `${donor.id}-fy24`
@@ -129,7 +153,7 @@ function convertToImportFormat(donorData: WrappedDonorData[]): ImportDonor[] {
       }
       
       if (donor.recentGifts.fy25 && donor.recentGifts.fy25 > 0) {
-        importDonor.donations.push({
+        donations.push({
           amount: donor.recentGifts.fy25,
           timestamp: new Date('2025-01-01'),
           external_donation_id: `${donor.id}-fy25`
@@ -138,13 +162,23 @@ function convertToImportFormat(donorData: WrappedDonorData[]): ImportDonor[] {
     }
     
     // Make sure we have at least one donation
-    if (importDonor.donations.length === 0 && donor.lifetimeGiving > 0) {
-      importDonor.donations.push({
+    if (donations.length === 0 && donor.lifetimeGiving > 0) {
+      donations.push({
         amount: donor.lifetimeGiving,
         timestamp: new Date(),
         external_donation_id: `${donor.id}-lifetime`
       });
     }
+    
+    // Create the import donor object
+    const importDonor: ImportDonor = {
+      email,
+      first_name: firstName,
+      last_name: lastName,
+      phone: donor.phone,
+      external_id: donor.id.toString(),
+      donations: donations
+    };
     
     importDonors.push(importDonor);
   }
@@ -165,30 +199,46 @@ async function processCsvFile(filePath: string) {
     console.log(`Found ${rawData.length} donors in the CSV data`);
     
     // Convert the raw data to our wrapped donor format
-    const wrappedDonorData: WrappedDonorData[] = rawData.map((row: any) => {
-      // Extract the data from the CSV columns
-      return {
-        id: row['Constituent ID'],
-        name: row['Name'],
-        location: row['Preferred City_ State'],
-        email: row['Email Address'],
-        phone: row['Phone Number'],
-        totalGifts: parseInt(row['Total Number of Gifts'] || '0', 10),
-        lifetimeGiving: cleanCurrencyString(row['Lifetime Giving']),
-        lastGiftDate: parseDate(row['Last Gift Date']),
-        lastGiftAmount: cleanCurrencyString(row['Last Gift Amount']),
-        firstGiftDate: parseDate(row['First Gift Date']),
-        firstGiftAmount: cleanCurrencyString(row['First Gift Amount']),
-        largestGiftDate: parseDate(row['Largest Gift Date']),
-        largestGiftAmount: cleanCurrencyString(row['Largest Gift Amount']),
-        recentGifts: {
-          fy22: cleanCurrencyString(row['Total Giving FY22']),
-          fy23: cleanCurrencyString(row['Total Giving FY23']),
-          fy24: cleanCurrencyString(row['Total Giving FY24']),
-          fy25: cleanCurrencyString(row['Total Giving FY25'])
+    const wrappedDonorData: WrappedDonorData[] = [];
+    
+    // Process each row with error handling
+    for (let i = 0; i < rawData.length; i++) {
+      try {
+        const row = rawData[i] as Record<string, any>;
+        
+        // Debug output for the first few rows
+        if (i < 3) {
+          console.log('Sample row:', JSON.stringify(row));
         }
-      };
-    });
+        
+        const donorData: WrappedDonorData = {
+          id: row['Constituent ID'],
+          name: row['Name'],
+          location: row['Preferred City_ State'],
+          email: row['Email Address'],
+          phone: row['Phone Number'],
+          totalGifts: parseInt(row['Total Number of Gifts'] || '0', 10),
+          lifetimeGiving: cleanCurrencyString(row['Lifetime Giving']),
+          lastGiftDate: parseDate(row['Last Gift Date']),
+          lastGiftAmount: cleanCurrencyString(row['Last Gift Amount']),
+          firstGiftDate: parseDate(row['First Gift Date']),
+          firstGiftAmount: cleanCurrencyString(row['First Gift Amount']),
+          largestGiftDate: parseDate(row['Largest Gift Date']),
+          largestGiftAmount: cleanCurrencyString(row['Largest Gift Amount']),
+          recentGifts: {
+            fy22: cleanCurrencyString(row['Total Giving FY22']),
+            fy23: cleanCurrencyString(row['Total Giving FY23']),
+            fy24: cleanCurrencyString(row['Total Giving FY24']),
+            fy25: cleanCurrencyString(row['Total Giving FY25'])
+          }
+        };
+        
+        wrappedDonorData.push(donorData);
+      } catch (error) {
+        console.error(`Error processing row ${i}:`, error);
+        console.error('Row data:', rawData[i]);
+      }
+    }
     
     // Convert to import format
     const importDonors = convertToImportFormat(wrappedDonorData);
