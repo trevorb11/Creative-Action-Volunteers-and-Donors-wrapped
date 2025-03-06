@@ -30,16 +30,24 @@ async function importData(filePath: string) {
     
     const fileExt = path.extname(filePath).toLowerCase();
     
-    if (!['.xlsx', '.xls', '.csv'].includes(fileExt)) {
-      console.error(`Error: Unsupported file format '${fileExt}'. Please use .xlsx, .xls, or .csv files.`);
+    // Handle JSON files separately from Excel/CSV files
+    let donors: ImportDonor[] = [];
+    
+    if (fileExt === '.json') {
+      console.log(`Reading JSON file: ${filePath}`);
+      const jsonData = fs.readFileSync(filePath, 'utf8');
+      donors = JSON.parse(jsonData) as ImportDonor[];
+      console.log(`Found ${donors.length} donor records in JSON file`);
+    } else if (!['.xlsx', '.xls', '.csv'].includes(fileExt)) {
+      console.error(`Error: Unsupported file format '${fileExt}'. Please use .xlsx, .xls, .csv, or .json files.`);
       process.exit(1);
+    } else {
+      console.log(`Reading ${fileExt.slice(1).toUpperCase()} file: ${filePath}`);
+      const buffer = fs.readFileSync(filePath);
+      
+      // Parse Excel or CSV file
+      donors = parseExcelDonors(buffer, filePath);
     }
-    
-    console.log(`Reading ${fileExt.slice(1).toUpperCase()} file: ${filePath}`);
-    const buffer = fs.readFileSync(filePath);
-    
-    // Parse the file
-    const donors = parseExcelDonors(buffer, filePath);
     console.log(`Found ${donors.length} valid donor records`);
     
     // Create or update each donor
@@ -124,7 +132,7 @@ async function main() {
   if (args.length === 0) {
     console.error('Error: No file specified.');
     console.error('Usage: tsx server/import-excel.ts <path-to-file>');
-    console.error('Supports .xlsx, .xls, and .csv file formats');
+    console.error('Supports .xlsx, .xls, .csv, and .json file formats');
     process.exit(1);
   }
   

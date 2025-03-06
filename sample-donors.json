@@ -1,0 +1,72 @@
+[
+  {
+    "email": "donor-2360@example.com",
+    "first_name": "1040",
+    "last_name": "Foundation",
+    "phone": "(303) 442-5474",
+    "external_id": "2360",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2024-11-08T00:00:00.000Z",
+        "external_donation_id": "2360-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy22"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy23"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy24"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-85966@example.com",
+    "first_name": "Anderson",
+    "last_name": "Family Foundation",
+    "external_id": "85966",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2024-05-25T00:00:00.000Z",
+        "external_donation_id": "85966-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "85966-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-78413@example.com",
+    "first_name": "Winston",
+    "last_name": "Family Fund",
+    "external_id": "78413",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-05T00:00:00.000Z",
+        "external_donation_id": "78413-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "78413-fy22"
+      }
+    ]
+  }
+]
