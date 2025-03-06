@@ -69,35 +69,43 @@ export function useDonationImpact() {
   // Function to fetch donor information by identifier
   const fetchDonorInfo = async (identifier: string) => {
     try {
+      // Set loading state
       setState(prev => ({ ...prev, isLoading: true, error: null }));
       
+      // Make the API request with the encoded email
       const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(identifier)}`, null);
       const data = await res.json();
       
+      // Process the response data
       if (data.donation && data.impact) {
         // We have both donation and impact data from the server
         const amount = parseFloat(data.donation.amount.toString());
         
+        // Update state with donation information
         setState(prev => ({
           ...prev,
           amount,
           impact: data.impact,
           isLoading: false,
-          step: SlideNames.MEALS,
+          step: SlideNames.MEALS, // Move directly to the first content slide
           donorEmail: data.donation.email || null
         }));
         
-        return true;
+        return true; // Success
       }
-      return false;
+      
+      // Reset loading state if no valid data
+      setState(prev => ({ ...prev, isLoading: false }));
+      return false; // No valid data found
     } catch (error) {
       console.error('Error fetching donor info:', error);
+      // Reset state and set error message
       setState(prev => ({ 
         ...prev, 
         isLoading: false,
         error: 'Failed to retrieve donor information.'
       }));
-      return false;
+      return false; // Error occurred
     }
   };
 

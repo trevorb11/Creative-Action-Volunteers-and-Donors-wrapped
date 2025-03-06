@@ -27,40 +27,64 @@ export default function DonationImpact() {
   
   const { toast } = useToast();
   
-  // Ref to track if we've already attempted to fetch donor info
-  const attemptedRef = useRef(false);
+  // Using refs to ensure one-time execution
+  const hasCheckedEmail = useRef(false);
+  const isLoading = useRef(false);
   
-  // Check for email parameter in URL when component mounts
+  // Email detection effect that only runs once on mount
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const email = queryParams.get('email');
-    
-    if (email && !attemptedRef.current) {
-      attemptedRef.current = true; // Mark that we've attempted to fetch
-      console.log("Found email in URL:", email);
+    // Immediately executed function to ensure code runs only once
+    (function checkEmailOnce() {
+      // Skip if we've already checked or we're currently loading
+      if (hasCheckedEmail.current || isLoading.current) return;
       
-      fetchDonorInfo(email).then(success => {
-        if (!success) {
-          toast({
-            title: "Donor Not Found",
-            description: "We couldn't find donation information for the provided email. Please enter a donation amount to see its impact.",
+      // Parse URL for email parameter
+      const queryParams = new URLSearchParams(window.location.search);
+      const email = queryParams.get('email');
+      
+      // Process email parameter if found
+      if (email) {
+        console.log("Found email in URL, attempting to fetch donor info once:", email);
+        
+        // Mark as checked and loading
+        hasCheckedEmail.current = true;
+        isLoading.current = true;
+        
+        // Fetch donor information
+        fetchDonorInfo(email)
+          .then(success => {
+            isLoading.current = false;
+            
+            if (success) {
+              toast({
+                title: "Welcome Back!",
+                description: "We've loaded your previous donation information. Explore the impact of your generosity!",
+              });
+            } else {
+              toast({
+                title: "Donor Not Found",
+                description: "We couldn't find donation information for the provided email. Please enter a donation amount to see its impact.",
+              });
+            }
+          })
+          .catch(error => {
+            isLoading.current = false;
+            console.error("Error fetching donor info:", error);
+            toast({
+              title: "Error",
+              description: "There was a problem retrieving your donation information. Please try again later.",
+              variant: "destructive",
+            });
           });
-        } else {
-          toast({
-            title: "Welcome Back!",
-            description: "We've loaded your previous donation information. Explore the impact of your generosity!",
-          });
-        }
-      }).catch(error => {
-        console.error("Error fetching donor info:", error);
-        toast({
-          title: "Error",
-          description: "There was a problem retrieving your donation information. Please try again later.",
-          variant: "destructive",
-        });
-      });
-    }
-  }, [fetchDonorInfo, toast]);
+      } else {
+        // Mark as checked if no email found
+        hasCheckedEmail.current = true;
+      }
+    })();
+    
+    // We force this effect to run only once - deliberately ignoring dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   
   useEffect(() => {
     if (state.error) {
