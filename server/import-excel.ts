@@ -1,10 +1,11 @@
 /**
- * Excel Donor Data Import Script
+ * Spreadsheet Donor Data Import Script
  * 
- * This script can be run directly to import donor and donation data from Excel files.
- * Usage: tsx server/import-excel.ts <path-to-excel-file>
+ * This script can be run directly to import donor and donation data from Excel or CSV files.
+ * Usage: tsx server/import-excel.ts <path-to-file>
  * 
  * Features:
+ * - Supports both Excel (.xlsx, .xls) and CSV files
  * - Flexible column name detection
  * - Handles donor and donation data
  * - Updates existing donors or creates new ones
@@ -19,7 +20,7 @@ import { ImportDonor } from '../shared/schema';
 import { parseExcelDonors } from './excel-importer';
 import { setupDatabase } from './db-setup';
 
-async function importExcel(filePath: string) {
+async function importData(filePath: string) {
   try {
     // Check if the file exists
     if (!fs.existsSync(filePath)) {
@@ -27,11 +28,18 @@ async function importExcel(filePath: string) {
       process.exit(1);
     }
     
-    console.log(`Reading Excel file: ${filePath}`);
+    const fileExt = path.extname(filePath).toLowerCase();
+    
+    if (!['.xlsx', '.xls', '.csv'].includes(fileExt)) {
+      console.error(`Error: Unsupported file format '${fileExt}'. Please use .xlsx, .xls, or .csv files.`);
+      process.exit(1);
+    }
+    
+    console.log(`Reading ${fileExt.slice(1).toUpperCase()} file: ${filePath}`);
     const buffer = fs.readFileSync(filePath);
     
-    // Parse the Excel file
-    const donors = parseExcelDonors(buffer);
+    // Parse the file
+    const donors = parseExcelDonors(buffer, filePath);
     console.log(`Found ${donors.length} valid donor records`);
     
     // Create or update each donor
@@ -72,11 +80,19 @@ async function importExcel(filePath: string) {
           for (const donation of importDonor.donations) {
             if (!donation.amount) continue;
             
+            // Convert timestamp to Date type if it's a string
+            let donationDate: Date;
+            if (typeof donation.timestamp === 'string') {
+              donationDate = new Date(donation.timestamp);
+            } else {
+              donationDate = donation.timestamp || new Date();
+            }
+            
             await storage.createDonation({
               donor_id: donor.id,
-              amount: donation.amount,
+              amount: String(donation.amount), // Ensure amount is a string
               email: importDonor.email,
-              timestamp: donation.timestamp || new Date(),
+              timestamp: donationDate,
               external_donation_id: donation.external_donation_id,
               imported: 1
             });
@@ -106,8 +122,9 @@ async function main() {
   const args = process.argv.slice(2);
   
   if (args.length === 0) {
-    console.error('Error: No Excel file specified.');
-    console.error('Usage: tsx server/import-excel.ts <path-to-excel-file>');
+    console.error('Error: No file specified.');
+    console.error('Usage: tsx server/import-excel.ts <path-to-file>');
+    console.error('Supports .xlsx, .xls, and .csv file formats');
     process.exit(1);
   }
   
@@ -121,7 +138,7 @@ async function main() {
   console.log('Setting up database connection...');
   await setupDatabase();
   
-  await importExcel(filePath);
+  await importData(filePath);
 }
 
 // Run the script

@@ -104,26 +104,33 @@ export function parseExcelDonors(buffer: Buffer, filePath?: string): ImportDonor
                    row['donation amount'] || row.value || row.Value;
     
     if (amountRaw) {
-      let amount: string;
+      let amount: string | number;
       
       // Handle if amount is a string with currency symbol or commas
       if (typeof amountRaw === 'string') {
         const cleanAmount = amountRaw.replace(/[$,]/g, '');
         amount = cleanAmount;
       } else if (typeof amountRaw === 'number') {
-        amount = amountRaw.toString();
+        amount = amountRaw;
       } else {
         amount = "0";  // Default if unparseable
       }
       
       // Handle donation date
-      let timestamp = new Date();
+      let timestamp: Date | string = new Date();
       const dateRaw = row.date || row.Date || row['Donation Date'] || row.donation_date || 
                     row['donation date'] || row.timestamp || row.Timestamp;
                     
       if (dateRaw) {
         if (typeof dateRaw === 'string') {
-          timestamp = new Date(dateRaw);
+          // Try to parse the date
+          const parsedDate = new Date(dateRaw);
+          if (!isNaN(parsedDate.getTime())) {
+            timestamp = parsedDate;
+          } else {
+            // If parsing fails, keep as string for later handling
+            timestamp = dateRaw;
+          }
         } else if (dateRaw instanceof Date) {
           timestamp = dateRaw;
         }
@@ -132,11 +139,13 @@ export function parseExcelDonors(buffer: Buffer, filePath?: string): ImportDonor
       const externalDonationId = row.donation_id || row['Donation ID'] || 
                               row.external_donation_id || row['External Donation ID'];
       
-      importDonor.donations.push({
-        amount,
-        timestamp,
-        external_donation_id: externalDonationId
-      });
+      if (importDonor.donations) {
+        importDonor.donations.push({
+          amount,
+          timestamp,
+          external_donation_id: externalDonationId
+        });
+      }
     }
     
     importDonors.push(importDonor);
