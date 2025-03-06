@@ -95,7 +95,7 @@ export default function ImportForm() {
           )}
 
           {result && (
-            <Alert variant={result.failed > 0 ? 'warning' : 'default'} className="mt-4">
+            <Alert variant={result.failed > 0 ? 'destructive' : 'default'} className="mt-4">
               <Check className="h-4 w-4" />
               <AlertTitle>Import Results</AlertTitle>
               <AlertDescription>
