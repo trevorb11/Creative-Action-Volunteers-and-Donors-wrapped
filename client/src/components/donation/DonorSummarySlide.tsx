@@ -121,7 +121,7 @@ export default function DonorSummarySlide({
     <SlideLayout
       title={personalizedTitle}
       subtitle="Thank you for your continued support"
-      variant="donor"
+      variant="donorSummary"
       onNext={onNext}
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
