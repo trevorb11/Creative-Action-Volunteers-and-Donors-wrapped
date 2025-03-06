@@ -119,10 +119,13 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    * Check for parameters when component mounts
    */
   componentDidMount() {
-    // One-time parameters check
-    if (!this.hasCheckedEmail) {
-      this.hasCheckedEmail = true;
-      
+    // Always check URL parameters when the component mounts (could be from direct navigation or redirect)
+    // We are removing the one-time check because it might prevent loading donor data on redirects
+    this.hasCheckedEmail = true;
+    
+    // Add a small delay to ensure URL is fully loaded
+    setTimeout(() => {
+      console.log("Checking URL parameters from current location:", window.location.href);
       const { email, hasWrappedData, wrappedData } = getParamsFromURL();
       
       // If we have wrapped data in the URL parameters, use that directly
@@ -149,8 +152,6 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             impact,
             isLoading: false,
             step: SlideNames.DONOR_SUMMARY,
-            // Store wrapped data in sessionStorage for use by the DonorSummarySlide
-            // This is needed because we don't pass this data directly to the slide
           });
           
           // Store the wrapped data in sessionStorage for the DonorSummarySlide component
@@ -186,16 +187,16 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             }
           });
       }
-    }
-    
-    // Check for errors
-    if (this.state.error) {
-      toast({
-        title: "Error",
-        description: this.state.error,
-        variant: "destructive",
-      });
-    }
+      
+      // Check for errors
+      if (this.state.error) {
+        toast({
+          title: "Error",
+          description: this.state.error,
+          variant: "destructive",
+        });
+      }
+    }, 100); // Small delay to ensure URL is fully updated
   }
   
   /**
@@ -268,7 +269,9 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     
     // Navigate to impact page if we're not already there
     if (window.location.pathname !== '/impact') {
-      window.history.pushState({}, '', '/impact');
+      // Preserve all URL parameters when navigating
+      const currentParams = new URLSearchParams(window.location.search);
+      window.history.pushState({}, '', `/impact${currentParams.toString() ? '?' + currentParams.toString() : ''}`);
     }
 
     // Simulate loading for better user experience
