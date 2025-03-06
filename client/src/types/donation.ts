@@ -17,12 +17,13 @@ export interface DonationState {
 export enum SlideNames {
   WELCOME = 0,
   LOADING = 1,
-  MEALS = 2,
-  NUTRITION = 3,
-  PEOPLE = 4,
-  ENVIRONMENT = 5,
-  FOOD_RESCUE = 6,
-  VOLUNTEER = 7,
-  PARTNER = 8,
-  SUMMARY = 9
+  DONOR_SUMMARY = 2,
+  MEALS = 3,
+  NUTRITION = 4,
+  PEOPLE = 5,
+  ENVIRONMENT = 6,
+  FOOD_RESCUE = 7,
+  VOLUNTEER = 8,
+  PARTNER = 9,
+  SUMMARY = 10
 }

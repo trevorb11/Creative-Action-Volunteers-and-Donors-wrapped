@@ -3,6 +3,7 @@ import { RouteComponentProps } from "wouter";
 import { SlideNames, DonationState } from "@/types/donation";
 import WelcomeScreen from "@/components/donation/WelcomeScreen";
 import LoadingScreen from "@/components/donation/LoadingScreen";
+import DonorSummarySlide from "@/components/donation/DonorSummarySlide";
 import MealsSlide from "@/components/donation/MealsSlide";
 import NutritionSlide from "@/components/donation/NutritionSlide";
 import PeopleSlide from "@/components/donation/PeopleSlide";
@@ -343,6 +344,15 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         
         {state.step === SlideNames.LOADING && (
           <LoadingScreen />
+        )}
+        
+        {state.step === SlideNames.DONOR_SUMMARY && state.impact && (
+          <DonorSummarySlide 
+            impact={state.impact} 
+            donorEmail={state.donorEmail}
+            amount={state.amount}
+            {...navigationProps} 
+          />
         )}
         
         {state.step === SlideNames.MEALS && state.impact && (
