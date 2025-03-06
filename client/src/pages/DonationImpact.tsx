@@ -19,10 +19,47 @@ import { calculateDonationImpact } from "@/lib/donation-calculator";
 import { SLIDE_CONFIG } from "@/lib/constants";
 
 /**
- * Gets the email parameter from the URL
+ * Gets parameters from the URL
+ * Handles both email parameter and donor wrapped data parameters
  */
-function getEmailFromURL() {
-  return new URLSearchParams(window.location.search).get('email');
+function getParamsFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  
+  // Get donor email if available
+  const email = params.get('email');
+  
+  // Check for wrapped donor data parameters
+  const firstGiftDate = params.get('firstGiftDate');
+  const lastGiftDate = params.get('lastGiftDate');
+  const lastGiftAmount = params.get('lastGiftAmount');
+  const lifetimeGiving = params.get('lifetimeGiving');
+  const consecutiveYearsGiving = params.get('consecutiveYearsGiving');
+  const totalGifts = params.get('totalGifts');
+  const largestGiftAmount = params.get('largestGiftAmount');
+  
+  // Check if we have wrapped donor data from URL
+  const hasWrappedData = 
+    (firstGiftDate && firstGiftDate !== '*|FIRS_GIF_D|*') ||
+    (lastGiftDate && lastGiftDate !== '*|LAS_GIF_DA|*') ||
+    (lastGiftAmount && lastGiftAmount !== '*|LAST_GIF_A|*') ||
+    (lifetimeGiving && lifetimeGiving !== '*|LTGIVING|*') ||
+    (consecutiveYearsGiving && consecutiveYearsGiving !== '*|CONSYEARSG|*') ||
+    (totalGifts && totalGifts !== '*|TOTALGIFTS|*') ||
+    (largestGiftAmount && largestGiftAmount !== '*|LARG_GIF_A|*');
+  
+  return {
+    email,
+    hasWrappedData,
+    wrappedData: hasWrappedData ? {
+      firstGiftDate: firstGiftDate !== '*|FIRS_GIF_D|*' ? firstGiftDate : null,
+      lastGiftDate: lastGiftDate !== '*|LAS_GIF_DA|*' ? lastGiftDate : null,
+      lastGiftAmount: lastGiftAmount !== '*|LAST_GIF_A|*' ? parseFloat(lastGiftAmount || '0') : 0,
+      lifetimeGiving: lifetimeGiving !== '*|LTGIVING|*' ? parseFloat(lifetimeGiving || '0') : 0,
+      consecutiveYearsGiving: consecutiveYearsGiving !== '*|CONSYEARSG|*' ? parseInt(consecutiveYearsGiving || '0', 10) : 0,
+      totalGifts: totalGifts !== '*|TOTALGIFTS|*' ? parseInt(totalGifts || '0', 10) : 0,
+      largestGiftAmount: largestGiftAmount !== '*|LARG_GIF_A|*' ? parseFloat(largestGiftAmount || '0') : 0
+    } : null
+  };
 }
 
 /**
@@ -58,16 +95,61 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
   }
   
   /**
-   * Check for email parameter when component mounts
+   * Check for parameters when component mounts
    */
   componentDidMount() {
-    // One-time email parameter check
+    // One-time parameters check
     if (!this.hasCheckedEmail) {
       this.hasCheckedEmail = true;
       
-      const email = getEmailFromURL();
+      const { email, hasWrappedData, wrappedData } = getParamsFromURL();
+      
+      // If we have wrapped data in the URL parameters, use that directly
+      if (hasWrappedData && wrappedData) {
+        console.log("Found wrapped donor data in URL, using directly:", wrappedData);
+        
+        // Calculate impact based on last gift amount or lifetime giving
+        const amount = wrappedData.lastGiftAmount > 0 ? wrappedData.lastGiftAmount : 
+                     (wrappedData.lifetimeGiving > 0 ? wrappedData.lifetimeGiving / wrappedData.totalGifts : 100);
+        
+        // Calculate impact
+        this.setState({ 
+          isLoading: true,
+          step: SlideNames.LOADING,
+          donorEmail: email || null
+        });
+        
+        // Simulate loading for better user experience
+        setTimeout(() => {
+          const impact = calculateDonationImpact(amount);
+          
+          this.setState({
+            amount,
+            impact,
+            isLoading: false,
+            step: SlideNames.DONOR_SUMMARY,
+            // Store wrapped data in sessionStorage for use by the DonorSummarySlide
+            // This is needed because we don't pass this data directly to the slide
+          });
+          
+          // Store the wrapped data in sessionStorage for the DonorSummarySlide component
+          sessionStorage.setItem('wrappedDonorData', JSON.stringify(wrappedData));
+          
+          toast({
+            title: "Welcome Back!",
+            description: "We've loaded your personalized donor information. Explore the impact of your generosity!",
+          });
+          
+          // Also call the server for more accurate impact calculation
+          this.calculateImpact(amount);
+        }, SLIDE_CONFIG.progressDuration);
+        
+        return;
+      }
+      
+      // If no wrapped data but we have an email, try to fetch from the server
       if (email) {
-        console.log("Found email in URL, attempting to fetch donor info once:", email);
+        console.log("Found email in URL, attempting to fetch donor info from server:", email);
         this.fetchDonorInfo(email)
           .then(success => {
             if (success) {
