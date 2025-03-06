@@ -116,7 +116,7 @@ async function processExcelFile(filePath: string) {
 
 async function main() {
   try {
-    const filePath = './attached_assets/03032025_Finalize Segmentation for Marketing.xlsx';
+    const filePath = '../attached_assets/03032025_Finalize Segmentation for Marketing.xlsx';
     await processExcelFile(filePath);
     console.log('Import completed successfully');
   } catch (error) {
