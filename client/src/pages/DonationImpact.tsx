@@ -28,6 +28,9 @@ function getParamsFromURL() {
   // Get donor email if available
   const email = params.get('email');
   
+  // Log all URL parameters for debugging
+  console.log("URL parameters:", Object.fromEntries(params.entries()));
+  
   // Check for wrapped donor data parameters
   const firstGiftDate = params.get('firstGiftDate');
   const lastGiftDate = params.get('lastGiftDate');
@@ -37,7 +40,19 @@ function getParamsFromURL() {
   const totalGifts = params.get('totalGifts');
   const largestGiftAmount = params.get('largestGiftAmount');
   
+  // Debug log for the actual parameter values
+  console.log("Wrapped donor data parameters:", {
+    firstGiftDate,
+    lastGiftDate,
+    lastGiftAmount,
+    lifetimeGiving,
+    consecutiveYearsGiving,
+    totalGifts,
+    largestGiftAmount
+  });
+  
   // Check if we have wrapped donor data from URL
+  // Consider any non-null and non-placeholder value as valid data
   const hasWrappedData = 
     (firstGiftDate && firstGiftDate !== '*|FIRS_GIF_D|*') ||
     (lastGiftDate && lastGiftDate !== '*|LAS_GIF_DA|*') ||
@@ -47,18 +62,24 @@ function getParamsFromURL() {
     (totalGifts && totalGifts !== '*|TOTALGIFTS|*') ||
     (largestGiftAmount && largestGiftAmount !== '*|LARG_GIF_A|*');
   
+  console.log("Has wrapped data:", hasWrappedData);
+  
+  const wrappedData = hasWrappedData ? {
+    firstGiftDate: firstGiftDate && firstGiftDate !== '*|FIRS_GIF_D|*' ? firstGiftDate : null,
+    lastGiftDate: lastGiftDate && lastGiftDate !== '*|LAS_GIF_DA|*' ? lastGiftDate : null,
+    lastGiftAmount: lastGiftAmount && lastGiftAmount !== '*|LAST_GIF_A|*' ? parseFloat(lastGiftAmount || '0') : 0,
+    lifetimeGiving: lifetimeGiving && lifetimeGiving !== '*|LTGIVING|*' ? parseFloat(lifetimeGiving || '0') : 0,
+    consecutiveYearsGiving: consecutiveYearsGiving && consecutiveYearsGiving !== '*|CONSYEARSG|*' ? parseInt(consecutiveYearsGiving || '0', 10) : 0,
+    totalGifts: totalGifts && totalGifts !== '*|TOTALGIFTS|*' ? parseInt(totalGifts || '0', 10) : 0,
+    largestGiftAmount: largestGiftAmount && largestGiftAmount !== '*|LARG_GIF_A|*' ? parseFloat(largestGiftAmount || '0') : 0
+  } : null;
+  
+  console.log("Wrapped data object:", wrappedData);
+  
   return {
     email,
     hasWrappedData,
-    wrappedData: hasWrappedData ? {
-      firstGiftDate: firstGiftDate !== '*|FIRS_GIF_D|*' ? firstGiftDate : null,
-      lastGiftDate: lastGiftDate !== '*|LAS_GIF_DA|*' ? lastGiftDate : null,
-      lastGiftAmount: lastGiftAmount !== '*|LAST_GIF_A|*' ? parseFloat(lastGiftAmount || '0') : 0,
-      lifetimeGiving: lifetimeGiving !== '*|LTGIVING|*' ? parseFloat(lifetimeGiving || '0') : 0,
-      consecutiveYearsGiving: consecutiveYearsGiving !== '*|CONSYEARSG|*' ? parseInt(consecutiveYearsGiving || '0', 10) : 0,
-      totalGifts: totalGifts !== '*|TOTALGIFTS|*' ? parseInt(totalGifts || '0', 10) : 0,
-      largestGiftAmount: largestGiftAmount !== '*|LARG_GIF_A|*' ? parseFloat(largestGiftAmount || '0') : 0
-    } : null
+    wrappedData
   };
 }
 
