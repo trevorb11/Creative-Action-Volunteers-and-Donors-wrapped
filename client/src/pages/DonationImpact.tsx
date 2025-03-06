@@ -21,6 +21,7 @@ import { SLIDE_CONFIG } from "@/lib/constants";
 /**
  * Gets parameters from the URL
  * Handles both email parameter and donor wrapped data parameters
+ * Returns all URL parameters for preservation during navigation
  */
 function getParamsFromURL() {
   const params = new URLSearchParams(window.location.search);
@@ -28,8 +29,9 @@ function getParamsFromURL() {
   // Get donor email if available
   const email = params.get('email');
   
-  // Log all URL parameters for debugging
-  console.log("URL parameters:", Object.fromEntries(params.entries()));
+  // Create a dictionary of all parameters for easy access and preservation
+  const allParams = Object.fromEntries(params.entries());
+  console.log("URL parameters:", allParams);
   
   // Check for wrapped donor data parameters
   const firstGiftDate = params.get('firstGiftDate');
@@ -39,6 +41,7 @@ function getParamsFromURL() {
   const consecutiveYearsGiving = params.get('consecutiveYearsGiving');
   const totalGifts = params.get('totalGifts');
   const largestGiftAmount = params.get('largestGiftAmount');
+  const largestGiftDate = params.get('largestGiftDate');
   
   // Debug log for the actual parameter values
   console.log("Wrapped donor data parameters:", {
@@ -48,7 +51,8 @@ function getParamsFromURL() {
     lifetimeGiving,
     consecutiveYearsGiving,
     totalGifts,
-    largestGiftAmount
+    largestGiftAmount,
+    largestGiftDate
   });
   
   // Check if we have wrapped donor data from URL
@@ -71,7 +75,8 @@ function getParamsFromURL() {
     lifetimeGiving: lifetimeGiving && lifetimeGiving !== '*|LTGIVING|*' ? parseFloat(lifetimeGiving || '0') : 0,
     consecutiveYearsGiving: consecutiveYearsGiving && consecutiveYearsGiving !== '*|CONSYEARSG|*' ? parseInt(consecutiveYearsGiving || '0', 10) : 0,
     totalGifts: totalGifts && totalGifts !== '*|TOTALGIFTS|*' ? parseInt(totalGifts || '0', 10) : 0,
-    largestGiftAmount: largestGiftAmount && largestGiftAmount !== '*|LARG_GIF_A|*' ? parseFloat(largestGiftAmount || '0') : 0
+    largestGiftAmount: largestGiftAmount && largestGiftAmount !== '*|LARG_GIF_A|*' ? parseFloat(largestGiftAmount || '0') : 0,
+    largestGiftDate: largestGiftDate && largestGiftDate !== '*|LARG_GIF_D|*' ? largestGiftDate : null
   } : null;
   
   console.log("Wrapped data object:", wrappedData);
@@ -79,7 +84,9 @@ function getParamsFromURL() {
   return {
     email,
     hasWrappedData,
-    wrappedData
+    wrappedData,
+    allParams,
+    originalParamString: params.toString() // Keep the original param string for URL preservation
   };
 }
 
@@ -120,13 +127,18 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    */
   componentDidMount() {
     // Always check URL parameters when the component mounts (could be from direct navigation or redirect)
-    // We are removing the one-time check because it might prevent loading donor data on redirects
     this.hasCheckedEmail = true;
     
     // Add a small delay to ensure URL is fully loaded
     setTimeout(() => {
       console.log("Checking URL parameters from current location:", window.location.href);
-      const { email, hasWrappedData, wrappedData } = getParamsFromURL();
+      const { email, hasWrappedData, wrappedData, allParams, originalParamString } = getParamsFromURL();
+      
+      // Store original parameters in sessionStorage for future navigation
+      if (originalParamString) {
+        sessionStorage.setItem('originalUrlParams', originalParamString);
+        console.log("Stored original URL parameters in session storage:", originalParamString);
+      }
       
       // If we have wrapped data in the URL parameters, use that directly
       if (hasWrappedData && wrappedData) {
@@ -157,6 +169,9 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
           // Store the wrapped data in sessionStorage for the DonorSummarySlide component
           sessionStorage.setItem('wrappedDonorData', JSON.stringify(wrappedData));
           
+          // Also store all URL parameters for retrieval by other components
+          sessionStorage.setItem('donorParams', JSON.stringify(allParams));
+          
           toast({
             title: "Welcome Back!",
             description: "We've loaded your personalized donor information. Explore the impact of your generosity!",
@@ -172,6 +187,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       // If no wrapped data but we have an email, try to fetch from the server
       if (email) {
         console.log("Found email in URL, attempting to fetch donor info from server:", email);
+        sessionStorage.setItem('donorEmail', email); // Store email for other components
+        
         this.fetchDonorInfo(email)
           .then(success => {
             if (success) {
@@ -259,6 +276,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    * Handle donation form submission
    */
   handleFormSubmit(amount: number, email?: string) {
+    console.log("Form submitted with amount:", amount, "email:", email);
+    
     this.setState({ 
       amount,
       step: SlideNames.LOADING,
@@ -269,9 +288,15 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     
     // Navigate to impact page if we're not already there
     if (window.location.pathname !== '/impact') {
-      // Preserve all URL parameters when navigating
-      const currentParams = new URLSearchParams(window.location.search);
-      window.history.pushState({}, '', `/impact${currentParams.toString() ? '?' + currentParams.toString() : ''}`);
+      // Get current URL parameters and ensure they are preserved
+      const { originalParamString } = getParamsFromURL();
+      
+      // Build the URL with parameters
+      const destinationUrl = `/impact${originalParamString ? '?' + originalParamString : ''}`;
+      console.log("Navigating to:", destinationUrl);
+      
+      // Use pushState to navigate without losing parameters
+      window.history.pushState({}, '', destinationUrl);
     }
 
     // Simulate loading for better user experience
@@ -284,6 +309,11 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         isLoading: false,
         step: nextStep
       });
+      
+      // Store email in sessionStorage for components that need it
+      if (email) {
+        sessionStorage.setItem('donorEmail', email);
+      }
       
       // Log the donation via API
       this.logDonation(amount, email);
@@ -402,19 +432,35 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    * Handle sharing functionality
    */
   handleShare() {
-    // Create a URL with the donor's email parameter if available
+    // First check if we have stored URL parameters
+    const storedParams = sessionStorage.getItem('originalUrlParams');
+    const baseUrl = window.location.origin + '/impact';
     let shareUrl = window.location.href;
     
-    // If we're on the impact page without parameters but have donor email, add it
-    if (this.state.donorEmail && !window.location.href.includes('?')) {
-      const baseUrl = window.location.origin + window.location.pathname;
+    // If we're on the impact page without parameters but have stored parameters
+    if (storedParams && storedParams.length > 0) {
+      // Use the stored original parameters
+      shareUrl = `${baseUrl}?${storedParams}`;
+      console.log("Using original parameters for share URL:", shareUrl);
+    } 
+    // If no stored parameters but we have donor email
+    else if (this.state.donorEmail && !window.location.href.includes('?')) {
+      // Just use the email parameter as fallback
       shareUrl = `${baseUrl}?email=${encodeURIComponent(this.state.donorEmail)}`;
+      console.log("Using email only for share URL:", shareUrl);
     }
     
+    // Prepare the sharing message
+    const shareTitle = "My Donation Impact at Community Food Share";
+    const shareText = `I just donated $${this.state.amount} to Community Food Share, providing ${this.state.impact?.mealsProvided} meals and helping ${this.state.impact?.peopleServed} people in our community!`;
+    
+    console.log("Sharing URL:", shareUrl);
+    
+    // Use Web Share API if available
     if (navigator.share) {
       navigator.share({
-        title: "My Donation Impact at Community Food Share",
-        text: `I just donated $${this.state.amount} to Community Food Share, providing ${this.state.impact?.mealsProvided} meals and helping ${this.state.impact?.peopleServed} people in our community!`,
+        title: shareTitle,
+        text: shareText,
         url: shareUrl,
       }).catch(() => {
         // Save to clipboard as fallback
@@ -426,7 +472,7 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         });
       });
     } else {
-      // For browsers without share API, copy to clipboard
+      // For browsers without Web Share API, copy to clipboard
       navigator.clipboard.writeText(shareUrl).then(() => {
         toast({
           title: "Share your impact",

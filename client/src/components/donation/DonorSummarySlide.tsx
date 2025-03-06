@@ -44,11 +44,31 @@ export default function DonorSummarySlide({
     async function fetchDonorSummary() {
       // First check if we have wrapped donor data in sessionStorage
       const wrappedDataStr = sessionStorage.getItem('wrappedDonorData');
+      const donorParams = sessionStorage.getItem('donorParams');
+      const storedEmail = sessionStorage.getItem('donorEmail');
+      
+      console.log("DonorSummarySlide - Checking storage:", { 
+        hasWrappedData: !!wrappedDataStr, 
+        hasParams: !!donorParams,
+        hasStoredEmail: !!storedEmail,
+        propEmail: donorEmail 
+      });
       
       if (wrappedDataStr) {
         try {
           const wrappedData = JSON.parse(wrappedDataStr);
           console.log("Using wrapped donor data from sessionStorage:", wrappedData);
+          
+          // Format the date for display
+          let formattedDate = 'N/A';
+          if (wrappedData.lastGiftDate) {
+            try {
+              formattedDate = new Date(wrappedData.lastGiftDate).toLocaleDateString();
+            } catch (e) {
+              console.warn("Date formatting error:", e);
+              formattedDate = wrappedData.lastGiftDate; // Use as string if parsing fails
+            }
+          }
           
           // Calculate this year's donations if available
           const totalLastYear = 0; // We don't have this information from URL parameters
@@ -58,7 +78,7 @@ export default function DonorSummarySlide({
             totalLastYear,
             lastGift: {
               amount: wrappedData.lastGiftAmount || 0,
-              date: wrappedData.lastGiftDate || 'N/A'
+              date: formattedDate
             },
             lifetimeGiving: wrappedData.lifetimeGiving || 0,
             name: undefined // We don't have the name from URL parameters
@@ -73,16 +93,22 @@ export default function DonorSummarySlide({
       }
       
       // If no wrapped data or parsing failed, fetch from server if we have an email
-      if (!donorEmail) {
+      // First check if we have a prop email, if not, check sessionStorage
+      const emailToUse = donorEmail || storedEmail;
+      
+      if (!emailToUse) {
+        console.log("No donor email found (neither in props nor in sessionStorage)");
         setIsLoading(false);
         return;
       }
+      
+      console.log("Attempting to fetch donor info for email:", emailToUse);
 
       setIsLoading(true);
       setError(null);
 
       try {
-        const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(donorEmail)}`);
+        const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(emailToUse)}`);
         const data = await res.json();
 
         if (data.donor && data.donations) {
@@ -144,7 +170,7 @@ export default function DonorSummarySlide({
     }
 
     fetchDonorSummary();
-  }, [donorEmail]);
+  }, [donorEmail]); // Only re-run if donorEmail prop changes
 
   const personalizedTitle = donorSummary?.name 
     ? `Welcome Back, ${donorSummary.name.split(' ')[0]}!`
