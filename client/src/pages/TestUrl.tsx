@@ -14,14 +14,18 @@ import { Link } from "wouter";
 export default function TestUrl() {
   const [donorInfo, setDonorInfo] = useState({
     email: "test.donor@example.com",
-    firstGiftDate: "2023-01-15",
-    lastGiftDate: "2023-12-20",
+    firstGiftDate: "2020-05-10",
+    lastGiftDate: "2024-02-15",
     lastGiftAmount: "250",
-    lifetimeGiving: "1500",
-    totalGifts: "6",
-    consecutiveYearsGiving: "2",
-    largestGiftAmount: "500",
-    largestGiftDate: "2023-05-10"
+    lifetimeGiving: "5750",
+    totalGifts: "18",
+    consecutiveYearsGiving: "4",
+    largestGiftAmount: "1000",
+    largestGiftDate: "2022-12-20",
+    fy22: "750",
+    fy23: "1200",
+    fy24: "2300",
+    fy25: "1500"
   });
 
   const [generatedUrl, setGeneratedUrl] = useState<string>("");
@@ -168,6 +172,60 @@ export default function TestUrl() {
                   placeholder="YYYY-MM-DD"
                 />
               </div>
+
+              {/* Fiscal Year donation amounts */}
+              <div className="col-span-1 md:col-span-2 pt-4 border-t mt-4">
+                <h3 className="text-lg font-medium mb-3">Fiscal Year Donations</h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  These fields allow you to specify donation amounts for specific fiscal years.
+                  The system uses these values to show fiscal year totals in the donor summary.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="fy22">FY 2022 Amount</Label>
+                    <Input 
+                      id="fy22" 
+                      name="fy22" 
+                      value={donorInfo.fy22} 
+                      onChange={handleInputChange} 
+                      placeholder="750"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="fy23">FY 2023 Amount</Label>
+                    <Input 
+                      id="fy23" 
+                      name="fy23" 
+                      value={donorInfo.fy23} 
+                      onChange={handleInputChange} 
+                      placeholder="1200"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="fy24">FY 2024 Amount</Label>
+                    <Input 
+                      id="fy24" 
+                      name="fy24" 
+                      value={donorInfo.fy24} 
+                      onChange={handleInputChange} 
+                      placeholder="2300"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="fy25">FY 2025 Amount</Label>
+                    <Input 
+                      id="fy25" 
+                      name="fy25" 
+                      value={donorInfo.fy25} 
+                      onChange={handleInputChange} 
+                      placeholder="1500"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
           
@@ -262,7 +320,11 @@ export default function TestUrl() {
                   totalGifts: "*|TOTALGIFTS|*",
                   consecutiveYearsGiving: "*|CONSYEARSG|*",
                   largestGiftAmount: "*|LARG_GIF_A|*",
-                  largestGiftDate: "*|LARG_GIF_D|*"
+                  largestGiftDate: "*|LARG_GIF_D|*",
+                  fy22: "",
+                  fy23: "",
+                  fy24: "",
+                  fy25: ""
                 });
               }}
               variant="outline"

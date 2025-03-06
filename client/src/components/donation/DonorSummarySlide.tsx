@@ -70,8 +70,35 @@ export default function DonorSummarySlide({
             }
           }
           
-          // Calculate this year's donations if available
-          const totalLastYear = 0; // We don't have this information from URL parameters
+          // Try to extract the current fiscal year donation amounts if available
+          let totalLastYear = 0;
+          
+          // Check if we have specific fiscal year data in URL parameters
+          // Parameters could be named like fy23, fy24, etc.
+          const params = sessionStorage.getItem('donorParams');
+          if (params) {
+            try {
+              const donorParams = JSON.parse(params);
+              // Get current fiscal year (uses calendar year July-June)
+              const now = new Date();
+              const currentYear = now.getFullYear();
+              const fiscalYearStart = new Date(currentYear, 6, 1); // July 1st
+              
+              // If we're before July 1st, use previous fiscal year
+              const fiscalYear = now < fiscalYearStart ? 
+                currentYear.toString().substring(2) : 
+                (currentYear + 1).toString().substring(2);
+              
+              // Check for parameter like "fy24" using the current fiscal year
+              const fyParamName = `fy${fiscalYear}`;
+              if (donorParams[fyParamName] && !isNaN(parseFloat(donorParams[fyParamName]))) {
+                totalLastYear = parseFloat(donorParams[fyParamName]);
+                console.log(`Found fiscal year donation amount for ${fyParamName}:`, totalLastYear);
+              }
+            } catch (err) {
+              console.error("Error parsing donor parameters:", err);
+            }
+          }
           
           // Create a donor summary from wrapped data
           setDonorSummary({

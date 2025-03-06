@@ -57,14 +57,18 @@ function getParamsFromURL() {
   
   // Check if we have wrapped donor data from URL
   // Consider any non-null and non-placeholder value as valid data
+  // We need at least a few key parameters to consider it valid wrapped data
+  const hasLastGiftAmount = lastGiftAmount && lastGiftAmount !== '*|LAST_GIF_A|*';
+  const hasLifetimeGiving = lifetimeGiving && lifetimeGiving !== '*|LTGIVING|*';
+  
+  // For wrapped data to be valid, we need at least:
+  // 1. Either a last gift amount or lifetime giving
+  // 2. At least one date field (first gift or last gift date)
   const hasWrappedData = 
-    (firstGiftDate && firstGiftDate !== '*|FIRS_GIF_D|*') ||
-    (lastGiftDate && lastGiftDate !== '*|LAS_GIF_DA|*') ||
-    (lastGiftAmount && lastGiftAmount !== '*|LAST_GIF_A|*') ||
-    (lifetimeGiving && lifetimeGiving !== '*|LTGIVING|*') ||
-    (consecutiveYearsGiving && consecutiveYearsGiving !== '*|CONSYEARSG|*') ||
-    (totalGifts && totalGifts !== '*|TOTALGIFTS|*') ||
-    (largestGiftAmount && largestGiftAmount !== '*|LARG_GIF_A|*');
+    (hasLastGiftAmount || hasLifetimeGiving) && (
+      (firstGiftDate && firstGiftDate !== '*|FIRS_GIF_D|*') ||
+      (lastGiftDate && lastGiftDate !== '*|LAS_GIF_DA|*')
+    );
   
   console.log("Has wrapped data:", hasWrappedData);
   
@@ -145,8 +149,27 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         console.log("Found wrapped donor data in URL, using directly:", wrappedData);
         
         // Calculate impact based on last gift amount or lifetime giving
-        const amount = wrappedData.lastGiftAmount > 0 ? wrappedData.lastGiftAmount : 
-                     (wrappedData.lifetimeGiving > 0 ? wrappedData.lifetimeGiving / wrappedData.totalGifts : 100);
+        // If lastGiftAmount is available, use that as the donation amount
+        // If not, try to calculate an average gift from lifetime giving and total gifts
+        // If that's not possible either, fall back to a default value of 100
+        let amount = 100; // Default fallback value
+        
+        if (wrappedData.lastGiftAmount > 0) {
+          amount = wrappedData.lastGiftAmount;
+          console.log("Using lastGiftAmount for impact calculation:", amount);
+        } else if (wrappedData.lifetimeGiving > 0 && wrappedData.totalGifts > 0) {
+          amount = wrappedData.lifetimeGiving / wrappedData.totalGifts;
+          console.log("Calculated average gift amount from lifetime giving:", amount);
+        } else if (wrappedData.lifetimeGiving > 0) {
+          // If we have lifetime giving but no total gifts, use a reasonable portion of it
+          amount = wrappedData.lifetimeGiving * 0.1; // Use 10% of lifetime giving as a reasonable gift
+          amount = Math.min(amount, 1000); // Cap at $1000 to avoid extreme values
+          amount = Math.max(amount, 50);   // Ensure at least $50
+          console.log("Estimated gift amount from lifetime giving:", amount);
+        }
+        
+        // Round to 2 decimal places for currency
+        amount = Math.round(amount * 100) / 100;
         
         // Calculate impact
         this.setState({ 
