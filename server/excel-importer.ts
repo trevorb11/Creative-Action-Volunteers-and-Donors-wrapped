@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx';
+import * as path from 'path';
 import { ImportDonor } from '../shared/schema';
 
 // Define a type for Excel row data
@@ -47,24 +48,31 @@ interface ExcelRow {
 }
 
 /**
- * Parse Excel file with donor data and convert to ImportDonor format
+ * Parse Excel or CSV file with donor data and convert to ImportDonor format
  * This function is flexible and handles various column name formats
  */
-export function parseExcelDonors(buffer: Buffer): ImportDonor[] {
-  // Parse Excel file
-  const workbook = XLSX.read(buffer);
+export function parseExcelDonors(buffer: Buffer, filePath?: string): ImportDonor[] {
+  // Determine file extension
+  const fileExt = filePath ? path.extname(filePath).toLowerCase() : '';
+  
+  // Parse the file (Excel or CSV)
+  const workbook = XLSX.read(buffer, {
+    type: 'buffer',
+    raw: fileExt === '.csv'
+  });
+  
   const firstSheetName = workbook.SheetNames[0];
   const worksheet = workbook.Sheets[firstSheetName];
   
   // Convert to JSON
   const rawData = XLSX.utils.sheet_to_json<ExcelRow>(worksheet);
-  console.log(`Found ${rawData.length} rows in Excel file`);
+  console.log(`Found ${rawData.length} rows in ${fileExt || 'spreadsheet'} file`);
   
   if (rawData.length > 0) {
     console.log('Sample row:', JSON.stringify(rawData[0], null, 2));
   }
   
-  // Map Excel data to ImportDonor format with flexible column naming
+  // Map data to ImportDonor format with flexible column naming
   const importDonors: ImportDonor[] = [];
   
   for (const row of rawData) {
