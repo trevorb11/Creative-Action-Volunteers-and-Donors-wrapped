@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { RouteComponentProps } from "wouter";
 import { SlideNames, DonationState } from "@/types/donation";
 import WelcomeScreen from "@/components/donation/WelcomeScreen";
 import LoadingScreen from "@/components/donation/LoadingScreen";
@@ -29,11 +30,11 @@ function getEmailFromURL() {
  * Reimplemented as a class component to avoid React hooks dependency issues
  * that were causing infinite render loops
  */
-export default class DonationImpactPage extends Component<{}, DonationState> {
+export default class DonationImpactPage extends Component<RouteComponentProps, DonationState> {
   // Track if we've already attempted to load donor info
   private hasCheckedEmail = false;
   
-  constructor(props: {}) {
+  constructor(props: RouteComponentProps) {
     super(props);
     this.state = {
       amount: 0,
@@ -100,31 +101,50 @@ export default class DonationImpactPage extends Component<{}, DonationState> {
     try {
       this.setState({ isLoading: true, error: null });
       
-      const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(identifier)}`, null);
-      const data = await res.json();
-      
-      if (data.donation && data.impact) {
-        // We have both donation and impact data from the server
-        const amount = parseFloat(data.donation.amount.toString());
+      try {
+        const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(identifier)}`, null);
         
-        this.setState({
-          amount,
-          impact: data.impact,
-          isLoading: false,
-          step: SlideNames.MEALS,
-          donorEmail: data.donation.email || null
-        });
+        // Check if the response was successful (status code 200-299)
+        if (!res.ok) {
+          if (res.status === 404) {
+            console.log(`Donor ${identifier} not found. This is normal for new donors.`);
+            this.setState({ isLoading: false });
+            return false;
+          }
+          
+          throw new Error(`Server responded with status: ${res.status}`);
+        }
         
-        return true;
+        const data = await res.json();
+        
+        if (data.donation && data.impact) {
+          // We have both donation and impact data from the server
+          const amount = parseFloat(data.donation.amount.toString());
+          
+          this.setState({
+            amount,
+            impact: data.impact,
+            isLoading: false,
+            step: SlideNames.MEALS,
+            donorEmail: data.donation.email || null
+          });
+          
+          return true;
+        }
+        
+        this.setState({ isLoading: false });
+        return false;
+      } catch (fetchError) {
+        // Network errors or other request failures
+        console.warn('API request failed, but this might be expected for new donors:', fetchError);
+        this.setState({ isLoading: false });
+        return false;
       }
-      
-      this.setState({ isLoading: false });
-      return false;
-    } catch (error) {
-      console.error('Error fetching donor info:', error);
+    } catch (outerError) {
+      console.error('Fatal error in fetchDonorInfo:', outerError);
       this.setState({ 
         isLoading: false,
-        error: 'Failed to retrieve donor information.'
+        error: 'An unexpected error occurred. Please try again later.'
       });
       return false;
     }

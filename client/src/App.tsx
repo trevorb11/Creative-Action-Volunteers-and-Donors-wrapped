@@ -7,11 +7,14 @@ import DonationImpactPage from "@/pages/DonationImpact";
 import WelcomeLanding from "@/pages/WelcomeLanding";
 import Admin from "@/pages/Admin";
 
+// Custom wrapper for the DonationImpact page to handle the routing props issue
+const DonationImpactWrapper = (props: any) => <DonationImpactPage {...props} />;
+
 function Router() {
   return (
     <Switch>
       <Route path="/" component={WelcomeLanding} />
-      <Route path="/impact" component={DonationImpactPage} />
+      <Route path="/impact" component={DonationImpactWrapper} />
       <Route path="/admin" component={Admin} />
       <Route path="/:identifier" component={WelcomeLanding} />
       <Route component={NotFound} />

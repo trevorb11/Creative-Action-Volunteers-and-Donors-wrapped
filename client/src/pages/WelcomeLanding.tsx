@@ -3,16 +3,11 @@ import { useLocation, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { useDonationImpact } from "@/hooks/use-donation-impact";
 
 export default function WelcomeLanding() {
   const [, setLocation] = useLocation();
   const [, params] = useRoute("/:identifier");
-  const { fetchDonorInfo } = useDonationImpact();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Function to parse query parameters
   const getQueryParam = (name: string): string | null => {
@@ -22,45 +17,21 @@ export default function WelcomeLanding() {
 
   // Check for identifiers in URL parameters or route parameters
   useEffect(() => {
-    const checkForDonorInUrl = async () => {
-      // Get donor identifier from query params or route params
-      const identifier = getQueryParam("donor") || 
-                          getQueryParam("email") || 
-                          getQueryParam("id") || 
-                          params?.identifier;
-      
-      if (identifier) {
-        setIsLoading(true);
-        setErrorMessage(null);
-        
-        try {
-          // Use the hook's fetchDonorInfo function
-          const success = await fetchDonorInfo(identifier);
-          
-          if (success) {
-            toast({
-              title: "Welcome back!",
-              description: "We've found your donation information.",
-            });
-            
-            // The hook will handle navigation to the impact page
-          } else {
-            setIsLoading(false);
-            setErrorMessage("We couldn't find your donation information. Please enter your donation manually.");
-          }
-        } catch (error) {
-          console.error("Error fetching donor info:", error);
-          setIsLoading(false);
-          setErrorMessage("There was a problem retrieving your donation. Please try again.");
-        }
-      } else {
-        // No identifier found in URL
-        setIsLoading(false);
-      }
-    };
+    // Get donor identifier from query params or route params
+    const identifier = getQueryParam("donor") || 
+                      getQueryParam("email") || 
+                      getQueryParam("id") || 
+                      params?.identifier;
     
-    checkForDonorInUrl();
-  }, [params, fetchDonorInfo, toast]);
+    if (identifier) {
+      setIsLoading(true);
+      
+      // Instead of using the hook, just redirect to the impact page with the email parameter
+      // Let the DonationImpact page handle the donor lookup
+      const redirectUrl = `/impact?email=${encodeURIComponent(identifier)}`;
+      setLocation(redirectUrl);
+    }
+  }, [params, setLocation]);
 
   const handleGetStarted = () => {
     // Navigate to the donation impact page
@@ -86,11 +57,6 @@ export default function WelcomeLanding() {
             </div>
           ) : (
             <>
-              {errorMessage && (
-                <div className="rounded-md bg-amber-50 p-4 border border-amber-200 text-amber-700 mb-4">
-                  {errorMessage}
-                </div>
-              )}
               <p className="text-center text-gray-600">
                 Discover how your generosity is fighting hunger and changing lives in our community.
               </p>
