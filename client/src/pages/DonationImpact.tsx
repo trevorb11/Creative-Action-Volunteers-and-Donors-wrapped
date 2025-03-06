@@ -62,21 +62,36 @@ export default function DonationImpact() {
 
   // Handle sharing functionality
   const handleShare = () => {
+    // Create a URL with the donor's email parameter if available
+    let shareUrl = window.location.href;
+    
+    // If we're on the impact page without parameters but have donor email, add it
+    if (state.donorEmail && !window.location.href.includes('?')) {
+      const baseUrl = window.location.origin + window.location.pathname;
+      shareUrl = `${baseUrl}?email=${encodeURIComponent(state.donorEmail)}`;
+    }
+    
     if (navigator.share) {
       navigator.share({
         title: "My Donation Impact at Community Food Share",
         text: `I just donated $${state.amount} to Community Food Share, providing ${state.impact?.mealsProvided} meals and helping ${state.impact?.peopleServed} people in our community!`,
-        url: window.location.href,
+        url: shareUrl,
       }).catch(() => {
-        toast({
-          title: "Share your impact",
-          description: "Copy this page URL to share your impact with others!",
+        // Save to clipboard as fallback
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          toast({
+            title: "Share your impact",
+            description: "Share URL copied to clipboard. Share it with your friends!",
+          });
         });
       });
     } else {
-      toast({
-        title: "Share your impact",
-        description: "Copy this page URL to share your impact with others!",
+      // For browsers without share API, copy to clipboard
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        toast({
+          title: "Share your impact",
+          description: "Share URL copied to clipboard. Share it with your friends!",
+        });
       });
     }
   };

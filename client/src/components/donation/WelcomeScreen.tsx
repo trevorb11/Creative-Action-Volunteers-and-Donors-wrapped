@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import DonationForm from "./DonationForm";
 import { SLIDE_COLORS } from "@/lib/constants";
 
@@ -7,6 +8,18 @@ interface WelcomeScreenProps {
 }
 
 export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
+  const [isPersonalized, setIsPersonalized] = useState(false);
+  
+  // Check if there's an email parameter in the URL
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const email = queryParams.get('email');
+    
+    if (email) {
+      setIsPersonalized(true);
+    }
+  }, []);
+  
   return (
     <div className={`min-h-screen ${SLIDE_COLORS.welcome} text-cfs-darkGray font-sans relative overflow-hidden`}>
       {/* Decorative background elements */}
@@ -43,7 +56,7 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
             transition={{ duration: 0.5, delay: 0.4 }}
             style={{ fontFamily: 'Spectral, serif' }}
           >
-            Your Impact Wrapped
+            {isPersonalized ? "Your Personal Impact Wrapped" : "Your Impact Wrapped"}
           </motion.h1>
           
           <motion.p 
@@ -53,7 +66,10 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
             transition={{ duration: 0.5, delay: 0.6 }}
             style={{ fontFamily: 'Open Sans, sans-serif' }}
           >
-            See how your donation makes a difference at Community Food Share
+            {isPersonalized 
+              ? "We're loading your donation history to show your personal impact" 
+              : "See how your donation makes a difference at Community Food Share"
+            }
           </motion.p>
           
           <motion.p 
@@ -66,17 +82,34 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
           </motion.p>
         </motion.div>
         
-        <motion.div 
-          className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border border-gray-100"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1 }}
-        >
-          <h2 className="text-2xl font-bold mb-6 text-center text-cfs-darkGreen" style={{ fontFamily: 'Spectral, serif' }}>
-            Enter Your Donation Amount
-          </h2>
-          <DonationForm onSubmit={onSubmit} />
-        </motion.div>
+        {!isPersonalized && (
+          <motion.div 
+            className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border border-gray-100"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1 }}
+          >
+            <h2 className="text-2xl font-bold mb-6 text-center text-cfs-darkGreen" style={{ fontFamily: 'Spectral, serif' }}>
+              Enter Your Donation Amount
+            </h2>
+            <DonationForm onSubmit={onSubmit} />
+          </motion.div>
+        )}
+        
+        {isPersonalized && (
+          <motion.div 
+            className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border border-gray-100 text-center"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1 }}
+          >
+            <h2 className="text-2xl font-bold mb-6 text-center text-cfs-darkGreen" style={{ fontFamily: 'Spectral, serif' }}>
+              Loading Your Donation History...
+            </h2>
+            <div className="w-12 h-12 border-t-2 border-b-2 border-cfs-brightGreen rounded-full animate-spin mx-auto"></div>
+            <p className="mt-4 text-cfs-teal">Please wait while we prepare your personalized impact visualization</p>
+          </motion.div>
+        )}
         
         {/* CFS tagline */}
         <motion.p
