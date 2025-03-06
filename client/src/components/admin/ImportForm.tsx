@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import { AlertCircle, Check, Loader2 } from 'lucide-react';
+import { AlertCircle, Check, Loader2, Upload } from 'lucide-react';
 
 interface ImportResult {
   total: number;
@@ -61,7 +61,7 @@ export default function ImportForm() {
   };
 
   return (
-    <Card className="w-full max-w-lg">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Import Donor Data</CardTitle>
         <CardDescription>
@@ -70,7 +70,7 @@ export default function ImportForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <label htmlFor="file" className="text-sm font-medium leading-none">
@@ -84,6 +84,25 @@ export default function ImportForm() {
                 className="border border-gray-300 rounded-md p-2"
               />
             </div>
+          </div>
+
+          <div className="flex justify-between mt-4">
+            <Button type="button" variant="outline" onClick={() => setFile(null)} disabled={isUploading}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={!file || isUploading}>
+              {isUploading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload and Process
+                </>
+              )}
+            </Button>
           </div>
 
           {error && (
@@ -121,21 +140,6 @@ export default function ImportForm() {
           )}
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={() => setFile(null)} disabled={isUploading}>
-          Cancel
-        </Button>
-        <Button onClick={handleSubmit} disabled={!file || isUploading}>
-          {isUploading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Uploading...
-            </>
-          ) : (
-            'Upload'
-          )}
-        </Button>
-      </CardFooter>
     </Card>
   );
 }
