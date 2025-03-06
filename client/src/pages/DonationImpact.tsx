@@ -5,7 +5,7 @@ import WelcomeScreen from "@/components/donation/WelcomeScreen";
 import LoadingScreen from "@/components/donation/LoadingScreen";
 import DonorSummarySlide from "@/components/donation/DonorSummarySlide";
 import MealsSlide from "@/components/donation/MealsSlide";
-import NutritionSlide from "@/components/donation/NutritionSlide";
+import TimeGivingSlide from "@/components/donation/TimeGivingSlide";
 import PeopleSlide from "@/components/donation/PeopleSlide";
 import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
 import FoodRescueSlide from "@/components/donation/FoodRescueSlide";
@@ -539,8 +539,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
           <MealsSlide impact={state.impact} {...navigationProps} />
         )}
         
-        {state.step === SlideNames.NUTRITION && state.impact && (
-          <NutritionSlide 
+        {(state.step === SlideNames.TIME_GIVING || state.step === SlideNames.NUTRITION) && state.impact && (
+          <TimeGivingSlide 
             impact={state.impact} 
             donorEmail={state.donorEmail}
             amount={state.amount}

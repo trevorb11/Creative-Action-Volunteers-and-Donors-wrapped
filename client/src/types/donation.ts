@@ -19,7 +19,8 @@ export enum SlideNames {
   LOADING = 1,
   DONOR_SUMMARY = 2,
   MEALS = 3,
-  NUTRITION = 4,
+  NUTRITION = 4, // Keeping for backward compatibility
+  TIME_GIVING = 4, // Using the same value as NUTRITION for seamless transition
   PEOPLE = 5,
   ENVIRONMENT = 6,
   FOOD_RESCUE = 7,
