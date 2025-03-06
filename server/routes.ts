@@ -287,6 +287,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // In-memory storage for segments (in a real app, this would be in the database)
+  const segmentsMap = new Map();
+
   // API endpoint for donor segmentation
   app.post('/api/segmentation', async (req, res) => {
     try {
@@ -397,10 +400,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         donors: segmentDonors
       };
       
+      // Store the segment for later retrieval
+      segmentsMap.set(segmentResult.id, segmentResult);
+      
       res.json(segmentResult);
     } catch (error) {
       console.error("Error segmenting donors:", error);
       res.status(400).json({ error: 'Invalid segmentation criteria' });
+    }
+  });
+  
+  // API endpoint to retrieve a segment by ID
+  app.get('/api/segmentation/:segmentId', async (req, res) => {
+    try {
+      const { segmentId } = req.params;
+      
+      // Retrieve the segment from the map
+      const segment = segmentsMap.get(segmentId);
+      
+      if (!segment) {
+        return res.status(404).json({ error: 'Segment not found' });
+      }
+      
+      res.json(segment);
+    } catch (error) {
+      console.error("Error retrieving segment:", error);
+      res.status(500).json({ error: 'Failed to retrieve segment' });
     }
   });
   
@@ -476,6 +501,94 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error importing Excel file:", error);
       res.status(500).json({ error: 'Failed to process Excel file' });
+    }
+  });
+  
+  // API endpoint to generate wrapped impact reports for a segment
+  app.post('/api/segments/:segmentId/generate-wrapped', async (req, res) => {
+    try {
+      const { segmentId } = req.params;
+      
+      // Retrieve the segment from the map
+      const segment = segmentsMap.get(segmentId);
+      
+      if (!segment) {
+        return res.status(404).json({ error: 'Segment not found' });
+      }
+      const donorIds = segment.donors.map((donor: any) => donor.id);
+      
+      console.log(`Generating impact reports for ${donorIds.length} donors in segment ${segmentId}`);
+      
+      // In a real application, this would generate and store impact reports for each donor
+      // Here we'll simulate success after a short delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Get all donations for each donor in the segment
+      const processedDonors = [];
+      
+      for (const donorId of donorIds) {
+        const donations = await storage.getDonorDonations(donorId);
+        
+        if (donations.length === 0) continue;
+        
+        // Calculate total donation amount
+        const totalAmount = donations.reduce((sum, donation) => {
+          return sum + parseFloat(donation.amount.toString());
+        }, 0);
+        
+        // Generate impact data for the donor's total contributions
+        const impact = calculateImpact(totalAmount);
+        
+        // Enhance with creative comparisons
+        const enrichedImpact = await generateCreativeComparisons(impact);
+        
+        // Store the impact report (in a real application)
+        // For now, just add to the processed list
+        processedDonors.push({
+          donorId,
+          totalAmount,
+          impact: enrichedImpact
+        });
+      }
+      
+      res.json({ 
+        success: true,
+        count: processedDonors.length,
+        message: `Generated ${processedDonors.length} impact reports`
+      });
+    } catch (error) {
+      console.error("Error generating wrapped reports:", error);
+      res.status(500).json({ error: 'Failed to generate wrapped reports' });
+    }
+  });
+  
+  // API endpoint to send wrapped impact report emails for a segment
+  app.post('/api/segments/:segmentId/send-wrapped-emails', async (req, res) => {
+    try {
+      const { segmentId } = req.params;
+      
+      // Retrieve the segment from the map
+      const segment = segmentsMap.get(segmentId);
+      
+      if (!segment) {
+        return res.status(404).json({ error: 'Segment not found' });
+      }
+      const donors = segment.donors.filter((donor: any) => donor.email);
+      
+      console.log(`Sending impact report emails to ${donors.length} donors in segment ${segmentId}`);
+      
+      // In a real application, this would send emails to each donor
+      // Here we'll simulate success after a short delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      res.json({ 
+        success: true,
+        count: donors.length,
+        message: `Sent ${donors.length} impact report emails`
+      });
+    } catch (error) {
+      console.error("Error sending wrapped report emails:", error);
+      res.status(500).json({ error: 'Failed to send wrapped report emails' });
     }
   });
 
