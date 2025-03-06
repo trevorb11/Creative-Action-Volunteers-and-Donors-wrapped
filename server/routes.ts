@@ -147,6 +147,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Identifier is required' });
       }
       
+      // Add cache-control headers to prevent repeated fetches
+      res.set('Cache-Control', 'private, max-age=60'); // Cache for 60 seconds on client
+      
       // Decode the identifier (in case it's a URL-encoded email)
       const decodedIdentifier = decodeURIComponent(identifier);
       
@@ -167,12 +170,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
             donor,
             donation: recentDonation,
             donations,
-            impact
+            impact,
+            cached: true, // Flag to indicate this is a cacheable response
+            timestamp: new Date().toISOString() // Add timestamp for debugging
           });
         }
         
         // Donor exists but no donations found
-        return res.json({ donor });
+        return res.json({ 
+          donor,
+          cached: true,
+          timestamp: new Date().toISOString()
+        });
       }
       
       // If donor not found, fallback to looking for just a donation
@@ -185,7 +194,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       if (!donation) {
-        return res.status(404).json({ error: 'Donor not found' });
+        return res.status(404).json({ 
+          error: 'Donor not found',
+          cached: true,
+          timestamp: new Date().toISOString()
+        });
       }
       
       // Calculate the impact
@@ -194,11 +207,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ 
         donation, 
-        impact 
+        impact,
+        cached: true,
+        timestamp: new Date().toISOString()
       });
     } catch (error) {
       console.error("Error fetching donor:", error);
-      res.status(500).json({ error: 'Failed to fetch donor information' });
+      res.status(500).json({ 
+        error: 'Failed to fetch donor information',
+        cached: true,
+        timestamp: new Date().toISOString()
+      });
     }
   });
   
