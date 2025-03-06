@@ -209,9 +209,13 @@ export default function DonorSummarySlide({
     fetchDonorSummary();
   }, [donorEmail]); // Only re-run if donorEmail prop changes
 
-  const personalizedTitle = donorSummary?.name 
-    ? `Welcome Back, ${donorSummary.name.split(' ')[0]}!`
-    : "Welcome Back!";
+  // Use stored firstName from URL parameters if available, otherwise use name from donorSummary
+  const storedFirstName = sessionStorage.getItem('donorFirstName');
+  const personalizedTitle = storedFirstName 
+    ? `Welcome Back, ${storedFirstName}!`
+    : donorSummary?.name 
+      ? `Welcome Back, ${donorSummary.name.split(' ')[0]}!`
+      : "Welcome Back!";
 
   const donationThisTime = amount > 0 
     ? `Your Most Recent Donation`

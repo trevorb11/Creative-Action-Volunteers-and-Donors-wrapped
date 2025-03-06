@@ -11,7 +11,7 @@ interface FoodRescueSlideProps {
   isLastSlide?: boolean;
 }
 
-// SVG icons for animals
+// SVG icons for animals and objects
 const ElephantIcon = () => (
   <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
     <path d="M19.5,9.5c-0.8-0.8-2-0.8-2.8,0L15,11.2V8c0-1.1-0.9-2-2-2h-2c-1.1,0-2,0.9-2,2v3.2L7.3,9.5c-0.8-0.8-2-0.8-2.8,0 s-0.8,2,0,2.8L7,14.8V19c0,1.1,0.9,2,2,2h6c1.1,0,2-0.9,2-2v-4.2l2.5-2.5C20.3,11.5,20.3,10.3,19.5,9.5z M9,8h6v2H9V8z M15,19H9 v-4h6V19z"/>
@@ -32,6 +32,34 @@ const CarIcon = () => (
   </svg>
 );
 
+// Small donation comparison icons
+const DogIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M18,4c-1.1,0-2,0.9-2,2c0,0.55,0.23,1.05,0.59,1.41C16.23,7.05,16,7.55,16,8c0,0.55,0.23,1.05,0.59,1.41 C16.23,9.05,16,9.55,16,10c0,1.1,0.9,2,2,2h1v3H8c-3.3,0-6,2.7-6,6v1h4v-1c0-1.1,0.9-2,2-2h10c1.1,0,2-0.9,2-2V7 C20,5.9,19.1,5,18,5h-1V4H18z"/>
+    <circle cx="13" cy="9" r="1"/>
+  </svg>
+);
+
+const GroceryBagIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M18,6h-2c0-2.21-1.79-4-4-4S8,3.79,8,6H6C4.9,6,4,6.9,4,8v12c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8C20,6.9,19.1,6,18,6z M12,4c1.1,0,2,0.9,2,2h-4C10,4.9,10.9,4,12,4z M18,20H6V8h2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V8h4v2c0,0.55,0.45,1,1,1s1-0.45,1-1V8 h2V20z"/>
+  </svg>
+);
+
+const WatermelonIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M12,2C6.48,2,2,6.48,2,12c0,5.52,4.48,10,10,10s10-4.48,10-10C22,6.48,17.52,2,12,2z M12,18c-3.31,0-6-2.69-6-6 s2.69-6,6-6s6,2.69,6,6S15.31,18,12,18z"/>
+    <circle cx="14" cy="10" r="1"/>
+    <circle cx="10" cy="10" r="1"/>
+  </svg>
+);
+
+const TurkeyIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M16.76,5.88c-0.57-0.38-1.24-0.62-1.93-0.79c0.39-0.36,0.75-0.77,1.04-1.24c0.18-0.29,0.27-0.6,0.27-0.92 c0-0.22-0.04-0.44-0.12-0.65c-0.41-1.09-1.59-1.81-3.26-2C12.3,0.14,11.97,0,11.62,0c-0.71,0-1.35,0.33-1.71,0.89 c-0.32,0.5-0.51,1.15-0.51,1.8v0.56C5.79,4.07,2,7.86,2,12.34c0,4.48,3.79,8.27,8.4,8.27c1.74,0,3.36-0.47,4.74-1.28l1.33,1.33 C16.74,20.92,17,21,17.27,21c0.3,0,0.57-0.11,0.77-0.33c0.4-0.4,0.37-1.05-0.05-1.42l-1.32-1.32c0.67-0.89,1.19-1.91,1.5-3.03 C19.31,11.39,18.6,7.29,16.76,5.88z M5.13,12.51c-0.8,0-1.45-0.65-1.45-1.45s0.65-1.45,1.45-1.45s1.45,0.65,1.45,1.45 S5.93,12.51,5.13,12.51z"/>
+  </svg>
+);
+
 export default function FoodRescueSlide({ 
   impact,
   onNext,
@@ -41,7 +69,7 @@ export default function FoodRescueSlide({
 }: FoodRescueSlideProps) {
   const foodCount = useMotionValue(0);
   const roundedFood = useTransform(foodCount, (latest) => Math.round(latest));
-  const [activeComparison, setActiveComparison] = useState<'elephant' | 'bison' | 'car'>('elephant');
+  const [activeComparison, setActiveComparison] = useState<'elephant' | 'bison' | 'car' | 'dog' | 'groceryBag' | 'watermelon' | 'turkey'>('elephant');
   
   useEffect(() => {
     const controls = animate(foodCount, impact.foodRescued, {
@@ -49,12 +77,30 @@ export default function FoodRescueSlide({
       ease: "easeOut"
     });
     
+    // Determine which comparisons to use based on food weight
+    const foodWeight = impact.foodRescued;
+    const isSmallDonation = foodWeight < 500; // Check if this is a small donation
+    
+    // Set initial comparison based on donation size
+    if (isSmallDonation) {
+      setActiveComparison('dog'); // Start with dog for small donations
+    }
+    
     // Auto-rotate comparisons every 5 seconds
     const interval = setInterval(() => {
       setActiveComparison(current => {
-        if (current === 'elephant') return 'bison';
-        if (current === 'bison') return 'car';
-        return 'elephant';
+        if (isSmallDonation) {
+          // Small donation comparisons
+          if (current === 'dog') return 'groceryBag';
+          if (current === 'groceryBag') return 'watermelon';
+          if (current === 'watermelon') return 'turkey';
+          return 'dog';
+        } else {
+          // Regular large donation comparisons
+          if (current === 'elephant') return 'bison';
+          if (current === 'bison') return 'car';
+          return 'elephant';
+        }
       });
     }, 5000);
     
@@ -64,10 +110,20 @@ export default function FoodRescueSlide({
     };
   }, [foodCount, impact.foodRescued]);
   
-  // Parse numeric values
+  // Parse numeric values for large comparisons
   const elephantCount = parseFloat(impact.babyElephants.replace(/[^0-9.]/g, ''));
   const bisonCount = parseFloat(impact.bison.replace(/[^0-9.]/g, ''));
   const carCount = parseFloat(impact.cars.replace(/[^0-9.]/g, ''));
+  
+  // Generate smaller comparison values for donations under 500 lbs
+  const foodWeight = impact.foodRescued;
+  const isSmallDonation = foodWeight < 500;
+  
+  // Calculate small donation equivalents
+  const dogCount = foodWeight / 70; // Average large dog weight
+  const groceryBagCount = foodWeight / 15; // Average full grocery bag
+  const watermelonCount = foodWeight / 20; // Average watermelon
+  const turkeyCount = foodWeight / 25; // Average turkey
   
   return (
     <SlideLayout
@@ -91,69 +147,152 @@ export default function FoodRescueSlide({
         <p className="text-2xl mb-4">That's equivalent to the weight of:</p>
         
         <div className="flex flex-wrap justify-center gap-4">
-          <motion.button 
-            className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'elephant' ? 'ring-2 ring-white' : ''}`}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
-              scale: activeComparison === 'elephant' ? 1.05 : 1,
-              y: activeComparison === 'elephant' ? -5 : 0
-            }}
-            transition={{ duration: 0.3 }}
-            onClick={() => setActiveComparison('elephant')}
-          >
-            <div className="h-14 w-14 mx-auto mb-2">
-              <ElephantIcon />
-            </div>
-            <p className="text-2xl font-bold mb-1">{impact.babyElephants}</p>
-            <p>Baby Elephants</p>
-          </motion.button>
+          {/* Large donation comparisons */}
+          {!isSmallDonation && (
+            <>
+              <motion.button 
+                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'elephant' ? 'ring-2 ring-white' : ''}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: activeComparison === 'elephant' ? 1.05 : 1,
+                  y: activeComparison === 'elephant' ? -5 : 0
+                }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setActiveComparison('elephant')}
+              >
+                <div className="h-14 w-14 mx-auto mb-2">
+                  <ElephantIcon />
+                </div>
+                <p className="text-2xl font-bold mb-1">{impact.babyElephants}</p>
+                <p>Baby Elephants</p>
+              </motion.button>
+              
+              <motion.button 
+                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'bison' ? 'ring-2 ring-white' : ''}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: activeComparison === 'bison' ? 1.05 : 1,
+                  y: activeComparison === 'bison' ? -5 : 0
+                }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                onClick={() => setActiveComparison('bison')}
+              >
+                <div className="h-14 w-14 mx-auto mb-2">
+                  <BisonIcon />
+                </div>
+                <p className="text-2xl font-bold mb-1">{impact.bison}</p>
+                <p>Bison</p>
+              </motion.button>
+              
+              <motion.button 
+                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'car' ? 'ring-2 ring-white' : ''}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: activeComparison === 'car' ? 1.05 : 1,
+                  y: activeComparison === 'car' ? -5 : 0 
+                }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                onClick={() => setActiveComparison('car')}
+              >
+                <div className="h-14 w-14 mx-auto mb-2">
+                  <CarIcon />
+                </div>
+                <p className="text-2xl font-bold mb-1">{impact.cars}</p>
+                <p>Cars</p>
+              </motion.button>
+            </>
+          )}
           
-          <motion.button 
-            className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'bison' ? 'ring-2 ring-white' : ''}`}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
-              scale: activeComparison === 'bison' ? 1.05 : 1,
-              y: activeComparison === 'bison' ? -5 : 0
-            }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-            onClick={() => setActiveComparison('bison')}
-          >
-            <div className="h-14 w-14 mx-auto mb-2">
-              <BisonIcon />
-            </div>
-            <p className="text-2xl font-bold mb-1">{impact.bison}</p>
-            <p>Bison</p>
-          </motion.button>
-          
-          <motion.button 
-            className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'car' ? 'ring-2 ring-white' : ''}`}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
-              scale: activeComparison === 'car' ? 1.05 : 1,
-              y: activeComparison === 'car' ? -5 : 0 
-            }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-            onClick={() => setActiveComparison('car')}
-          >
-            <div className="h-14 w-14 mx-auto mb-2">
-              <CarIcon />
-            </div>
-            <p className="text-2xl font-bold mb-1">{impact.cars}</p>
-            <p>Cars</p>
-          </motion.button>
+          {/* Small donation comparisons */}
+          {isSmallDonation && (
+            <>
+              <motion.button 
+                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'dog' ? 'ring-2 ring-white' : ''}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: activeComparison === 'dog' ? 1.05 : 1,
+                  y: activeComparison === 'dog' ? -5 : 0
+                }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setActiveComparison('dog')}
+              >
+                <div className="h-14 w-14 mx-auto mb-2">
+                  <DogIcon />
+                </div>
+                <p className="text-2xl font-bold mb-1">{dogCount.toFixed(1)}</p>
+                <p>Large Dogs</p>
+              </motion.button>
+              
+              <motion.button 
+                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'groceryBag' ? 'ring-2 ring-white' : ''}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: activeComparison === 'groceryBag' ? 1.05 : 1,
+                  y: activeComparison === 'groceryBag' ? -5 : 0
+                }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                onClick={() => setActiveComparison('groceryBag')}
+              >
+                <div className="h-14 w-14 mx-auto mb-2">
+                  <GroceryBagIcon />
+                </div>
+                <p className="text-2xl font-bold mb-1">{groceryBagCount.toFixed(1)}</p>
+                <p>Grocery Bags</p>
+              </motion.button>
+              
+              <motion.button 
+                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'watermelon' ? 'ring-2 ring-white' : ''}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: activeComparison === 'watermelon' ? 1.05 : 1,
+                  y: activeComparison === 'watermelon' ? -5 : 0
+                }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                onClick={() => setActiveComparison('watermelon')}
+              >
+                <div className="h-14 w-14 mx-auto mb-2">
+                  <WatermelonIcon />
+                </div>
+                <p className="text-2xl font-bold mb-1">{watermelonCount.toFixed(1)}</p>
+                <p>Watermelons</p>
+              </motion.button>
+              
+              <motion.button 
+                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'turkey' ? 'ring-2 ring-white' : ''}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: activeComparison === 'turkey' ? 1.05 : 1,
+                  y: activeComparison === 'turkey' ? -5 : 0
+                }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                onClick={() => setActiveComparison('turkey')}
+              >
+                <div className="h-14 w-14 mx-auto mb-2">
+                  <TurkeyIcon />
+                </div>
+                <p className="text-2xl font-bold mb-1">{turkeyCount.toFixed(1)}</p>
+                <p>Turkeys</p>
+              </motion.button>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Animal comparison visualization */}
+      {/* Comparison visualization */}
       <motion.div 
         className="flex flex-wrap justify-center gap-2 my-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.6 }}
       >
+        {/* Large donation comparisons */}
         {activeComparison === 'elephant' && (
           <>
             {Array.from({ length: Math.min(8, Math.ceil(elephantCount)) }).map((_, idx) => (
@@ -197,6 +336,71 @@ export default function FoodRescueSlide({
                 transition={{ delay: 0.2 + (idx * 0.1) }}
               >
                 <CarIcon />
+              </motion.div>
+            ))}
+          </>
+        )}
+        
+        {/* Small donation comparisons */}
+        {activeComparison === 'dog' && (
+          <>
+            {Array.from({ length: Math.min(8, Math.ceil(dogCount)) }).map((_, idx) => (
+              <motion.div 
+                key={idx}
+                className="h-10 w-10"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 + (idx * 0.1) }}
+              >
+                <DogIcon />
+              </motion.div>
+            ))}
+          </>
+        )}
+        
+        {activeComparison === 'groceryBag' && (
+          <>
+            {Array.from({ length: Math.min(10, Math.ceil(groceryBagCount)) }).map((_, idx) => (
+              <motion.div 
+                key={idx}
+                className="h-9 w-9"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 + (idx * 0.1) }}
+              >
+                <GroceryBagIcon />
+              </motion.div>
+            ))}
+          </>
+        )}
+        
+        {activeComparison === 'watermelon' && (
+          <>
+            {Array.from({ length: Math.min(12, Math.ceil(watermelonCount)) }).map((_, idx) => (
+              <motion.div 
+                key={idx}
+                className="h-8 w-8"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 + (idx * 0.1) }}
+              >
+                <WatermelonIcon />
+              </motion.div>
+            ))}
+          </>
+        )}
+        
+        {activeComparison === 'turkey' && (
+          <>
+            {Array.from({ length: Math.min(12, Math.ceil(turkeyCount)) }).map((_, idx) => (
+              <motion.div 
+                key={idx}
+                className="h-9 w-9"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 + (idx * 0.1) }}
+              >
+                <TurkeyIcon />
               </motion.div>
             ))}
           </>
