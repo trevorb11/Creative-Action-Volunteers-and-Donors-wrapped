@@ -1,0 +1,2080 @@
+[
+  {
+    "email": "donor-2360@example.com",
+    "first_name": "1040",
+    "last_name": "Foundation",
+    "phone": "(303) 442-5474",
+    "external_id": "2360",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2024-11-08T00:00:00.000Z",
+        "external_donation_id": "2360-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy22"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy23"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy24"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "2360-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-85966@example.com",
+    "first_name": "Anderson",
+    "last_name": "Family Foundation",
+    "external_id": "85966",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2024-05-25T00:00:00.000Z",
+        "external_donation_id": "85966-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "85966-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-78413@example.com",
+    "first_name": "Winston",
+    "last_name": "Family Fund",
+    "external_id": "78413",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-30T00:00:00.000Z",
+        "external_donation_id": "78413-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "78413-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-78523@example.com",
+    "first_name": "Harris",
+    "last_name": "Charitable Fund",
+    "external_id": "78523",
+    "donations": [
+      {
+        "amount": 3000,
+        "timestamp": "2024-12-12T00:00:00.000Z",
+        "external_donation_id": "78523-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "78523-fy22"
+      },
+      {
+        "amount": 2500,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "78523-fy23"
+      },
+      {
+        "amount": 2500,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "78523-fy24"
+      },
+      {
+        "amount": 3000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "78523-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-73224@example.com",
+    "first_name": "Merriman",
+    "last_name": "Family Foundation",
+    "external_id": "73224",
+    "donations": [
+      {
+        "amount": 2500,
+        "timestamp": "2024-12-07T00:00:00.000Z",
+        "external_donation_id": "73224-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "73224-fy22"
+      },
+      {
+        "amount": 2500,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "73224-fy23"
+      },
+      {
+        "amount": 2500,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "73224-fy24"
+      },
+      {
+        "amount": 2500,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "73224-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-67607@example.com",
+    "first_name": "Jennifer",
+    "last_name": "and Mikael Anderson Charitable Giving Fund",
+    "external_id": "67607",
+    "donations": [
+      {
+        "amount": 5000,
+        "timestamp": "2022-12-22T00:00:00.000Z",
+        "external_donation_id": "67607-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "67607-fy22"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "67607-fy23"
+      }
+    ]
+  },
+  {
+    "email": "donor-43910@example.com",
+    "first_name": "S.",
+    "last_name": "A. Gardner Fund c/o Community Foundation Boulder County",
+    "external_id": "43910",
+    "donations": [
+      {
+        "amount": 5000,
+        "timestamp": "2022-07-19T00:00:00.000Z",
+        "external_donation_id": "43910-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "43910-fy23"
+      }
+    ]
+  },
+  {
+    "email": "donor-74174@example.com",
+    "first_name": "The",
+    "last_name": "Sadler Family Foundation",
+    "external_id": "74174",
+    "donations": [
+      {
+        "amount": 1000,
+        "timestamp": "2023-12-23T00:00:00.000Z",
+        "external_donation_id": "74174-last"
+      },
+      {
+        "amount": 8000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "74174-fy22"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "74174-fy23"
+      },
+      {
+        "amount": 1000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "74174-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-74212@example.com",
+    "first_name": "The",
+    "last_name": "Hoxworth Family Charitable Fund",
+    "external_id": "74212",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2024-12-19T00:00:00.000Z",
+        "external_donation_id": "74212-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "74212-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-63300@example.com",
+    "first_name": "Holmes",
+    "last_name": "Foundation",
+    "external_id": "63300",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2021-10-20T00:00:00.000Z",
+        "external_donation_id": "63300-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "63300-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-17669@example.com",
+    "first_name": "The",
+    "last_name": "Lichter Family Foundation",
+    "phone": "(303) 444-3131",
+    "external_id": "17669",
+    "donations": [
+      {
+        "amount": 3000,
+        "timestamp": "2025-01-11T00:00:00.000Z",
+        "external_donation_id": "17669-last"
+      },
+      {
+        "amount": 1500,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "17669-fy23"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "17669-fy24"
+      },
+      {
+        "amount": 3000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "17669-fy25"
+      }
+    ]
+  },
+  {
+    "email": "jescalzo@msn.com",
+    "first_name": "The",
+    "last_name": "Joseph E. and Catherine E. Scalzo Family Foundation",
+    "external_id": "22930",
+    "donations": [
+      {
+        "amount": 5000,
+        "timestamp": "2023-12-16T00:00:00.000Z",
+        "external_donation_id": "22930-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "22930-fy22"
+      },
+      {
+        "amount": 2500,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "22930-fy23"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "22930-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-51349@example.com",
+    "first_name": "The",
+    "last_name": "Eugene C and Florence Armstrong Family Foundation",
+    "external_id": "51349",
+    "donations": [
+      {
+        "amount": 10000,
+        "timestamp": "2024-12-01T00:00:00.000Z",
+        "external_donation_id": "51349-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "51349-fy22"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "51349-fy23"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "51349-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-65866@example.com",
+    "first_name": "Starting",
+    "last_name": "Line Foundation",
+    "external_id": "65866",
+    "donations": [
+      {
+        "amount": 20000,
+        "timestamp": "2024-11-06T00:00:00.000Z",
+        "external_donation_id": "65866-last"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "65866-fy22"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "65866-fy23"
+      },
+      {
+        "amount": 15000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "65866-fy24"
+      },
+      {
+        "amount": 20000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "65866-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-15345@example.com",
+    "first_name": "Robert",
+    "last_name": "E. Ringdahl Foundation, Inc.",
+    "phone": "(303) 652-2833",
+    "external_id": "15345",
+    "donations": [
+      {
+        "amount": 5000,
+        "timestamp": "2024-10-08T00:00:00.000Z",
+        "external_donation_id": "15345-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "15345-fy22"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "15345-fy23"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "15345-fy24"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "15345-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-71949@example.com",
+    "first_name": "The",
+    "last_name": "Porter and Gail Storey Fund",
+    "external_id": "71949",
+    "donations": [
+      {
+        "amount": 20000,
+        "timestamp": "2025-01-22T00:00:00.000Z",
+        "external_donation_id": "71949-last"
+      },
+      {
+        "amount": 19000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "71949-fy23"
+      },
+      {
+        "amount": 6000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "71949-fy24"
+      },
+      {
+        "amount": 32000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "71949-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-69679@example.com",
+    "first_name": "The",
+    "last_name": "Golson Family Fund",
+    "external_id": "69679",
+    "donations": [
+      {
+        "amount": 50000,
+        "timestamp": "2022-01-13T00:00:00.000Z",
+        "external_donation_id": "69679-last"
+      },
+      {
+        "amount": 50000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "69679-fy22"
+      }
+    ]
+  },
+  {
+    "email": "Ka4byoung@earthlink.net",
+    "first_name": "The",
+    "last_name": "Young Family Fund",
+    "external_id": "2858",
+    "donations": [
+      {
+        "amount": 15000,
+        "timestamp": "2023-05-22T00:00:00.000Z",
+        "external_donation_id": "2858-last"
+      },
+      {
+        "amount": 15000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "2858-fy22"
+      },
+      {
+        "amount": 25000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "2858-fy23"
+      }
+    ]
+  },
+  {
+    "email": "natalia.ciurleo@bofa.com",
+    "first_name": "Wille",
+    "last_name": "Family Foundation",
+    "external_id": "53807",
+    "donations": [
+      {
+        "amount": 20000,
+        "timestamp": "2024-12-22T00:00:00.000Z",
+        "external_donation_id": "53807-last"
+      },
+      {
+        "amount": 20000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "53807-fy22"
+      },
+      {
+        "amount": 20000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "53807-fy23"
+      },
+      {
+        "amount": 20000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "53807-fy24"
+      },
+      {
+        "amount": 20000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "53807-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-11909@example.com",
+    "first_name": "Davis-Tailer",
+    "last_name": "Foundation",
+    "phone": "(303) 579-1900",
+    "external_id": "11909",
+    "donations": [
+      {
+        "amount": 20000,
+        "timestamp": "2024-12-18T00:00:00.000Z",
+        "external_donation_id": "11909-last"
+      },
+      {
+        "amount": 15000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "11909-fy22"
+      },
+      {
+        "amount": 16000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "11909-fy23"
+      },
+      {
+        "amount": 16000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "11909-fy24"
+      },
+      {
+        "amount": 20000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "11909-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-6717@example.com",
+    "first_name": "The",
+    "last_name": "Israel & Mollie Myers Foundation, Inc.",
+    "phone": "(410) 653-0556",
+    "external_id": "6717",
+    "donations": [
+      {
+        "amount": 8500,
+        "timestamp": "2024-04-18T00:00:00.000Z",
+        "external_donation_id": "6717-last"
+      },
+      {
+        "amount": 9380,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "6717-fy22"
+      },
+      {
+        "amount": 8600,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "6717-fy23"
+      },
+      {
+        "amount": 8500,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "6717-fy24"
+      }
+    ]
+  },
+  {
+    "email": "marylee8@comcast.net",
+    "first_name": "Schusterman",
+    "last_name": "Family Fund",
+    "external_id": "20488",
+    "donations": [
+      {
+        "amount": 5000,
+        "timestamp": "2024-12-21T00:00:00.000Z",
+        "external_donation_id": "20488-last"
+      },
+      {
+        "amount": 2000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "20488-fy22"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "20488-fy23"
+      },
+      {
+        "amount": 10000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "20488-fy24"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "20488-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-8179@example.com",
+    "first_name": "Bellock",
+    "last_name": "Morrison Philanthropic Fund",
+    "phone": "(303) 316-6469",
+    "external_id": "8179",
+    "donations": [
+      {
+        "amount": 5000,
+        "timestamp": "2024-11-20T00:00:00.000Z",
+        "external_donation_id": "8179-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "8179-fy23"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "8179-fy24"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "8179-fy25"
+      }
+    ]
+  },
+  {
+    "email": "jpfugere@comcast.net",
+    "first_name": "Fugere",
+    "last_name": "Family Foundation",
+    "phone": "(303) 550-5838",
+    "external_id": "2896",
+    "donations": [
+      {
+        "amount": 25000,
+        "timestamp": "2024-05-15T00:00:00.000Z",
+        "external_donation_id": "2896-last"
+      },
+      {
+        "amount": 5000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "2896-fy22"
+      },
+      {
+        "amount": 30000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "2896-fy24"
+      }
+    ]
+  },
+  {
+    "email": "leslierudawsky@gmail.com",
+    "first_name": "The",
+    "last_name": "Max and Yetta Karasik Family Foundation",
+    "external_id": "56008",
+    "donations": [
+      {
+        "amount": 50000,
+        "timestamp": "2024-11-09T00:00:00.000Z",
+        "external_donation_id": "56008-last"
+      },
+      {
+        "amount": 45000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "56008-fy22"
+      },
+      {
+        "amount": 50000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "56008-fy23"
+      },
+      {
+        "amount": 50000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "56008-fy24"
+      },
+      {
+        "amount": 50000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "56008-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-83330@example.com",
+    "first_name": "Beverly",
+    "last_name": "A. & Gary T. Sanders Charitable Fund",
+    "external_id": "83330",
+    "donations": [
+      {
+        "amount": 20000,
+        "timestamp": "2024-12-15T00:00:00.000Z",
+        "external_donation_id": "83330-last"
+      },
+      {
+        "amount": 20000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "83330-fy23"
+      },
+      {
+        "amount": 30000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "83330-fy24"
+      },
+      {
+        "amount": 40000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "83330-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-7170@example.com",
+    "first_name": "Timothy",
+    "last_name": "R and Linda A Stancliffe Fund",
+    "phone": "(303) 443-0523",
+    "external_id": "7170",
+    "donations": [
+      {
+        "amount": 30000,
+        "timestamp": "2025-01-27T00:00:00.000Z",
+        "external_donation_id": "7170-last"
+      },
+      {
+        "amount": 30000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "7170-fy22"
+      },
+      {
+        "amount": 30000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "7170-fy23"
+      },
+      {
+        "amount": 30000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "7170-fy24"
+      },
+      {
+        "amount": 30000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "7170-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-40799@example.com",
+    "first_name": "Green",
+    "last_name": "Fund",
+    "external_id": "40799",
+    "donations": [
+      {
+        "amount": 25000,
+        "timestamp": "2024-11-09T00:00:00.000Z",
+        "external_donation_id": "40799-last"
+      },
+      {
+        "amount": 25000,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "40799-fy22"
+      },
+      {
+        "amount": 25000,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "40799-fy23"
+      },
+      {
+        "amount": 25000,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "40799-fy24"
+      },
+      {
+        "amount": 25000,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "40799-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-79533@example.com",
+    "first_name": "Timothy",
+    "last_name": "Press",
+    "external_id": "79533",
+    "donations": []
+  },
+  {
+    "email": "purpletwos@yahoo.com",
+    "first_name": "Laurel",
+    "last_name": "Purpura-Wilson",
+    "phone": "(303) 776-8338",
+    "external_id": "87346",
+    "donations": [
+      {
+        "amount": 5,
+        "timestamp": "2024-10-27T00:00:00.000Z",
+        "external_donation_id": "87346-last"
+      },
+      {
+        "amount": 5,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "87346-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-76919@example.com",
+    "first_name": "Shirley",
+    "last_name": "Fischer",
+    "phone": "(303)828-3807",
+    "external_id": "76919",
+    "donations": [
+      {
+        "amount": 10,
+        "timestamp": "2021-11-15T00:00:00.000Z",
+        "external_donation_id": "76919-last"
+      },
+      {
+        "amount": 10,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "76919-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-76944@example.com",
+    "first_name": "Anne",
+    "last_name": "Dryden",
+    "external_id": "76944",
+    "donations": [
+      {
+        "amount": 15,
+        "timestamp": "2021-11-15T00:00:00.000Z",
+        "external_donation_id": "76944-last"
+      },
+      {
+        "amount": 15,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "76944-fy22"
+      }
+    ]
+  },
+  {
+    "email": "rick.m.spicer@medtronic.com",
+    "first_name": "Rick",
+    "last_name": "Spicer",
+    "external_id": "87711",
+    "donations": [
+      {
+        "amount": 15.05,
+        "timestamp": "2024-11-17T00:00:00.000Z",
+        "external_donation_id": "87711-last"
+      },
+      {
+        "amount": 15.05,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "87711-fy25"
+      }
+    ]
+  },
+  {
+    "email": "rodykent@earthlink.net",
+    "first_name": "Rosemary",
+    "last_name": "Kent",
+    "external_id": "89081",
+    "donations": [
+      {
+        "amount": 19.92,
+        "timestamp": "2025-01-31T00:00:00.000Z",
+        "external_donation_id": "89081-last"
+      },
+      {
+        "amount": 19.92,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89081-fy25"
+      }
+    ]
+  },
+  {
+    "email": "clgowan@google.com",
+    "first_name": "Christina",
+    "last_name": "Gowan",
+    "phone": 6504399204,
+    "external_id": "89035",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2025-02-15T00:00:00.000Z",
+        "external_donation_id": "89035-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89035-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-83708@example.com",
+    "first_name": "Robert",
+    "last_name": "Haven",
+    "external_id": "83708",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2023-11-04T00:00:00.000Z",
+        "external_donation_id": "83708-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "83708-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-89163@example.com",
+    "first_name": "A.J.",
+    "last_name": "Lawless",
+    "external_id": "89163",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2025-02-11T00:00:00.000Z",
+        "external_donation_id": "89163-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89163-fy25"
+      }
+    ]
+  },
+  {
+    "email": "Liebetrau@comcast.net",
+    "first_name": "Richard",
+    "last_name": "Liebetrau",
+    "external_id": "86908",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-09-14T00:00:00.000Z",
+        "external_donation_id": "86908-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "86908-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-87871@example.com",
+    "first_name": "Dorothy",
+    "last_name": "Rossi",
+    "external_id": "87871",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-11-25T00:00:00.000Z",
+        "external_donation_id": "87871-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "87871-fy25"
+      }
+    ]
+  },
+  {
+    "email": "jusa8608@colorado.edu",
+    "first_name": "Julia",
+    "last_name": "Salinger",
+    "phone": "(860)818-6481",
+    "external_id": "77457",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2021-11-25T00:00:00.000Z",
+        "external_donation_id": "77457-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "77457-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-49029@example.com",
+    "first_name": "Dinah",
+    "last_name": "McKay",
+    "phone": "(303) 581-0261",
+    "external_id": "49029",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-11-07T00:00:00.000Z",
+        "external_donation_id": "49029-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "49029-fy25"
+      }
+    ]
+  },
+  {
+    "email": "bnesbitt17@gmail.com",
+    "first_name": "Barbara",
+    "last_name": "Nesbitt",
+    "phone": "(303) 324-9297",
+    "external_id": "49215",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-12-04T00:00:00.000Z",
+        "external_donation_id": "49215-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "49215-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-44095@example.com",
+    "first_name": "Patricia",
+    "last_name": "Reed",
+    "external_id": "44095",
+    "donations": [
+      {
+        "amount": 10,
+        "timestamp": "2022-04-08T00:00:00.000Z",
+        "external_donation_id": "44095-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "44095-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-82340@example.com",
+    "first_name": "Dom",
+    "last_name": "Juarez",
+    "external_id": "82340",
+    "donations": [
+      {
+        "amount": 20.56,
+        "timestamp": "2023-05-29T00:00:00.000Z",
+        "external_donation_id": "82340-last"
+      },
+      {
+        "amount": 20.56,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "82340-fy23"
+      }
+    ]
+  },
+  {
+    "email": "bpwynn@hotmail.com",
+    "first_name": "Brad",
+    "last_name": "Wynn",
+    "phone": "(786) 797-3100",
+    "external_id": "83202",
+    "donations": [
+      {
+        "amount": 20.7,
+        "timestamp": "2023-08-24T00:00:00.000Z",
+        "external_donation_id": "83202-last"
+      },
+      {
+        "amount": 20.7,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "83202-fy24"
+      }
+    ]
+  },
+  {
+    "email": "jenniferlstocker@gmail.com",
+    "first_name": "Jenny",
+    "last_name": "Shepherd",
+    "external_id": "81246",
+    "donations": [
+      {
+        "amount": 20.81,
+        "timestamp": "2023-01-11T00:00:00.000Z",
+        "external_donation_id": "81246-last"
+      },
+      {
+        "amount": 20.81,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "81246-fy23"
+      }
+    ]
+  },
+  {
+    "email": "donor-87766@example.com",
+    "first_name": "Chuck",
+    "last_name": "Taylor",
+    "external_id": "87766",
+    "donations": [
+      {
+        "amount": 21.37,
+        "timestamp": "2024-11-17T00:00:00.000Z",
+        "external_donation_id": "87766-last"
+      },
+      {
+        "amount": 21.37,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "87766-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-82923@example.com",
+    "first_name": "Stanley",
+    "last_name": "L. Bonnes",
+    "external_id": "82923",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2024-10-22T00:00:00.000Z",
+        "external_donation_id": "82923-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "82923-fy25"
+      }
+    ]
+  },
+  {
+    "email": "Carolina.Castro@bmo.com",
+    "first_name": "Miryam",
+    "last_name": "Castro",
+    "external_id": "89064",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2025-01-27T00:00:00.000Z",
+        "external_donation_id": "89064-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89064-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-76937@example.com",
+    "first_name": "Anita",
+    "last_name": "Cumalat",
+    "external_id": "76937",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2021-11-15T00:00:00.000Z",
+        "external_donation_id": "76937-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "76937-fy22"
+      }
+    ]
+  },
+  {
+    "email": "gevans0707@yahoo.com",
+    "first_name": "Gwen",
+    "last_name": "Evans",
+    "phone": 7207260647,
+    "external_id": "89044",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2025-02-15T00:00:00.000Z",
+        "external_donation_id": "89044-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89044-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-83668@example.com",
+    "first_name": "Arianne",
+    "last_name": "Powell",
+    "external_id": "83668",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2023-10-30T00:00:00.000Z",
+        "external_donation_id": "83668-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "83668-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-77223@example.com",
+    "first_name": "Maxine",
+    "last_name": "Reckseen",
+    "phone": "(303)469-0970",
+    "external_id": "77223",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2021-11-18T00:00:00.000Z",
+        "external_donation_id": "77223-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "77223-fy22"
+      }
+    ]
+  },
+  {
+    "email": "aremnant@hcg.com",
+    "first_name": "Andrew",
+    "last_name": "Remnant",
+    "external_id": "89065",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2025-01-27T00:00:00.000Z",
+        "external_donation_id": "89065-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89065-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-73058@example.com",
+    "first_name": "Bertha",
+    "last_name": "Garcia",
+    "external_id": "73058",
+    "donations": [
+      {
+        "amount": 15,
+        "timestamp": "2024-12-16T00:00:00.000Z",
+        "external_donation_id": "73058-last"
+      },
+      {
+        "amount": 15,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "73058-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-87915@example.com",
+    "first_name": "Dani",
+    "last_name": "LeBrasse",
+    "external_id": "87915",
+    "donations": [
+      {
+        "amount": 26.38,
+        "timestamp": "2024-11-23T00:00:00.000Z",
+        "external_donation_id": "87915-last"
+      },
+      {
+        "amount": 26.38,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "87915-fy25"
+      }
+    ]
+  },
+  {
+    "email": "lee.fife@gmail.com",
+    "first_name": "Lee",
+    "last_name": "D. Fife",
+    "external_id": "89083",
+    "donations": [
+      {
+        "amount": 26.64,
+        "timestamp": "2025-02-02T00:00:00.000Z",
+        "external_donation_id": "89083-last"
+      },
+      {
+        "amount": 26.64,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89083-fy25"
+      }
+    ]
+  },
+  {
+    "email": "hroyston75@gmail.com",
+    "first_name": "Holly",
+    "last_name": "J. Baraloto",
+    "phone": 4434491666,
+    "external_id": "80802",
+    "donations": [
+      {
+        "amount": 29.79,
+        "timestamp": "2024-11-03T00:00:00.000Z",
+        "external_donation_id": "80802-last"
+      },
+      {
+        "amount": 29.79,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "80802-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-77001@example.com",
+    "first_name": "Dallas",
+    "last_name": "Belt",
+    "external_id": "77001",
+    "donations": [
+      {
+        "amount": 30,
+        "timestamp": "2021-11-15T00:00:00.000Z",
+        "external_donation_id": "77001-last"
+      },
+      {
+        "amount": 30,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "77001-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-82209@example.com",
+    "first_name": "Heinz",
+    "last_name": "Damberger",
+    "external_id": "82209",
+    "donations": [
+      {
+        "amount": 30,
+        "timestamp": "2023-05-03T00:00:00.000Z",
+        "external_donation_id": "82209-last"
+      },
+      {
+        "amount": 30,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "82209-fy23"
+      }
+    ]
+  },
+  {
+    "email": "donor-83006@example.com",
+    "first_name": "Thomas",
+    "last_name": "M. Greene",
+    "external_id": "83006",
+    "donations": [
+      {
+        "amount": 30,
+        "timestamp": "2024-12-01T00:00:00.000Z",
+        "external_donation_id": "83006-last"
+      },
+      {
+        "amount": 30,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "83006-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-51129@example.com",
+    "first_name": "Virginia",
+    "last_name": "L. Jackman",
+    "external_id": "51129",
+    "donations": [
+      {
+        "amount": 10,
+        "timestamp": "2024-11-19T00:00:00.000Z",
+        "external_donation_id": "51129-last"
+      },
+      {
+        "amount": 10,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "51129-fy25"
+      }
+    ]
+  },
+  {
+    "email": "blankaleeker@mac.com",
+    "first_name": "Blanka",
+    "last_name": "Leeker",
+    "external_id": "87601",
+    "donations": [
+      {
+        "amount": 31.19,
+        "timestamp": "2024-11-11T00:00:00.000Z",
+        "external_donation_id": "87601-last"
+      },
+      {
+        "amount": 31.19,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "87601-fy25"
+      }
+    ]
+  },
+  {
+    "email": "Jasonschott65@gmail.com",
+    "first_name": "Jason",
+    "last_name": "Schott",
+    "external_id": "61649",
+    "donations": [
+      {
+        "amount": 29.86,
+        "timestamp": "2024-11-17T00:00:00.000Z",
+        "external_donation_id": "61649-last"
+      },
+      {
+        "amount": 29.86,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "61649-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-82961@example.com",
+    "first_name": "Nancy",
+    "last_name": "F. Carter",
+    "external_id": "82961",
+    "donations": [
+      {
+        "amount": 35,
+        "timestamp": "2024-10-22T00:00:00.000Z",
+        "external_donation_id": "82961-last"
+      },
+      {
+        "amount": 35,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "82961-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-76688@example.com",
+    "first_name": "Stephanie",
+    "last_name": "Rivera",
+    "phone": "(303)589-5947",
+    "external_id": "76688",
+    "donations": [
+      {
+        "amount": 35,
+        "timestamp": "2021-10-27T00:00:00.000Z",
+        "external_donation_id": "76688-last"
+      },
+      {
+        "amount": 35,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "76688-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-71244@example.com",
+    "first_name": "Marvin",
+    "last_name": "Englebardt",
+    "external_id": "71244",
+    "donations": [
+      {
+        "amount": 10,
+        "timestamp": "2021-07-25T00:00:00.000Z",
+        "external_donation_id": "71244-last"
+      },
+      {
+        "amount": 10,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "71244-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-72325@example.com",
+    "first_name": "Val",
+    "last_name": "Mcbride",
+    "phone": "(303)494-9765",
+    "external_id": "72325",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-11-06T00:00:00.000Z",
+        "external_donation_id": "72325-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "72325-fy25"
+      }
+    ]
+  },
+  {
+    "email": "judymoberg@aol.com",
+    "first_name": "Judith",
+    "last_name": "Moberg",
+    "phone": "(303) 810-3121",
+    "external_id": "73407",
+    "donations": [
+      {
+        "amount": 10,
+        "timestamp": "2024-12-04T00:00:00.000Z",
+        "external_donation_id": "73407-last"
+      },
+      {
+        "amount": 10,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "73407-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-51122@example.com",
+    "first_name": "Sandra",
+    "last_name": "Sanders",
+    "phone": "(303) 887-1036",
+    "external_id": "51122",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2024-12-07T00:00:00.000Z",
+        "external_donation_id": "51122-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "51122-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-50984@example.com",
+    "first_name": "Betty",
+    "last_name": "Digby",
+    "external_id": "50984",
+    "donations": [
+      {
+        "amount": 15,
+        "timestamp": "2024-11-06T00:00:00.000Z",
+        "external_donation_id": "50984-last"
+      },
+      {
+        "amount": 15,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "50984-fy25"
+      }
+    ]
+  },
+  {
+    "email": "judi.jackson2@gmail.com",
+    "first_name": "Judith",
+    "last_name": "Jackson",
+    "phone": "(303) 444-0515",
+    "external_id": "48098",
+    "donations": [
+      {
+        "amount": 10.83,
+        "timestamp": "2025-01-20T00:00:00.000Z",
+        "external_donation_id": "48098-last"
+      },
+      {
+        "amount": 10.83,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "48098-fy25"
+      }
+    ]
+  },
+  {
+    "email": "michaelhar543@gmail.com",
+    "first_name": "Michael",
+    "last_name": "Har",
+    "external_id": "53911",
+    "donations": [
+      {
+        "amount": 29.86,
+        "timestamp": "2024-11-17T00:00:00.000Z",
+        "external_donation_id": "53911-last"
+      },
+      {
+        "amount": 29.86,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "53911-fy25"
+      }
+    ]
+  },
+  {
+    "email": "ptricia@google.com",
+    "first_name": "Patricia",
+    "last_name": "Carlson",
+    "external_id": "89174",
+    "donations": [
+      {
+        "amount": 40,
+        "timestamp": "2025-02-15T00:00:00.000Z",
+        "external_donation_id": "89174-last"
+      },
+      {
+        "amount": 40,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89174-fy25"
+      }
+    ]
+  },
+  {
+    "email": "dmfraser@us.ibm.com",
+    "first_name": "Dawn",
+    "last_name": "Frasier",
+    "external_id": "89066",
+    "donations": [
+      {
+        "amount": 40,
+        "timestamp": "2025-01-27T00:00:00.000Z",
+        "external_donation_id": "89066-last"
+      },
+      {
+        "amount": 40,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89066-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-77311@example.com",
+    "first_name": "Diana",
+    "last_name": "C. Haskell",
+    "external_id": "77311",
+    "donations": [
+      {
+        "amount": 40,
+        "timestamp": "2021-11-24T00:00:00.000Z",
+        "external_donation_id": "77311-last"
+      },
+      {
+        "amount": 40,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "77311-fy22"
+      }
+    ]
+  },
+  {
+    "email": "k.gustafson5464@gmail.com",
+    "first_name": "Kimberly",
+    "last_name": "M Gustafson",
+    "external_id": "70777",
+    "donations": [
+      {
+        "amount": 15,
+        "timestamp": "2024-11-08T00:00:00.000Z",
+        "external_donation_id": "70777-last"
+      },
+      {
+        "amount": 15,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "70777-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-46226@example.com",
+    "first_name": "Sue",
+    "last_name": "Winthrop",
+    "phone": "(303) 717-8341",
+    "external_id": "46226",
+    "donations": [
+      {
+        "amount": 40,
+        "timestamp": "2025-01-29T00:00:00.000Z",
+        "external_donation_id": "46226-last"
+      },
+      {
+        "amount": 40,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "46226-fy25"
+      }
+    ]
+  },
+  {
+    "email": "lindaleelittell@gmail.com",
+    "first_name": "Linda",
+    "last_name": "Littell",
+    "phone": "(303) 499-1353",
+    "external_id": "53940",
+    "donations": [
+      {
+        "amount": 10.83,
+        "timestamp": "2024-11-11T00:00:00.000Z",
+        "external_donation_id": "53940-last"
+      },
+      {
+        "amount": 10.83,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "53940-fy25"
+      }
+    ]
+  },
+  {
+    "email": "karen@mtterra.com",
+    "first_name": "Karen",
+    "last_name": "H. Smith",
+    "external_id": "48206",
+    "donations": [
+      {
+        "amount": 31.9,
+        "timestamp": "2024-11-03T00:00:00.000Z",
+        "external_donation_id": "48206-last"
+      },
+      {
+        "amount": 31.9,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "48206-fy25"
+      }
+    ]
+  },
+  {
+    "email": "eviboulder@gmail.com",
+    "first_name": "Evelyn",
+    "last_name": "Bassoff",
+    "external_id": "43388",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-11-17T00:00:00.000Z",
+        "external_donation_id": "43388-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "43388-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-72519@example.com",
+    "first_name": "Angie",
+    "last_name": "D. Burnham",
+    "external_id": "72519",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-11-08T00:00:00.000Z",
+        "external_donation_id": "72519-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "72519-fy25"
+      }
+    ]
+  },
+  {
+    "email": "weisusan_8@msn.com",
+    "first_name": "Susan",
+    "last_name": "Cherniack Wei",
+    "external_id": "45158",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2024-12-10T00:00:00.000Z",
+        "external_donation_id": "45158-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "45158-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-50731@example.com",
+    "first_name": "Barbara",
+    "last_name": "Collins",
+    "phone": "(303) 666-8605",
+    "external_id": "50731",
+    "donations": [
+      {
+        "amount": 20,
+        "timestamp": "2024-01-23T00:00:00.000Z",
+        "external_donation_id": "50731-last"
+      },
+      {
+        "amount": 20,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "50731-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-88144@example.com",
+    "first_name": "Gordon",
+    "last_name": "Family Giving Fund",
+    "external_id": "88144",
+    "donations": [
+      {
+        "amount": 50,
+        "timestamp": "2024-12-12T00:00:00.000Z",
+        "external_donation_id": "88144-last"
+      },
+      {
+        "amount": 50,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "88144-fy25"
+      }
+    ]
+  },
+  {
+    "email": "chaudhry.fatima@ymail.com",
+    "first_name": "Fatima",
+    "last_name": "Chaudhry",
+    "external_id": "89175",
+    "donations": [
+      {
+        "amount": 50,
+        "timestamp": "2025-02-15T00:00:00.000Z",
+        "external_donation_id": "89175-last"
+      },
+      {
+        "amount": 50,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "89175-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-84578@example.com",
+    "first_name": "Gordon",
+    "last_name": "Family",
+    "external_id": "84578",
+    "donations": [
+      {
+        "amount": 50,
+        "timestamp": "2023-12-09T00:00:00.000Z",
+        "external_donation_id": "84578-last"
+      },
+      {
+        "amount": 50,
+        "timestamp": "2024-01-01T00:00:00.000Z",
+        "external_donation_id": "84578-fy24"
+      }
+    ]
+  },
+  {
+    "email": "donor-83028@example.com",
+    "first_name": "Suzanne",
+    "last_name": "D. Hohn",
+    "external_id": "83028",
+    "donations": [
+      {
+        "amount": 50,
+        "timestamp": "2024-12-10T00:00:00.000Z",
+        "external_donation_id": "83028-last"
+      },
+      {
+        "amount": 50,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "83028-fy25"
+      }
+    ]
+  },
+  {
+    "email": "donor-79143@example.com",
+    "first_name": "Eileen",
+    "last_name": "Tobin",
+    "external_id": "79143",
+    "donations": [
+      {
+        "amount": 50,
+        "timestamp": "2022-05-01T00:00:00.000Z",
+        "external_donation_id": "79143-last"
+      },
+      {
+        "amount": 50,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "79143-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-31047@example.com",
+    "first_name": "Krista",
+    "last_name": "Brakhage",
+    "external_id": "31047",
+    "donations": [
+      {
+        "amount": 50,
+        "timestamp": "2024-12-13T00:00:00.000Z",
+        "external_donation_id": "31047-last"
+      },
+      {
+        "amount": 50,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "31047-fy25"
+      }
+    ]
+  },
+  {
+    "email": "tfitz5@aol.com",
+    "first_name": "Patricia",
+    "last_name": "H. Fitzpatrick",
+    "external_id": "74536",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2024-12-10T00:00:00.000Z",
+        "external_donation_id": "74536-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "74536-fy25"
+      }
+    ]
+  },
+  {
+    "email": "tyates821@gmail.com",
+    "first_name": "Tara",
+    "last_name": "Desmond",
+    "external_id": "70918",
+    "donations": [
+      {
+        "amount": 26.38,
+        "timestamp": "2024-11-17T00:00:00.000Z",
+        "external_donation_id": "70918-last"
+      },
+      {
+        "amount": 26.38,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "70918-fy25"
+      }
+    ]
+  },
+  {
+    "email": "Shelbey@precisionplumbing.com",
+    "first_name": "Shelbey",
+    "last_name": "Hanson",
+    "external_id": "76068",
+    "donations": [
+      {
+        "amount": 51.75,
+        "timestamp": "2021-08-31T00:00:00.000Z",
+        "external_donation_id": "76068-last"
+      },
+      {
+        "amount": 51.75,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "76068-fy22"
+      }
+    ]
+  },
+  {
+    "email": "patricia.cannon@FreshPoint.com",
+    "first_name": "Patricia",
+    "last_name": "Cannon",
+    "external_id": "86900",
+    "donations": [
+      {
+        "amount": 52.72,
+        "timestamp": "2024-09-14T00:00:00.000Z",
+        "external_donation_id": "86900-last"
+      },
+      {
+        "amount": 52.72,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "86900-fy25"
+      }
+    ]
+  },
+  {
+    "email": "cristisknudsen@yahoo.com",
+    "first_name": "Cristi",
+    "last_name": "Knudsen",
+    "phone": 4155952780,
+    "external_id": "78968",
+    "donations": [
+      {
+        "amount": 52.96,
+        "timestamp": "2024-11-11T00:00:00.000Z",
+        "external_donation_id": "78968-last"
+      },
+      {
+        "amount": 52.96,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "78968-fy25"
+      }
+    ]
+  },
+  {
+    "email": "joe.brooks@namastesolar.com",
+    "first_name": "Joe",
+    "last_name": "Brooks",
+    "phone": "303-557-8188",
+    "external_id": "80280",
+    "donations": [
+      {
+        "amount": 55,
+        "timestamp": "2022-10-29T00:00:00.000Z",
+        "external_donation_id": "80280-last"
+      },
+      {
+        "amount": 55,
+        "timestamp": "2023-01-01T00:00:00.000Z",
+        "external_donation_id": "80280-fy23"
+      }
+    ]
+  },
+  {
+    "email": "ahillincolorado@gmail.com",
+    "first_name": "Ann",
+    "last_name": "Hill",
+    "external_id": "87796",
+    "donations": [
+      {
+        "amount": 59.29,
+        "timestamp": "2024-11-17T00:00:00.000Z",
+        "external_donation_id": "87796-last"
+      },
+      {
+        "amount": 59.29,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "87796-fy25"
+      }
+    ]
+  },
+  {
+    "email": "wellsl@vnacolorado.org",
+    "first_name": "Laura",
+    "last_name": "Wells",
+    "external_id": "54093",
+    "donations": [
+      {
+        "amount": 10,
+        "timestamp": "2021-10-30T00:00:00.000Z",
+        "external_donation_id": "54093-last"
+      },
+      {
+        "amount": 10,
+        "timestamp": "2022-01-01T00:00:00.000Z",
+        "external_donation_id": "54093-fy22"
+      }
+    ]
+  },
+  {
+    "email": "donor-48315@example.com",
+    "first_name": "Garrett",
+    "last_name": "Velasquez",
+    "phone": "(303) 541-9135",
+    "external_id": "48315",
+    "donations": [
+      {
+        "amount": 25,
+        "timestamp": "2024-12-03T00:00:00.000Z",
+        "external_donation_id": "48315-last"
+      },
+      {
+        "amount": 25,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "48315-fy25"
+      }
+    ]
+  },
+  {
+    "email": "kellyhildebrandt1@gmail.com",
+    "first_name": "Kelly",
+    "last_name": "Hildebrandt",
+    "external_id": "73556",
+    "donations": [
+      {
+        "amount": 15,
+        "timestamp": "2024-11-04T00:00:00.000Z",
+        "external_donation_id": "73556-last"
+      },
+      {
+        "amount": 15,
+        "timestamp": "2025-01-01T00:00:00.000Z",
+        "external_donation_id": "73556-fy25"
+      }
+    ]
+  }
+]

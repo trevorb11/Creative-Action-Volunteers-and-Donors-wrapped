@@ -56,8 +56,8 @@ async function importData(filePath: string) {
     let donationsCreated = 0;
     let errorsCount = 0;
     
-    // Define batch size
-    const BATCH_SIZE = 100;
+    // Define a smaller batch size for better performance
+    const BATCH_SIZE = 20;
     const totalBatches = Math.ceil(donors.length / BATCH_SIZE);
     
     console.log(`Processing ${totalBatches} batches of ${BATCH_SIZE} donors each...`);
@@ -70,9 +70,12 @@ async function importData(filePath: string) {
       
       console.log(`Processing batch ${batchIndex + 1}/${totalBatches} (donors ${start+1}-${end})...`);
       
+      // We'll process donors one by one since batch methods aren't available
+      
       // Process each donor in the batch
       for (const importDonor of batch) {
         try {
+          let donorId: number;
           // Check if donor already exists
           const existingDonor = await storage.getDonorByEmail(importDonor.email);
           
@@ -84,23 +87,23 @@ async function importData(filePath: string) {
               phone: importDonor.phone,
               external_id: importDonor.external_id
             });
+            donorId = existingDonor.id;
             donorsUpdated++;
           } else {
             // Create new donor
-            await storage.createDonor({
+            const newDonor = await storage.createDonor({
               email: importDonor.email,
               first_name: importDonor.first_name,
               last_name: importDonor.last_name,
               phone: importDonor.phone,
               external_id: importDonor.external_id
             });
+            donorId = newDonor.id;
             donorsCreated++;
           }
           
-          // Process any donations
-          const donor = await storage.getDonorByEmail(importDonor.email);
-          
-          if (donor && importDonor.donations && importDonor.donations.length > 0) {
+          // Process donations one by one
+          if (importDonor.donations && importDonor.donations.length > 0) {
             for (const donation of importDonor.donations) {
               if (!donation.amount) continue;
               
@@ -112,15 +115,19 @@ async function importData(filePath: string) {
                 donationDate = donation.timestamp || new Date();
               }
               
-              await storage.createDonation({
-                donor_id: donor.id,
-                amount: String(donation.amount), // Ensure amount is a string
-                email: importDonor.email,
-                timestamp: donationDate,
-                external_donation_id: donation.external_donation_id,
-                imported: 1
-              });
-              donationsCreated++;
+              try {
+                await storage.createDonation({
+                  donor_id: donorId,
+                  amount: String(donation.amount), // Ensure amount is a string
+                  email: importDonor.email,
+                  timestamp: donationDate,
+                  external_donation_id: donation.external_donation_id,
+                  imported: 1
+                });
+                donationsCreated++;
+              } catch (error) {
+                console.error(`Error creating donation for donor ${importDonor.email}:`, error);
+              }
             }
           }
         } catch (error) {
