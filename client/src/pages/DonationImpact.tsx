@@ -12,7 +12,7 @@ import PartnerSlide from "@/components/donation/PartnerSlide";
 import SummarySlide from "@/components/donation/SummarySlide";
 import { toast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { DonationImpact } from "@shared/schema";
+import type { DonationImpact as DonationImpactType } from "@shared/schema";
 import { calculateDonationImpact } from "@/lib/donation-calculator";
 import { SLIDE_CONFIG } from "@/lib/constants";
 
