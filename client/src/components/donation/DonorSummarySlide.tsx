@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
-import SlideLayout from "./SlideLayout";
 import { DonationImpact } from "@shared/schema";
+import SlideLayout from "./SlideLayout";
 import { formatCurrency } from "@/lib/utils";
+import { apiRequest } from "@/lib/queryClient";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface DonorSummarySlideProps {
   impact: DonationImpact;
@@ -28,140 +31,187 @@ export default function DonorSummarySlide({
   onNext,
   onPrevious,
   isFirstSlide,
-  isLastSlide
+  isLastSlide,
 }: DonorSummarySlideProps) {
   const [donorSummary, setDonorSummary] = useState<DonorSummary | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch detailed donor information when the component mounts
-    const fetchDonorDetails = async () => {
-      if (!donorEmail) {
-        setIsLoading(false);
-        return;
-      }
+    async function fetchDonorSummary() {
+      if (!donorEmail) return;
+
+      setIsLoading(true);
+      setError(null);
 
       try {
-        const response = await fetch(`/api/donor/${encodeURIComponent(donorEmail)}`);
-        
-        if (!response.ok) {
-          console.error('Failed to fetch donor details');
-          setIsLoading(false);
-          return;
-        }
-        
-        const data = await response.json();
-        
+        const res = await apiRequest('GET', `/api/donor/${encodeURIComponent(donorEmail)}`);
+        const data = await res.json();
+
         if (data.donor && data.donations) {
-          // Calculate donation statistics
-          const donations = data.donations || [];
+          // Calculate the current year (fiscal year) total
           const now = new Date();
-          const oneYearAgo = new Date();
-          oneYearAgo.setFullYear(now.getFullYear() - 1);
+          const currentYear = now.getFullYear();
+          const fiscalYearStart = new Date(currentYear, 6, 1); // July 1st
           
-          // Calculate total donations in the last year
-          const donationsLastYear = donations.filter(
-            (d: any) => new Date(d.date) >= oneYearAgo
-          );
+          // Adjust fiscal year if we're before July 1st
+          const fiscalYear = now < fiscalYearStart ? currentYear - 1 : currentYear;
           
-          const totalLastYear = donationsLastYear.reduce(
-            (sum: number, d: any) => sum + parseFloat(d.amount), 
+          // Filter donations for the current fiscal year
+          const fiscalYearDonations = data.donations.filter((donation: any) => {
+            const donationDate = new Date(donation.date);
+            const donationFiscalYear = donationDate < new Date(donationDate.getFullYear(), 6, 1) 
+              ? donationDate.getFullYear() - 1 
+              : donationDate.getFullYear();
+            return donationFiscalYear === fiscalYear;
+          });
+
+          // Sum the donations for the current fiscal year
+          const totalLastYear = fiscalYearDonations.reduce(
+            (sum: number, donation: any) => sum + parseFloat(donation.amount), 
             0
           );
-          
-          // Get last gift
-          const sortedDonations = [...donations].sort(
+
+          // Sort donations by date (newest first)
+          const sortedDonations = [...data.donations].sort(
             (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
           );
-          
+
+          // Get the most recent donation
           const lastGift = sortedDonations.length > 0 
-            ? { 
-                amount: parseFloat(sortedDonations[0].amount), 
-                date: new Date(sortedDonations[0].date).toLocaleDateString() 
+            ? {
+                amount: parseFloat(sortedDonations[0].amount),
+                date: new Date(sortedDonations[0].date).toLocaleDateString()
               }
             : { amount: 0, date: 'N/A' };
-          
-          // Calculate lifetime giving
-          const lifetimeGiving = donations.reduce(
-            (sum: number, d: any) => sum + parseFloat(d.amount), 
+
+          // Sum all donations (lifetime giving)
+          const lifetimeGiving = data.donations.reduce(
+            (sum: number, donation: any) => sum + parseFloat(donation.amount), 
             0
           );
-          
+
           setDonorSummary({
             totalLastYear,
             lastGift,
             lifetimeGiving,
-            name: data.donor.name
+            name: data.donor.name || undefined
           });
         }
-        
-        setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching donor details:', error);
+        console.error('Error fetching donor summary:', error);
+        setError('Failed to load your donor information. Please try again later.');
+      } finally {
         setIsLoading(false);
       }
-    };
+    }
 
-    fetchDonorDetails();
+    fetchDonorSummary();
   }, [donorEmail]);
+
+  const personalizedTitle = donorSummary?.name 
+    ? `Welcome Back, ${donorSummary.name.split(' ')[0]}!`
+    : "Welcome Back!";
+
+  const donationThisTime = amount > 0 
+    ? `Your Donation Today: ${formatCurrency(amount)}`
+    : "";
 
   return (
     <SlideLayout
-      title="Your Donation Summary"
-      subtitle={donorSummary?.name ? `Thanks for your support, ${donorSummary.name}!` : "Your Generosity At A Glance"}
-      variant="summary"
+      title={personalizedTitle}
+      subtitle="Thank you for your continued support"
+      variant="donor"
       onNext={onNext}
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="space-y-6 text-center">
-        <p className="text-xl text-gray-700">
-          Your support has made a meaningful difference in our community.
-        </p>
-        
+      <div className="max-w-3xl mx-auto p-4">
         {isLoading ? (
-          <div className="flex justify-center py-8">
-            <div className="w-10 h-10 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+          <div className="flex flex-col items-center justify-center min-h-[300px]">
+            <div className="w-16 h-16 border-t-4 border-primary rounded-full animate-spin"></div>
+            <p className="mt-4 text-gray-600">Loading your donor history...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center p-6 bg-red-50 rounded-lg">
+            <p className="text-red-700">{error}</p>
+            <Button 
+              className="mt-4" 
+              variant="outline" 
+              onClick={onNext}
+            >
+              Continue to Impact Visualization
+            </Button>
+          </div>
+        ) : donorSummary ? (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-primary">Your Giving History</h3>
+              {donationThisTime && (
+                <p className="text-xl mt-2 font-semibold text-green-700">{donationThisTime}</p>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card className="overflow-hidden shadow-lg border-t-4 border-primary">
+                <CardHeader className="bg-gray-50">
+                  <CardTitle className="text-center text-lg">Fiscal Year Giving</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 text-center">
+                  <p className="text-3xl font-bold text-primary">{formatCurrency(donorSummary.totalLastYear)}</p>
+                  <p className="text-sm text-gray-500 mt-2">Total donations this fiscal year</p>
+                </CardContent>
+              </Card>
+
+              <Card className="overflow-hidden shadow-lg border-t-4 border-primary">
+                <CardHeader className="bg-gray-50">
+                  <CardTitle className="text-center text-lg">Last Gift</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 text-center">
+                  <p className="text-3xl font-bold text-primary">{formatCurrency(donorSummary.lastGift.amount)}</p>
+                  <p className="text-sm text-gray-500 mt-2">on {donorSummary.lastGift.date}</p>
+                </CardContent>
+              </Card>
+
+              <Card className="overflow-hidden shadow-lg border-t-4 border-primary">
+                <CardHeader className="bg-gray-50">
+                  <CardTitle className="text-center text-lg">Lifetime Giving</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 text-center">
+                  <p className="text-3xl font-bold text-primary">{formatCurrency(donorSummary.lifetimeGiving)}</p>
+                  <p className="text-sm text-gray-500 mt-2">Total impact on our community</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Separator className="my-8" />
+
+            <div className="text-center">
+              <h3 className="text-xl font-bold mb-4">Your Impact So Far</h3>
+              <p className="text-gray-700 mb-6">
+                Your support has been vital to our mission. Let's explore the specific impact of your current donation.
+              </p>
+              <Button 
+                onClick={onNext} 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 text-white"
+              >
+                Continue to See Your Impact
+              </Button>
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="p-6 bg-green-50 border-green-200">
-              <h3 className="text-lg font-semibold text-green-800 mb-2">Last 12 Months</h3>
-              <p className="text-3xl font-bold text-green-700">
-                {donorSummary ? formatCurrency(donorSummary.totalLastYear) : formatCurrency(0)}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">Total donations in the past year</p>
-            </Card>
-            
-            <Card className="p-6 bg-green-50 border-green-200">
-              <h3 className="text-lg font-semibold text-green-800 mb-2">Last Gift</h3>
-              <p className="text-3xl font-bold text-green-700">
-                {donorSummary ? formatCurrency(donorSummary.lastGift.amount) : formatCurrency(0)}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">
-                {donorSummary?.lastGift.date || "N/A"}
-              </p>
-            </Card>
-            
-            <Card className="p-6 bg-green-50 border-green-200">
-              <h3 className="text-lg font-semibold text-green-800 mb-2">Lifetime Impact</h3>
-              <p className="text-3xl font-bold text-green-700">
-                {donorSummary ? formatCurrency(donorSummary.lifetimeGiving) : formatCurrency(0)}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">Total lifetime giving</p>
-            </Card>
+          <div className="text-center p-6">
+            <p>No donor history found. Let's explore the impact of your donation.</p>
+            <Button 
+              className="mt-4" 
+              onClick={onNext}
+            >
+              Continue to Impact Visualization
+            </Button>
           </div>
         )}
-        
-        <div className="mt-8">
-          <p className="text-lg font-medium">
-            Your recent gift of {formatCurrency(amount)} is included in these totals.
-          </p>
-          <p className="text-md text-gray-600 mt-2">
-            Let's take a look at the impact your donations are making!
-          </p>
-        </div>
       </div>
     </SlideLayout>
   );

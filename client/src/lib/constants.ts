@@ -22,7 +22,8 @@ export const SLIDE_CONFIG = {
 export const SLIDE_COLORS = {
   welcome: "bg-white",
   loading: "bg-cfs-darkGreen", 
-  donorSummary: "bg-cfs-brightGreen", // New donor summary slide
+  donor: "bg-cfs-teal", // Donor summary slide
+  donorSummary: "bg-cfs-brightGreen", // For backward compatibility
   meals: "bg-cfs-teal", // Main brand color - teal
   nutrition: "bg-cfs-brightGreen", // Bright green
   people: "bg-cfs-darkGreen", // Dark green

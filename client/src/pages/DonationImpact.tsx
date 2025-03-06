@@ -126,7 +126,7 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             amount,
             impact: data.impact,
             isLoading: false,
-            step: SlideNames.MEALS,
+            step: SlideNames.DONOR_SUMMARY, // Show donor summary first for returning donors
             donorEmail: data.donation.email || null
           });
           
@@ -172,10 +172,11 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     setTimeout(() => {
       // Calculate impact locally for faster response
       const impact = calculateDonationImpact(amount);
+      const nextStep = email ? SlideNames.DONOR_SUMMARY : SlideNames.MEALS;
       this.setState({
         impact,
         isLoading: false,
-        step: SlideNames.MEALS
+        step: nextStep
       });
       
       // Log the donation via API
@@ -248,9 +249,13 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    */
   goToPreviousSlide() {
     this.setState(prev => {
-      // If we're at the first content slide or earlier, don't go back
-      if (prev.step <= SlideNames.MEALS) {
+      // If we're at the donor summary, don't go back
+      if (prev.step <= SlideNames.DONOR_SUMMARY) {
         return prev;
+      }
+      // For meals slide, go back to donor summary if we have a donor email
+      if (prev.step === SlideNames.MEALS && prev.donorEmail) {
+        return { ...prev, step: SlideNames.DONOR_SUMMARY };
       }
       return { ...prev, step: prev.step - 1 };
     });
@@ -277,7 +282,7 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    * Check if current slide is the first content slide
    */
   isFirstSlide() {
-    return this.state.step <= SlideNames.MEALS;
+    return this.state.step <= SlideNames.DONOR_SUMMARY || this.state.step === SlideNames.MEALS;
   }
   
   /**
