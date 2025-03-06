@@ -7,8 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Check, AlertCircle, Download, RefreshCw, Search } from 'lucide-react';
+import { Check, AlertCircle, Download, RefreshCw, Search, Gift, Settings, Mail } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 interface SegmentationOptions {
   donationMin?: number;
@@ -57,8 +58,10 @@ export default function SegmentationTool() {
   
   const [activeSegment, setActiveSegment] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingWrapped, setIsGeneratingWrapped] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const { toast } = useToast();
   
   const handleCreateSegment = async () => {
     setIsLoading(true);
@@ -126,6 +129,72 @@ export default function SegmentationTool() {
   const handleDeleteSegment = async (segmentId: string) => {
     // This would make an API call to delete the segment
     setSegments(segments.filter(segment => segment.id !== segmentId));
+  };
+  
+  const handleGenerateWrapped = async (segmentId: string) => {
+    setIsGeneratingWrapped(true);
+    
+    try {
+      // Make API call to generate wrapped reports for all donors in the segment
+      const response = await fetch(`/api/segments/${segmentId}/generate-wrapped`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to generate wrapped reports');
+      }
+      
+      const result = await response.json();
+      
+      toast({
+        title: "Impact reports generated",
+        description: `Successfully generated ${result.count} donor impact reports.`,
+        variant: "default",
+      });
+    } catch (err) {
+      console.error('Error generating wrapped reports:', err);
+      toast({
+        title: "Error",
+        description: "Failed to generate impact reports: " + (err instanceof Error ? err.message : 'Unknown error'),
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingWrapped(false);
+    }
+  };
+  
+  const handleSendWrappedEmails = async (segmentId: string) => {
+    try {
+      // Make API call to send wrapped reports to all donors in the segment
+      const response = await fetch(`/api/segments/${segmentId}/send-wrapped-emails`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to send wrapped report emails');
+      }
+      
+      const result = await response.json();
+      
+      toast({
+        title: "Emails sent",
+        description: `Successfully sent ${result.count} impact report emails.`,
+        variant: "default",
+      });
+    } catch (err) {
+      console.error('Error sending wrapped report emails:', err);
+      toast({
+        title: "Error",
+        description: "Failed to send impact report emails: " + (err instanceof Error ? err.message : 'Unknown error'),
+        variant: "destructive",
+      });
+    }
   };
   
   return (
@@ -267,6 +336,36 @@ export default function SegmentationTool() {
                           Export
                         </Button>
                       </div>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t flex flex-wrap justify-end gap-2">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => handleGenerateWrapped(segment.id)}
+                        disabled={isGeneratingWrapped}
+                      >
+                        {isGeneratingWrapped ? (
+                          <>
+                            <RefreshCw className="h-4 w-4 mr-1 animate-spin" />
+                            Generating...
+                          </>
+                        ) : (
+                          <>
+                            <Gift className="h-4 w-4 mr-1" />
+                            Generate Wrapped
+                          </>
+                        )}
+                      </Button>
+                      
+                      <Button
+                        size="sm"
+                        variant="default"
+                        onClick={() => handleSendWrappedEmails(segment.id)}
+                      >
+                        <Mail className="h-4 w-4 mr-1" />
+                        Send Impact Emails
+                      </Button>
                     </div>
                   </div>
                 ))
