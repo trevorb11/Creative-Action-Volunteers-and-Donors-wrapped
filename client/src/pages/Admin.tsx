@@ -1,4 +1,6 @@
 import ImportForm from "@/components/admin/ImportForm";
+import SegmentationTool from "@/components/admin/SegmentationTool";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Admin() {
   return (
@@ -10,12 +12,30 @@ export default function Admin() {
         </p>
       </div>
       
-      <div className="grid gap-8">
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Import Donor Data</h2>
-          <ImportForm />
-        </div>
-      </div>
+      <Tabs defaultValue="import" className="w-full">
+        <TabsList className="mb-6">
+          <TabsTrigger value="import">Data Import</TabsTrigger>
+          <TabsTrigger value="segmentation">Donor Segmentation</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="import">
+          <div className="grid gap-8">
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Import Donor Data</h2>
+              <ImportForm />
+            </div>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="segmentation">
+          <div className="grid gap-8">
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Donor Segmentation</h2>
+              <SegmentationTool />
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

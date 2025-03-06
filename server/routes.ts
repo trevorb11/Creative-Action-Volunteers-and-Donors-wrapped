@@ -41,6 +41,28 @@ function getDaysFed(meals: number) {
   return Math.floor(meals / 84) + ' weeks';
 }
 
+interface SegmentationCriteria {
+  donationMin?: number;
+  donationMax?: number;
+  donationFrequency?: string;
+  dateRange?: string;
+  includeNoEmail?: boolean;
+}
+
+interface SegmentResult {
+  id: string;
+  name: string;
+  criteria: SegmentationCriteria;
+  donorCount: number;
+  donors: Array<{
+    id: number;
+    email: string;
+    name?: string;
+    totalDonations: number;
+    lastDonation: Date;
+  }>;
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // API endpoint to calculate impact based on donation amount
   app.post('/api/calculate-impact', async (req, res) => {
@@ -262,6 +284,123 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error importing donors:", error);
       res.status(400).json({ error: 'Invalid import data' });
+    }
+  });
+  
+  // API endpoint for donor segmentation
+  app.post('/api/segmentation', async (req, res) => {
+    try {
+      const criteriaSchema = z.object({
+        donationMin: z.number().optional(),
+        donationMax: z.number().optional(),
+        donationFrequency: z.string().optional(),
+        dateRange: z.string().optional(),
+        includeNoEmail: z.boolean().optional(),
+        name: z.string().optional(),
+      });
+      
+      const criteria = criteriaSchema.parse(req.body);
+      
+      // Get all donations
+      const donations = await storage.getDonations();
+      
+      // Map donations to donor IDs with amount and date
+      const donorDonationsMap = new Map();
+      
+      donations.forEach(donation => {
+        const donorId = donation.donor_id;
+        if (!donorId) return; // Skip donations without donor
+        
+        const amount = parseFloat(donation.amount.toString());
+        
+        // Apply donation amount filters
+        if (criteria.donationMin && amount < criteria.donationMin) return;
+        if (criteria.donationMax && amount > criteria.donationMax) return;
+        
+        // Apply date range filters
+        const donationDate = new Date(donation.timestamp);
+        const now = new Date();
+        
+        if (criteria.dateRange === 'lastYear') {
+          const oneYearAgo = new Date();
+          oneYearAgo.setFullYear(now.getFullYear() - 1);
+          if (donationDate < oneYearAgo) return;
+        } else if (criteria.dateRange === 'lastQuarter') {
+          const threeMonthsAgo = new Date();
+          threeMonthsAgo.setMonth(now.getMonth() - 3);
+          if (donationDate < threeMonthsAgo) return;
+        }
+        
+        // Add to map
+        if (!donorDonationsMap.has(donorId)) {
+          donorDonationsMap.set(donorId, {
+            donations: [],
+            totalAmount: 0
+          });
+        }
+        
+        const donorData = donorDonationsMap.get(donorId);
+        donorData.donations.push({
+          amount,
+          date: donationDate
+        });
+        donorData.totalAmount += amount;
+      });
+      
+      // Apply frequency filters
+      if (criteria.donationFrequency === 'single') {
+        Array.from(donorDonationsMap.entries()).forEach(([donorId, data]) => {
+          if (data.donations.length > 1) {
+            donorDonationsMap.delete(donorId);
+          }
+        });
+      } else if (criteria.donationFrequency === 'multiple') {
+        Array.from(donorDonationsMap.entries()).forEach(([donorId, data]) => {
+          if (data.donations.length <= 1) {
+            donorDonationsMap.delete(donorId);
+          }
+        });
+      }
+      
+      // Get donor details for each matching donor
+      const segmentDonors = [];
+      const processedDonorIds = Array.from(donorDonationsMap.keys());
+      
+      for (const donorId of processedDonorIds) {
+        const donor = await storage.getDonor(donorId);
+        
+        if (!donor) continue;
+        
+        // Skip donors without email if includeNoEmail is false
+        if (!criteria.includeNoEmail && !donor.email) continue;
+        
+        const donorData = donorDonationsMap.get(donorId);
+        const lastDonation = donorData.donations.sort((a: {date: Date}, b: {date: Date}) => b.date.getTime() - a.date.getTime())[0];
+        
+        segmentDonors.push({
+          id: donor.id,
+          email: donor.email,
+          name: donor.first_name && donor.last_name 
+            ? `${donor.first_name} ${donor.last_name}` 
+            : donor.first_name || undefined,
+          totalDonations: donorData.totalAmount,
+          lastDonation: lastDonation.date
+        });
+      }
+      
+      // Create segment result
+      const segmentResult: SegmentResult = {
+        id: `segment-${Date.now()}`,
+        name: criteria.name || `Segment ${new Date().toISOString().split('T')[0]}`,
+        criteria,
+        donorCount: segmentDonors.length,
+        donors: segmentDonors
+      };
+      
+      res.json(segmentResult);
+    } catch (error) {
+      console.error("Error segmenting donors:", error);
+      res.status(400).json({ error: 'Invalid segmentation criteria' });
     }
   });
   
