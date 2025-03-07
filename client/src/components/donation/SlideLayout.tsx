@@ -31,11 +31,11 @@ export default function SlideLayout({
   const bgColor = SLIDE_COLORS[variant];
   
   return (
-    <div className={`min-h-screen w-full flex items-center justify-center ${bgColor} text-white relative`}>
+    <div className={`min-h-screen w-full flex items-center justify-center ${bgColor} text-white relative overflow-x-hidden`}>
       {/* Community Food Share logo */}
-      <div className="absolute top-6 left-6">
+      <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-20">
         <div className="flex items-center">
-          <h3 className="text-lg md:text-xl font-bold text-white">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">
             Community Food Share
           </h3>
         </div>
@@ -45,18 +45,18 @@ export default function SlideLayout({
       {onPrevious && !isFirstSlide && (
         <button 
           onClick={onPrevious}
-          className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 text-white transition-all duration-300 z-10"
+          className="absolute left-2 sm:left-4 md:left-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-2 sm:p-3 text-white transition-all duration-300 z-10"
           aria-label="Previous slide"
         >
-          <ArrowLeft className="h-6 w-6" />
+          <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
         </button>
       )}
       
       {/* Main content */}
-      <div className="container mx-auto px-6 py-12 flex flex-col items-center justify-center">
-        <div className="text-center max-w-3xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col items-center justify-center">
+        <div className="text-center w-full max-w-3xl mx-auto">
           <motion.h2 
-            className={`text-3xl md:text-5xl font-bold mb-6 ${titleClassName}`}
+            className={`text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6 ${titleClassName}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -67,7 +67,7 @@ export default function SlideLayout({
           
           {subtitle && (
             <motion.h3 
-              className="text-xl md:text-2xl mb-8 font-medium"
+              className="text-lg sm:text-xl md:text-2xl mb-4 sm:mb-8 font-medium"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -81,19 +81,19 @@ export default function SlideLayout({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-8"
+            className="mb-6 sm:mb-8 w-full"
           >
             {children}
           </motion.div>
           
           {quote && (
             <motion.div
-              className="mt-12 max-w-2xl mx-auto px-6 py-4 bg-white/10 rounded-lg border-l-4 border-cfs-yellow"
+              className="mt-8 sm:mt-12 w-full max-w-2xl mx-auto px-4 sm:px-6 py-3 sm:py-4 bg-white/10 rounded-lg border-l-4 border-cfs-yellow"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
-              <p className="text-lg italic" style={{ fontFamily: 'Open Sans, sans-serif' }}>
+              <p className="text-base sm:text-lg italic" style={{ fontFamily: 'Open Sans, sans-serif' }}>
                 "{quote}"
               </p>
             </motion.div>
@@ -105,15 +105,15 @@ export default function SlideLayout({
       {onNext && !isLastSlide && (
         <button 
           onClick={onNext}
-          className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-3 text-white transition-all duration-300 z-10"
+          className="absolute right-2 sm:right-4 md:right-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-2 sm:p-3 text-white transition-all duration-300 z-10"
           aria-label="Next slide"
         >
-          <ArrowRight className="h-6 w-6" />
+          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
         </button>
       )}
       
       {/* Footer */}
-      <div className="absolute bottom-4 w-full text-center text-white/70 text-sm">
+      <div className="absolute bottom-2 sm:bottom-4 w-full text-center text-white/70 text-xs sm:text-sm">
         <p>Together, we're building a hunger-free community</p>
       </div>
     </div>

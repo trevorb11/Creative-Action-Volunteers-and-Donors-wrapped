@@ -51,7 +51,7 @@ export default function DonationForm({ onSubmit }: DonationFormProps) {
         {/* Preset donation amount buttons */}
         <div className="mb-4">
           <p className="text-cfs-darkGray mb-2 font-medium">Choose an amount:</p>
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
             {presetAmounts.map((amount) => (
               <button
                 key={amount}
