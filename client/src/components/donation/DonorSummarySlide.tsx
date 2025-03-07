@@ -709,7 +709,7 @@ export default function DonorSummarySlide({
                       whileHover={{ scale: 1.05 }}
                     >
                       <Gift className="inline-block mr-2 h-5 w-5 text-green-600" />
-                      Your Most Recent Donation: <CountUpAnimation 
+                      Your Most Recent Donation: $<CountUpAnimation 
                         value={amount}
                         className="ml-1 font-semibold"
                         delay={0.3}
@@ -1170,7 +1170,7 @@ export default function DonorSummarySlide({
                       transition={{ delay: 1.2, duration: 0.5 }}
                     >
                       Your generosity is making a real difference in our community. Let's explore how your current donation of <span className="font-bold text-primary inline-block text-xl">
-                        <CountUpAnimation 
+                        $<CountUpAnimation 
                           value={amount}
                           className="font-bold text-primary"
                           delay={1.2}
@@ -1355,7 +1355,7 @@ export default function DonorSummarySlide({
                     transition={{ delay: 0.8, duration: 0.5 }}
                   >
                     We're thrilled to welcome you as a new donor! Your generosity of <span className="font-bold text-white inline-block">
-                      <CountUpAnimation 
+                      $<CountUpAnimation 
                         value={amount}
                         className="font-bold text-white"
                         delay={0.8}

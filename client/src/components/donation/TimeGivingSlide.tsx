@@ -19,7 +19,8 @@ import {
   Heart,
   Sparkles,
   Hourglass,
-  Rocket
+  Rocket,
+  Gift
 } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
 
@@ -615,7 +616,7 @@ export default function TimeGivingSlide({
                       <Award className="h-7 w-7 text-green-600" />
                     </div>
                     <p className="text-2xl font-bold text-green-700 flex items-center justify-center">
-                      <CountUpAnimation 
+                      $<CountUpAnimation 
                         value={journeyStats.totalGiving || donorSummary?.lifetimeGiving || 0}
                         className="font-bold"
                         delay={0.3}
@@ -631,8 +632,8 @@ export default function TimeGivingSlide({
                     <div className="bg-amber-100 p-2 rounded-full mb-2">
                       <Gift className="h-7 w-7 text-amber-600" />
                     </div>
-                    <p className="text-2xl font-bold text-amber-700">
-                      <CountUpAnimation 
+                    <p className="text-2xl font-bold text-amber-700 flex items-center justify-center">
+                      $<CountUpAnimation 
                         value={donorSummary?.lastGift?.amount || amount}
                         className="font-bold"
                         delay={0.4}
