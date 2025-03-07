@@ -54,35 +54,6 @@ export async function setupDatabase() {
       );
     `;
     
-    // Create volunteers table if it doesn't exist
-    await sql`
-      CREATE TABLE IF NOT EXISTS volunteers (
-        id SERIAL PRIMARY KEY,
-        name TEXT,
-        email TEXT UNIQUE,
-        phone TEXT,
-        address TEXT,
-        city TEXT,
-        state TEXT,
-        zip TEXT,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      );
-    `;
-    
-    // Create volunteer_shifts table if it doesn't exist
-    await sql`
-      CREATE TABLE IF NOT EXISTS volunteer_shifts (
-        id SERIAL PRIMARY KEY,
-        volunteer_id INTEGER REFERENCES volunteers(id),
-        hours TEXT NOT NULL,
-        shift_date TIMESTAMP DEFAULT NOW(),
-        email TEXT,
-        external_shift_id TEXT,
-        created_at TIMESTAMP DEFAULT NOW()
-      );
-    `;
-    
     console.log('Database setup completed successfully.');
     return true;
   } catch (error) {

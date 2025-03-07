@@ -44,35 +44,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // API endpoint to record a volunteer shift
   app.post('/api/log-volunteer-shift', async (req, res) => {
     try {
-      // Extend the schema to require email for volunteer shifts and handle hours as number
-      const inputSchema = z.object({
-        hours: z.number().min(0.1),
+      // Extend the schema to require email for volunteer shifts
+      const shiftSchema = insertVolunteerShiftSchema.extend({
         email: z.string().email().optional(),
-        shift_date: z.date().or(z.string()).transform(val => 
-          typeof val === 'string' ? new Date(val) : val
-        )
       });
       
-      const rawData = req.body;
-      const validatedData = inputSchema.parse(rawData);
+      const shiftData = shiftSchema.parse(req.body);
       
-      // Prepare the volunteer shift data in the format expected by storage
-      const shiftData: any = {
-        hours: validatedData.hours.toString(), // Convert to string as required by the schema
-        shift_date: validatedData.shift_date
-      };
-      
-      // Include email if provided
-      if (validatedData.email) {
-        shiftData.email = validatedData.email;
-        
+      // If an email is provided, try to create/update the volunteer record
+      if (shiftData.email) {
         // Check if this volunteer already exists
-        const existingVolunteer = await storage.getVolunteerByEmail(validatedData.email);
+        const existingVolunteer = await storage.getVolunteerByEmail(shiftData.email);
         
         if (!existingVolunteer) {
           // Create a new volunteer with minimal information
           const newVolunteer = await storage.createVolunteer({
-            email: validatedData.email,
+            email: shiftData.email,
           });
           
           // Link the shift to the volunteer

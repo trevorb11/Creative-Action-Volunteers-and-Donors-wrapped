@@ -5,9 +5,8 @@ import type { VolunteerImpact as VolunteerImpactType } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { SLIDE_COLORS, SLIDE_CONFIG } from "@/lib/constants";
-import { Loader2, ArrowLeft, ArrowRight, RotateCcw, Share2, Clock, Utensils, DollarSign, Users } from "lucide-react";
-import CountUpAnimation from "@/components/donation/CountUpAnimation";
+import { SLIDE_COLORS } from "@/lib/constants";
+import { Loader2, ArrowLeft, ArrowRight, RotateCcw, Share2 } from "lucide-react";
 
 // State interface for volunteer impact
 interface VolunteerImpactState {
@@ -352,49 +351,43 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
     // Welcome screen / Hours entry
     if (step === SlideNames.WELCOME) {
       return (
-        <div className={`min-h-screen flex items-center justify-center p-4 ${SLIDE_COLORS.loading}`}>
-          <Card className="w-full max-w-lg border-0 shadow-xl bg-white/90 backdrop-blur-sm">
-            <CardHeader className="text-center">
-              <CardTitle className="text-3xl font-bold">Volunteer Impact Calculator</CardTitle>
-              <CardDescription className="text-lg mt-2">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-white">
+          <Card className="w-full max-w-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-center">Volunteer Impact Calculator</CardTitle>
+              <CardDescription className="text-center">
                 See how your volunteer hours make a difference at Community Food Share
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <label htmlFor="hours" className="block text-sm font-medium">
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="hours" className="block text-sm font-medium mb-1">
                     Hours Volunteered
                   </label>
-                  <div className="relative">
-                    <Clock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                    <input
-                      id="hours"
-                      type="number"
-                      min="0.5"
-                      step="0.5"
-                      placeholder="Enter hours"
-                      className="w-full p-3 pl-10 border rounded-lg"
-                      onChange={(e) => this.setState({ hours: parseFloat(e.target.value) || 0 })}
-                      value={hours || ''}
-                    />
-                  </div>
+                  <input
+                    id="hours"
+                    type="number"
+                    min="0.5"
+                    step="0.5"
+                    placeholder="Enter hours"
+                    className="w-full p-2 border rounded-md"
+                    onChange={(e) => this.setState({ hours: parseFloat(e.target.value) || 0 })}
+                    value={hours || ''}
+                  />
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="block text-sm font-medium">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-1">
                     Email (optional)
                   </label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-3 h-5 w-5 text-gray-400">@</div>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="Your email address"
-                      className="w-full p-3 pl-10 border rounded-lg"
-                      onChange={(e) => this.setState({ volunteerEmail: e.target.value || null })}
-                      value={this.state.volunteerEmail || ''}
-                    />
-                  </div>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Your email address"
+                    className="w-full p-2 border rounded-md"
+                    onChange={(e) => this.setState({ volunteerEmail: e.target.value || null })}
+                    value={this.state.volunteerEmail || ''}
+                  />
                   <p className="text-xs text-gray-500 mt-1">
                     Provide your email to save your volunteer history
                   </p>
@@ -405,9 +398,9 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
               <Button
                 onClick={() => this.handleHoursSubmit(hours, this.state.volunteerEmail || undefined)}
                 disabled={hours <= 0}
-                className="w-full py-6 text-lg font-semibold transition-all hover:scale-105"
+                className="w-full"
               >
-                <Clock className="mr-2 h-5 w-5" /> Calculate My Impact
+                Calculate My Impact
               </Button>
             </CardFooter>
           </Card>
@@ -419,23 +412,12 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
     if (step === SlideNames.LOADING || isLoading) {
       return (
         <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${SLIDE_COLORS.loading}`}>
-          <div className="text-center text-white mb-8 animate-fadeIn">
-            <h2 className="text-3xl font-bold mb-4">Calculating Your Impact</h2>
-            <p className="text-xl mb-8">Please wait while we calculate how your volunteer hours help our community</p>
-            <div className="relative">
-              <Progress value={75} className="w-80 h-2 mx-auto mb-6" />
-              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <div className="w-4 h-4 bg-white rounded-full"></div>
-              </div>
-            </div>
+          <div className="text-center text-white mb-8">
+            <h2 className="text-2xl font-bold mb-4">Calculating Your Impact</h2>
+            <p className="text-lg mb-6">Please wait while we calculate how your volunteer hours help our community</p>
+            <Progress value={75} className="w-64 mx-auto" />
           </div>
-          <div className="relative">
-            <Loader2 className="h-20 w-20 animate-spin text-white" />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-lg font-semibold">
-              {Math.floor(Math.random() * 55) + 1}
-            </div>
-          </div>
-          <p className="text-white mt-6 text-sm">Each volunteer hour provides approximately 55 meals</p>
+          <Loader2 className="h-16 w-16 animate-spin text-white" />
         </div>
       );
     }
@@ -495,50 +477,25 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
           return (
             <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${SLIDE_COLORS.meals}`}>
               <div className="max-w-2xl text-center text-white">
-                <h1 className="text-3xl md:text-4xl font-bold mb-8 animate-fadeIn">Your Volunteer Impact</h1>
+                <h1 className="text-3xl font-bold mb-6">Your Volunteer Impact</h1>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div className="bg-white/20 p-6 rounded-lg transform transition-all hover:scale-105 duration-300">
-                    <Clock className="w-12 h-12 mx-auto mb-2 text-white/80" />
-                    <h3 className="text-xl font-semibold mb-4">Hours Volunteered</h3>
-                    <CountUpAnimation 
-                      value={impact.hoursWorked} 
-                      className="text-4xl font-bold"
-                      delay={300}
-                      duration={SLIDE_CONFIG.counterDuration}
-                    />
+                  <div className="bg-white/20 p-4 rounded-lg">
+                    <h3 className="text-xl font-semibold mb-2">Hours Volunteered</h3>
+                    <p className="text-4xl font-bold">{impact.hoursWorked}</p>
                   </div>
-                  <div className="bg-white/20 p-6 rounded-lg transform transition-all hover:scale-105 duration-300">
-                    <Utensils className="w-12 h-12 mx-auto mb-2 text-white/80" />
-                    <h3 className="text-xl font-semibold mb-4">Meals Provided</h3>
-                    <CountUpAnimation 
-                      value={impact.mealsProvided} 
-                      className="text-4xl font-bold"
-                      delay={600}
-                      duration={SLIDE_CONFIG.counterDuration}
-                    />
+                  <div className="bg-white/20 p-4 rounded-lg">
+                    <h3 className="text-xl font-semibold mb-2">Meals Provided</h3>
+                    <p className="text-4xl font-bold">{impact.mealsProvided.toLocaleString()}</p>
                   </div>
-                  <div className="bg-white/20 p-6 rounded-lg transform transition-all hover:scale-105 duration-300">
-                    <DollarSign className="w-12 h-12 mx-auto mb-2 text-white/80" />
-                    <h3 className="text-xl font-semibold mb-4">Value Created</h3>
-                    <CountUpAnimation 
-                      value={impact.costSavings} 
-                      className="text-4xl font-bold"
-                      isCurrency={true}
-                      delay={900}
-                      duration={SLIDE_CONFIG.counterDuration}
-                    />
+                  <div className="bg-white/20 p-4 rounded-lg">
+                    <h3 className="text-xl font-semibold mb-2">Value Created</h3>
+                    <p className="text-4xl font-bold">${impact.costSavings.toLocaleString()}</p>
                   </div>
                 </div>
-                <div className="bg-white/10 p-6 rounded-lg mb-8 animate-fadeIn opacity-0" style={{ animationDelay: '1.2s', animationFillMode: 'forwards' }}>
-                  <p className="text-xl">
-                    With your <span className="font-bold">{impact.hoursWorked}</span> hours of service, 
-                    you've helped feed <span className="font-bold">{impact.peopleServedPerDay.toLocaleString()}</span> people 
-                    for an entire day!
-                  </p>
-                </div>
-                <div className="animate-fadeIn opacity-0" style={{ animationDelay: '1.5s', animationFillMode: 'forwards' }}>
-                  {navigationButtons}
-                </div>
+                <p className="text-xl mb-8">
+                  With your {impact.hoursWorked} hours of service, you've helped feed {impact.peopleServedPerDay.toLocaleString()} people for an entire day!
+                </p>
+                {navigationButtons}
               </div>
             </div>
           );
@@ -547,31 +504,18 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
           return (
             <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${SLIDE_COLORS.nutrition}`}>
               <div className="max-w-2xl text-center text-white">
-                <h1 className="text-3xl md:text-4xl font-bold mb-8 animate-fadeIn">Meals Your Service Provided</h1>
-                <div className="bg-white/20 p-8 rounded-lg mb-8 transform transition-all hover:scale-105 duration-300">
-                  <Utensils className="w-16 h-16 mx-auto mb-4 text-white/80" />
-                  <CountUpAnimation 
-                    value={impact.mealsProvided} 
-                    className="text-6xl font-bold mb-4"
-                    delay={300}
-                    duration={SLIDE_CONFIG.counterDuration}
-                  />
-                  <div className="animate-fadeIn opacity-0" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
-                    <p className="text-xl">
-                      That's enough food to feed <span className="font-bold">{Math.floor(impact.mealsProvided / 3).toLocaleString()}</span> people for a day,
-                      <br />or <span className="font-bold">{Math.floor(impact.mealsProvided / 21).toLocaleString()}</span> people for an entire week!
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-white/10 p-6 rounded-lg mb-8 animate-fadeIn opacity-0" style={{ animationDelay: '1.2s', animationFillMode: 'forwards' }}>
+                <h1 className="text-3xl font-bold mb-6">Meals Your Service Provided</h1>
+                <div className="bg-white/20 p-8 rounded-lg mb-8">
+                  <p className="text-6xl font-bold mb-4">{impact.mealsProvided.toLocaleString()}</p>
                   <p className="text-xl">
-                    Each hour of volunteer service at Community Food Share helps provide 
-                    approximately <span className="font-bold">55 meals</span> to those in need.
+                    That's enough food to feed {Math.floor(impact.mealsProvided / 3)} people for a day,
+                    or {Math.floor(impact.mealsProvided / 21)} people for an entire week!
                   </p>
                 </div>
-                <div className="animate-fadeIn opacity-0" style={{ animationDelay: '1.5s', animationFillMode: 'forwards' }}>
-                  {navigationButtons}
-                </div>
+                <p className="text-xl mb-8">
+                  Each hour of volunteer service at Community Food Share helps provide approximately 55 meals to those in need.
+                </p>
+                {navigationButtons}
               </div>
             </div>
           );
@@ -580,32 +524,17 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
           return (
             <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${SLIDE_COLORS.foodRescue}`}>
               <div className="max-w-2xl text-center text-white">
-                <h1 className="text-3xl md:text-4xl font-bold mb-8 animate-fadeIn">Economic Impact</h1>
-                <div className="bg-white/20 p-8 rounded-lg mb-8 transform transition-all hover:scale-105 duration-300">
-                  <DollarSign className="w-16 h-16 mx-auto mb-4 text-white/80" />
-                  <CountUpAnimation 
-                    value={impact.costSavings} 
-                    className="text-6xl font-bold mb-4"
-                    isCurrency={true}
-                    delay={300}
-                    duration={SLIDE_CONFIG.counterDuration}
-                  />
-                  <div className="animate-fadeIn opacity-0" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
-                    <p className="text-xl">
-                      The value of your volunteer time helps Community Food Share operate 
-                      efficiently and serve more people in our community.
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-white/10 p-6 rounded-lg mb-8 animate-fadeIn opacity-0" style={{ animationDelay: '1.2s', animationFillMode: 'forwards' }}>
+                <h1 className="text-3xl font-bold mb-6">Economic Impact</h1>
+                <div className="bg-white/20 p-8 rounded-lg mb-8">
+                  <p className="text-6xl font-bold mb-4">${impact.costSavings.toLocaleString()}</p>
                   <p className="text-xl">
-                    Each volunteer hour is valued at <span className="font-bold">$36.36</span>, 
-                    helping us keep our costs low while maximizing our community impact.
+                    The value of your volunteer time helps Community Food Share operate efficiently and serve more people.
                   </p>
                 </div>
-                <div className="animate-fadeIn opacity-0" style={{ animationDelay: '1.5s', animationFillMode: 'forwards' }}>
-                  {navigationButtons}
-                </div>
+                <p className="text-xl mb-8">
+                  Each volunteer hour is valued at $36.36, helping us keep our costs low while maximizing our community impact.
+                </p>
+                {navigationButtons}
               </div>
             </div>
           );
@@ -614,32 +543,18 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
           return (
             <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${SLIDE_COLORS.people}`}>
               <div className="max-w-2xl text-center text-white">
-                <h1 className="text-3xl md:text-4xl font-bold mb-8 animate-fadeIn">People You've Helped</h1>
-                <div className="bg-white/20 p-8 rounded-lg mb-8 transform transition-all hover:scale-105 duration-300">
-                  <Users className="w-16 h-16 mx-auto mb-4 text-white/80" />
-                  <CountUpAnimation 
-                    value={impact.peopleServedPerDay} 
-                    className="text-6xl font-bold mb-4"
-                    delay={300}
-                    duration={SLIDE_CONFIG.counterDuration}
-                  />
-                  <div className="animate-fadeIn opacity-0" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
-                    <p className="text-xl">
-                      That's the number of people who can be fed for a full day 
-                      thanks to your volunteer service.
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-white/10 p-6 rounded-lg mb-8 animate-fadeIn opacity-0" style={{ animationDelay: '1.2s', animationFillMode: 'forwards' }}>
+                <h1 className="text-3xl font-bold mb-6">People You've Helped</h1>
+                <div className="bg-white/20 p-8 rounded-lg mb-8">
+                  <p className="text-6xl font-bold mb-4">{impact.peopleServedPerDay.toLocaleString()}</p>
                   <p className="text-xl">
-                    Community Food Share serves thousands of individuals across 
-                    Boulder and Broomfield Counties, and your contribution makes 
-                    a real difference in their lives.
+                    That's the number of people who can be fed for a full day thanks to your volunteer service.
                   </p>
                 </div>
-                <div className="animate-fadeIn opacity-0" style={{ animationDelay: '1.5s', animationFillMode: 'forwards' }}>
-                  {navigationButtons}
-                </div>
+                <p className="text-xl mb-8">
+                  Community Food Share serves thousands of individuals across Boulder and Broomfield Counties,
+                  and your contribution makes a real difference in their lives.
+                </p>
+                {navigationButtons}
               </div>
             </div>
           );
@@ -648,62 +563,25 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
           return (
             <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${SLIDE_COLORS.summary}`}>
               <div className="max-w-2xl text-center text-white">
-                <h1 className="text-3xl md:text-4xl font-bold mb-8 animate-fadeIn">Thank You!</h1>
-                <div className="bg-white/20 p-8 rounded-lg mb-8 transform transition-all hover:scale-105 duration-300">
-                  <div className="animate-fadeIn opacity-0" style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}>
-                    <p className="text-xl mb-6">
-                      Your <span className="font-bold">{impact.hoursWorked}</span> hours of service have made a significant impact:
-                    </p>
-                  </div>
-                  
-                  <div className="text-left grid md:grid-cols-3 gap-4 mb-6">
-                    <div className="bg-white/10 p-4 rounded-lg animate-fadeIn opacity-0" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
-                      <Utensils className="w-8 h-8 mb-2 text-white/80" />
-                      <p className="text-lg mb-1 font-semibold">Meals Provided</p>
-                      <CountUpAnimation 
-                        value={impact.mealsProvided} 
-                        className="text-2xl font-bold"
-                        delay={600}
-                        duration={1500}
-                      />
-                    </div>
-                    
-                    <div className="bg-white/10 p-4 rounded-lg animate-fadeIn opacity-0" style={{ animationDelay: '0.7s', animationFillMode: 'forwards' }}>
-                      <DollarSign className="w-8 h-8 mb-2 text-white/80" />
-                      <p className="text-lg mb-1 font-semibold">Value Created</p>
-                      <CountUpAnimation 
-                        value={impact.costSavings} 
-                        className="text-2xl font-bold"
-                        isCurrency={true}
-                        delay={800}
-                        duration={1500}
-                      />
-                    </div>
-                    
-                    <div className="bg-white/10 p-4 rounded-lg animate-fadeIn opacity-0" style={{ animationDelay: '0.9s', animationFillMode: 'forwards' }}>
-                      <Users className="w-8 h-8 mb-2 text-white/80" />
-                      <p className="text-lg mb-1 font-semibold">People Fed</p>
-                      <CountUpAnimation 
-                        value={impact.peopleServedPerDay} 
-                        className="text-2xl font-bold"
-                        delay={1000}
-                        duration={1500}
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="animate-fadeIn opacity-0" style={{ animationDelay: '1.2s', animationFillMode: 'forwards' }}>
-                    <p className="text-xl font-semibold">
-                      Thank you for helping us end hunger in our community!
-                    </p>
-                  </div>
+                <h1 className="text-3xl font-bold mb-6">Thank You!</h1>
+                <div className="bg-white/20 p-8 rounded-lg mb-8">
+                  <p className="text-xl mb-6">
+                    Your {impact.hoursWorked} hours of service have made a significant impact:
+                  </p>
+                  <ul className="text-left list-disc pl-8 mb-6 text-xl">
+                    <li>Provided {impact.mealsProvided.toLocaleString()} meals</li>
+                    <li>Created ${impact.costSavings.toLocaleString()} in value</li>
+                    <li>Fed {impact.peopleServedPerDay.toLocaleString()} people for a day</li>
+                  </ul>
+                  <p className="text-xl">
+                    Thank you for helping us end hunger in our community!
+                  </p>
                 </div>
-                
-                <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fadeIn opacity-0" style={{ animationDelay: '1.5s', animationFillMode: 'forwards' }}>
-                  <Button onClick={this.handleShare} variant="outline" className="bg-white/10 hover:bg-white/20">
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button onClick={this.handleShare} variant="outline" className="bg-white/10">
                     <Share2 className="mr-2 h-4 w-4" /> Share My Impact
                   </Button>
-                  <Button onClick={this.resetVolunteerImpact} variant="outline" className="bg-white/10 hover:bg-white/20">
+                  <Button onClick={this.resetVolunteerImpact} variant="outline" className="bg-white/10">
                     <RotateCcw className="mr-2 h-4 w-4" /> Start Over
                   </Button>
                 </div>
