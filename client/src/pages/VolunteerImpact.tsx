@@ -42,11 +42,12 @@ interface VolunteerImpactState {
 enum SlideNames {
   WELCOME = 0,
   LOADING = 1,
-  SUMMARY = 2,
-  MEALS = 3,
-  COST_SAVINGS = 4,
-  PEOPLE_SERVED = 5,
-  THANK_YOU = 6
+  INTRO = 2,
+  SUMMARY = 3,
+  MEALS = 4,
+  COST_SAVINGS = 5,
+  PEOPLE_SERVED = 6,
+  THANK_YOU = 7
 }
 
 // Form schema for volunteer hours
@@ -66,11 +67,15 @@ function getParamsFromURL() {
   const hours = params.get('hours') || params.get('volunteer_hours');
   const email = params.get('email');
   const firstName = params.get('first_name');
+  const shiftName = params.get('shift_name');
+  const shiftDate = params.get('shift_date');
   
   return {
     hours: hours ? parseFloat(hours) : undefined,
     email: email || undefined,
     firstName: firstName || undefined,
+    shiftName: shiftName || undefined,
+    shiftDate: shiftDate || undefined,
     allParams: window.location.search
   };
 }
@@ -231,7 +236,7 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
         this.setState({
           impact,
           isLoading: false,
-          step: SlideNames.MEALS // Start with the Meals slide instead of Summary
+          step: SlideNames.INTRO // Go to the intro slide first
         });
       }, 1800); // Show loading for at least 1.8 seconds
       
@@ -347,6 +352,8 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
 
   render() {
     const { step, impact, isLoading, error, hours } = this.state;
+    // Get URL parameters for the intro slide
+    const { firstName, shiftName, shiftDate } = getParamsFromURL();
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#f0f9f4] to-white p-2 sm:p-4 flex flex-col items-center justify-center">
@@ -357,6 +364,20 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
 
           {step === SlideNames.LOADING && (
             <LoadingSlide key="loading" />
+          )}
+          
+          {step === SlideNames.INTRO && impact && (
+            <IntroSlide 
+              key="intro"
+              firstName={firstName}
+              shiftName={shiftName}
+              shiftDate={shiftDate}
+              hours={hours}
+              onNext={this.goToNextSlide}
+              onPrevious={this.goToPreviousSlide}
+              isFirstSlide={false}
+              isLastSlide={false}
+            />
           )}
 
           {step === SlideNames.SUMMARY && impact && (
@@ -1129,6 +1150,169 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
             isLastSlide={isLastSlide} 
           />
         </CardFooter>
+      </Card>
+    </AnimatedSlide>
+  );
+};
+
+// Define intro slide props interface
+interface IntroSlideProps extends SlideProps {
+  firstName?: string;
+  shiftName?: string;
+  shiftDate?: string;
+  hours: number;
+}
+
+// Create the IntroSlide component
+const IntroSlide = ({ 
+  firstName, 
+  shiftName, 
+  shiftDate, 
+  hours, 
+  onNext, 
+  onPrevious, 
+  isFirstSlide, 
+  isLastSlide 
+}: IntroSlideProps) => {
+  const formattedDate = shiftDate ? new Date(shiftDate).toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric'
+  }) : '';
+
+  const shiftReference = shiftName ? 
+    `during your ${shiftName} shift` : 
+    shiftDate ? 
+      `on ${formattedDate}` : 
+      '';
+
+  return (
+    <AnimatedSlide className="w-full max-w-md">
+      <Card className="w-full overflow-hidden">
+        <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <CardTitle className="text-2xl font-bold">Welcome to Your Impact</CardTitle>
+            <CardDescription className="text-white opacity-90">
+              See the difference you're making
+            </CardDescription>
+          </motion.div>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="flex justify-center mb-6"
+          >
+            <div className="w-24 h-24 rounded-full bg-[#e6f2ed] flex items-center justify-center">
+              <Heart className="h-12 w-12 text-[#227d7f]" />
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="space-y-4 text-center"
+          >
+            <h3 className="text-xl font-bold text-[#0c4428]">
+              {firstName ? `Hi ${firstName}!` : "Thank You!"}
+            </h3>
+            
+            <p className="text-[#414042] leading-relaxed">
+              {firstName 
+                ? `Thank you for donating your time to help fight hunger in our community.`
+                : `Your volunteer contribution is making a significant impact in our fight against hunger.`
+              }
+            </p>
+            
+            <p className="text-[#414042] leading-relaxed font-medium">
+              {`You volunteered ${hours} ${hours === 1 ? 'hour' : 'hours'} ${shiftReference}.`}
+            </p>
+            
+            <div className="pt-2">
+              <p className="text-[#0c4428] font-semibold">
+                On the following pages, you'll see exactly how your time translates into:
+              </p>
+              
+              <motion.ul 
+                className="text-left list-disc list-inside mt-2 space-y-1 mx-auto max-w-xs"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: { 
+                    transition: { 
+                      staggerChildren: 0.2
+                    } 
+                  },
+                  hidden: {}
+                }}
+              >
+                <motion.li 
+                  className="text-[#414042]"
+                  variants={{
+                    visible: { opacity: 1, x: 0 },
+                    hidden: { opacity: 0, x: -20 }
+                  }}
+                >
+                  Meals provided to neighbors in need
+                </motion.li>
+                <motion.li 
+                  className="text-[#414042]"
+                  variants={{
+                    visible: { opacity: 1, x: 0 },
+                    hidden: { opacity: 0, x: -20 }
+                  }}
+                  transition={{ delay: 0.1 }}
+                >
+                  Cost savings for our organization
+                </motion.li>
+                <motion.li 
+                  className="text-[#414042]"
+                  variants={{
+                    visible: { opacity: 1, x: 0 },
+                    hidden: { opacity: 0, x: -20 }
+                  }}
+                  transition={{ delay: 0.2 }}
+                >
+                  People you've helped to feed
+                </motion.li>
+              </motion.ul>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+              className="pt-4"
+            >
+              <p className="text-[#227d7f] font-medium">
+                Let's explore the impact of your generosity!
+              </p>
+            </motion.div>
+          </motion.div>
+          
+          <SlideNavigation 
+            onNext={onNext} 
+            onPrevious={onPrevious}
+            isFirstSlide={isFirstSlide}
+            isLastSlide={isLastSlide}
+          />
+          
+          {/* Add CFS Logo */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.0, duration: 0.5 }}
+            className="mt-6 flex justify-center"
+          >
+            <CFSLogo height={40} />
+          </motion.div>
+        </CardContent>
       </Card>
     </AnimatedSlide>
   );
