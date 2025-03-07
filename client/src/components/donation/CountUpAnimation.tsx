@@ -7,13 +7,15 @@ interface CountUpAnimationProps {
   duration?: number;
   delay?: number;
   className?: string;
+  isCurrency?: boolean;
 }
 
 export default function CountUpAnimation({ 
   value,
   duration = 1.5,
   delay = 0,
-  className = ""
+  className = "",
+  isCurrency = false
 }: CountUpAnimationProps) {
   const [count, setCount] = useState(0);
   
@@ -63,7 +65,7 @@ export default function CountUpAnimation({
         repeatDelay: 3,
       }}
     >
-      {formatCurrency(count)}
+      {isCurrency ? formatCurrency(count) : count.toLocaleString()}
     </motion.div>
   );
 }

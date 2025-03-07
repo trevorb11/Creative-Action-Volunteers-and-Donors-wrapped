@@ -713,6 +713,7 @@ export default function DonorSummarySlide({
                         value={amount}
                         className="ml-1 font-semibold"
                         delay={0.3}
+                        isCurrency={true}
                       />
                     </motion.span>
                   </motion.p>
@@ -1174,6 +1175,7 @@ export default function DonorSummarySlide({
                           value={amount}
                           className="font-bold text-primary"
                           delay={1.2}
+                          isCurrency={true}
                         />
                       </span> will transform lives and nourish our neighbors.
                     </motion.p>
@@ -1359,6 +1361,7 @@ export default function DonorSummarySlide({
                         value={amount}
                         className="font-bold text-white"
                         delay={0.8}
+                        isCurrency={true}
                       />
                     </span> will make a meaningful impact in our community.
                   </motion.p>
