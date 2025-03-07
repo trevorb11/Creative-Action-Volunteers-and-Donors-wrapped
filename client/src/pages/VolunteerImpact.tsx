@@ -530,6 +530,16 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
               Together, we're building a hunger-free community. Every volunteer hour matters!
             </p>
           </motion.div>
+          
+          {/* Add CFS Logo */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+            className="mt-6"
+          >
+            <CFSLogo height={50} />
+          </motion.div>
         </CardContent>
       </Card>
     </AnimatedSlide>
@@ -614,6 +624,16 @@ const LoadingSlide = () => (
               />
             </motion.div>
           </div>
+          
+          {/* Add CFS Logo */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+            className="mt-6"
+          >
+            <CFSLogo height={40} />
+          </motion.div>
         </motion.div>
       </CardContent>
     </Card>
@@ -892,9 +912,9 @@ const CostSavingsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlid
   return (
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
-        <CardHeader className="text-center bg-green-600 text-white rounded-t-lg">
+        <CardHeader className="text-center bg-[#227d7f] text-white rounded-t-lg">
           <CardTitle className="text-2xl font-bold">Economic Impact</CardTitle>
-          <CardDescription className="text-green-100">
+          <CardDescription className="text-white opacity-90">
             The value of your time
           </CardDescription>
         </CardHeader>
@@ -904,12 +924,12 @@ const CostSavingsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlid
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <AnimatedIcon icon={DollarSign} size={56} color="#059669" className="mb-4" />
+            <AnimatedIcon icon={DollarSign} size={56} color="#227d7f" className="mb-4" />
           </motion.div>
           
           <div className="text-center mb-8">
             <motion.div 
-              className="text-6xl font-bold mb-2 text-green-600"
+              className="text-6xl font-bold mb-2 text-[#227d7f]"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
@@ -921,7 +941,7 @@ const CostSavingsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlid
               />
             </motion.div>
             <motion.p 
-              className="text-xl text-gray-600"
+              className="text-xl text-[#414042]"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.4 }}
@@ -931,17 +951,17 @@ const CostSavingsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlid
           </div>
           
           {/* Visual representation of value with growing bar */}
-          <div className="w-full bg-green-100 h-3 rounded-full mb-6">
-            <div ref={barRef} className="bg-green-500 h-3 rounded-full w-0"></div>
+          <div className="w-full bg-[#e6f8f8] h-3 rounded-full mb-6">
+            <div ref={barRef} className="bg-[#227d7f] h-3 rounded-full w-0"></div>
           </div>
           
           <motion.div 
-            className="bg-green-50 p-5 rounded-lg w-full mb-6 border border-green-100"
+            className="bg-[#e6f8f8] p-5 rounded-lg w-full mb-6 border border-[#227d7f]/20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <p className="text-center text-green-800">
+            <p className="text-center text-[#227d7f]">
               Your volunteer time is valued at <span className="font-bold">${almanacData.valuePerVolunteerHour.toFixed(2)} per hour</span>, allowing us to allocate more resources to food programs.
             </p>
           </motion.div>
@@ -952,7 +972,7 @@ const CostSavingsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlid
             animate={{ opacity: animationComplete ? 1 : 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-gray-600">
+            <p className="text-[#414042]">
               This value represents the operational cost savings that directly impacts our ability to serve more people in the community.
             </p>
           </motion.div>
@@ -997,9 +1017,9 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
   return (
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
-        <CardHeader className="text-center bg-amber-600 text-white rounded-t-lg">
+        <CardHeader className="text-center bg-[#8dc53e] text-white rounded-t-lg">
           <CardTitle className="text-2xl font-bold">Community Impact</CardTitle>
-          <CardDescription className="text-amber-100">
+          <CardDescription className="text-white opacity-90">
             Neighbors fed daily
           </CardDescription>
         </CardHeader>
@@ -1009,12 +1029,12 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <AnimatedIcon icon={Users} size={56} color="#d97706" className="mb-4" />
+            <AnimatedIcon icon={Users} size={56} color="#8dc53e" className="mb-4" />
           </motion.div>
           
           <div className="text-center mb-8">
             <motion.div 
-              className="text-6xl font-bold mb-2 text-amber-600"
+              className="text-6xl font-bold mb-2 text-[#8dc53e]"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
@@ -1022,7 +1042,7 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
               <AnimatedCounter value={impact.peopleServedPerDay} duration={2} />
             </motion.div>
             <motion.p 
-              className="text-xl text-gray-600"
+              className="text-xl text-[#414042]"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.4 }}
@@ -1032,7 +1052,7 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
           </div>
           
           {/* People visualization */}
-          <div className="w-full h-10 bg-amber-50 rounded-lg mb-6 relative overflow-hidden">
+          <div className="w-full h-10 bg-[#f3ffd7] rounded-lg mb-6 relative overflow-hidden">
             <div 
               ref={peopleRef} 
               className="h-10 rounded-lg flex items-center justify-start overflow-hidden"
@@ -1042,7 +1062,7 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
                 {Array.from({ length: Math.min(100, impact.peopleServedPerDay) }).map((_, i) => (
                   <motion.div
                     key={i}
-                    className="h-2 w-2 rounded-full mx-1 my-1 bg-amber-500"
+                    className="h-2 w-2 rounded-full mx-1 my-1 bg-[#8dc53e]"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.01 * i + 1 }}
@@ -1053,13 +1073,13 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
           </div>
           
           <motion.div 
-            className="bg-amber-50 p-5 rounded-lg w-full mb-6 border border-amber-100"
+            className="bg-[#f3ffd7] p-5 rounded-lg w-full mb-6 border border-[#8dc53e]/20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <p className="text-center text-amber-800">
-              Your volunteer hours help us serve <span className="font-bold">{impact.peopleServedPerDay} people</span> for an entire day with nutritious meals.
+            <p className="text-center text-[#414042]">
+              Your volunteer hours help us serve <span className="font-bold text-[#0c4428]">{impact.peopleServedPerDay} people</span> for an entire day with nutritious meals.
             </p>
           </motion.div>
           
@@ -1069,8 +1089,8 @@ const PeopleServedSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSli
             animate={{ opacity: animationComplete ? 1 : 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-gray-600">
-              Each person receives <span className="font-bold">3 meals per day</span>, which means your time helps provide a total of <span className="font-bold text-amber-600">{impact.mealsProvided} meals</span> to those in need.
+            <p className="text-[#414042]">
+              Each person receives <span className="font-bold">3 meals per day</span>, which means your time helps provide a total of <span className="font-bold text-[#8dc53e]">{impact.mealsProvided} meals</span> to those in need.
             </p>
           </motion.div>
         </CardContent>
@@ -1113,9 +1133,9 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
   return (
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
-        <CardHeader className="text-center bg-purple-600 text-white rounded-t-lg">
+        <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
           <CardTitle className="text-2xl font-bold">Thank You!</CardTitle>
-          <CardDescription className="text-purple-100">Your time makes a difference</CardDescription>
+          <CardDescription className="text-white opacity-90">Your time makes a difference</CardDescription>
         </CardHeader>
         <CardContent className="pt-8 flex flex-col items-center">
           <motion.div
@@ -1127,9 +1147,9 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
               damping: 20,
               delay: 0.3
             }}
-            className="w-28 h-28 rounded-full bg-purple-100 flex items-center justify-center mb-6"
+            className="w-28 h-28 rounded-full bg-[#e6f2ed] flex items-center justify-center mb-6"
           >
-            <div className="text-purple-600 text-5xl">❤️</div>
+            <div className="text-[#0c4428] text-5xl">❤️</div>
           </motion.div>
           
           <motion.div 
@@ -1138,8 +1158,8 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <h3 className="text-xl font-semibold mb-2">Every Hour Counts</h3>
-            <p className="text-gray-600">
+            <h3 className="text-xl font-semibold mb-2 text-[#0c4428]">Every Hour Counts</h3>
+            <p className="text-[#414042]">
               Your {hours} {hours === 1 ? 'hour' : 'hours'} of service has a real, measurable impact on our community.
             </p>
           </motion.div>
@@ -1152,37 +1172,47 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
             animate="visible"
           >
             <motion.div 
-              className="bg-blue-50 p-3 rounded-lg text-center border border-blue-100"
+              className="bg-[#e6f2ed] p-3 rounded-lg text-center border border-[#0c4428]/10"
               variants={itemVariants}
             >
-              <div className="text-blue-600 font-bold text-lg mb-1">{hours * 55}</div>
-              <div className="text-xs text-blue-800">Meals</div>
+              <div className="text-[#0c4428] font-bold text-lg mb-1">{hours * 55}</div>
+              <div className="text-xs text-[#0c4428]">Meals</div>
             </motion.div>
             <motion.div 
-              className="bg-green-50 p-3 rounded-lg text-center border border-green-100"
+              className="bg-[#e6f8f8] p-3 rounded-lg text-center border border-[#227d7f]/10"
               variants={itemVariants}
             >
-              <div className="text-green-600 font-bold text-lg mb-1">${(hours * 36.36).toFixed(0)}</div>
-              <div className="text-xs text-green-800">Value</div>
+              <div className="text-[#227d7f] font-bold text-lg mb-1">${(hours * 36.36).toFixed(0)}</div>
+              <div className="text-xs text-[#227d7f]">Value</div>
             </motion.div>
             <motion.div 
-              className="bg-amber-50 p-3 rounded-lg text-center border border-amber-100"
+              className="bg-[#f3ffd7] p-3 rounded-lg text-center border border-[#8dc53e]/10"
               variants={itemVariants}
             >
-              <div className="text-amber-600 font-bold text-lg mb-1">{Math.floor(hours * 55 / 3)}</div>
-              <div className="text-xs text-amber-800">People Fed</div>
+              <div className="text-[#8dc53e] font-bold text-lg mb-1">{Math.floor(hours * 55 / 3)}</div>
+              <div className="text-xs text-[#414042]">People Fed</div>
             </motion.div>
           </motion.div>
           
           <motion.div 
-            className="w-full bg-purple-50 p-5 rounded-lg mb-6 border border-purple-100"
+            className="w-full bg-[#f0f9f4] p-5 rounded-lg mb-6 border border-[#0c4428]/10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
           >
-            <p className="text-center text-purple-800">
+            <p className="text-center text-[#0c4428]">
               Community Food Share relies on volunteers like you to fulfill our mission of providing healthy food to those in need.
             </p>
+          </motion.div>
+          
+          {/* Add CFS Logo */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 0.5 }}
+            className="w-full flex justify-end mt-4 mb-2"
+          >
+            <CFSLogo height={40} />
           </motion.div>
           
           <motion.div 
