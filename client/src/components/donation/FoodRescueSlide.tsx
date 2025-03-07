@@ -146,7 +146,7 @@ export default function FoodRescueSlide({
       <div className="mb-4 sm:mb-6 md:mb-8">
         <p className="text-lg sm:text-xl md:text-2xl mb-2 sm:mb-4">That's equivalent to the weight of:</p>
         
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
           {/* Large donation comparisons */}
           {!isSmallDonation && (
             <>
@@ -187,7 +187,7 @@ export default function FoodRescueSlide({
               </motion.button>
               
               <motion.button 
-                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'car' ? 'ring-2 ring-white' : ''}`}
+                className={`bg-white/20 p-2 sm:p-3 md:p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'car' ? 'ring-2 ring-white' : ''}`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
                   opacity: 1, 
@@ -197,11 +197,11 @@ export default function FoodRescueSlide({
                 transition={{ duration: 0.3, delay: 0.2 }}
                 onClick={() => setActiveComparison('car')}
               >
-                <div className="h-14 w-14 mx-auto mb-2">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 mx-auto mb-1 sm:mb-2">
                   <CarIcon />
                 </div>
-                <p className="text-2xl font-bold mb-1">{impact.cars}</p>
-                <p>Cars</p>
+                <p className="text-base sm:text-xl md:text-2xl font-bold mb-0.5 sm:mb-1">{impact.cars}</p>
+                <p className="text-xs sm:text-sm md:text-base">Cars</p>
               </motion.button>
             </>
           )}
@@ -210,7 +210,7 @@ export default function FoodRescueSlide({
           {isSmallDonation && (
             <>
               <motion.button 
-                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'dog' ? 'ring-2 ring-white' : ''}`}
+                className={`bg-white/20 p-2 sm:p-3 md:p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'dog' ? 'ring-2 ring-white' : ''}`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
                   opacity: 1, 
@@ -220,15 +220,15 @@ export default function FoodRescueSlide({
                 transition={{ duration: 0.3 }}
                 onClick={() => setActiveComparison('dog')}
               >
-                <div className="h-14 w-14 mx-auto mb-2">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 mx-auto mb-1 sm:mb-2">
                   <DogIcon />
                 </div>
-                <p className="text-2xl font-bold mb-1">{dogCount.toFixed(1)}</p>
-                <p>Large Dogs</p>
+                <p className="text-base sm:text-xl md:text-2xl font-bold mb-0.5 sm:mb-1">{dogCount.toFixed(1)}</p>
+                <p className="text-xs sm:text-sm md:text-base">Large Dogs</p>
               </motion.button>
               
               <motion.button 
-                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'groceryBag' ? 'ring-2 ring-white' : ''}`}
+                className={`bg-white/20 p-2 sm:p-3 md:p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'groceryBag' ? 'ring-2 ring-white' : ''}`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
                   opacity: 1, 
@@ -238,15 +238,15 @@ export default function FoodRescueSlide({
                 transition={{ duration: 0.3, delay: 0.1 }}
                 onClick={() => setActiveComparison('groceryBag')}
               >
-                <div className="h-14 w-14 mx-auto mb-2">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 mx-auto mb-1 sm:mb-2">
                   <GroceryBagIcon />
                 </div>
-                <p className="text-2xl font-bold mb-1">{groceryBagCount.toFixed(1)}</p>
-                <p>Grocery Bags</p>
+                <p className="text-base sm:text-xl md:text-2xl font-bold mb-0.5 sm:mb-1">{groceryBagCount.toFixed(1)}</p>
+                <p className="text-xs sm:text-sm md:text-base">Grocery Bags</p>
               </motion.button>
               
               <motion.button 
-                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'watermelon' ? 'ring-2 ring-white' : ''}`}
+                className={`bg-white/20 p-2 sm:p-3 md:p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'watermelon' ? 'ring-2 ring-white' : ''}`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
                   opacity: 1, 
@@ -256,15 +256,15 @@ export default function FoodRescueSlide({
                 transition={{ duration: 0.3, delay: 0.2 }}
                 onClick={() => setActiveComparison('watermelon')}
               >
-                <div className="h-14 w-14 mx-auto mb-2">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 mx-auto mb-1 sm:mb-2">
                   <WatermelonIcon />
                 </div>
-                <p className="text-2xl font-bold mb-1">{watermelonCount.toFixed(1)}</p>
-                <p>Watermelons</p>
+                <p className="text-base sm:text-xl md:text-2xl font-bold mb-0.5 sm:mb-1">{watermelonCount.toFixed(1)}</p>
+                <p className="text-xs sm:text-sm md:text-base">Watermelons</p>
               </motion.button>
               
               <motion.button 
-                className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'turkey' ? 'ring-2 ring-white' : ''}`}
+                className={`bg-white/20 p-2 sm:p-3 md:p-4 rounded-xl cursor-pointer hover:bg-white/30 ${activeComparison === 'turkey' ? 'ring-2 ring-white' : ''}`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
                   opacity: 1, 
@@ -274,11 +274,11 @@ export default function FoodRescueSlide({
                 transition={{ duration: 0.3, delay: 0.3 }}
                 onClick={() => setActiveComparison('turkey')}
               >
-                <div className="h-14 w-14 mx-auto mb-2">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 mx-auto mb-1 sm:mb-2">
                   <TurkeyIcon />
                 </div>
-                <p className="text-2xl font-bold mb-1">{turkeyCount.toFixed(1)}</p>
-                <p>Turkeys</p>
+                <p className="text-base sm:text-xl md:text-2xl font-bold mb-0.5 sm:mb-1">{turkeyCount.toFixed(1)}</p>
+                <p className="text-xs sm:text-sm md:text-base">Turkeys</p>
               </motion.button>
             </>
           )}
