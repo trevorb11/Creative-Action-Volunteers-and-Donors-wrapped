@@ -321,7 +321,7 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
     const { step, impact, isLoading, error, hours } = this.state;
 
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-4 flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-[#f0f9f4] to-white p-2 sm:p-4 flex flex-col items-center justify-center">
         <AnimatePresence mode="wait">
           {step === SlideNames.WELCOME && (
             <WelcomeSlide key="welcome" onSubmit={this.handleHoursSubmit} />
@@ -390,6 +390,13 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
             <ErrorMessage error={error} />
           )}
         </AnimatePresence>
+        
+        {/* Community Food Share Logo */}
+        <div className="mt-4 text-center">
+          <p className="text-[#0c4428] text-xs">
+            © Community Food Share {new Date().getFullYear()}
+          </p>
+        </div>
       </div>
     );
   }
@@ -413,14 +420,14 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
   return (
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
-        <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
+        <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
             <CardTitle className="text-2xl font-bold">Volunteer Impact</CardTitle>
-            <CardDescription className="text-blue-100">See how your time helps our community</CardDescription>
+            <CardDescription className="text-white opacity-90">See how your time helps our community</CardDescription>
           </motion.div>
         </CardHeader>
         <CardContent className="pt-8">
@@ -430,8 +437,8 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
             transition={{ delay: 0.2, duration: 0.5 }}
             className="flex justify-center mb-6"
           >
-            <div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center">
-              <Clock className="h-12 w-12 text-blue-600" />
+            <div className="w-24 h-24 rounded-full bg-[#e6f2ed] flex items-center justify-center">
+              <Clock className="h-12 w-12 text-[#227d7f]" />
             </div>
           </motion.div>
           
@@ -452,7 +459,7 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
                     name="hours"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Hours Volunteered</FormLabel>
+                        <FormLabel className="text-[#414042]">Hours Volunteered</FormLabel>
                         <FormControl>
                           <Input 
                             type="number" 
@@ -460,7 +467,7 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
                             step="0.5" 
                             {...field} 
                             onChange={e => field.onChange(parseFloat(e.target.value))}
-                            className="border-blue-200 focus:border-blue-500"
+                            className="border-[#227d7f]/30 focus:border-[#227d7f] focus:ring-1 focus:ring-[#227d7f]"
                           />
                         </FormControl>
                         <FormMessage />
@@ -479,13 +486,13 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email (optional)</FormLabel>
+                        <FormLabel className="text-[#414042]">Email (optional)</FormLabel>
                         <FormControl>
                           <Input 
                             type="email" 
                             placeholder="your.email@example.com" 
                             {...field} 
-                            className="border-blue-200 focus:border-blue-500"
+                            className="border-[#227d7f]/30 focus:border-[#227d7f] focus:ring-1 focus:ring-[#227d7f]"
                           />
                         </FormControl>
                         <FormMessage />
@@ -502,7 +509,7 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
                 >
                   <Button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    className="w-full bg-[#8dc53e] hover:bg-[#7db32a] text-white border-none"
                     size="lg"
                   >
                     Calculate My Impact
@@ -518,8 +525,8 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
             transition={{ delay: 1.0, duration: 0.5 }}
             className="mt-6 text-center"
           >
-            <p className="text-sm text-gray-500">
-              Your volunteer hours directly contribute to our mission of feeding our community
+            <p className="text-sm text-[#414042]">
+              Together, we're building a hunger-free community. Every volunteer hour matters!
             </p>
           </motion.div>
         </CardContent>
@@ -531,27 +538,27 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
 const LoadingSlide = () => (
   <AnimatedSlide className="w-full max-w-md text-center">
     <Card className="w-full overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
+      <CardHeader className="bg-gradient-to-r from-[#0c4428] to-[#227d7f] text-white">
         <CardTitle className="text-2xl font-bold">Calculating Your Impact</CardTitle>
-        <CardDescription className="text-blue-100">
+        <CardDescription className="text-white opacity-90">
           Measuring the power of your volunteer time
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col items-center justify-center p-10">
+      <CardContent className="flex flex-col items-center justify-center p-4 sm:p-8">
         <div className="relative w-24 h-24 mb-8">
           <motion.div
-            className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-blue-200 border-t-blue-600"
+            className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-[#e6f2ed] border-t-[#0c4428]"
             animate={{ rotate: 360 }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
-            className="absolute top-4 left-4 w-16 h-16 rounded-full border-4 border-green-200 border-t-green-500"
+            className="absolute top-4 left-4 w-16 h-16 rounded-full border-4 border-[#e6f8f8] border-t-[#227d7f]"
             initial={{ rotate: 45 }}
             animate={{ rotate: 405 }}
             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
-            className="absolute top-8 left-8 w-8 h-8 rounded-full border-4 border-amber-200 border-t-amber-500"
+            className="absolute top-8 left-8 w-8 h-8 rounded-full border-4 border-[#f3ffd7] border-t-[#8dc53e]"
             initial={{ rotate: 90 }}
             animate={{ rotate: 450 }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
@@ -563,43 +570,43 @@ const LoadingSlide = () => (
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          <h3 className="text-xl font-semibold mb-3 text-blue-700">Analyzing Your Contribution</h3>
-          <p className="text-gray-600 mb-6">
+          <h3 className="text-xl font-semibold mb-3 text-[#0c4428]">Analyzing Your Contribution</h3>
+          <p className="text-[#414042] mb-6">
             Please wait while we calculate the impact of your volunteer hours...
           </p>
           
           <div className="space-y-3">
             <motion.div 
-              className="h-2 bg-blue-100 rounded-full overflow-hidden"
+              className="h-2 bg-[#e6f2ed] rounded-full overflow-hidden"
               initial={{ width: '100%', opacity: 0.7 }}
               animate={{ opacity: 1 }}
             >
               <motion.div 
-                className="h-full bg-blue-500 rounded-full"
+                className="h-full bg-[#0c4428] rounded-full"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </motion.div>
             <motion.div 
-              className="h-2 bg-green-100 rounded-full overflow-hidden"
+              className="h-2 bg-[#e6f8f8] rounded-full overflow-hidden"
               initial={{ width: '100%', opacity: 0.7 }}
               animate={{ opacity: 1 }}
             >
               <motion.div 
-                className="h-full bg-green-500 rounded-full"
+                className="h-full bg-[#227d7f] rounded-full"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: 2.4, repeat: Infinity, delay: 0.2 }}
               />
             </motion.div>
             <motion.div 
-              className="h-2 bg-amber-100 rounded-full overflow-hidden"
+              className="h-2 bg-[#f3ffd7] rounded-full overflow-hidden"
               initial={{ width: '100%', opacity: 0.7 }}
               animate={{ opacity: 1 }}
             >
               <motion.div 
-                className="h-full bg-amber-500 rounded-full"
+                className="h-full bg-[#8dc53e] rounded-full"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: 2.8, repeat: Infinity, delay: 0.4 }}
@@ -626,7 +633,7 @@ interface ImpactSlideProps extends SlideProps {
 const SlideNavigation = ({ onNext, onPrevious, isFirstSlide, isLastSlide }: SlideProps) => (
   <div className="flex justify-between w-full mt-4">
     {!isFirstSlide && onPrevious && (
-      <Button variant="outline" onClick={onPrevious}>
+      <Button variant="outline" onClick={onPrevious} className="border-[#227d7f] text-[#227d7f] hover:bg-[#227d7f] hover:text-white">
         <ArrowLeft className="mr-2 h-4 w-4" /> Previous
       </Button>
     )}
@@ -634,7 +641,7 @@ const SlideNavigation = ({ onNext, onPrevious, isFirstSlide, isLastSlide }: Slid
       <div />
     )}
     {!isLastSlide && onNext && (
-      <Button className="ml-auto" onClick={onNext}>
+      <Button variant="outline" onClick={onNext} className="ml-auto border-[#227d7f] text-[#227d7f] hover:bg-[#227d7f] hover:text-white">
         Next <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
     )}
@@ -661,11 +668,11 @@ const SummarySlide = ({ impact, onNext, isFirstSlide, isLastSlide }: ImpactSlide
   return (
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
-        <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
+        <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
           <CardTitle className="text-2xl font-bold">Your Volunteer Impact</CardTitle>
-          <CardDescription className="text-blue-100">Thank you for your service!</CardDescription>
+          <CardDescription className="text-white opacity-90">Thank you for your service!</CardDescription>
         </CardHeader>
-        <CardContent className="pt-8 space-y-6">
+        <CardContent className="pt-6 sm:pt-8 space-y-5 sm:space-y-6">
           <motion.div
             className="flex flex-col items-center space-y-2"
             initial={{ opacity: 0, y: -20 }}
@@ -682,37 +689,37 @@ const SummarySlide = ({ impact, onNext, isFirstSlide, isLastSlide }: ImpactSlide
                 delay: 0.3 
               }}
             >
-              <Clock className="h-16 w-16 text-blue-600 mb-3" />
+              <Clock className="h-16 w-16 text-[#227d7f] mb-3" />
             </motion.div>
-            <p className="text-lg font-semibold">You volunteered</p>
-            <p className="text-4xl font-bold text-blue-600">{impact.hoursWorked} {impact.hoursWorked === 1 ? 'hour' : 'hours'}</p>
+            <p className="text-lg font-semibold text-[#414042]">You volunteered</p>
+            <p className="text-4xl font-bold text-[#0c4428]">{impact.hoursWorked} {impact.hoursWorked === 1 ? 'hour' : 'hours'}</p>
           </motion.div>
           
           <motion.div
-            className="grid grid-cols-3 gap-4 text-center"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-center"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             transition={{ delay: 0.7 }}
           >
             <motion.div 
-              className="flex flex-col items-center p-4 rounded-lg bg-blue-50 border border-blue-100 shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#e6f2ed] border border-[#0c4428]/20 shadow-sm hover:shadow-md transition-shadow"
               variants={itemVariants}
             >
-              <AnimatedIcon icon={Utensils} size={32} color="#2563eb" className="mb-2" />
-              <p className="text-sm font-medium text-blue-700">Meals</p>
-              <p className="text-xl font-semibold text-blue-600">
+              <AnimatedIcon icon={Utensils} size={32} color="#0c4428" className="mb-2" />
+              <p className="text-sm font-medium text-[#0c4428]">Meals</p>
+              <p className="text-lg sm:text-xl font-semibold text-[#0c4428]">
                 <AnimatedCounter value={impact.mealsProvided} duration={2} />
               </p>
             </motion.div>
             
             <motion.div 
-              className="flex flex-col items-center p-4 rounded-lg bg-green-50 border border-green-100 shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#e6f8f8] border border-[#227d7f]/20 shadow-sm hover:shadow-md transition-shadow"
               variants={itemVariants}
             >
-              <AnimatedIcon icon={DollarSign} size={32} color="#059669" className="mb-2" />
-              <p className="text-sm font-medium text-green-700">Value</p>
-              <p className="text-xl font-semibold text-green-600">
+              <AnimatedIcon icon={DollarSign} size={32} color="#227d7f" className="mb-2" />
+              <p className="text-sm font-medium text-[#227d7f]">Value</p>
+              <p className="text-lg sm:text-xl font-semibold text-[#227d7f]">
                 <AnimatedCounter 
                   value={impact.costSavings} 
                   formatter={val => formatCurrency(val)} 
@@ -722,26 +729,26 @@ const SummarySlide = ({ impact, onNext, isFirstSlide, isLastSlide }: ImpactSlide
             </motion.div>
             
             <motion.div 
-              className="flex flex-col items-center p-4 rounded-lg bg-amber-50 border border-amber-100 shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#f3ffd7] border border-[#8dc53e]/20 shadow-sm hover:shadow-md transition-shadow"
               variants={itemVariants}
             >
-              <AnimatedIcon icon={Users} size={32} color="#d97706" className="mb-2" />
-              <p className="text-sm font-medium text-amber-700">People Fed</p>
-              <p className="text-xl font-semibold text-amber-600">
+              <AnimatedIcon icon={Users} size={32} color="#8dc53e" className="mb-2" />
+              <p className="text-sm font-medium text-[#414042]">People Fed</p>
+              <p className="text-lg sm:text-xl font-semibold text-[#414042]">
                 <AnimatedCounter value={impact.peopleServedPerDay} duration={2} />
               </p>
             </motion.div>
           </motion.div>
           
           <motion.div 
-            className="bg-blue-50 p-5 rounded-lg border border-blue-100"
+            className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5, duration: 0.5 }}
           >
-            <p className="text-center text-blue-800">
+            <p className="text-center text-[#0c4428]">
               Your volunteer time directly impacts our ability to serve the community. 
-              <span className="block mt-1 font-medium">Explore each metric to learn more about your impact.</span>
+              <span className="block mt-1 font-medium">Together, we're building a hunger-free community.</span>
             </p>
           </motion.div>
         </CardContent>
@@ -784,24 +791,24 @@ const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: I
   return (
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
-        <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
+        <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
           <CardTitle className="text-2xl font-bold">Your Service Provides</CardTitle>
-          <CardDescription className="text-blue-100">
+          <CardDescription className="text-white opacity-90">
             Making meals possible
           </CardDescription>
         </CardHeader>
-        <CardContent className="pt-6 flex flex-col items-center">
+        <CardContent className="pt-4 sm:pt-6 flex flex-col items-center">
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <AnimatedIcon icon={Utensils} size={56} color="#2563eb" className="mb-4" />
+            <AnimatedIcon icon={Utensils} size={46} color="#0c4428" className="mb-4" />
           </motion.div>
           
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <motion.div 
-              className="text-6xl font-bold mb-2 text-blue-600"
+              className="text-5xl sm:text-6xl font-bold mb-2 text-[#0c4428]"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
@@ -809,7 +816,7 @@ const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: I
               <AnimatedCounter value={impact.mealsProvided} duration={2.5} />
             </motion.div>
             <motion.p 
-              className="text-xl text-gray-600"
+              className="text-xl text-[#414042]"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.4 }}
@@ -818,18 +825,18 @@ const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: I
             </motion.p>
           </div>
           
-          <div className="w-full bg-blue-100 h-3 rounded-full mb-6">
-            <div ref={barRef} className="bg-blue-500 h-3 rounded-full w-0"></div>
+          <div className="w-full bg-[#e6f2ed] h-3 rounded-full mb-6">
+            <div ref={barRef} className="bg-[#0c4428] h-3 rounded-full w-0"></div>
           </div>
           
           <motion.div 
-            className="bg-blue-50 p-5 rounded-lg w-full mb-6 border border-blue-100"
+            className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg w-full mb-5 sm:mb-6 border border-[#0c4428]/10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <p className="text-center text-blue-800">
-              Each hour of volunteer time helps us provide approximately <span className="font-bold">55 nutritious meals</span> to families in need.
+            <p className="text-center text-[#0c4428]">
+              Each hour of volunteer time helps us provide <span className="font-bold">55 nutritious meals</span> to families in need.
             </p>
           </motion.div>
           
@@ -839,8 +846,8 @@ const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: I
             animate={{ opacity: animationComplete ? 1 : 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-gray-600">
-              That's enough to feed <span className="font-bold text-blue-600">{Math.round(impact.mealsProvided / 3)} people</span> for a full day!
+            <p className="text-[#414042]">
+              That's enough to feed <span className="font-bold text-[#0c4428]">{Math.round(impact.mealsProvided / 3)} people</span> for an entire day!
             </p>
           </motion.div>
         </CardContent>

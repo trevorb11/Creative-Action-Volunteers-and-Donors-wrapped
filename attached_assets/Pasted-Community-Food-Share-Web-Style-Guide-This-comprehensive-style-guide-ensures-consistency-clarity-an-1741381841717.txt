@@ -1,0 +1,127 @@
+Community Food Share Web Style Guide
+This comprehensive style guide ensures consistency, clarity, and adherence to Community Food Share’s brand identity for any new web pages added to the organization's website. It integrates key elements from the Brand Guidelines, General Brochure, and Impact Almanac to maintain a cohesive online presence.
+
+1. Brand Tone & Messaging
+Community Food Share’s website should reflect its neighborly, kind, brave, conversational, and optimistic brand voice.
+
+Key Messaging Elements
+Neighborly: Use warm, inclusive language. Write as if you’re speaking to a friend or neighbor.
+Kind: Use empathetic language that affirms dignity and respect.
+Brave: Address food insecurity with a problem-solving, solution-oriented approach.
+Conversational: Keep language approachable and free of excessive jargon.
+Optimistic: Highlight the positive impact of donations, volunteers, and community support.
+Examples of On-Brand Language
+✅ "Together, we’re building a hunger-free community."
+✅ "Every dollar you give turns into fresh meals for neighbors in need."
+❌ Avoid negative or discouraging phrases like "Hunger is an overwhelming problem we can’t fix."
+
+2. Web Design & Layout
+A. General Principles
+Simple & Accessible: Pages should be clear, easy to navigate, and mobile-friendly.
+Consistent Layouts: Use a structured hierarchy with headings, subheadings, and well-spaced paragraphs.
+Call-to-Action (CTA) Placement: Key actions (Donate, Volunteer, Get Help) should be visible above the fold and repeated strategically throughout the page.
+B. Navigation & User Experience
+Maintain a clear and concise menu structure.
+Use descriptive page names (e.g., "Get Food" instead of "Programs").
+Provide quick links for common actions (donating, volunteering, food assistance).
+Prioritize accessibility by following WCAG 2.1 AA guidelines:
+Alt text for images
+High-contrast text
+Keyboard-navigable elements
+Descriptive link text
+3. Visual Identity
+A. Colors
+Use Community Food Share’s primary color palette:
+
+Primary Colors:
+Dark Green: #0c4428 (PMS 3435 C) – Main brand color
+Teal: #227d7f (PMS 7714 C) – Accent for buttons & highlights
+Bright Green: #8dc53e (PMS 375 C) – CTA highlights
+Yellow: #efeb03 (PMS 3945 C) – Secondary highlight color
+Neutral Colors:
+Dark Gray: #414042 (PMS 446 C) – Text and backgrounds
+Light Blue: #00d6dd (PMS 311 C) – Additional accent
+Color Usage Rules
+Dark green should be the dominant brand color for headers and major sections.
+Teal and bright green should be used for CTA buttons, links, and highlights.
+Yellow is best for drawing attention to urgent notices or donation calls.
+Avoid using busy or distracting colors outside the approved palette.
+B. Typography
+Headlines: Spectral Bold (or Open Sans Bold if unavailable)
+Subheadings & Copy: Open Sans Regular
+Fallback Fonts: Lucida Sans, Arial
+Do not mix too many font styles on a single page.
+Example Styling:
+
+H1 (Main Headings): Spectral Bold, 32px, Dark Green (#0c4428)
+H2 (Subheadings): Open Sans Bold, 24px, Teal (#227d7f)
+Body Text: Open Sans Regular, 16px, Dark Gray (#414042)
+CTA Buttons: Open Sans Bold, 18px, White text on Bright Green (#8dc53e) background
+4. Logo Usage
+The primary full-color logo should be used whenever possible.
+White logo is allowed on dark backgrounds.
+Black logo is for grayscale printing only.
+Do not modify logo colors, distort proportions, or add effects.
+✅ Correct Use:
+
+❌ Incorrect Use:
+
+Changing the colors of the logo
+Adding drop shadows
+Placing it over busy backgrounds without enough contrast
+5. Content Guidelines
+A. Grammar & Punctuation
+Use Oxford commas: We distribute fresh produce, dairy, and protein-rich foods.
+No double spaces after periods.
+Always spell out "Community Food Share" in full (not "CFS" or "the food bank").
+Write numbers 1-9 as words (one, two, three), 10+ as numerals (10, 11, 12).
+Phone numbers should be formatted as (303) 652-3663.
+Website should always be written as CommunityFoodShare.org.
+B. Image & Media Guidelines
+Use high-quality, authentic images of real volunteers, staff, and neighbors.
+Preferred photography style:
+Candid, not staged
+Happy, not needy
+Fresh, not canned food
+Avoid stock images that do not reflect the real community.
+Ensure all images include alt text for accessibility.
+C. Call-to-Actions (CTAs)
+Each page should include clear and compelling CTAs, such as:
+
+Donate Now (Bright Green Button)
+Volunteer Today (Teal Button)
+Get Food Assistance (Dark Green Button)
+CTAs should always be action-oriented and benefit-driven.
+Example of an Effective CTA: ✅ "For every $1 you give, we provide 3 meals. Donate today to fight hunger!"
+❌ "Click here to donate."
+
+6. Specific Page Guidelines
+A. Homepage
+Feature a hero image with a strong call to action.
+Highlight key statistics (e.g., “We distribute 13 million pounds of food annually”).
+Include testimonials from volunteers or food recipients.
+B. Get Food (Assistance) Page
+Clearly outline how and where people can receive food.
+Use bullet points for program details.
+Include an interactive map of pantry locations.
+C. Donate Page
+Make the donation process simple and fast.
+Display impact statistics prominently.
+Offer multiple giving options (one-time, monthly, corporate).
+D. Volunteer Page
+List clear steps to sign up.
+Highlight the impact of volunteers (e.g., "Every volunteer hour provides 55 meals").
+Provide a volunteer calendar.
+E. About Us Page
+Feature the elevator pitch: “At Community Food Share, we’re more than a food bank—we’re a neighbor, a friend, and a collaborator in fighting hunger.”
+Include team bios and partner spotlights.
+7. SEO & Metadata Best Practices
+Title Tags: Keep under 60 characters, include relevant keywords.
+✅ "Fight Hunger in Boulder & Broomfield | Community Food Share"
+Meta Descriptions: 140-160 characters, compelling action statement.
+✅ "Join Community Food Share in the fight against hunger. Donate, volunteer, or receive food assistance today!"
+URL Structure: Use short, readable URLs.
+✅ communityfoodshare.org/get-food
+❌ communityfoodshare.org/programs/foodassistance123
+8. Compliance & Approvals
+All new pages must be reviewed by the Marketing Team before publishing. Submit a Website Content Request Form here at least 2 weeks before launch.
