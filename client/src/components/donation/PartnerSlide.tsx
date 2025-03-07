@@ -29,16 +29,16 @@ export default function PartnerSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="mb-8">
+      <div className="mb-4 sm:mb-6 md:mb-8 px-4 sm:px-6 md:px-0">
         <motion.div 
-          className="text-6xl font-heading font-extrabold mb-4"
+          className="text-4xl sm:text-5xl md:text-6xl font-heading font-extrabold mb-2 sm:mb-3 md:mb-4"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
           42
         </motion.div>
-        <p className="text-2xl">Partner Agencies</p>
+        <p className="text-lg sm:text-xl md:text-2xl">Partner Agencies</p>
       </div>
       
       <div className="mb-10">

@@ -110,12 +110,12 @@ export default function NeighborQuotesSlide({
               <Card className="h-full bg-white/90 backdrop-blur shadow-xl border-0 overflow-hidden">
                 <CardContent className="p-4 sm:p-6 md:p-8 h-full flex flex-col justify-center items-center text-center relative">
                   {/* Quote icon */}
-                  <div className="absolute top-8 left-8 text-primary/20">
-                    <Quote size={40} />
+                  <div className="absolute top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 text-primary/20">
+                    <Quote size={24} className="sm:w-8 sm:h-8 md:w-10 md:h-10" />
                   </div>
                   
                   {/* Person icon */}
-                  <div className={`w-24 h-24 ${NEIGHBOR_QUOTES[currentQuoteIndex].imageColor} rounded-full flex items-center justify-center mb-6 relative`}>
+                  <div className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 ${NEIGHBOR_QUOTES[currentQuoteIndex].imageColor} rounded-full flex items-center justify-center mb-3 sm:mb-4 md:mb-6 relative`}>
                     <motion.div
                       className="absolute inset-0 rounded-full"
                       animate={{ 
@@ -129,13 +129,13 @@ export default function NeighborQuotesSlide({
                         duration: 2,
                       }}
                     />
-                    <Users className="w-12 h-12 text-gray-700" />
+                    <Users className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-700" />
                   </div>
                   
                   {/* Quote text with heartbeat animation */}
-                  <div className="max-w-3xl mx-auto mb-8 relative">
+                  <div className="max-w-3xl mx-auto mb-4 sm:mb-6 md:mb-8 relative px-6">
                     <motion.div 
-                      className="absolute -left-8 top-1/2 transform -translate-y-1/2 text-red-400/30"
+                      className="absolute -left-2 sm:-left-4 md:-left-8 top-1/2 transform -translate-y-1/2 text-red-400/30 hidden sm:block"
                       animate={{ 
                         scale: [1, 1.1, 1],
                       }}
@@ -144,10 +144,10 @@ export default function NeighborQuotesSlide({
                         duration: 2,
                       }}
                     >
-                      <Heart className="h-6 w-6" />
+                      <Heart className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                     </motion.div>
                     <motion.div 
-                      className="absolute -right-8 top-1/2 transform -translate-y-1/2 text-red-400/30"
+                      className="absolute -right-2 sm:-right-4 md:-right-8 top-1/2 transform -translate-y-1/2 text-red-400/30 hidden sm:block"
                       animate={{ 
                         scale: [1, 1.1, 1],
                       }}
@@ -157,10 +157,10 @@ export default function NeighborQuotesSlide({
                         delay: 0.5,
                       }}
                     >
-                      <Heart className="h-6 w-6" />
+                      <Heart className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                     </motion.div>
                     <motion.p 
-                      className="text-xl md:text-2xl text-gray-700 italic font-medium"
+                      className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 italic font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.3 }}
@@ -171,7 +171,7 @@ export default function NeighborQuotesSlide({
                   
                   {/* Attribution */}
                   <motion.p 
-                    className="text-primary font-semibold"
+                    className="text-primary font-semibold text-sm sm:text-base md:text-lg"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
@@ -229,9 +229,9 @@ export default function NeighborQuotesSlide({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className="mt-8 text-center"
+          className="mt-4 sm:mt-6 md:mt-8 text-center px-4 sm:px-6"
         >
-          <p className="text-gray-600 max-w-3xl mx-auto">
+          <p className="text-gray-600 max-w-3xl mx-auto text-sm sm:text-base">
             Your donation creates stories of hope and resilience in our community. 
             Behind every meal provided is a neighbor whose life you've touched directly.
           </p>
