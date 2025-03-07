@@ -255,9 +255,14 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    */
   goToNextSlide() {
     if (this.state.step < SlideNames.THANK_YOU) {
-      this.setState(prev => ({
-        step: prev.step + 1
-      }));
+      // If we're on the intro slide, skip the summary slide and go directly to meals
+      if (this.state.step === SlideNames.INTRO) {
+        this.setState({ step: SlideNames.MEALS });
+      } else {
+        this.setState(prev => ({
+          step: prev.step + 1
+        }));
+      }
     }
   }
 
@@ -266,10 +271,15 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    */
   goToPreviousSlide() {
     if (this.state.step > SlideNames.WELCOME) {
-      // Allow going all the way back to welcome screen
-      this.setState(prev => ({
-        step: prev.step - 1
-      }));
+      // If we're on the MEALS slide, go back to the intro slide
+      if (this.state.step === SlideNames.MEALS) {
+        this.setState({ step: SlideNames.INTRO });
+      } else {
+        // Handle normal navigation
+        this.setState(prev => ({
+          step: prev.step - 1
+        }));
+      }
     }
   }
 
