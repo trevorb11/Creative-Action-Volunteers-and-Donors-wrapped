@@ -41,9 +41,9 @@ export default function PartnerSlide({
         <p className="text-lg sm:text-xl md:text-2xl">Partner Agencies</p>
       </div>
       
-      <div className="mb-10">
+      <div className="mb-6 sm:mb-8 md:mb-10 px-4 sm:px-6 md:px-0">
         <motion.p 
-          className="text-xl mb-6"
+          className="text-base sm:text-lg md:text-xl mb-4 sm:mb-5 md:mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
@@ -51,18 +51,18 @@ export default function PartnerSlide({
           Your donation helps support our entire network of partner agencies who distribute:
         </motion.p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {metrics.map((metric, index) => (
             <motion.div 
               key={index}
-              className="bg-white/20 p-6 rounded-xl"
+              className="bg-white/20 p-4 sm:p-5 md:p-6 rounded-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 + index * 0.2 }}
             >
-              <div className="text-4xl font-heading font-bold mb-2">{metric.title}</div>
-              <p className="text-xl">{metric.subtitle}</p>
-              <p className="text-base">{metric.footnote}</p>
+              <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-1 sm:mb-2">{metric.title}</div>
+              <p className="text-base sm:text-lg md:text-xl">{metric.subtitle}</p>
+              <p className="text-xs sm:text-sm md:text-base text-gray-700">{metric.footnote}</p>
             </motion.div>
           ))}
         </div>

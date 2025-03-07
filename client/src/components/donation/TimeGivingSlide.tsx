@@ -408,11 +408,11 @@ export default function TimeGivingSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4">
         {isLoading ? (
-          <div className="text-center p-8">
-            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p>Looking back at your giving journey...</p>
+          <div className="text-center p-4 sm:p-6 md:p-8">
+            <div className="animate-spin h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-3 sm:mb-4"></div>
+            <p className="text-sm sm:text-base">Looking back at your giving journey...</p>
           </div>
         ) : error ? (
           <div className="text-red-600 p-6 text-center">{error}</div>
