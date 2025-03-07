@@ -1,6 +1,28 @@
 import { DonationImpact } from "@shared/schema";
 import { ALMANAC_DATA } from "./constants";
 
+// Function for selecting the most appropriate weight comparison based on pounds of food
+function generateWeightComparison(lbs: number): string {
+  // Weighted tiers
+  if (lbs < 20) {
+    return `${Math.round(lbs / 10)} large house cats (~10 lbs each)`;
+  } else if (lbs < 200) {
+    return `${Math.round(lbs / 70)} Golden Retrievers (~70 lbs each)`;
+  } else if (lbs < 1000) {
+    return `${Math.round(lbs / 200)} baby elephants (~200 lbs each)`;
+  } else if (lbs < 3000) {
+    return `${Math.round(lbs / 700)} grizzly bears (~700 lbs each)`;
+  } else if (lbs < 5000) {
+    return `${Math.round(lbs / 3000)} hippos (~3,000 lbs each)`;
+  } else if (lbs < 10000) {
+    return `${(lbs / 4000).toFixed(1)} cars (~4,000 lbs each)`;
+  } else if (lbs < 30000) {
+    return `${(lbs / 24000).toFixed(1)} school buses (~24,000 lbs each)`;
+  } else {
+    return `${(lbs / 90000).toFixed(2)} small jets (~90,000 lbs each)`;
+  }
+}
+
 export function calculateDonationImpact(amount: number): DonationImpact {
   const mealsProvided = Math.round(amount * ALMANAC_DATA.mealsPerDollar);
   const peopleServed = Math.round(amount * ALMANAC_DATA.mealsPerDollar * ALMANAC_DATA.peoplePerMeal);
@@ -13,6 +35,16 @@ export function calculateDonationImpact(amount: number): DonationImpact {
   const cars = (amount * ALMANAC_DATA.foodRescuePerDollar / 4000).toFixed(1); // Car ~4000 lbs
   const peopleFed = mealsProvided < 12 ? 'a person' : 'a family of 4';
   const daysFed = getDaysFed(mealsProvided);
+
+  // Add new weight comparisons
+  const lbs = foodRescued;
+  const weightComparison = generateWeightComparison(lbs);
+  const houseCats = `${Math.round(lbs / 10)} large house cats`;
+  const goldenRetrievers = `${Math.round(lbs / 70)} Golden Retrievers`;
+  const grizzlyBears = `${Math.round(lbs / 700)} grizzly bears`;
+  const hippos = `${Math.round(lbs / 3000)} hippos`;
+  const schoolBuses = `${(lbs / 24000).toFixed(1)} school buses`;
+  const smallJets = `${(lbs / 90000).toFixed(2)} small jets`;
 
   return {
     mealsProvided,
@@ -29,7 +61,15 @@ export function calculateDonationImpact(amount: number): DonationImpact {
     bison,
     cars,
     peopleFed,
-    daysFed
+    daysFed,
+    // New weight comparison fields
+    weightComparison,
+    houseCats,
+    goldenRetrievers,
+    grizzlyBears,
+    hippos,
+    schoolBuses,
+    smallJets
   };
 }
 

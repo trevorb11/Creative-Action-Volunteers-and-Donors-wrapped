@@ -32,14 +32,50 @@ const CarIcon = () => (
   </svg>
 );
 
-// Small donation comparison icons
-const DogIcon = () => (
+// Cat and dog comparison icons
+const HouseCatIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M12,3L4,9v12h16V9L12,3z M12,7.75c1.24,0,2.25,1.01,2.25,2.25S13.24,12.25,12,12.25S9.75,11.24,9.75,10S10.76,7.75,12,7.75z M17,17H7v-0.75c0-2.5,5-3.75,5-3.75s5,1.25,5,3.75V17z"/>
+  </svg>
+);
+
+const GoldenRetrieverIcon = () => (
   <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
     <path d="M18,4c-1.1,0-2,0.9-2,2c0,0.55,0.23,1.05,0.59,1.41C16.23,7.05,16,7.55,16,8c0,0.55,0.23,1.05,0.59,1.41 C16.23,9.05,16,9.55,16,10c0,1.1,0.9,2,2,2h1v3H8c-3.3,0-6,2.7-6,6v1h4v-1c0-1.1,0.9-2,2-2h10c1.1,0,2-0.9,2-2V7 C20,5.9,19.1,5,18,5h-1V4H18z"/>
     <circle cx="13" cy="9" r="1"/>
   </svg>
 );
 
+// Large animal comparison icons
+const GrizzlyBearIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M15,9c0.55,0,1,0.45,1,1 s-0.45,1-1,1s-1-0.45-1-1S14.45,9,15,9z M9,9c0.55,0,1,0.45,1,1s-0.45,1-1,1s-1-0.45-1-1S8.45,9,9,9z M12,17c-2.21,0-4-1.79-4-4 h8C16,15.21,14.21,17,12,17z"/>
+  </svg>
+);
+
+const HippoIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M21,3H3C1.9,3,1,3.9,1,5v8h2V5h18v16c0,0.55-0.45,1-1,1h-9v-2h3c0.55,0,1-0.45,1-1v-4H7v4c0,0.55,0.45,1,1,1h3v2H3 c-1.1,0-2-0.9-2-2V5c0-1.1,0.9-2,2-2h18c1.1,0,2,0.9,2,2v14c0,1.1-0.9,2-2,2h-9v-2h10V5C23,3.9,22.1,3,21,3z M7,12V8h10v4H7z"/>
+    <circle cx="9" cy="10" r="1"/>
+    <circle cx="15" cy="10" r="1"/>
+  </svg>
+);
+
+// Transportation icons
+const SchoolBusIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M17,4H7C4.24,4,2,6.24,2,9v8h1c0,1.66,1.34,3,3,3s3-1.34,3-3h6c0,1.66,1.34,3,3,3s3-1.34,3-3h1V9 C22,6.24,19.76,4,17,4z M6,18.5c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S6.83,18.5,6,18.5z M18,18.5 c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S18.83,18.5,18,18.5z M20,13H4V9c0-1.66,1.34-3,3-3h10 c1.66,0,3,1.34,3,3V13z"/>
+    <rect x="6" y="11" width="12" height="2"/>
+  </svg>
+);
+
+const SmallJetIcon = () => (
+  <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+    <path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/>
+  </svg>
+);
+
+// Small donation comparison icons (keeping original ones too)
 const GroceryBagIcon = () => (
   <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
     <path d="M18,6h-2c0-2.21-1.79-4-4-4S8,3.79,8,6H6C4.9,6,4,6.9,4,8v12c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8C20,6.9,19.1,6,18,6z M12,4c1.1,0,2,0.9,2,2h-4C10,4.9,10.9,4,12,4z M18,20H6V8h2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V8h4v2c0,0.55,0.45,1,1,1s1-0.45,1-1V8 h2V20z"/>
@@ -69,7 +105,7 @@ export default function FoodRescueSlide({
 }: FoodRescueSlideProps) {
   const foodCount = useMotionValue(0);
   const roundedFood = useTransform(foodCount, (latest) => Math.round(latest));
-  const [activeComparison, setActiveComparison] = useState<'elephant' | 'bison' | 'car' | 'dog' | 'groceryBag' | 'watermelon' | 'turkey'>('elephant');
+  const [activeComparison, setActiveComparison] = useState<'elephant' | 'bison' | 'car' | 'dog' | 'groceryBag' | 'watermelon' | 'turkey' | 'houseCat' | 'goldenRetriever' | 'grizzlyBear' | 'hippo' | 'schoolBus' | 'smallJet'>('elephant');
   
   useEffect(() => {
     const controls = animate(foodCount, impact.foodRescued, {
