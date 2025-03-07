@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, numeric, timestamp, unique } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, numeric, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -8,25 +8,23 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
 });
 
-export const donors = pgTable("donors", {
+export const volunteers = pgTable("volunteers", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
   first_name: text("first_name"),
   last_name: text("last_name"),
   phone: text("phone"),
-  external_id: text("external_id"), // For any external donor ID (e.g., from a CRM)
+  external_id: text("external_id"), // For any external volunteer ID
   created_at: timestamp("created_at").defaultNow().notNull(),
-  last_imported: timestamp("last_imported").defaultNow().notNull(),
 });
 
-export const donations = pgTable("donations", {
+export const volunteer_shifts = pgTable("volunteer_shifts", {
   id: serial("id").primaryKey(),
-  amount: numeric("amount").notNull(),
-  timestamp: timestamp("timestamp").defaultNow().notNull(),
+  hours: numeric("hours").notNull(),
+  shift_date: timestamp("shift_date").defaultNow().notNull(),
   email: text("email").notNull().default(''),
-  donor_id: integer("donor_id").references(() => donors.id),
-  external_donation_id: text("external_donation_id"), // For any external donation ID
-  imported: integer("imported").default(0), // 0 = new donation via app, 1 = imported
+  volunteer_id: integer("volunteer_id").references(() => volunteers.id),
+  external_shift_id: text("external_shift_id"), // For any external shift ID
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -34,7 +32,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
   password: true,
 });
 
-export const insertDonorSchema = createInsertSchema(donors).pick({
+export const insertVolunteerSchema = createInsertSchema(volunteers).pick({
   email: true,
   first_name: true,
   last_name: true,
@@ -42,91 +40,45 @@ export const insertDonorSchema = createInsertSchema(donors).pick({
   external_id: true,
 });
 
-export const insertDonationSchema = createInsertSchema(donations).pick({
-  amount: true,
-  timestamp: true,
+export const insertVolunteerShiftSchema = createInsertSchema(volunteer_shifts).pick({
+  hours: true,
+  shift_date: true,
   email: true,
-  donor_id: true,
-  external_donation_id: true,
-  imported: true,
+  volunteer_id: true,
+  external_shift_id: true,
 });
 
-// Schema for bulk importing donors
-export const importDonorSchema = z.object({
-  email: z.string().email(),
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
-  phone: z.string().optional(),
-  external_id: z.string().optional(),
-  donations: z.array(z.object({
-    amount: z.number().or(z.string()),
-    timestamp: z.string().or(z.date()),
-    external_donation_id: z.string().optional(),
-  })).optional(),
+// Schema for identifying a volunteer from URL params
+export const volunteerParamsSchema = z.object({
+  email: z.string().email().optional(),
+  hours: z.number().or(z.string()).optional(),
 });
 
-export type ImportDonor = z.infer<typeof importDonorSchema>;
-export type BulkImportResult = {
-  total: number;
-  successful: number;
-  failed: number;
-  errors: string[];
-};
+export type VolunteerParams = z.infer<typeof volunteerParamsSchema>;
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
-export type InsertDonor = z.infer<typeof insertDonorSchema>;
-export type Donor = typeof donors.$inferSelect;
+export type InsertVolunteer = z.infer<typeof insertVolunteerSchema>;
+export type Volunteer = typeof volunteers.$inferSelect;
 
-export type InsertDonation = z.infer<typeof insertDonationSchema>;
-export type Donation = typeof donations.$inferSelect;
+export type InsertVolunteerShift = z.infer<typeof insertVolunteerShiftSchema>;
+export type VolunteerShift = typeof volunteer_shifts.$inferSelect;
 
 export const almanacData = {
-  // 3-year rolling average per Appendix B
-  mealsPerDollar: 1.52,      // Replaces old 0.833
-  poundsPerDollar: 1.83,     // If you're counting total distribution per dollar
-  co2PerPoundFood: 3.8,      // Updated from 0.84
-  waterPerPoundFood: 51,     // Updated from 45.2
-
-  // If you need a direct meals/lb ratio:
-  mealPerPound: 0.833,       // (1 / 1.2)
-
-  // Nutritional distribution breakdown if needed:
-  foodDistribution: {
-    produce: 31.92, // Percent
-    dairy: 21.67,   // Percent
-    protein: 18.33, // Percent
-  },
-
-  // Possibly for references or base calculations:
-  totalMealsProvided: 10951888, // or update from new data
-  totalPeopleServed: 60000,     // only if needed
+  // Volunteer impact metrics
+  mealsPerVolunteerHour: 55,        // Meals provided per volunteer hour
+  valuePerVolunteerHour: 36.36,      // Dollar value of volunteer hour
+  mealsPerDay: 3,                    // Meals per person per day
+  
+  // For reference or calculations
+  totalMealsProvided: 10951888,      // Total meals provided annually
+  totalPeopleServed: 60000,          // Total people served annually
 };
 
-
-export type DonationImpact = {
+export type VolunteerImpact = {
+  hoursWorked: number;
   mealsProvided: number;
-  peopleServed: number;
-  peoplePercentage: string;
-  foodRescued: number;
-  co2Saved: number;
-  waterSaved: number;
-  producePercentage: number;
-  dairyPercentage: number;
-  proteinPercentage: number;
-  freshFoodPercentage: number;
-  babyElephants: string;
-  bison: string;
-  cars: string;
-  peopleFed: string;
-  daysFed: string;
-  // New weight comparison fields
-  weightComparison: string;  // The most appropriate weight comparison
-  houseCats?: string;
-  goldenRetrievers?: string;
-  grizzlyBears?: string;
-  hippos?: string;
-  schoolBuses?: string;
-  smallJets?: string;
+  costSavings: number;
+  peopleServedPerDay: number;
 };
