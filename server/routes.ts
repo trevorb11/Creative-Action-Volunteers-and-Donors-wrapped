@@ -23,7 +23,30 @@ export function calculateVolunteerImpact(hours: number) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // API endpoint to calculate volunteer impact based on hours
+  // API endpoint to calculate volunteer impact based on hours - GET method
+  app.get('/api/calculate-volunteer-impact', async (req, res) => {
+    try {
+      const schema = z.object({
+        hours: z.string().or(z.number()).transform(val => {
+          const num = typeof val === 'string' ? parseFloat(val) : val;
+          if (isNaN(num) || num < 0.1) throw new Error('Hours must be a positive number');
+          return num;
+        })
+      });
+
+      const { hours } = schema.parse(req.query);
+      
+      // Calculate volunteer impact metrics
+      const impact = calculateVolunteerImpact(hours);
+      
+      res.json(impact);
+    } catch (error) {
+      console.error("Error calculating volunteer impact:", error);
+      res.status(400).json({ error: 'Invalid volunteer hours' });
+    }
+  });
+
+  // API endpoint to calculate volunteer impact based on hours - POST method
   app.post('/api/calculate-volunteer-impact', async (req, res) => {
     try {
       const schema = z.object({
@@ -35,7 +58,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Calculate volunteer impact metrics
       const impact = calculateVolunteerImpact(hours);
       
-      res.json({ impact });
+      res.json(impact);
     } catch (error) {
       res.status(400).json({ error: 'Invalid volunteer hours' });
     }
@@ -44,38 +67,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // API endpoint to record a volunteer shift
   app.post('/api/log-volunteer-shift', async (req, res) => {
     try {
-      // Extend the schema to require email for volunteer shifts
-      const shiftSchema = insertVolunteerShiftSchema.extend({
-        email: z.string().email().optional(),
+      // Schema for the request body with more flexible hours handling
+      const requestSchema = z.object({
+        email: z.string().email(),
+        hours: z.number().or(z.string().transform(val => {
+          const num = parseFloat(val);
+          if (isNaN(num) || num <= 0) throw new Error('Hours must be a positive number');
+          return num;
+        }))
       });
       
-      const shiftData = shiftSchema.parse(req.body);
+      // Parse and validate the request
+      const { email, hours } = requestSchema.parse(req.body);
       
-      // If an email is provided, try to create/update the volunteer record
-      if (shiftData.email) {
-        // Check if this volunteer already exists
-        const existingVolunteer = await storage.getVolunteerByEmail(shiftData.email);
+      // Convert hours to string for database storage
+      const hoursNumeric = typeof hours === 'number' ? hours.toString() : hours;
+      
+      // Check if this volunteer already exists
+      const existingVolunteer = await storage.getVolunteerByEmail(email);
+      let volunteerId: number | undefined;
+      
+      if (!existingVolunteer) {
+        // Create a new volunteer with minimal information
+        const newVolunteer = await storage.createVolunteer({
+          email: email,
+        });
         
-        if (!existingVolunteer) {
-          // Create a new volunteer with minimal information
-          const newVolunteer = await storage.createVolunteer({
-            email: shiftData.email,
-          });
-          
-          // Link the shift to the volunteer
-          shiftData.volunteer_id = newVolunteer.id;
-        } else {
-          // Link the shift to the existing volunteer
-          shiftData.volunteer_id = existingVolunteer.id;
-        }
+        // Get the new volunteer's ID
+        volunteerId = newVolunteer.id;
+      } else {
+        // Use the existing volunteer's ID
+        volunteerId = existingVolunteer.id;
       }
+      
+      // Prepare the shift data
+      const shiftData = {
+        hours: hoursNumeric,
+        email: email,
+        volunteer_id: volunteerId,
+        shift_date: new Date()
+      };
       
       // Save the volunteer shift
       const savedShift = await storage.createVolunteerShift(shiftData);
       
       // Calculate impact for the response
-      const hours = parseFloat(savedShift.hours.toString());
-      const impact = calculateVolunteerImpact(hours);
+      const impactHours = parseFloat(savedShift.hours.toString());
+      const impact = calculateVolunteerImpact(impactHours);
       
       res.json({ 
         shift: savedShift,
