@@ -14,6 +14,7 @@ import { Utensils, DollarSign, Users, Clock, Share2, ArrowLeft, ArrowRight } fro
 import AnimatedCounter from '@/components/volunteer/AnimatedCounter';
 import AnimatedSlide from '@/components/volunteer/AnimatedSlide';
 import AnimatedIcon from '@/components/volunteer/AnimatedIcon';
+import CFSLogo from '@/components/volunteer/CFSLogo';
 import { useToast } from '@/hooks/use-toast';
 import { formatCurrency } from '@/lib/utils';
 import { SLIDE_COLORS } from '@/lib/constants';
