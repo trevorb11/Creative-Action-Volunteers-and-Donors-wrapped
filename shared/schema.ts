@@ -121,4 +121,12 @@ export type DonationImpact = {
   cars: string;
   peopleFed: string;
   daysFed: string;
+  // New weight comparison fields
+  weightComparison: string;  // The most appropriate weight comparison
+  houseCats?: string;
+  goldenRetrievers?: string;
+  grizzlyBears?: string;
+  hippos?: string;
+  schoolBuses?: string;
+  smallJets?: string;
 };
