@@ -426,26 +426,26 @@ export default function TimeGivingSlide({
             {/* Years of giving personalized message */}
             {donorSummary && (
               <motion.div
-                className="bg-green-50 border border-green-100 rounded-xl p-6 shadow-sm"
+                className="bg-green-50 border border-green-100 rounded-xl p-4 sm:p-5 md:p-6 shadow-sm"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                <div className="flex items-start mb-3">
-                  <div className={`p-2 rounded-full ${milestone.color} bg-opacity-20 mr-4`}>
-                    <MilestoneIcon className={`h-8 w-8 ${milestone.color}`} />
+                <div className="flex flex-col sm:flex-row items-center sm:items-start mb-3">
+                  <div className={`p-2 rounded-full ${milestone.color} bg-opacity-20 mb-3 sm:mb-0 sm:mr-4`}>
+                    <MilestoneIcon className={`h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 ${milestone.color}`} />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-green-800 mb-2">
+                  <div className="text-center sm:text-left">
+                    <h3 className="text-lg sm:text-xl font-bold text-green-800 mb-2">
                       {givingJourneyMessage.title}
                     </h3>
-                    <p className="text-green-700">
+                    <p className="text-sm sm:text-base text-green-700">
                       {givingJourneyMessage.message}
                     </p>
                   </div>
                 </div>
-                <div className="bg-white p-4 rounded-lg border border-green-100 mt-4">
-                  <p className="text-gray-700 italic">
+                <div className="bg-white p-3 sm:p-4 rounded-lg border border-green-100 mt-3 sm:mt-4">
+                  <p className="text-sm md:text-base text-gray-700 italic">
                     "{givingJourneyMessage.funFact}"
                   </p>
                 </div>
@@ -459,32 +459,32 @@ export default function TimeGivingSlide({
               transition={{ delay: 0.5, duration: 0.5 }}
             >
               <Card className="overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-green-100 to-blue-100 pb-3">
-                  <CardTitle className="text-lg font-semibold flex items-center">
-                    <History className="h-5 w-5 mr-2 text-indigo-500" />
+                <CardHeader className="bg-gradient-to-r from-green-100 to-blue-100 pb-2 sm:pb-3 px-3 sm:px-6">
+                  <CardTitle className="text-base sm:text-lg font-semibold flex items-center">
+                    <History className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-indigo-500" />
                     Your Giving Timeline
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-xs sm:text-sm">
                     {years > 0 
                       ? `You've been supporting Community Food Share since ${donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "the beginning"}`
                       : "Beginning your journey with Community Food Share"}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="pt-4">
+                <CardContent className="pt-3 sm:pt-4 px-3 sm:px-6">
                   <div className="relative">
                     {/* Timeline line */}
-                    <div className="absolute left-9 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                    <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-0.5 bg-gray-200"></div>
                     
                     {/* Timeline items */}
-                    <div className="space-y-6 relative z-10">
+                    <div className="space-y-4 sm:space-y-6 relative z-10">
                       {/* Current year marker */}
                       <div className="flex items-start">
-                        <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-green-500 text-white mr-4">
-                          <Star className="h-5 w-5" />
+                        <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-green-500 text-white mr-2 sm:mr-4">
+                          <Star className="h-3 w-3 sm:h-4 sm:w-4" />
                         </div>
-                        <div className="flex-grow pt-1">
-                          <h4 className="font-medium text-gray-800">{new Date().getFullYear()}</h4>
-                          <p className="text-sm text-gray-600">
+                        <div className="flex-grow pt-0.5 sm:pt-1">
+                          <h4 className="text-sm sm:text-base font-medium text-gray-800">{new Date().getFullYear()}</h4>
+                          <p className="text-xs sm:text-sm text-gray-600">
                             {donorFirstName 
                               ? `${donorFirstName}'s most recent donation helps us continue our mission!` 
                               : "Your most recent donation helps us continue our mission!"}
@@ -495,12 +495,12 @@ export default function TimeGivingSlide({
                       {/* Show fiscal year 2025 giving data if available */}
                       {fiscalYearGiving.fy25 !== undefined && fiscalYearGiving.fy25 > 0 && (
                         <div className="flex items-start">
-                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-blue-400 text-white mr-4">
-                            <Calendar className="h-5 w-5" />
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-blue-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                           </div>
-                          <div className="flex-grow pt-1">
-                            <h4 className="font-medium text-gray-800">FY 2025</h4>
-                            <p className="text-sm text-gray-600">
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2025</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
                                 ? `${donorFirstName} gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!` 
                                 : `You gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!`}
@@ -512,12 +512,12 @@ export default function TimeGivingSlide({
                       {/* Show fiscal year 2024 giving data if available */}
                       {fiscalYearGiving.fy24 !== undefined && fiscalYearGiving.fy24 > 0 && (
                         <div className="flex items-start">
-                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-teal-400 text-white mr-4">
-                            <Calendar className="h-5 w-5" />
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-teal-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                           </div>
-                          <div className="flex-grow pt-1">
-                            <h4 className="font-medium text-gray-800">FY 2024</h4>
-                            <p className="text-sm text-gray-600">
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2024</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
                                 ? `${donorFirstName} contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!` 
                                 : `You contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!`}
@@ -529,12 +529,12 @@ export default function TimeGivingSlide({
                       {/* Show fiscal year 2023 giving data if available */}
                       {fiscalYearGiving.fy23 !== undefined && fiscalYearGiving.fy23 > 0 && (
                         <div className="flex items-start">
-                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-indigo-400 text-white mr-4">
-                            <Calendar className="h-5 w-5" />
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-indigo-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                           </div>
-                          <div className="flex-grow pt-1">
-                            <h4 className="font-medium text-gray-800">FY 2023</h4>
-                            <p className="text-sm text-gray-600">
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2023</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
                                 ? `${donorFirstName}'s ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.` 
                                 : `Your ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.`}
@@ -546,12 +546,12 @@ export default function TimeGivingSlide({
                       {/* Show fiscal year 2022 giving data if available */}
                       {fiscalYearGiving.fy22 !== undefined && fiscalYearGiving.fy22 > 0 && (
                         <div className="flex items-start">
-                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-purple-400 text-white mr-4">
-                            <Calendar className="h-5 w-5" />
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                           </div>
-                          <div className="flex-grow pt-1">
-                            <h4 className="font-medium text-gray-800">FY 2022</h4>
-                            <p className="text-sm text-gray-600">
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2022</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
                                 ? `${donorFirstName} donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.` 
                                 : `You donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.`}
@@ -563,14 +563,14 @@ export default function TimeGivingSlide({
                       {/* First gift */}
                       {years >= 1 && (
                         <div className="flex items-start">
-                          <div className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-purple-500 text-white mr-4">
-                            <Heart className="h-5 w-5" />
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-500 text-white mr-2 sm:mr-4">
+                            <Heart className="h-3 w-3 sm:h-4 sm:w-4" />
                           </div>
-                          <div className="flex-grow pt-1">
-                            <h4 className="font-medium text-gray-800">
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">
                               {donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "First Gift"}
                             </h4>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
                                 ? `${donorFirstName} made their first gift to Community Food Share!` 
                                 : "You made your first gift to Community Food Share!"}
@@ -590,14 +590,14 @@ export default function TimeGivingSlide({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.5 }}
             >
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                 {/* Years of Support */}
                 <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 shadow-md hover:shadow-lg transition-all">
-                  <CardContent className="p-4 flex flex-col items-center text-center">
-                    <div className="bg-blue-100 p-2 rounded-full mb-2">
-                      <Clock className="h-7 w-7 text-blue-600" />
+                  <CardContent className="p-3 sm:p-4 flex flex-col items-center text-center">
+                    <div className="bg-blue-100 p-1.5 sm:p-2 rounded-full mb-1 sm:mb-2">
+                      <Clock className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-blue-600" />
                     </div>
-                    <p className="text-2xl font-bold text-blue-700">
+                    <p className="text-lg sm:text-xl md:text-2xl font-bold text-blue-700">
                       <CountUpAnimation 
                         value={journeyStats.years > 0 ? journeyStats.years : years}
                         className="font-bold"
@@ -605,61 +605,61 @@ export default function TimeGivingSlide({
                       />
                       <span> {(journeyStats.years || years) === 1 ? "Year" : "Years"}</span>
                     </p>
-                    <p className="text-sm font-medium text-blue-600">Years of Support</p>
+                    <p className="text-xs sm:text-sm font-medium text-blue-600">Years of Support</p>
                   </CardContent>
                 </Card>
                 
                 {/* Lifetime Impact */}
                 <Card className="bg-gradient-to-br from-green-50 to-teal-50 shadow-md hover:shadow-lg transition-all">
-                  <CardContent className="p-4 flex flex-col items-center text-center">
-                    <div className="bg-green-100 p-2 rounded-full mb-2">
-                      <Award className="h-7 w-7 text-green-600" />
+                  <CardContent className="p-3 sm:p-4 flex flex-col items-center text-center">
+                    <div className="bg-green-100 p-1.5 sm:p-2 rounded-full mb-1 sm:mb-2">
+                      <Award className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-green-600" />
                     </div>
-                    <p className="text-2xl font-bold text-green-700 flex items-center justify-center">
+                    <p className="text-lg sm:text-xl md:text-2xl font-bold text-green-700 flex items-center justify-center">
                       $<CountUpAnimation 
                         value={journeyStats.totalGiving || donorSummary?.lifetimeGiving || 0}
                         className="font-bold"
                         delay={0.3}
                       />
                     </p>
-                    <p className="text-sm font-medium text-green-600">Lifetime Impact</p>
+                    <p className="text-xs sm:text-sm font-medium text-green-600">Lifetime Impact</p>
                   </CardContent>
                 </Card>
                 
                 {/* Most Recent Gift */}
                 <Card className="bg-gradient-to-br from-amber-50 to-yellow-50 shadow-md hover:shadow-lg transition-all">
-                  <CardContent className="p-4 flex flex-col items-center text-center">
-                    <div className="bg-amber-100 p-2 rounded-full mb-2">
-                      <Gift className="h-7 w-7 text-amber-600" />
+                  <CardContent className="p-3 sm:p-4 flex flex-col items-center text-center">
+                    <div className="bg-amber-100 p-1.5 sm:p-2 rounded-full mb-1 sm:mb-2">
+                      <Gift className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-amber-600" />
                     </div>
-                    <p className="text-2xl font-bold text-amber-700 flex items-center justify-center">
+                    <p className="text-lg sm:text-xl md:text-2xl font-bold text-amber-700 flex items-center justify-center">
                       $<CountUpAnimation 
                         value={donorSummary?.lastGift?.amount || amount}
                         className="font-bold"
                         delay={0.4}
                       />
                     </p>
-                    <p className="text-sm font-medium text-amber-600">Most Recent Gift</p>
+                    <p className="text-xs sm:text-sm font-medium text-amber-600">Most Recent Gift</p>
                   </CardContent>
                 </Card>
                 
                 {/* Hunger Fighting Hero */}
                 <Card className="bg-gradient-to-br from-rose-50 to-pink-50 shadow-md hover:shadow-lg transition-all">
-                  <CardContent className="p-4 flex flex-col items-center text-center relative">
-                    <div className="bg-rose-100 p-2 rounded-full mb-2">
-                      <Trophy className="h-7 w-7 text-rose-600" />
+                  <CardContent className="p-3 sm:p-4 flex flex-col items-center text-center relative">
+                    <div className="bg-rose-100 p-1.5 sm:p-2 rounded-full mb-1 sm:mb-2">
+                      <Trophy className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-rose-600" />
                     </div>
                     <motion.div
                       className="absolute -top-1 -right-1"
                       animate={{ rotate: [0, 10, 0, -10, 0] }}
                       transition={{ duration: 5, repeat: Infinity }}
                     >
-                      <div className="text-lg">✨</div>
+                      <div className="text-sm sm:text-base md:text-lg">✨</div>
                     </motion.div>
-                    <p className="text-xl font-bold text-rose-700">
+                    <p className="text-base sm:text-lg md:text-xl font-bold text-rose-700">
                       {years >= 5 ? "Champion" : years >= 3 ? "Advocate" : years >= 1 ? "Supporter" : "Newcomer"}
                     </p>
-                    <p className="text-sm font-medium text-rose-600">Hunger Fighting Hero</p>
+                    <p className="text-xs sm:text-sm font-medium text-rose-600">Hunger Fighting Hero</p>
                   </CardContent>
                 </Card>
               </div>
@@ -669,9 +669,13 @@ export default function TimeGivingSlide({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.5 }}
-              className="text-center mt-6"
+              className="text-center mt-4 sm:mt-6"
             >
-              <Button onClick={onNext} size="lg" className="px-8">
+              <Button 
+                onClick={onNext} 
+                size="default" 
+                className="px-6 py-1.5 sm:px-8 sm:py-2 text-sm sm:text-base"
+              >
                 Continue
               </Button>
             </motion.div>
