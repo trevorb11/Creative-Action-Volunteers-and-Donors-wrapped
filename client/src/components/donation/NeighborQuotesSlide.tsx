@@ -86,8 +86,8 @@ export default function NeighborQuotesSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="my-8 max-w-5xl mx-auto">
-        <div className="relative h-[420px] mb-8">
+      <div className="my-4 sm:my-6 md:my-8 max-w-5xl mx-auto">
+        <div className="relative h-[300px] sm:h-[350px] md:h-[420px] mb-4 sm:mb-6 md:mb-8">
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 opacity-5 -mt-16 -mr-16">
             <Quote size={120} />
@@ -108,7 +108,7 @@ export default function NeighborQuotesSlide({
               className="absolute w-full h-full"
             >
               <Card className="h-full bg-white/90 backdrop-blur shadow-xl border-0 overflow-hidden">
-                <CardContent className="p-8 h-full flex flex-col justify-center items-center text-center relative">
+                <CardContent className="p-4 sm:p-6 md:p-8 h-full flex flex-col justify-center items-center text-center relative">
                   {/* Quote icon */}
                   <div className="absolute top-8 left-8 text-primary/20">
                     <Quote size={40} />

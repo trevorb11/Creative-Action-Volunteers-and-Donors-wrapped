@@ -62,18 +62,18 @@ export default function MealsSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="text-4xl sm:text-6xl md:text-8xl font-heading font-extrabold mb-2 sm:mb-4">
+      <div className="text-3xl sm:text-6xl md:text-8xl font-heading font-extrabold mb-1 sm:mb-2 md:mb-4">
         <motion.span>{rounded}</motion.span>
       </div>
 
-      <h3 className="text-xl sm:text-2xl md:text-4xl font-heading mb-4 sm:mb-8">Nutritious Meals</h3>
+      <h3 className="text-lg sm:text-2xl md:text-4xl font-heading mb-3 sm:mb-5 md:mb-8">Nutritious Meals</h3>
 
-      <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-8">
+      <p className="text-sm sm:text-lg md:text-xl mb-3 sm:mb-5 md:mb-8">
         That's enough to feed {impact.peopleFed} for {impact.daysFed}!
       </p>
 
-      <div className="w-full bg-white/20 h-3 sm:h-4 rounded-full mb-6 sm:mb-10">
-        <div ref={barRef} className="bg-white h-3 sm:h-4 rounded-full w-0"></div>
+      <div className="w-full bg-white/20 h-2 sm:h-3 md:h-4 rounded-full mb-4 sm:mb-6 md:mb-10">
+        <div ref={barRef} className="bg-white h-2 sm:h-3 md:h-4 rounded-full w-0"></div>
       </div>
 
       <div className="flex justify-between w-full">

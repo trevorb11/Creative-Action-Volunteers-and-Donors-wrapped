@@ -53,9 +53,9 @@ export default function EnvironmentSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5 md:gap-8 mb-4 sm:mb-6 md:mb-8">
         <motion.div 
-          className="bg-white/20 p-4 sm:p-6 rounded-xl"
+          className="bg-white/20 p-3 sm:p-4 md:p-6 rounded-xl"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -73,7 +73,7 @@ export default function EnvironmentSlide({
         </motion.div>
         
         <motion.div 
-          className="bg-white/20 p-4 sm:p-6 rounded-xl"
+          className="bg-white/20 p-3 sm:p-4 md:p-6 rounded-xl"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
