@@ -63,12 +63,14 @@ type FormValues = z.infer<typeof formSchema>;
  */
 function getParamsFromURL() {
   const params = new URLSearchParams(window.location.search);
-  const hours = params.get('hours');
+  const hours = params.get('hours') || params.get('volunteer_hours');
   const email = params.get('email');
+  const firstName = params.get('first_name');
   
   return {
     hours: hours ? parseFloat(hours) : undefined,
     email: email || undefined,
+    firstName: firstName || undefined,
     allParams: window.location.search
   };
 }
@@ -105,7 +107,7 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    */
   componentDidMount() {
     if (!this.hasCheckedParams) {
-      const { hours, email } = getParamsFromURL();
+      const { hours, email, firstName } = getParamsFromURL();
       
       if (hours && hours > 0) {
         // If email is provided, try to fetch volunteer info
@@ -120,6 +122,23 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
           // Just calculate impact with hours
           this.handleHoursSubmit(hours);
         }
+      }
+      
+      // Pre-fill the form with values from URL if we're on the welcome screen
+      if (this.state.step === SlideNames.WELCOME) {
+        // We need to find the form and update it with values from the URL
+        setTimeout(() => {
+          const hoursInput = document.querySelector('input[name="hours"]') as HTMLInputElement;
+          const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
+          
+          if (hoursInput && hours) {
+            hoursInput.value = hours.toString();
+          }
+          
+          if (emailInput && email) {
+            emailInput.value = email;
+          }
+        }, 100);
       }
       
       this.hasCheckedParams = true;
@@ -280,13 +299,21 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    */
   handleShare() {
     const baseUrl = window.location.origin + window.location.pathname;
-    const shareUrl = `${baseUrl}?hours=${this.state.hours}${this.state.volunteerEmail ? `&email=${encodeURIComponent(this.state.volunteerEmail)}` : ''}`;
+    // Get parameters from URL in case we have first_name there
+    const { firstName } = getParamsFromURL();
+    // Create URL with hours and email
+    const shareUrl = `${baseUrl}?hours=${this.state.hours}${this.state.volunteerEmail ? `&email=${encodeURIComponent(this.state.volunteerEmail)}` : ''}${firstName ? `&first_name=${encodeURIComponent(firstName)}` : ''}`;
+    
+    // Build share text with name if available
+    const shareText = firstName 
+      ? `${firstName} volunteered ${this.state.hours} hours at Community Food Share! See the impact:`
+      : `I volunteered ${this.state.hours} hours at Community Food Share! See the impact:`;
     
     // Use Web Share API if available
     if (navigator.share) {
       navigator.share({
         title: 'My Volunteer Impact',
-        text: `I volunteered ${this.state.hours} hours at Community Food Share! See the impact:`,
+        text: shareText,
         url: shareUrl,
       }).catch((error) => {
         console.log('Error sharing', error);
@@ -813,7 +840,7 @@ const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: I
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
         <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
-          <CardTitle className="text-2xl font-bold">Your Service Provides</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">Your Service Provides</CardTitle>
           <CardDescription className="text-white opacity-90">
             Making meals possible
           </CardDescription>
@@ -1134,7 +1161,7 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
         <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
-          <CardTitle className="text-2xl font-bold">Thank You!</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">Thank You!</CardTitle>
           <CardDescription className="text-white opacity-90">Your time makes a difference</CardDescription>
         </CardHeader>
         <CardContent className="pt-8 flex flex-col items-center">

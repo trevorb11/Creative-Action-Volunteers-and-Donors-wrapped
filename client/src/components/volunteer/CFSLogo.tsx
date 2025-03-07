@@ -15,7 +15,7 @@ export default function CFSLogo({
   return (
     <div className={cn("flex justify-center items-center mt-4", className)}>
       <img 
-        src="/images/cfs-logo.png" 
+        src="/cfs-logo.png" 
         alt="Community Food Share Logo" 
         width={width} 
         height={height}
