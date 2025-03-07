@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { RouteComponentProps } from "wouter";
 import { toast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
 import type { VolunteerImpact as VolunteerImpactType } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -111,7 +110,7 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
     try {
       this.setState({ isLoading: true, step: SlideNames.LOADING });
       
-      const response = await apiRequest("GET", `/api/volunteer/${encodeURIComponent(email)}`);
+      const response = await fetch(`/api/volunteer/${encodeURIComponent(email)}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -190,10 +189,16 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    */
   async logVolunteerShift(hours: number, email: string) {
     try {
-      const response = await apiRequest("POST", '/api/log-volunteer-shift', {
-        hours,
-        email,
-        shift_date: new Date()
+      const response = await fetch('/api/log-volunteer-shift', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          hours,
+          email,
+          shift_date: new Date()
+        })
       });
 
       if (response.ok) {
@@ -218,7 +223,13 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    */
   async calculateImpact(hours: number) {
     try {
-      const response = await apiRequest("POST", '/api/calculate-volunteer-impact', { hours });
+      const response = await fetch('/api/calculate-volunteer-impact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ hours })
+      });
 
       if (response.ok) {
         const data = await response.json();

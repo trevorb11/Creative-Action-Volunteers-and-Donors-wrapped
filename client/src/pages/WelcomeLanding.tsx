@@ -38,6 +38,11 @@ export default function WelcomeLanding() {
     setLocation("/impact");
   };
 
+  const handleVolunteerImpact = () => {
+    // Navigate to the volunteer impact page
+    setLocation("/volunteer-impact");
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-50 to-green-100 p-4">
       <Card className="w-full max-w-md shadow-lg">
@@ -60,12 +65,20 @@ export default function WelcomeLanding() {
               <p className="text-center text-gray-600">
                 Discover how your generosity is fighting hunger and changing lives in our community.
               </p>
-              <Button 
-                onClick={handleGetStarted} 
-                className="w-full bg-green-600 hover:bg-green-700 text-lg py-6"
-              >
-                View Your Impact
-              </Button>
+              <div className="space-y-3">
+                <Button 
+                  onClick={handleGetStarted} 
+                  className="w-full bg-green-600 hover:bg-green-700 text-lg py-6"
+                >
+                  View Donation Impact
+                </Button>
+                <Button 
+                  onClick={handleVolunteerImpact} 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6"
+                >
+                  Volunteer Impact Calculator
+                </Button>
+              </div>
             </>
           )}
         </CardContent>
