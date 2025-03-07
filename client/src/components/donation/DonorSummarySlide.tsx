@@ -722,7 +722,7 @@ export default function DonorSummarySlide({
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2 my-8">
-              {/* Card 1: Fiscal Year Giving */}
+              {/* Card 1: Estimated Meals */}
               <motion.div
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -776,11 +776,11 @@ export default function DonorSummarySlide({
                             repeatType: "reverse" 
                           }}
                         >
-                          <Calendar className="h-7 w-7 text-green-800" />
+                          <Heart className="h-7 w-7 text-green-800" />
                         </motion.div>
                       </div>
                       <CardTitle className="text-center text-lg font-bold text-green-800">
-                        Fiscal Year Giving
+                        Estimated Meals
                       </CardTitle>
                     </CardHeader>
                     
@@ -797,7 +797,7 @@ export default function DonorSummarySlide({
                         }}
                       >
                         <CountUpAnimation 
-                          value={donorSummary.totalLastYear}
+                          value={impact.mealsProvided}
                           className="text-4xl font-bold text-primary"
                         />
                       </motion.div>
@@ -808,7 +808,7 @@ export default function DonorSummarySlide({
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.7 }}
                       >
-                        Total donations this fiscal year
+                        From your most recent gift
                       </motion.p>
                       
                       {/* Corner decoration */}
@@ -881,7 +881,7 @@ export default function DonorSummarySlide({
                         </motion.div>
                       </div>
                       <CardTitle className="text-center text-lg font-bold text-teal-800">
-                        Most Recent Gift
+                        People Helped
                       </CardTitle>
                     </CardHeader>
                     
