@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { motion, useMotionValue, useTransform, animate, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { DonationImpact } from "@shared/schema";
-import { User, UserCircle, Users, UserCheck } from "lucide-react";
 import SlideLayout from "./SlideLayout";
 import { SLIDE_CONFIG } from "@/lib/constants";
 
@@ -22,103 +21,21 @@ export default function PeopleSlide({
 }: PeopleSlideProps) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
-  const [activeIcons, setActiveIcons] = useState<number>(0);
-  
-  // Calculate how many person icons to show
-  const totalIcons = 30;
-  const peoplePercentage = parseFloat(impact.peoplePercentage.replace('%', ''));
-  const iconsToHighlight = Math.max(1, Math.round((peoplePercentage / 100) * totalIcons));
-
-  // Define the different icon types to use
-  const iconTypes = [User, UserCircle, UserCheck];
   
   useEffect(() => {
-    // Animate the count number
     const controls = animate(count, impact.peopleServed, {
       duration: 2,
       ease: "easeOut"
     });
     
-    // Animate icons appearing one by one
-    const iconTimer = setTimeout(() => {
-      setActiveIcons(iconsToHighlight);
-    }, 500);
-    
-    return () => {
-      controls.stop();
-      clearTimeout(iconTimer);
-    };
-  }, [count, impact.peopleServed, iconsToHighlight]);
+    return () => controls.stop();
+  }, [count, impact.peopleServed]);
   
-  // Generate people icons with variety
-  const renderPeopleIcons = () => {
-    const icons = [];
-    
-    // Background icons (faded)
-    for (let i = 0; i < totalIcons; i++) {
-      const IconComponent = iconTypes[i % iconTypes.length];
-      icons.push(
-        <motion.div
-          key={`bg-${i}`}
-          className="h-10 w-10 mx-auto"
-          initial={{ opacity: 0.1 }}
-          animate={{ opacity: 0.2, scale: 0.9 }}
-        >
-          <IconComponent className="h-full w-full text-white/30" />
-        </motion.div>
-      );
-    }
-    
-    return (
-      <div className="grid grid-cols-5 gap-4 mb-8">
-        {icons}
-      </div>
-    );
-  };
+  // Extract percentage value
+  const peoplePercentage = parseFloat(impact.peoplePercentage.replace('%', ''));
   
-  // Generate active people icons (highlighted)
-  const renderActiveIcons = () => {
-    const icons = [];
-    
-    for (let i = 0; i < activeIcons; i++) {
-      const IconComponent = iconTypes[i % iconTypes.length];
-      const row = Math.floor(i / 5);
-      const col = i % 5;
-      
-      icons.push(
-        <motion.div
-          key={`active-${i}`}
-          className="absolute h-12 w-12"
-          initial={{ 
-            opacity: 0, 
-            scale: 0.5,
-            x: "50%",
-            y: "50%"
-          }}
-          animate={{ 
-            opacity: 1, 
-            scale: 1.1,
-            x: `${col * 20}%`,
-            y: `${row * 60}px`
-          }}
-          transition={{ 
-            duration: 0.5, 
-            delay: i * 0.04,
-            type: "spring",
-            damping: 12
-          }}
-        >
-          <IconComponent className="h-full w-full text-white drop-shadow-md" />
-        </motion.div>
-      );
-    }
-    
-    return (
-      <div className="relative h-[180px]">
-        {icons}
-      </div>
-    );
-  };
+  // Calculate width for progress bar
+  const progressWidth = `${Math.min(100, Math.max(peoplePercentage, 3))}%`;
   
   return (
     <SlideLayout
@@ -130,28 +47,108 @@ export default function PeopleSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="relative mb-6">
-        <div className="text-6xl md:text-8xl font-heading font-extrabold text-center">
+      {/* Main count */}
+      <div className="mb-10">
+        <div className="text-7xl md:text-9xl font-bold text-center tracking-tight">
           <motion.span>{rounded}</motion.span>
         </div>
-        <p className="text-2xl md:text-3xl font-heading text-center">People in Our Community</p>
+        <p className="text-2xl md:text-3xl font-medium text-center mt-2">
+          People in Our Community
+        </p>
       </div>
       
-      {renderPeopleIcons()}
-      {renderActiveIcons()}
-      
-      <p className="text-xl mb-8 text-center">
-        That's approximately <span className="font-bold">{impact.peoplePercentage}</span> of the 60,000 individuals served in Boulder and Broomfield Counties this year.
-      </p>
+      {/* Visual representation - progress bar style */}
+      <div className="mb-12">
+        <div className="flex justify-between text-sm mb-2">
+          <span>0 people</span>
+          <span>60,000 people</span>
+        </div>
+        
+        <div className="h-6 bg-white/10 rounded-full overflow-hidden relative">
+          {/* Background track */}
+          <div className="absolute inset-0 flex">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div 
+                key={i} 
+                className="h-full flex-1 border-r border-white/20 last:border-0"
+              />
+            ))}
+          </div>
+          
+          {/* Progress indicator */}
+          <motion.div 
+            className="h-full bg-white rounded-full"
+            initial={{ width: "0%" }}
+            animate={{ width: progressWidth }}
+            transition={{ 
+              duration: 1.5, 
+              ease: "easeOut",
+              delay: 0.8
+            }}
+          >
+            <div className="h-full w-full bg-gradient-to-r from-emerald-400 to-teal-500"></div>
+          </motion.div>
+          
+          {/* Animated dot at end of progress */}
+          <motion.div
+            className="absolute top-0 h-6 w-6 rounded-full bg-white shadow-md flex items-center justify-center transform -translate-x-1/2"
+            initial={{ left: "0%" }}
+            animate={{ left: progressWidth }}
+            transition={{ 
+              duration: 1.5, 
+              ease: "easeOut",
+              delay: 0.8
+            }}
+          >
+            <div className="h-3 w-3 rounded-full bg-emerald-500"></div>
+          </motion.div>
+        </div>
+        
+        <div className="mt-1 text-right">
+          <span className="text-sm opacity-80">Boulder & Broomfield Counties</span>
+        </div>
+      </div>
 
+      {/* Percentage callout */}
+      <motion.div 
+        className="bg-white/5 border border-white/10 rounded-lg p-4 mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.7 }}
+      >
+        <div className="text-center">
+          <p className="text-xl">
+            Your donation helped feed <span className="font-bold">{impact.peoplePercentage}</span> of those served
+          </p>
+          
+          <div className="mt-3 grid grid-cols-3 gap-4">
+            <div className="text-center">
+              <p className="text-3xl font-bold">{impact.mealsProvided}</p>
+              <p className="text-sm">Meals Provided</p>
+            </div>
+            
+            <div className="text-center border-x border-white/10">
+              <p className="text-3xl font-bold">{impact.daysFed}</p>
+              <p className="text-sm">Days of Food</p>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-3xl font-bold">{impact.foodRescued.toFixed(0)}</p>
+              <p className="text-sm">lbs of Food</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Impact quote */}
       <motion.div
-        className="bg-white/10 p-5 rounded-xl mt-4 text-center"
+        className="bg-white/10 p-5 rounded-xl text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
+        transition={{ duration: 0.7, delay: 1.5 }}
       >
         <p className="text-lg italic">
-          "Your donation helped provide food for {impact.daysFed} to {impact.peopleFed}. Each person represents a neighbor with a name, a story, and a brighter future because of you."
+          "Every number represents a real person with a name, a story, and hope for tomorrow. Your support made a direct impact on their lives."
         </p>
       </motion.div>
     </SlideLayout>
