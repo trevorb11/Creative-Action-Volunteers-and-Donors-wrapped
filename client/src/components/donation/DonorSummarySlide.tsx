@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { TrendingUp, Heart, Calendar, Award, Gift, Sparkles, BarChart3, Users } from "lucide-react";
+import { TrendingUp, Heart, Calendar, Award, Gift, Sparkles, BarChart3, Users, ShoppingBasket } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
 
 interface DonorSummarySlideProps {
@@ -877,7 +877,7 @@ export default function DonorSummarySlide({
                             repeatType: "reverse" 
                           }}
                         >
-                          <Gift className="h-7 w-7 text-teal-800" />
+                          <Users className="h-7 w-7 text-teal-800" />
                         </motion.div>
                       </div>
                       <CardTitle className="text-center text-lg font-bold text-teal-800">
@@ -898,7 +898,7 @@ export default function DonorSummarySlide({
                         }}
                       >
                         <CountUpAnimation 
-                          value={donorSummary.lastGift.amount}
+                          value={impact.peopleServed}
                           className="text-4xl font-bold text-teal-600"
                           delay={0.2}
                         />
@@ -910,7 +910,7 @@ export default function DonorSummarySlide({
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.8 }}
                       >
-                        on {donorSummary.lastGift.date}
+                        Will receive food from your gift
                       </motion.p>
                       
                       {/* Corner decoration */}
@@ -979,11 +979,11 @@ export default function DonorSummarySlide({
                             repeatType: "reverse" 
                           }}
                         >
-                          <Award className="h-7 w-7 text-indigo-800" />
+                          <ShoppingBasket className="h-7 w-7 text-indigo-800" />
                         </motion.div>
                       </div>
                       <CardTitle className="text-center text-lg font-bold text-indigo-800">
-                        Lifetime Impact
+                        Food Rescue
                       </CardTitle>
                     </CardHeader>
                     
@@ -1013,7 +1013,7 @@ export default function DonorSummarySlide({
                           }}
                         />
                         <CountUpAnimation 
-                          value={donorSummary.lifetimeGiving}
+                          value={impact.foodRescued}
                           className="text-4xl font-bold text-indigo-600 relative z-10"
                           delay={0.4}
                         />
@@ -1025,12 +1025,12 @@ export default function DonorSummarySlide({
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.9 }}
                       >
-                        Total impact on our community
+                        Pounds of food rescued
                       </motion.p>
                       
                       {/* Corner decoration */}
                       <div className="absolute -bottom-3 -right-3 w-20 h-20 opacity-5">
-                        <Users className="w-full h-full" />
+                        <ShoppingBasket className="w-full h-full" />
                       </div>
                     </CardContent>
                   </Card>
