@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Utensils, DollarSign, Users, Clock, Share2, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Utensils, DollarSign, Users, Clock, Share2, ArrowLeft, ArrowRight, Heart } from 'lucide-react';
 import AnimatedCounter from '@/components/volunteer/AnimatedCounter';
 import AnimatedSlide from '@/components/volunteer/AnimatedSlide';
 import AnimatedIcon from '@/components/volunteer/AnimatedIcon';
