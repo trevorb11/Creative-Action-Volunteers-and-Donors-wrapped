@@ -11,11 +11,14 @@ export const users = pgTable("users", {
 export const volunteers = pgTable("volunteers", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
-  first_name: text("first_name"),
-  last_name: text("last_name"),
+  name: text("name"),
   phone: text("phone"),
-  external_id: text("external_id"), // For any external volunteer ID
+  address: text("address"),
+  city: text("city"),
+  state: text("state"),
+  zip: text("zip"),
   created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at"),
 });
 
 export const volunteer_shifts = pgTable("volunteer_shifts", {
@@ -34,10 +37,12 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export const insertVolunteerSchema = createInsertSchema(volunteers).pick({
   email: true,
-  first_name: true,
-  last_name: true,
+  name: true,
   phone: true,
-  external_id: true,
+  address: true,
+  city: true,
+  state: true,
+  zip: true,
 });
 
 export const insertVolunteerShiftSchema = createInsertSchema(volunteer_shifts).pick({

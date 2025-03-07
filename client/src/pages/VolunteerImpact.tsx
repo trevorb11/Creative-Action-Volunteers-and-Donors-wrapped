@@ -211,9 +211,9 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
         this.setState({
           impact,
           isLoading: false,
-          step: SlideNames.SUMMARY
+          step: SlideNames.MEALS // Start with the Meals slide instead of Summary
         });
-      }, 1500); // Show loading for at least 1.5 seconds
+      }, 1800); // Show loading for at least 1.8 seconds
       
     } catch (error) {
       console.error('Error calculating impact:', error);
@@ -240,7 +240,8 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    * Go to previous slide
    */
   goToPreviousSlide() {
-    if (this.state.step > SlideNames.SUMMARY) {
+    if (this.state.step > SlideNames.WELCOME) {
+      // Allow going all the way back to welcome screen
       this.setState(prev => ({
         step: prev.step - 1
       }));
@@ -263,7 +264,7 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    * Check if current slide is the first content slide
    */
   isFirstSlide() {
-    return this.state.step === SlideNames.SUMMARY;
+    return this.state.step === SlideNames.MEALS;
   }
 
   /**
