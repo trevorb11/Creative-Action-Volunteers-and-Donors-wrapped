@@ -48,23 +48,23 @@ export default function PeopleSlide({
       isLastSlide={isLastSlide}
     >
       {/* Main count */}
-      <div className="mb-10">
-        <div className="text-7xl md:text-9xl font-bold text-center tracking-tight">
+      <div className="mb-6 sm:mb-8 md:mb-10">
+        <div className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-bold text-center tracking-tight">
           <motion.span>{rounded}</motion.span>
         </div>
-        <p className="text-2xl md:text-3xl font-medium text-center mt-2">
+        <p className="text-xl sm:text-2xl md:text-3xl font-medium text-center mt-1 sm:mt-2">
           People in Our Community
         </p>
       </div>
       
       {/* Visual representation - progress bar style */}
-      <div className="mb-12">
-        <div className="flex justify-between text-sm mb-2">
+      <div className="mb-6 sm:mb-8 md:mb-12">
+        <div className="flex justify-between text-xs sm:text-sm mb-1 sm:mb-2">
           <span>0 people</span>
           <span>60,000 people</span>
         </div>
         
-        <div className="h-6 bg-white/10 rounded-full overflow-hidden relative">
+        <div className="h-4 sm:h-5 md:h-6 bg-white/10 rounded-full overflow-hidden relative">
           {/* Background track */}
           <div className="absolute inset-0 flex">
             {Array.from({ length: 10 }).map((_, i) => (
@@ -91,7 +91,7 @@ export default function PeopleSlide({
           
           {/* Animated dot at end of progress */}
           <motion.div
-            className="absolute top-0 h-6 w-6 rounded-full bg-white shadow-md flex items-center justify-center transform -translate-x-1/2"
+            className="absolute top-0 h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 rounded-full bg-white shadow-md flex items-center justify-center transform -translate-x-1/2"
             initial={{ left: "0%" }}
             animate={{ left: progressWidth }}
             transition={{ 
@@ -100,41 +100,41 @@ export default function PeopleSlide({
               delay: 0.8
             }}
           >
-            <div className="h-3 w-3 rounded-full bg-emerald-500"></div>
+            <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 md:h-3 md:w-3 rounded-full bg-emerald-500"></div>
           </motion.div>
         </div>
         
         <div className="mt-1 text-right">
-          <span className="text-sm opacity-80">Boulder & Broomfield Counties</span>
+          <span className="text-xs sm:text-sm opacity-80">Boulder & Broomfield Counties</span>
         </div>
       </div>
 
       {/* Percentage callout */}
       <motion.div 
-        className="bg-white/5 border border-white/10 rounded-lg p-4 mb-8"
+        className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 md:mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.7 }}
       >
         <div className="text-center">
-          <p className="text-xl">
+          <p className="text-base sm:text-lg md:text-xl">
             Your donation helped feed <span className="font-bold">{impact.peoplePercentage}</span> of those served
           </p>
           
-          <div className="mt-3 grid grid-cols-3 gap-4">
+          <div className="mt-2 sm:mt-3 grid grid-cols-3 gap-2 sm:gap-4">
             <div className="text-center">
-              <p className="text-3xl font-bold">{impact.mealsProvided}</p>
-              <p className="text-sm">Meals Provided</p>
+              <p className="text-lg sm:text-2xl md:text-3xl font-bold">{impact.mealsProvided}</p>
+              <p className="text-xs sm:text-sm">Meals Provided</p>
             </div>
             
             <div className="text-center border-x border-white/10">
-              <p className="text-3xl font-bold">{impact.daysFed}</p>
-              <p className="text-sm">Days of Food</p>
+              <p className="text-lg sm:text-2xl md:text-3xl font-bold">{impact.daysFed}</p>
+              <p className="text-xs sm:text-sm">Days of Food</p>
             </div>
             
             <div className="text-center">
-              <p className="text-3xl font-bold">{impact.foodRescued.toFixed(0)}</p>
-              <p className="text-sm">lbs of Food</p>
+              <p className="text-lg sm:text-2xl md:text-3xl font-bold">{impact.foodRescued.toFixed(0)}</p>
+              <p className="text-xs sm:text-sm">lbs of Food</p>
             </div>
           </div>
         </div>
@@ -142,12 +142,12 @@ export default function PeopleSlide({
 
       {/* Impact quote */}
       <motion.div
-        className="bg-white/10 p-5 rounded-xl text-center"
+        className="bg-white/10 p-3 sm:p-4 md:p-5 rounded-xl text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.7, delay: 1.5 }}
       >
-        <p className="text-lg italic">
+        <p className="text-sm sm:text-base md:text-lg italic">
           "Every number represents a real person with a name, a story, and hope for tomorrow. Your support made a direct impact on their lives."
         </p>
       </motion.div>

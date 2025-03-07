@@ -62,37 +62,37 @@ export default function MealsSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="text-6xl md:text-8xl font-heading font-extrabold mb-4">
+      <div className="text-4xl sm:text-6xl md:text-8xl font-heading font-extrabold mb-2 sm:mb-4">
         <motion.span>{rounded}</motion.span>
       </div>
 
-      <h3 className="text-2xl md:text-4xl font-heading mb-8">Nutritious Meals</h3>
+      <h3 className="text-xl sm:text-2xl md:text-4xl font-heading mb-4 sm:mb-8">Nutritious Meals</h3>
 
-      <p className="text-xl mb-8">
+      <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-8">
         That's enough to feed {impact.peopleFed} for {impact.daysFed}!
       </p>
 
-      <div className="w-full bg-white/20 h-4 rounded-full mb-10">
-        <div ref={barRef} className="bg-white h-4 rounded-full w-0"></div>
+      <div className="w-full bg-white/20 h-3 sm:h-4 rounded-full mb-6 sm:mb-10">
+        <div ref={barRef} className="bg-white h-3 sm:h-4 rounded-full w-0"></div>
       </div>
 
       <div className="flex justify-between w-full">
         {onPrevious && (
           <Button 
             onClick={onPrevious} 
-            className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
+            className="p-1 sm:p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
             size="icon"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
         )}
         {onNext && (
           <Button 
             onClick={onNext} 
-            className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors ml-auto"
+            className="p-1 sm:p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors ml-auto"
             size="icon"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
         )}
       </div>
