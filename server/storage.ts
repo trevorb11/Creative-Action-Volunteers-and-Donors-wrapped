@@ -190,10 +190,13 @@ export class MemStorage implements IStorage {
       id,
       email: insertVolunteer.email,
       created_at: now,
-      first_name: insertVolunteer.first_name || null,
-      last_name: insertVolunteer.last_name || null,
+      updated_at: null,
+      name: insertVolunteer.name || null,
       phone: insertVolunteer.phone || null,
-      external_id: insertVolunteer.external_id || null
+      address: insertVolunteer.address || null,
+      city: insertVolunteer.city || null,
+      state: insertVolunteer.state || null,
+      zip: insertVolunteer.zip || null
     };
     this.volunteers.set(id, volunteer);
     return volunteer;
