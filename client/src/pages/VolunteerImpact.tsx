@@ -1141,6 +1141,8 @@ interface ThankYouSlideProps extends SlideProps {
 }
 
 const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLastSlide }: ThankYouSlideProps) => {
+  // Get first name from URL if available
+  const { firstName } = getParamsFromURL();
   // Create staggered animation effect for stats
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -1161,7 +1163,9 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
         <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
-          <CardTitle className="text-2xl font-bold text-white">Thank You!</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">
+            {firstName ? `Thank You, ${firstName}!` : 'Thank You!'}
+          </CardTitle>
           <CardDescription className="text-white opacity-90">Your time makes a difference</CardDescription>
         </CardHeader>
         <CardContent className="pt-8 flex flex-col items-center">
@@ -1187,7 +1191,10 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
           >
             <h3 className="text-xl font-semibold mb-2 text-[#0c4428]">Every Hour Counts</h3>
             <p className="text-[#414042]">
-              Your {hours} {hours === 1 ? 'hour' : 'hours'} of service has a real, measurable impact on our community.
+              {firstName 
+                ? `${firstName}, your ${hours} ${hours === 1 ? 'hour' : 'hours'} of service has a real, measurable impact on our community.` 
+                : `Your ${hours} ${hours === 1 ? 'hour' : 'hours'} of service has a real, measurable impact on our community.`
+              }
             </p>
           </motion.div>
           
