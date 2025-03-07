@@ -714,7 +714,6 @@ export default function DonorSummarySlide({
                         className="ml-1 font-semibold"
                         delay={0.3}
                       />
-                      <span className="block text-sm font-medium mt-1">{donorSummary.lastGift.date}</span>
                     </motion.span>
                   </motion.p>
                 </motion.div>
@@ -796,10 +795,13 @@ export default function DonorSummarySlide({
                           stiffness: 200
                         }}
                       >
-                        <CountUpAnimation 
-                          value={impact.mealsProvided}
-                          className="text-4xl font-bold text-primary"
-                        />
+                        <div className="flex items-center justify-center">
+                          <CountUpAnimation 
+                            value={impact.mealsProvided}
+                            className="text-4xl font-bold text-primary"
+                          />
+                          <span className="ml-1 text-sm text-primary font-medium self-start mt-2">meals</span>
+                        </div>
                       </motion.div>
                       
                       <motion.p 
@@ -897,11 +899,14 @@ export default function DonorSummarySlide({
                           stiffness: 200
                         }}
                       >
-                        <CountUpAnimation 
-                          value={impact.peopleServed}
-                          className="text-4xl font-bold text-teal-600"
-                          delay={0.2}
-                        />
+                        <div className="flex items-center justify-center">
+                          <CountUpAnimation 
+                            value={impact.peopleServed}
+                            className="text-4xl font-bold text-teal-600"
+                            delay={0.2}
+                          />
+                          <span className="ml-1 text-sm text-teal-600 font-medium self-start mt-2">people</span>
+                        </div>
                       </motion.div>
                       
                       <motion.p 
@@ -1012,11 +1017,14 @@ export default function DonorSummarySlide({
                             repeatType: "reverse"
                           }}
                         />
-                        <CountUpAnimation 
-                          value={impact.foodRescued}
-                          className="text-4xl font-bold text-indigo-600 relative z-10"
-                          delay={0.4}
-                        />
+                        <div className="flex items-center justify-center relative z-10">
+                          <CountUpAnimation 
+                            value={impact.foodRescued}
+                            className="text-4xl font-bold text-indigo-600"
+                            delay={0.4}
+                          />
+                          <span className="ml-1 text-sm text-indigo-600 font-medium self-start mt-2">lbs</span>
+                        </div>
                       </motion.div>
                       
                       <motion.p 
