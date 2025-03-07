@@ -590,43 +590,75 @@ export default function TimeGivingSlide({
               transition={{ delay: 0.7, duration: 0.5 }}
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Card className="bg-gradient-to-br from-blue-50 to-indigo-50">
+                {/* Years of Support */}
+                <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 shadow-md hover:shadow-lg transition-all">
                   <CardContent className="p-4 flex flex-col items-center text-center">
-                    <Clock className="h-8 w-8 text-blue-500 mb-2" />
+                    <div className="bg-blue-100 p-2 rounded-full mb-2">
+                      <Clock className="h-7 w-7 text-blue-600" />
+                    </div>
                     <p className="text-2xl font-bold text-blue-700">
-                      {journeyStats.years > 0 ? journeyStats.years : years} {(journeyStats.years || years) === 1 ? "Year" : "Years"}
+                      <CountUpAnimation 
+                        value={journeyStats.years > 0 ? journeyStats.years : years}
+                        className="font-bold"
+                        delay={0.2}
+                      />
+                      <span> {(journeyStats.years || years) === 1 ? "Year" : "Years"}</span>
                     </p>
-                    <p className="text-sm text-blue-600">Years of Support</p>
+                    <p className="text-sm font-medium text-blue-600">Years of Support</p>
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-to-br from-green-50 to-teal-50">
+                {/* Lifetime Impact */}
+                <Card className="bg-gradient-to-br from-green-50 to-teal-50 shadow-md hover:shadow-lg transition-all">
                   <CardContent className="p-4 flex flex-col items-center text-center">
-                    <Award className="h-8 w-8 text-green-500 mb-2" />
-                    <p className="text-2xl font-bold text-green-700">
-                      {formatCurrency(journeyStats.totalGiving || donorSummary?.lifetimeGiving || 0)}
+                    <div className="bg-green-100 p-2 rounded-full mb-2">
+                      <Award className="h-7 w-7 text-green-600" />
+                    </div>
+                    <p className="text-2xl font-bold text-green-700 flex items-center justify-center">
+                      <CountUpAnimation 
+                        value={journeyStats.totalGiving || donorSummary?.lifetimeGiving || 0}
+                        className="font-bold"
+                        delay={0.3}
+                      />
                     </p>
-                    <p className="text-sm text-green-600">Lifetime Impact</p>
+                    <p className="text-sm font-medium text-green-600">Lifetime Impact</p>
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-to-br from-amber-50 to-yellow-50">
+                {/* Most Recent Gift */}
+                <Card className="bg-gradient-to-br from-amber-50 to-yellow-50 shadow-md hover:shadow-lg transition-all">
                   <CardContent className="p-4 flex flex-col items-center text-center">
-                    <Timer className="h-8 w-8 text-amber-500 mb-2" />
+                    <div className="bg-amber-100 p-2 rounded-full mb-2">
+                      <Gift className="h-7 w-7 text-amber-600" />
+                    </div>
                     <p className="text-2xl font-bold text-amber-700">
-                      ~{journeyStats.mealsProvided.toLocaleString()}
+                      <CountUpAnimation 
+                        value={donorSummary?.lastGift?.amount || amount}
+                        className="font-bold"
+                        delay={0.4}
+                      />
                     </p>
-                    <p className="text-sm text-amber-600">Estimated Meals</p>
+                    <p className="text-sm font-medium text-amber-600">Most Recent Gift</p>
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-to-br from-rose-50 to-pink-50">
-                  <CardContent className="p-4 flex flex-col items-center text-center">
-                    <Hourglass className="h-8 w-8 text-rose-500 mb-2" />
-                    <p className="text-2xl font-bold text-rose-700">
-                      {journeyStats.peopleHelped.toLocaleString()}+
+                {/* Hunger Fighting Hero */}
+                <Card className="bg-gradient-to-br from-rose-50 to-pink-50 shadow-md hover:shadow-lg transition-all">
+                  <CardContent className="p-4 flex flex-col items-center text-center relative">
+                    <div className="bg-rose-100 p-2 rounded-full mb-2">
+                      <Trophy className="h-7 w-7 text-rose-600" />
+                    </div>
+                    <motion.div
+                      className="absolute -top-1 -right-1"
+                      animate={{ rotate: [0, 10, 0, -10, 0] }}
+                      transition={{ duration: 5, repeat: Infinity }}
+                    >
+                      <div className="text-lg">✨</div>
+                    </motion.div>
+                    <p className="text-xl font-bold text-rose-700">
+                      {years >= 5 ? "Champion" : years >= 3 ? "Advocate" : years >= 1 ? "Supporter" : "Newcomer"}
                     </p>
-                    <p className="text-sm text-rose-600">People Helped</p>
+                    <p className="text-sm font-medium text-rose-600">Hunger Fighting Hero</p>
                   </CardContent>
                 </Card>
               </div>
