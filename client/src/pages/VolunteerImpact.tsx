@@ -411,51 +411,116 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
 
   return (
     <AnimatedSlide className="w-full max-w-md">
-      <Card className="w-full">
+      <Card className="w-full overflow-hidden">
         <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
-          <CardTitle className="text-2xl font-bold">Volunteer Impact</CardTitle>
-          <CardDescription className="text-blue-100">See how your time helps our community</CardDescription>
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <CardTitle className="text-2xl font-bold">Volunteer Impact</CardTitle>
+            <CardDescription className="text-blue-100">See how your time helps our community</CardDescription>
+          </motion.div>
         </CardHeader>
-        <CardContent className="pt-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="hours"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hours Volunteered</FormLabel>
-                    <FormControl>
-                      <Input 
-                        type="number" 
-                        min="0.5" 
-                        step="0.5" 
-                        {...field} 
-                        onChange={e => field.onChange(parseFloat(e.target.value))}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email (optional)</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="your.email@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <Button type="submit" className="w-full">Calculate My Impact</Button>
-            </form>
-          </Form>
+        <CardContent className="pt-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="flex justify-center mb-6"
+          >
+            <div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center">
+              <Clock className="h-12 w-12 text-blue-600" />
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                <motion.div
+                  initial={{ x: -10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.4 }}
+                >
+                  <FormField
+                    control={form.control}
+                    name="hours"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Hours Volunteered</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="number" 
+                            min="0.5" 
+                            step="0.5" 
+                            {...field} 
+                            onChange={e => field.onChange(parseFloat(e.target.value))}
+                            className="border-blue-200 focus:border-blue-500"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+                
+                <motion.div
+                  initial={{ x: 10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.6, duration: 0.4 }}
+                >
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email (optional)</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="email" 
+                            placeholder="your.email@example.com" 
+                            {...field} 
+                            className="border-blue-200 focus:border-blue-500"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+                
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.4 }}
+                  className="pt-2"
+                >
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    size="lg"
+                  >
+                    Calculate My Impact
+                  </Button>
+                </motion.div>
+              </form>
+            </Form>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.0, duration: 0.5 }}
+            className="mt-6 text-center"
+          >
+            <p className="text-sm text-gray-500">
+              Your volunteer hours directly contribute to our mission of feeding our community
+            </p>
+          </motion.div>
         </CardContent>
       </Card>
     </AnimatedSlide>
@@ -464,19 +529,83 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
 
 const LoadingSlide = () => (
   <AnimatedSlide className="w-full max-w-md text-center">
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Calculating Your Impact</CardTitle>
+    <Card className="w-full overflow-hidden">
+      <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
+        <CardTitle className="text-2xl font-bold">Calculating Your Impact</CardTitle>
+        <CardDescription className="text-blue-100">
+          Measuring the power of your volunteer time
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center p-10">
-        <div className="relative w-20 h-20">
+        <div className="relative w-24 h-24 mb-8">
           <motion.div
-            className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-blue-300 border-t-blue-600"
+            className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-blue-200 border-t-blue-600"
             animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute top-4 left-4 w-16 h-16 rounded-full border-4 border-green-200 border-t-green-500"
+            initial={{ rotate: 45 }}
+            animate={{ rotate: 405 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute top-8 left-8 w-8 h-8 rounded-full border-4 border-amber-200 border-t-amber-500"
+            initial={{ rotate: 90 }}
+            animate={{ rotate: 450 }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
           />
         </div>
-        <p className="mt-6 text-gray-600">Please wait while we calculate the impact of your volunteer hours...</p>
+        
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+        >
+          <h3 className="text-xl font-semibold mb-3 text-blue-700">Analyzing Your Contribution</h3>
+          <p className="text-gray-600 mb-6">
+            Please wait while we calculate the impact of your volunteer hours...
+          </p>
+          
+          <div className="space-y-3">
+            <motion.div 
+              className="h-2 bg-blue-100 rounded-full overflow-hidden"
+              initial={{ width: '100%', opacity: 0.7 }}
+              animate={{ opacity: 1 }}
+            >
+              <motion.div 
+                className="h-full bg-blue-500 rounded-full"
+                initial={{ width: '0%' }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
+            <motion.div 
+              className="h-2 bg-green-100 rounded-full overflow-hidden"
+              initial={{ width: '100%', opacity: 0.7 }}
+              animate={{ opacity: 1 }}
+            >
+              <motion.div 
+                className="h-full bg-green-500 rounded-full"
+                initial={{ width: '0%' }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 2.4, repeat: Infinity, delay: 0.2 }}
+              />
+            </motion.div>
+            <motion.div 
+              className="h-2 bg-amber-100 rounded-full overflow-hidden"
+              initial={{ width: '100%', opacity: 0.7 }}
+              animate={{ opacity: 1 }}
+            >
+              <motion.div 
+                className="h-full bg-amber-500 rounded-full"
+                initial={{ width: '0%' }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 2.8, repeat: Infinity, delay: 0.4 }}
+              />
+            </motion.div>
+          </div>
+        </motion.div>
       </CardContent>
     </Card>
   </AnimatedSlide>
@@ -511,64 +640,121 @@ const SlideNavigation = ({ onNext, onPrevious, isFirstSlide, isLastSlide }: Slid
   </div>
 );
 
-const SummarySlide = ({ impact, onNext, isFirstSlide, isLastSlide }: ImpactSlideProps) => (
-  <AnimatedSlide className="w-full max-w-md">
-    <Card className="w-full">
-      <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
-        <CardTitle className="text-2xl font-bold">Your Volunteer Impact</CardTitle>
-        <CardDescription className="text-blue-100">Thank you for your service!</CardDescription>
-      </CardHeader>
-      <CardContent className="pt-6 space-y-6">
-        <div className="flex flex-col items-center space-y-2">
-          <Clock className="h-12 w-12 text-blue-600 mb-2" />
-          <p className="text-lg font-semibold">You volunteered</p>
-          <p className="text-3xl font-bold">{impact.hoursWorked} hours</p>
-        </div>
-        
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div className="flex flex-col items-center p-2 rounded-lg bg-blue-50">
-            <AnimatedIcon icon={Utensils} size={28} color="#2563eb" className="mb-2" />
-            <p className="text-sm font-medium">Meals</p>
-            <p className="text-xl font-semibold">
-              <AnimatedCounter value={impact.mealsProvided} />
-            </p>
-          </div>
+const SummarySlide = ({ impact, onNext, isFirstSlide, isLastSlide }: ImpactSlideProps) => {
+  // Create staggered animation effect
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  };
+
+  return (
+    <AnimatedSlide className="w-full max-w-md">
+      <Card className="w-full overflow-hidden">
+        <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
+          <CardTitle className="text-2xl font-bold">Your Volunteer Impact</CardTitle>
+          <CardDescription className="text-blue-100">Thank you for your service!</CardDescription>
+        </CardHeader>
+        <CardContent className="pt-8 space-y-6">
+          <motion.div
+            className="flex flex-col items-center space-y-2"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 260, 
+                damping: 20, 
+                delay: 0.3 
+              }}
+            >
+              <Clock className="h-16 w-16 text-blue-600 mb-3" />
+            </motion.div>
+            <p className="text-lg font-semibold">You volunteered</p>
+            <p className="text-4xl font-bold text-blue-600">{impact.hoursWorked} {impact.hoursWorked === 1 ? 'hour' : 'hours'}</p>
+          </motion.div>
           
-          <div className="flex flex-col items-center p-2 rounded-lg bg-green-50">
-            <AnimatedIcon icon={DollarSign} size={28} color="#059669" className="mb-2" delay={0.2} />
-            <p className="text-sm font-medium">Value</p>
-            <p className="text-xl font-semibold">
-              <AnimatedCounter 
-                value={impact.costSavings} 
-                formatter={val => formatCurrency(val)} 
-                duration={2}
-              />
-            </p>
-          </div>
+          <motion.div
+            className="grid grid-cols-3 gap-4 text-center"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.7 }}
+          >
+            <motion.div 
+              className="flex flex-col items-center p-4 rounded-lg bg-blue-50 border border-blue-100 shadow-sm hover:shadow-md transition-shadow"
+              variants={itemVariants}
+            >
+              <AnimatedIcon icon={Utensils} size={32} color="#2563eb" className="mb-2" />
+              <p className="text-sm font-medium text-blue-700">Meals</p>
+              <p className="text-xl font-semibold text-blue-600">
+                <AnimatedCounter value={impact.mealsProvided} duration={2} />
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="flex flex-col items-center p-4 rounded-lg bg-green-50 border border-green-100 shadow-sm hover:shadow-md transition-shadow"
+              variants={itemVariants}
+            >
+              <AnimatedIcon icon={DollarSign} size={32} color="#059669" className="mb-2" />
+              <p className="text-sm font-medium text-green-700">Value</p>
+              <p className="text-xl font-semibold text-green-600">
+                <AnimatedCounter 
+                  value={impact.costSavings} 
+                  formatter={val => formatCurrency(val)} 
+                  duration={2}
+                />
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="flex flex-col items-center p-4 rounded-lg bg-amber-50 border border-amber-100 shadow-sm hover:shadow-md transition-shadow"
+              variants={itemVariants}
+            >
+              <AnimatedIcon icon={Users} size={32} color="#d97706" className="mb-2" />
+              <p className="text-sm font-medium text-amber-700">People Fed</p>
+              <p className="text-xl font-semibold text-amber-600">
+                <AnimatedCounter value={impact.peopleServedPerDay} duration={2} />
+              </p>
+            </motion.div>
+          </motion.div>
           
-          <div className="flex flex-col items-center p-2 rounded-lg bg-amber-50">
-            <AnimatedIcon icon={Users} size={28} color="#d97706" className="mb-2" delay={0.4} />
-            <p className="text-sm font-medium">People Fed</p>
-            <p className="text-xl font-semibold">
-              <AnimatedCounter value={impact.peopleServedPerDay} />
+          <motion.div 
+            className="bg-blue-50 p-5 rounded-lg border border-blue-100"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.5 }}
+          >
+            <p className="text-center text-blue-800">
+              Your volunteer time directly impacts our ability to serve the community. 
+              <span className="block mt-1 font-medium">Explore each metric to learn more about your impact.</span>
             </p>
-          </div>
-        </div>
-        
-        <p className="text-center text-gray-600 text-sm">
-          Your time makes a real difference in our community!
-        </p>
-      </CardContent>
-      <CardFooter>
-        <SlideNavigation 
-          onNext={onNext} 
-          isFirstSlide={isFirstSlide} 
-          isLastSlide={isLastSlide} 
-        />
-      </CardFooter>
-    </Card>
-  </AnimatedSlide>
-);
+          </motion.div>
+        </CardContent>
+        <CardFooter>
+          <SlideNavigation 
+            onNext={onNext} 
+            isFirstSlide={isFirstSlide} 
+            isLastSlide={isLastSlide} 
+          />
+        </CardFooter>
+      </Card>
+    </AnimatedSlide>
+  );
+};
 
 const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: ImpactSlideProps) => {
   const [animationComplete, setAnimationComplete] = useState(false);
