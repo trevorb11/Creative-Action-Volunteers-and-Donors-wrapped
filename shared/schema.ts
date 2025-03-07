@@ -83,19 +83,27 @@ export type InsertDonation = z.infer<typeof insertDonationSchema>;
 export type Donation = typeof donations.$inferSelect;
 
 export const almanacData = {
-  mealsPerDollar: 0.833, // Based on 10.95M meals distributed at $25.88M value (~$2.36 per meal)
-  peoplePerMeal: 0.328, // Based on serving 60,000 people with 11M meals annually
-  foodRescuePerDollar: 0.421, // Pounds of food rescued per dollar (estimate)
-  co2PerPoundFood: 0.84, // CO2 emissions prevented per pound of food
-  waterPerPoundFood: 45.2, // Gallons of water saved per pound of food
+  // 3-year rolling average per Appendix B
+  mealsPerDollar: 1.52,      // Replaces old 0.833
+  poundsPerDollar: 1.83,     // If you're counting total distribution per dollar
+  co2PerPoundFood: 3.8,      // Updated from 0.84
+  waterPerPoundFood: 51,     // Updated from 45.2
+
+  // If you need a direct meals/lb ratio:
+  mealPerPound: 0.833,       // (1 / 1.2)
+
+  // Nutritional distribution breakdown if needed:
   foodDistribution: {
-    produce: 31.92, // Percentage
-    dairy: 21.67, // Percentage
-    protein: 18.33, // Percentage
+    produce: 31.92, // Percent
+    dairy: 21.67,   // Percent
+    protein: 18.33, // Percent
   },
-  totalMealsProvided: 10951888,
-  totalPeopleServed: 60000,
+
+  // Possibly for references or base calculations:
+  totalMealsProvided: 10951888, // or update from new data
+  totalPeopleServed: 60000,     // only if needed
 };
+
 
 export type DonationImpact = {
   mealsProvided: number;

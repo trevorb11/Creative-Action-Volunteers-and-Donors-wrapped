@@ -325,7 +325,7 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    */
   handleFormSubmit(amount: number, email?: string) {
     console.log("Form submitted with amount:", amount, "email:", email);
-    
+
     this.setState({ 
       amount,
       step: SlideNames.LOADING,
@@ -333,16 +333,16 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       error: null,
       donorEmail: email || this.state.donorEmail
     });
-    
+
     // Navigate to impact page if we're not already there
     if (window.location.pathname !== '/impact') {
       // Get current URL parameters and ensure they are preserved
       const { originalParamString } = getParamsFromURL();
-      
+
       // Build the URL with parameters
       const destinationUrl = `/impact${originalParamString ? '?' + originalParamString : ''}`;
       console.log("Navigating to:", destinationUrl);
-      
+
       // Use pushState to navigate without losing parameters
       window.history.pushState({}, '', destinationUrl);
     }
@@ -351,21 +351,22 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     setTimeout(() => {
       // Calculate impact locally for faster response
       const impact = calculateDonationImpact(amount);
+      // For email donors, go to donor summary, otherwise go to MEALS
       const nextStep = email ? SlideNames.DONOR_SUMMARY : SlideNames.MEALS;
       this.setState({
         impact,
         isLoading: false,
         step: nextStep
       });
-      
+
       // Store email in sessionStorage for components that need it
       if (email) {
         sessionStorage.setItem('donorEmail', email);
       }
-      
+
       // Log the donation via API
       this.logDonation(amount, email);
-      
+
       // Also call the server for more accurate impact calculation
       this.calculateImpact(amount);
     }, SLIDE_CONFIG.progressDuration);
@@ -431,50 +432,55 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
   /**
    * Go to previous slide
    */
-  goToPreviousSlide() {
-    this.setState(prev => {
-      // If we're at the donor summary, don't go back
-      if (prev.step <= SlideNames.DONOR_SUMMARY) {
-        return prev;
-      }
-      // For meals slide, go back to donor summary if we have a donor email
-      if (prev.step === SlideNames.MEALS && prev.donorEmail) {
-        return { ...prev, step: SlideNames.DONOR_SUMMARY };
-      }
-      return { ...prev, step: prev.step - 1 };
-    });
-  }
-  
-  /**
-   * Reset to beginning
-   */
-  resetDonation() {
-    this.setState({
-      amount: 0,
-      step: SlideNames.WELCOME,
-      impact: null,
-      isLoading: false,
-      error: null,
-      donorEmail: null
-    });
+/**
+ * Go to previous slide
+ */
+goToPreviousSlide() {
+  this.setState(prev => {
+    // If we're at the donor summary or earlier, don't go back
+    if (prev.step <= SlideNames.DONOR_SUMMARY) {
+      return prev;
+    }
     
-    // Return to the landing page
-    window.history.pushState({}, '', '/');
-  }
+    // For meals slide, go back to donor summary if we have a donor email
+    if (prev.step === SlideNames.MEALS && prev.donorEmail) {
+      return { ...prev, step: SlideNames.DONOR_SUMMARY };
+    }
+    
+    return { ...prev, step: prev.step - 1 };
+  });
+}
+
+/**
+ * Reset to beginning
+ */
+resetDonation() {
+  this.setState({
+    amount: 0,
+    step: SlideNames.WELCOME,
+    impact: null,
+    isLoading: false,
+    error: null,
+    donorEmail: null
+  });
   
-  /**
-   * Check if current slide is the first content slide
-   */
-  isFirstSlide() {
-    return this.state.step <= SlideNames.DONOR_SUMMARY || this.state.step === SlideNames.MEALS;
-  }
-  
-  /**
-   * Check if current slide is the last slide
-   */
-  isLastSlide() {
-    return this.state.step >= SlideNames.SUMMARY;
-  }
+  // Return to the landing page
+  window.history.pushState({}, '', '/');
+}
+
+/**
+ * Check if current slide is the first content slide
+ */
+isFirstSlide() {
+  return this.state.step <= SlideNames.DONOR_SUMMARY || this.state.step === SlideNames.MEALS;
+}
+
+/**
+ * Check if current slide is the last slide
+ */
+isLastSlide() {
+  return this.state.step >= SlideNames.SUMMARY;
+}
   
   /**
    * Handle sharing functionality
@@ -532,7 +538,7 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
   
   render() {
     const { state } = this;
-    
+
     // Common navigation props for all slides
     const navigationProps = {
       onNext: this.goToNextSlide,
@@ -540,17 +546,17 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       isFirstSlide: this.isFirstSlide(),
       isLastSlide: this.isLastSlide()
     };
-    
+
     return (
       <div className="min-h-screen relative font-sans overflow-hidden">
         {state.step === SlideNames.WELCOME && (
           <WelcomeScreen onSubmit={this.handleFormSubmit} />
         )}
-        
+
         {state.step === SlideNames.LOADING && (
           <LoadingScreen />
         )}
-        
+
         {state.step === SlideNames.DONOR_SUMMARY && state.impact && (
           <DonorSummarySlide 
             impact={state.impact} 
@@ -559,12 +565,16 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             {...navigationProps} 
           />
         )}
-        
+
         {state.step === SlideNames.MEALS && state.impact && (
           <MealsSlide impact={state.impact} {...navigationProps} />
         )}
-        
-        {(state.step === SlideNames.TIME_GIVING || state.step === SlideNames.NUTRITION) && state.impact && (
+
+        {state.step === SlideNames.PEOPLE && state.impact && (
+          <PeopleSlide impact={state.impact} {...navigationProps} />
+        )}
+
+        {state.step === SlideNames.TIME_GIVING && state.impact && (
           <TimeGivingSlide 
             impact={state.impact} 
             donorEmail={state.donorEmail}
@@ -572,27 +582,19 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             {...navigationProps} 
           />
         )}
-        
-        {state.step === SlideNames.PEOPLE && state.impact && (
-          <PeopleSlide impact={state.impact} {...navigationProps} />
-        )}
-        
-        {state.step === SlideNames.ENVIRONMENT && state.impact && (
-          <EnvironmentSlide impact={state.impact} {...navigationProps} />
-        )}
-        
+
         {state.step === SlideNames.FOOD_RESCUE && state.impact && (
           <FoodRescueSlide impact={state.impact} {...navigationProps} />
         )}
-        
+
+        {state.step === SlideNames.ENVIRONMENT && state.impact && (
+          <EnvironmentSlide impact={state.impact} {...navigationProps} />
+        )}
+
         {state.step === SlideNames.VOLUNTEER && (
           <NeighborQuotesSlide {...navigationProps} />
         )}
-        
-        {state.step === SlideNames.PARTNER && (
-          <PartnerSlide {...navigationProps} />
-        )}
-        
+
         {state.step === SlideNames.SUMMARY && state.impact && (
           <SummarySlide 
             amount={state.amount} 

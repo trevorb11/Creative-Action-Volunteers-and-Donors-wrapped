@@ -1,0 +1,300 @@
+Yes, if you want to add these additional comparison options into the system, you'll need to integrate this function and update several parts of the codebase to utilize the appropriate comparisons based on the donation amount. Here's what needs to be modified:
+
+## 1. Update the DonationImpact Type in shared/schema.ts
+
+First, you'll need to expand the DonationImpact type to include your new comparison options:
+
+```typescript
+export type DonationImpact = {
+  mealsProvided: number;
+  peopleServed: number;
+  peoplePercentage: string;
+  foodRescued: number;
+  co2Saved: number;
+  waterSaved: number;
+  producePercentage: number;
+  dairyPercentage: number;
+  proteinPercentage: number;
+  freshFoodPercentage: number;
+  babyElephants: string;
+  bison: string;
+  cars: string;
+  peopleFed: string;
+  daysFed: string;
+  // Add new comparison fields
+  weightComparison: string;  // This will hold the most appropriate weight comparison
+  houseCats?: string;
+  goldenRetrievers?: string;
+  grizzlyBears?: string;
+  hippos?: string;
+  schoolBuses?: string;
+  smallJets?: string;
+};
+```
+
+## 2. Incorporate Your Function into server/llm-storyteller.ts
+
+Replace or enhance the current comparison logic in the `generateCreativeComparisons` function:
+
+```typescript
+export async function generateCreativeComparisons(impact: DonationImpact): Promise<DonationImpact> {
+  // Create a copy of the impact to enrich with creative comparisons
+  const enrichedImpact = { ...impact };
+  
+  // Generate creative comparisons based on the food rescued amount
+  if (impact.foodRescued > 0) {
+    // Add the most appropriate weight comparison
+    enrichedImpact.weightComparison = generateWeightComparison(impact.foodRescued);
+    
+    // Also populate individual comparison fields for potential use in components
+    const lbs = impact.foodRescued;
+    
+    // Add all comparisons regardless of size for flexibility in UI
+    enrichedImpact.houseCats = `${Math.round(lbs / 10)} large house cats`;
+    enrichedImpact.goldenRetrievers = `${Math.round(lbs / 70)} Golden Retrievers`;
+    enrichedImpact.babyElephants = `${Math.round(lbs / 200)} baby elephants`;
+    enrichedImpact.grizzlyBears = `${Math.round(lbs / 700)} grizzly bears`;
+    enrichedImpact.hippos = `${Math.round(lbs / 3000)} hippos`;
+    enrichedImpact.cars = `${(lbs / 4000).toFixed(1)} cars`;
+    enrichedImpact.schoolBuses = `${(lbs / 24000).toFixed(1)} school buses`;
+    enrichedImpact.smallJets = `${(lbs / 90000).toFixed(2)} small jets`;
+  }
+
+  // The rest of your existing function...
+  return enrichedImpact;
+}
+
+// Your new function for selecting the most appropriate comparison
+function generateWeightComparison(lbs: number): string {
+  // Weighted tiers
+  if (lbs < 20) {
+    return `${Math.round(lbs / 10)} large house cats (~10 lbs each)`;
+  } else if (lbs < 200) {
+    return `${Math.round(lbs / 70)} Golden Retrievers (~70 lbs each)`;
+  } else if (lbs < 1000) {
+    return `${Math.round(lbs / 200)} baby elephants (~200 lbs each)`;
+  } else if (lbs < 3000) {
+    return `${Math.round(lbs / 700)} grizzly bears (~700 lbs each)`;
+  } else if (lbs < 5000) {
+    return `${Math.round(lbs / 3000)} hippos (~3,000 lbs each)`;
+  } else if (lbs < 10000) {
+    return `${(lbs / 4000).toFixed(1)} cars (~4,000 lbs each)`;
+  } else if (lbs < 30000) {
+    return `${(lbs / 24000).toFixed(1)} school buses (~24,000 lbs each)`;
+  } else {
+    return `${(lbs / 90000).toFixed(2)} small jets (~90,000 lbs each)`;
+  }
+}
+```
+
+## 3. Update the FoodRescueSlide.tsx Component
+
+Modify the `FoodRescueSlide.tsx` component to use your new comparisons:
+
+```typescript
+// Add SVG icons for each animal/object
+const HouseCatIcon = () => (/* SVG code */);
+const GoldenRetrieverIcon = () => (/* SVG code */);
+const GrizzlyBearIcon = () => (/* SVG code */);
+const HippoIcon = () => (/* SVG code */);
+const SchoolBusIcon = () => (/* SVG code */);
+const SmallJetIcon = () => (/* SVG code */);
+
+// Inside the component
+export default function FoodRescueSlide({ impact, ...props }: FoodRescueSlideProps) {
+  // Determine which comparisons to show based on food weight
+  const [activeComparison, setActiveComparison] = useState(getDefaultComparison(impact.foodRescued));
+  
+  function getDefaultComparison(lbs: number) {
+    if (lbs < 20) return 'houseCat';
+    if (lbs < 200) return 'goldenRetriever';
+    if (lbs < 1000) return 'babyElephant';
+    if (lbs < 3000) return 'grizzlyBear';
+    if (lbs < 5000) return 'hippo';
+    if (lbs < 10000) return 'car';
+    if (lbs < 30000) return 'schoolBus';
+    return 'smallJet';
+  }
+  
+  // Auto-rotate comparisons based on lbs
+  useEffect(() => {
+    // Code for rotation...
+    
+    // Choose appropriate comparisons to rotate between
+    const getNextComparison = (current) => {
+      const lbs = impact.foodRescued;
+      
+      // Small donations rotate between small comparisons
+      if (lbs < 200) {
+        if (current === 'houseCat') return 'goldenRetriever';
+        return 'houseCat';
+      }
+      
+      // Medium donations
+      if (lbs < 3000) {
+        if (current === 'babyElephant') return 'grizzlyBear';
+        if (current === 'grizzlyBear') return 'goldenRetriever';
+        return 'babyElephant';
+      }
+      
+      // Large donations
+      if (current === 'car') return 'hippo';
+      if (current === 'hippo') return 'schoolBus';
+      if (current === 'schoolBus') return 'smallJet';
+      return 'car';
+    };
+    
+    // Set interval for rotation
+  }, [impact.foodRescued]);
+  
+  // Update the button rendering to include all comparison options
+  return (
+    <SlideLayout
+      title="Food Rescue Impact"
+      variant="foodRescue"
+      {...props}
+    >
+      {/* Main content... */}
+      
+      <div className="flex flex-wrap justify-center gap-4">
+        {impact.foodRescued < 200 && (
+          <>
+            <ComparisonButton 
+              label="House Cats"
+              icon={<HouseCatIcon />}
+              value={impact.houseCats}
+              isActive={activeComparison === 'houseCat'}
+              onClick={() => setActiveComparison('houseCat')}
+            />
+            
+            <ComparisonButton 
+              label="Golden Retrievers"
+              icon={<GoldenRetrieverIcon />}
+              value={impact.goldenRetrievers}
+              isActive={activeComparison === 'goldenRetriever'}
+              onClick={() => setActiveComparison('goldenRetriever')}
+            />
+          </>
+        )}
+        
+        {impact.foodRescued >= 200 && impact.foodRescued < 3000 && (
+          <>
+            <ComparisonButton 
+              label="Baby Elephants"
+              icon={<ElephantIcon />}
+              value={impact.babyElephants}
+              isActive={activeComparison === 'babyElephant'}
+              onClick={() => setActiveComparison('babyElephant')}
+            />
+            
+            <ComparisonButton 
+              label="Grizzly Bears"
+              icon={<GrizzlyBearIcon />}
+              value={impact.grizzlyBears}
+              isActive={activeComparison === 'grizzlyBear'}
+              onClick={() => setActiveComparison('grizzlyBear')}
+            />
+          </>
+        )}
+        
+        {/* Add more comparison buttons for larger weights */}
+      </div>
+      
+      {/* Comparison visualization */}
+      <div className="flex flex-wrap justify-center gap-2 my-4">
+        {activeComparison === 'houseCat' && renderIcons(HouseCatIcon, Math.round(impact.foodRescued / 10))}
+        {activeComparison === 'goldenRetriever' && renderIcons(GoldenRetrieverIcon, Math.round(impact.foodRescued / 70))}
+        {/* Add more icon renderings for other comparisons */}
+      </div>
+    </SlideLayout>
+  );
+  
+  // Helper function to render appropriate number of icons
+  function renderIcons(Icon, count) {
+    return Array.from({ length: Math.min(12, count) }).map((_, idx) => (
+      <motion.div 
+        key={idx}
+        className="h-10 w-10"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.2 + (idx * 0.1) }}
+      >
+        <Icon />
+      </motion.div>
+    ));
+  }
+}
+
+// Helper component for comparison buttons
+function ComparisonButton({ label, icon, value, isActive, onClick }) {
+  return (
+    <motion.button 
+      className={`bg-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/30 ${isActive ? 'ring-2 ring-white' : ''}`}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ 
+        opacity: 1, 
+        scale: isActive ? 1.05 : 1,
+        y: isActive ? -5 : 0
+      }}
+      transition={{ duration: 0.3 }}
+      onClick={onClick}
+    >
+      <div className="h-14 w-14 mx-auto mb-2">
+        {icon}
+      </div>
+      <p className="text-2xl font-bold mb-1">{value}</p>
+      <p>{label}</p>
+    </motion.button>
+  );
+}
+```
+
+## 4. Update the Client-Side Calculation in donation-calculator.ts
+
+To ensure the client-side calculations match the server, update `client/src/lib/donation-calculator.ts`:
+
+```typescript
+export function calculateDonationImpact(amount: number): DonationImpact {
+  // Existing calculations...
+  
+  // Add simple weight comparison
+  const foodRescued = Math.round(amount * ALMANAC_DATA.foodRescuePerDollar);
+  const weightComparison = generateWeightComparison(foodRescued);
+  
+  return {
+    // Existing properties...
+    weightComparison,
+    houseCats: `${Math.round(foodRescued / 10)} large house cats`,
+    goldenRetrievers: `${Math.round(foodRescued / 70)} Golden Retrievers`,
+    // Add more comparison fields as needed...
+  };
+}
+
+// Copy of your weight comparison function
+function generateWeightComparison(lbs: number): string {
+  // Your comparison tiers logic
+  if (lbs < 20) {
+    return `${Math.round(lbs / 10)} large house cats (~10 lbs each)`;
+  } else if (lbs < 200) {
+    return `${Math.round(lbs / 70)} Golden Retrievers (~70 lbs each)`;
+  }
+  // ... rest of your function
+}
+```
+
+## 5. Update the SummarySlide.tsx to Include the New Comparison
+
+You might want to show the most appropriate comparison in the summary slide:
+
+```typescript
+// In SummarySlide.tsx
+const impactItems = [
+  // Existing items...
+  { 
+    text: `That's equivalent to ${impact.weightComparison}`
+  },
+  // Other items...
+];
+```
+
+By implementing these changes, you'll have integrated your new weight comparison function throughout the application, ensuring the most appropriate comparison is shown based on the amount of food rescued, while also making all comparison options available for interactive exploration in the FoodRescueSlide component.
