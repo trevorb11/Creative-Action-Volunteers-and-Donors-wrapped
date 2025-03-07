@@ -1195,7 +1195,7 @@ const IntroSlide = ({
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <CardTitle className="text-2xl font-bold">Welcome to Your Impact</CardTitle>
+            <CardTitle className="text-2xl font-bold text-white">Welcome to Your Impact</CardTitle>
             <CardDescription className="text-white opacity-90">
               See the difference you're making
             </CardDescription>
@@ -1219,78 +1219,28 @@ const IntroSlide = ({
             transition={{ delay: 0.4, duration: 0.5 }}
             className="space-y-4 text-center"
           >
-            <h3 className="text-xl font-bold text-[#0c4428]">
+            <h3 className="text-3xl font-bold text-[#0c4428] mb-2">
               {firstName ? `Hi ${firstName}!` : "Thank You!"}
             </h3>
             
-            <p className="text-[#414042] leading-relaxed">
+            <p className="text-[#414042] leading-relaxed text-lg">
               {firstName 
                 ? `Thank you for donating your time to help fight hunger in our community.`
                 : `Your volunteer contribution is making a significant impact in our fight against hunger.`
               }
             </p>
             
-            <p className="text-[#414042] leading-relaxed font-medium">
+            <p className="text-[#414042] leading-relaxed font-medium text-lg">
               {`You volunteered ${hours} ${hours === 1 ? 'hour' : 'hours'} ${shiftReference}.`}
             </p>
-            
-            <div className="pt-2">
-              <p className="text-[#0c4428] font-semibold">
-                On the following pages, you'll see exactly how your time translates into:
-              </p>
-              
-              <motion.ul 
-                className="text-left list-disc list-inside mt-2 space-y-1 mx-auto max-w-xs"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  visible: { 
-                    transition: { 
-                      staggerChildren: 0.2
-                    } 
-                  },
-                  hidden: {}
-                }}
-              >
-                <motion.li 
-                  className="text-[#414042]"
-                  variants={{
-                    visible: { opacity: 1, x: 0 },
-                    hidden: { opacity: 0, x: -20 }
-                  }}
-                >
-                  Meals provided to neighbors in need
-                </motion.li>
-                <motion.li 
-                  className="text-[#414042]"
-                  variants={{
-                    visible: { opacity: 1, x: 0 },
-                    hidden: { opacity: 0, x: -20 }
-                  }}
-                  transition={{ delay: 0.1 }}
-                >
-                  Cost savings for our organization
-                </motion.li>
-                <motion.li 
-                  className="text-[#414042]"
-                  variants={{
-                    visible: { opacity: 1, x: 0 },
-                    hidden: { opacity: 0, x: -20 }
-                  }}
-                  transition={{ delay: 0.2 }}
-                >
-                  People you've helped to feed
-                </motion.li>
-              </motion.ul>
-            </div>
-            
+          
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.5 }}
               className="pt-4"
             >
-              <p className="text-[#227d7f] font-medium">
+              <p className="text-[#227d7f] font-bold text-xl mt-2">
                 Let's explore the impact of your generosity!
               </p>
             </motion.div>
