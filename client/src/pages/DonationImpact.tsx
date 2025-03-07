@@ -9,7 +9,7 @@ import TimeGivingSlide from "@/components/donation/TimeGivingSlide";
 import PeopleSlide from "@/components/donation/PeopleSlide";
 import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
 import FoodRescueSlide from "@/components/donation/FoodRescueSlide";
-import VolunteerSlide from "@/components/donation/VolunteerSlide";
+import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
 import PartnerSlide from "@/components/donation/PartnerSlide";
 import SummarySlide from "@/components/donation/SummarySlide";
 import { toast } from "@/hooks/use-toast";
@@ -586,7 +586,7 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         )}
         
         {state.step === SlideNames.VOLUNTEER && (
-          <VolunteerSlide {...navigationProps} />
+          <NeighborQuotesSlide {...navigationProps} />
         )}
         
         {state.step === SlideNames.PARTNER && (
