@@ -353,6 +353,20 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
 
       // Use pushState to navigate without losing parameters
       window.history.pushState({}, '', destinationUrl);
+    } else {
+      // Already on impact page, make sure we preserve the donorUI parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const useDonorUI = urlParams.get('donorUI') === 'true';
+      
+      if (useDonorUI) {
+        // Make sure the URL still has the donorUI parameter
+        if (!window.location.search.includes('donorUI=true')) {
+          // Add the parameter
+          const newUrl = `${window.location.pathname}?donorUI=true`;
+          window.history.pushState({}, '', newUrl);
+          console.log("Preserving donorUI parameter in URL:", newUrl);
+        }
+      }
     }
 
     // Simulate loading for better user experience
@@ -428,11 +442,28 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
    * Go to next slide
    */
   goToNextSlide() {
+    // Check if we should use donor slides
+    const urlParams = new URLSearchParams(window.location.search);
+    const useDonorSlides = urlParams.get('donorUI') === 'true';
+    
     this.setState(prev => {
       // If we're at the last slide, don't advance
       if (prev.step >= SlideNames.SUMMARY) {
         return prev;
       }
+      
+      // If using donor slides, handle donor-specific navigation logic
+      if (useDonorSlides) {
+        // From PEOPLE, go to FINANCIAL instead of TIME_GIVING
+        if (prev.step === SlideNames.PEOPLE) {
+          return { ...prev, step: SlideNames.FINANCIAL };
+        }
+        // From FINANCIAL, go to VOLUNTEER
+        if (prev.step === SlideNames.FINANCIAL) {
+          return { ...prev, step: SlideNames.VOLUNTEER };
+        }
+      }
+      
       return { ...prev, step: prev.step + 1 };
     });
   }
@@ -440,29 +471,46 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
   /**
    * Go to previous slide
    */
-/**
- * Go to previous slide
- */
-goToPreviousSlide() {
-  this.setState(prev => {
-    // If we're at the donor summary or earlier, don't go back
-    if (prev.step <= SlideNames.DONOR_SUMMARY) {
-      return prev;
-    }
+  goToPreviousSlide() {
+    // Check if we should use donor slides
+    const urlParams = new URLSearchParams(window.location.search);
+    const useDonorSlides = urlParams.get('donorUI') === 'true';
     
-    // For meals slide, go back to donor summary if we have a donor email
-    if (prev.step === SlideNames.MEALS && prev.donorEmail) {
-      return { ...prev, step: SlideNames.DONOR_SUMMARY };
-    }
-    
-    return { ...prev, step: prev.step - 1 };
-  });
-}
+    this.setState(prev => {
+      // If we're at the donor summary or earlier, don't go back
+      if (prev.step <= SlideNames.DONOR_SUMMARY) {
+        return prev;
+      }
+      
+      // If using donor slides, handle donor-specific navigation logic
+      if (useDonorSlides) {
+        // From VOLUNTEER, go back to FINANCIAL
+        if (prev.step === SlideNames.VOLUNTEER) {
+          return { ...prev, step: SlideNames.FINANCIAL };
+        }
+        // From FINANCIAL, go back to PEOPLE
+        if (prev.step === SlideNames.FINANCIAL) {
+          return { ...prev, step: SlideNames.PEOPLE };
+        }
+      }
+      
+      // For meals slide, go back to donor summary if we have a donor email
+      if (prev.step === SlideNames.MEALS && prev.donorEmail) {
+        return { ...prev, step: SlideNames.DONOR_SUMMARY };
+      }
+      
+      return { ...prev, step: prev.step - 1 };
+    });
+  }
 
 /**
  * Reset to beginning
  */
 resetDonation() {
+  // Check if we're in donor UI mode
+  const urlParams = new URLSearchParams(window.location.search);
+  const useDonorSlides = urlParams.get('donorUI') === 'true';
+  
   this.setState({
     amount: 0,
     step: SlideNames.WELCOME,
@@ -472,8 +520,13 @@ resetDonation() {
     donorEmail: null
   });
   
-  // Return to the landing page
-  window.history.pushState({}, '', '/');
+  if (useDonorSlides) {
+    // Stay on impact page but keep donorUI parameter
+    window.history.pushState({}, '', '/impact?donorUI=true');
+  } else {
+    // Return to the landing page
+    window.history.pushState({}, '', '/');
+  }
 }
 
 /**
