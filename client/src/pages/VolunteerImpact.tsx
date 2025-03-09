@@ -254,6 +254,11 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    * Go to next slide
    */
   goToNextSlide() {
+    // Scroll to top for mobile devices
+    if (window.innerWidth <= 768) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
     if (this.state.step < SlideNames.THANK_YOU) {
       // If we're on the intro slide, skip the summary slide and go directly to meals
       if (this.state.step === SlideNames.INTRO) {
@@ -270,6 +275,11 @@ export default class VolunteerImpactPage extends Component<RouteComponentProps, 
    * Go to previous slide
    */
   goToPreviousSlide() {
+    // Scroll to top for mobile devices
+    if (window.innerWidth <= 768) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
     if (this.state.step > SlideNames.WELCOME) {
       // If we're on the MEALS slide, go back to the intro slide
       if (this.state.step === SlideNames.MEALS) {

@@ -564,6 +564,11 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     
     console.log("Going to previous slide from current step:", this.state.step, "using donor UI:", useDonorSlides);
     
+    // Scroll to top for mobile devices
+    if (window.innerWidth <= 768) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
     this.setState(prev => {
       // If we're at the first slide, don't go back
       if (prev.step <= SlideNames.DONOR_SUMMARY || prev.step === SlideNames.WELCOME) {
