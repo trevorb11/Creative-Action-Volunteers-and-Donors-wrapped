@@ -26,6 +26,7 @@ export interface DonationImpact {
   dairyPercentage: number;
   proteinPercentage: number;
   freshFoodPercentage: number;
+  // Weight comparison fields
   babyElephants: string;
   bison: string;
   cars: string;
@@ -35,6 +36,16 @@ export interface DonationImpact {
   hippos: string;
   schoolBuses: string;
   smallJets: string;
+  // Additional weight comparison fields
+  breadLoaves?: string;
+  pineapples?: string;
+  toddlers?: string;
+  bulldogs?: string;
+  rvs?: string;
+  whaleSharkPups?: string;
+  blueWhaleCalf?: string;
+  // Text descriptions for comparisons
+  weightComparisonText?: string;
 }
 
 export enum SlideNames {
