@@ -514,16 +514,16 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
-    this.setState(prev => {
+    this.setState(prevState => {
       // If we're at the last slide, don't advance
-      if (prev.step >= SlideNames.SUMMARY) {
-        return prev;
+      if (prevState.step >= SlideNames.SUMMARY) {
+        return prevState;
       }
       
       // If using donor slides, handle donor-specific navigation logic
       if (useDonorSlides) {
         // Define the donor UI slide progression
-        switch (prev.step) {
+        switch (prevState.step) {
           case SlideNames.WELCOME:
             // Don't override the loading screen logic
             break;
@@ -532,23 +532,29 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             break;
           case SlideNames.DONOR_INTRO:
             // From intro, go to meals
-            return { ...prev, step: SlideNames.MEALS };
+            return { ...prevState, step: SlideNames.MEALS };
           case SlideNames.MEALS:
             // From meals, go to people
-            return { ...prev, step: SlideNames.PEOPLE };
+            return { ...prevState, step: SlideNames.PEOPLE };
           case SlideNames.PEOPLE:
             // From people, go to financial
-            return { ...prev, step: SlideNames.FINANCIAL };
+            return { ...prevState, step: SlideNames.FINANCIAL };
           case SlideNames.FINANCIAL:
             // From financial, go to summary (skip other slides)
-            return { ...prev, step: SlideNames.SUMMARY };
+            return { ...prevState, step: SlideNames.SUMMARY };
           default:
             // For any other case, just increment
             break;
         }
       }
       
-      return { ...prev, step: prev.step + 1 };
+      // For standard UI, skip the redundant FOOD_RESCUE slide
+      if (prevState.step === SlideNames.FOOD_RESCUE_COMPARISON) {
+        // Skip the redundant Food Rescue slide and go straight to Environment
+        return { ...prevState, step: SlideNames.ENVIRONMENT };
+      }
+      
+      return { ...prevState, step: prevState.step + 1 };
     });
   }
   
@@ -567,28 +573,28 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
-    this.setState(prev => {
+    this.setState(prevState => {
       // If we're at the first slide, don't go back
-      if (prev.step <= SlideNames.DONOR_SUMMARY || prev.step === SlideNames.WELCOME) {
-        return prev;
+      if (prevState.step <= SlideNames.DONOR_SUMMARY || prevState.step === SlideNames.WELCOME) {
+        return prevState;
       }
       
       // If using donor slides, handle donor-specific navigation logic
       if (useDonorSlides) {
         // Define the donor UI slide progression in reverse
-        switch (prev.step) {
+        switch (prevState.step) {
           case SlideNames.SUMMARY:
             // From summary, go back to financial
-            return { ...prev, step: SlideNames.FINANCIAL };
+            return { ...prevState, step: SlideNames.FINANCIAL };
           case SlideNames.FINANCIAL:
             // From financial, go back to people
-            return { ...prev, step: SlideNames.PEOPLE };
+            return { ...prevState, step: SlideNames.PEOPLE };
           case SlideNames.PEOPLE:
             // From people, go back to meals
-            return { ...prev, step: SlideNames.MEALS };
+            return { ...prevState, step: SlideNames.MEALS };
           case SlideNames.MEALS:
             // From meals, go back to intro
-            return { ...prev, step: SlideNames.DONOR_INTRO };
+            return { ...prevState, step: SlideNames.DONOR_INTRO };
           default:
             // For any other case, just decrement
             break;
@@ -596,11 +602,17 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       }
       
       // For meals slide in standard UI, go back to donor summary if we have a donor email
-      if (!useDonorSlides && prev.step === SlideNames.MEALS && prev.donorEmail) {
-        return { ...prev, step: SlideNames.DONOR_SUMMARY };
+      if (!useDonorSlides && prevState.step === SlideNames.MEALS && prevState.donorEmail) {
+        return { ...prevState, step: SlideNames.DONOR_SUMMARY };
       }
       
-      return { ...prev, step: prev.step - 1 };
+      // Also add a special case for the Environment slide to skip the redundant FOOD_RESCUE slide
+      if (prevState.step === SlideNames.ENVIRONMENT) {
+        // Go back to Food Rescue Comparison, skipping the redundant food rescue slide
+        return { ...prevState, step: SlideNames.FOOD_RESCUE_COMPARISON };
+      }
+      
+      return { ...prevState, step: prevState.step - 1 };
     });
   }
 
