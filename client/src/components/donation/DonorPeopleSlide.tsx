@@ -54,7 +54,7 @@ export default function DonorPeopleSlide({
           transition={{ duration: 0.5, type: "spring" }}
           className="w-20 h-20 bg-[#e0f0ea] rounded-full flex items-center justify-center mb-4"
         >
-          <Users className="h-10 w-10 text-[#0c4428]" />
+          <Users className="h-10 w-10 text-white" />
         </motion.div>
         
         <motion.div
@@ -66,11 +66,11 @@ export default function DonorPeopleSlide({
           <h3 className="text-lg sm:text-xl text-[#414042] font-medium mb-2">
             Your donation serves
           </h3>
-          <div className="text-3xl sm:text-4xl font-bold text-[#0c4428]">
+          <div className="text-3xl sm:text-4xl font-bold text-white">
             <CountUpAnimation
               value={impact.peopleServed} 
               isCurrency={false}
-              className="text-[#0c4428]"
+              className="text-white"
             /> people
           </div>
           <p className="text-[#414042] mt-2 text-sm sm:text-base">
@@ -91,7 +91,7 @@ export default function DonorPeopleSlide({
         >
           <div className="flex items-start">
             <div className="bg-[#e0f0ea] p-2 rounded-full mr-3">
-              <UserCheck className="h-5 w-5 text-[#0c4428]" />
+              <UserCheck className="h-5 w-5 text-white" />
             </div>
             <div>
               <h4 className="font-medium text-[#414042]">Community Impact</h4>
@@ -108,7 +108,7 @@ export default function DonorPeopleSlide({
         >
           <div className="flex items-start">
             <div className="bg-[#e0f0ea] p-2 rounded-full mr-3">
-              <HandHeart className="h-5 w-5 text-[#0c4428]" />
+              <HandHeart className="h-5 w-5 text-white" />
             </div>
             <div>
               <h4 className="font-medium text-[#414042]">Dignity & Respect</h4>
