@@ -13,6 +13,7 @@ import FoodRescueSlide from "@/components/donation/SimpleFoodRescueSlide";
 import FoodRescueComparison from "@/components/donation/FoodRescueComparison";
 import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
 import SummarySlide from "@/components/donation/SummarySlide";
+import SlideTransition from "@/components/donation/SlideTransition";
 
 // New donor-specific components
 import DonorWelcomeSlide from "@/components/donation/DonorWelcomeSlide";
