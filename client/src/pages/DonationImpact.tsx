@@ -179,72 +179,33 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         console.log("Stored donor first name in session storage:", firstName);
       }
       
-      // If we have wrapped data in the URL parameters, use that directly
+      // If we have wrapped data in the URL parameters, store it for later use
+      // but don't process it right away - let the user start from the welcome screen
       if (hasWrappedData && wrappedData) {
-        console.log("Found wrapped donor data in URL, using directly:", wrappedData);
+        console.log("Found wrapped donor data in URL, storing for later use:", wrappedData);
         
-        // Calculate impact based on last gift amount or lifetime giving
-        // If lastGiftAmount is available, use that as the donation amount
-        // If not, try to calculate an average gift from lifetime giving and total gifts
-        // If that's not possible either, fall back to a default value of 100
-        let amount = 100; // Default fallback value
+        // Store the wrapped data in sessionStorage for later
+        sessionStorage.setItem('wrappedDonorData', JSON.stringify(wrappedData));
         
-        if (wrappedData.lastGiftAmount > 0) {
-          amount = wrappedData.lastGiftAmount;
-          console.log("Using lastGiftAmount for impact calculation:", amount);
-        } else if (wrappedData.lifetimeGiving > 0 && wrappedData.totalGifts > 0) {
-          amount = wrappedData.lifetimeGiving / wrappedData.totalGifts;
-          console.log("Calculated average gift amount from lifetime giving:", amount);
-        } else if (wrappedData.lifetimeGiving > 0) {
-          // If we have lifetime giving but no total gifts, use a reasonable portion of it
-          amount = wrappedData.lifetimeGiving * 0.1; // Use 10% of lifetime giving as a reasonable gift
-          amount = Math.min(amount, 1000); // Cap at $1000 to avoid extreme values
-          amount = Math.max(amount, 50);   // Ensure at least $50
-          console.log("Estimated gift amount from lifetime giving:", amount);
-        }
+        // Also store all URL parameters for retrieval by other components
+        sessionStorage.setItem('donorParams', JSON.stringify(allParams));
         
-        // Round to 2 decimal places for currency
-        amount = Math.round(amount * 100) / 100;
+        // Check if we're using donor UI
+        const urlParams = new URLSearchParams(window.location.search);
+        const useDonorSlides = urlParams.get('donorUI') === 'true';
         
-        // Calculate impact
-        this.setState({ 
-          isLoading: true,
-          step: SlideNames.LOADING,
-          donorEmail: email || null
+        // Just show the welcome page with an informative toast
+        toast({
+          title: "Welcome!",
+          description: "We've found your donation information. Please enter your details to continue.",
         });
         
-        // Simulate loading for better user experience
-        setTimeout(() => {
-          const impact = calculateDonationImpact(amount);
-          
-          // Check if we're using donor UI
-          const urlParams = new URLSearchParams(window.location.search);
-          const useDonorSlides = urlParams.get('donorUI') === 'true';
-          
-          // For donor UI, go to intro slide; for standard UI, go to donor summary
-          const nextStep = useDonorSlides ? SlideNames.DONOR_INTRO : SlideNames.DONOR_SUMMARY;
-          
-          this.setState({
-            amount,
-            impact,
-            isLoading: false,
-            step: nextStep,
-          });
-          
-          // Store the wrapped data in sessionStorage for the DonorSummarySlide component
-          sessionStorage.setItem('wrappedDonorData', JSON.stringify(wrappedData));
-          
-          // Also store all URL parameters for retrieval by other components
-          sessionStorage.setItem('donorParams', JSON.stringify(allParams));
-          
-          toast({
-            title: "Welcome Back!",
-            description: "We've loaded your personalized donor information. Explore the impact of your generosity!",
-          });
-          
-          // Also call the server for more accurate impact calculation
-          this.calculateImpact(amount);
-        }, SLIDE_CONFIG.progressDuration);
+        // Always start at welcome screen
+        this.setState({
+          step: SlideNames.WELCOME,
+          isLoading: false,
+          donorEmail: email || null
+        });
         
         return;
       }
@@ -416,6 +377,16 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         sessionStorage.setItem('donorEmail', email);
       }
 
+      // If we had wrapped data from a personalized URL, display a toast
+      const wrappedDataString = sessionStorage.getItem('wrappedDonorData');
+      if (wrappedDataString) {
+        console.log("Using stored wrapped donor data after form submission");
+        toast({
+          title: "Welcome Back!",
+          description: "Your personalized donor information has been loaded.",
+        });
+      }
+
       // Log the donation via API
       this.logDonation(amount, email);
 
@@ -485,16 +456,10 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       console.log("Updated impact data from server, maintaining step:", this.state.step);
     } catch (error) {
       console.error("Failed to calculate impact:", error);
-      // Show error toast but don't reset the flow
-      toast({
-        title: "Impact Calculation",
-        description: "We had trouble calculating exact impact numbers. Using estimated values instead.",
-        variant: "destructive"
-      });
+      // Just log the error but don't show any toast or error message to the user
       
-      // Keep current state but mark that there was an error
+      // Keep current state without showing an error message
       this.setState(prevState => ({ 
-        error: 'Failed to calculate impact. Using estimated values.',
         isLoading: false,
         // Maintain the current step
         step: prevState.step
