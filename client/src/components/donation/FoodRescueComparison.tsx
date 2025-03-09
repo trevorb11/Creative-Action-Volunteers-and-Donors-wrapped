@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
-import { Leaf, Scale, Dog, Cat, Baby, Fish, Truck, Apple } from "lucide-react";
+import { Leaf, Scale, Dog, Cat, Baby, Fish, Truck, Apple, Banana, PawPrint, Beef, Milk, Coffee, Car, Citrus, CircleDot } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
 
 interface FoodRescueComparisonProps {
@@ -13,6 +13,70 @@ interface FoodRescueComparisonProps {
   isLastSlide?: boolean;
 }
 
+// Function to determine which comparison icon sets to use based on weight
+function getComparisonIconSets(lbs: number): { 
+  primary: JSX.Element,
+  small: JSX.Element[],
+  medium: JSX.Element[],
+  large: JSX.Element[]
+} {
+  // Default icons for each size category  
+  const smallIcons = [
+    <Apple key="apple" className="h-10 w-10 text-[#8dc53e]" />,
+    <Banana key="banana" className="h-10 w-10 text-[#e9c326]" />,
+    <Citrus key="citrus" className="h-10 w-10 text-[#e97826]" />
+  ];
+  
+  const mediumIcons = [
+    <Cat key="cat" className="h-12 w-12 text-[#414042]" />,
+    <PawPrint key="pawprint" className="h-12 w-12 text-[#665544]" />,
+    <Dog key="dog" className="h-12 w-12 text-[#896645]" />
+  ];
+  
+  const largeIcons = [
+    <Truck key="truck" className="h-14 w-14 text-[#227d7f]" />,
+    <Car key="car" className="h-14 w-14 text-[#0c4428]" />,
+    <Fish key="fish" className="h-14 w-14 text-[#284a75]" />
+  ];
+  
+  // Primary icon based on weight
+  let primaryIcon;
+  
+  if (lbs < 5) {
+    primaryIcon = <Apple className="h-20 w-20 text-[#e97826]" />;
+  } else if (lbs < 20) {
+    primaryIcon = <Cat className="h-20 w-20 text-[#e97826]" />;
+  } else if (lbs < 50) {
+    primaryIcon = <Baby className="h-20 w-20 text-[#e97826]" />;
+  } else if (lbs < 400) {
+    primaryIcon = <Dog className="h-20 w-20 text-[#e97826]" />;
+  } else if (lbs < 3000) {
+    primaryIcon = <Truck className="h-20 w-20 text-[#e97826]" />;
+  } else {
+    primaryIcon = <Fish className="h-20 w-20 text-[#e97826]" />;
+  }
+  
+  return {
+    primary: primaryIcon,
+    small: smallIcons,
+    medium: mediumIcons,
+    large: largeIcons
+  };
+}
+
+function FoodTypeIcon({ type }: { type: string }) {
+  switch (type) {
+    case "produce":
+      return <Apple className="h-6 w-6 text-[#8dc53e]" />;
+    case "dairy":
+      return <Milk className="h-6 w-6 text-[#227d7f]" />;
+    case "protein":
+      return <Beef className="h-6 w-6 text-[#e97826]" />;
+    default:
+      return <Coffee className="h-6 w-6 text-[#414042]" />;
+  }
+}
+
 export default function FoodRescueComparison({ 
   impact, 
   onNext,
@@ -20,27 +84,46 @@ export default function FoodRescueComparison({
   isFirstSlide,
   isLastSlide
 }: FoodRescueComparisonProps) {
-  // State for the current comparison icon
-  const [comparisonIcon, setComparisonIcon] = useState<React.ReactNode>(null);
+  // State for the current comparison icons
+  const [iconSets, setIconSets] = useState<{
+    primary: JSX.Element,
+    small: JSX.Element[],
+    medium: JSX.Element[],
+    large: JSX.Element[]
+  } | null>(null);
+  
+  // State for the active weight comparison tab
+  const [activeTab, setActiveTab] = useState<'small' | 'medium' | 'large'>('medium');
   
   // Get the appropriate icon based on the amount of food rescued
   useEffect(() => {
     const lbs = impact.foodRescued;
+    setIconSets(getComparisonIconSets(lbs));
     
-    if (lbs < 5) {
-      setComparisonIcon(<Apple className="h-16 w-16 text-[#e97826]" />);
-    } else if (lbs < 20) {
-      setComparisonIcon(<Cat className="h-16 w-16 text-[#e97826]" />);
-    } else if (lbs < 50) {
-      setComparisonIcon(<Baby className="h-16 w-16 text-[#e97826]" />);
-    } else if (lbs < 400) {
-      setComparisonIcon(<Dog className="h-16 w-16 text-[#e97826]" />);
-    } else if (lbs < 3000) {
-      setComparisonIcon(<Truck className="h-16 w-16 text-[#e97826]" />);
+    // Select the appropriate default tab based on weight
+    if (lbs < 50) {
+      setActiveTab('small');
+    } else if (lbs < 500) {
+      setActiveTab('medium');
     } else {
-      setComparisonIcon(<Fish className="h-16 w-16 text-[#e97826]" />);
+      setActiveTab('large');
     }
   }, [impact.foodRescued]);
+  
+  // Animation variants for the chart sections
+  const chartVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      scale: 1,
+      transition: { 
+        delay: custom * 0.1 + 0.5,
+        duration: 0.5,
+        type: "spring",
+        stiffness: 100
+      }
+    })
+  };
   
   return (
     <SlideLayout
@@ -52,32 +135,105 @@ export default function FoodRescueComparison({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="flex flex-col items-center space-y-5">
+      <div className="flex flex-col items-center space-y-6">
+        {/* Primary Icon with Floating Effect */}
         <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
+          initial={{ scale: 0, rotate: -180, y: 0 }}
+          animate={{ 
+            scale: 1, 
+            rotate: 0,
+            y: [0, -5, 0, -3, 0] 
+          }}
           transition={{ 
             type: "spring", 
             stiffness: 260, 
             damping: 20, 
-            delay: 0.3 
+            delay: 0.3,
+            y: {
+              repeat: Infinity,
+              duration: 3,
+              ease: "easeInOut",
+            }
           }}
-          className="mb-3"
+          className="mb-2 relative"
         >
-          {comparisonIcon}
+          {iconSets?.primary}
+          
+          {/* Floating particles around the icon */}
+          <motion.div 
+            className="absolute -top-2 -right-2 h-4 w-4"
+            animate={{ 
+              y: [-5, 5, -3, 7, -5],
+              x: [3, -3, 5, -5, 3],
+              opacity: [0.7, 0.9, 0.7, 0.9, 0.7]
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 4, 
+              ease: "easeInOut" 
+            }}
+          >
+            <CircleDot className="text-[#8dc53e] h-full w-full" />
+          </motion.div>
+          
+          <motion.div 
+            className="absolute bottom-0 -left-3 h-3 w-3"
+            animate={{ 
+              y: [3, -3, 5, -4, 3],
+              x: [-3, 3, -5, 4, -3],
+              opacity: [0.7, 0.9, 0.7, 0.9, 0.7]
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 3.5, 
+              ease: "easeInOut" 
+            }}
+          >
+            <CircleDot className="text-[#e97826] h-full w-full" />
+          </motion.div>
         </motion.div>
         
-        <div className="text-center">
+        {/* Donation Impact Headline */}
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
           <p className="text-lg font-semibold text-[#414042]">Your donation rescued</p>
-          <p className="text-4xl font-bold text-[#e97826]">
-            {impact.foodRescued.toLocaleString()} pounds
-          </p>
-          <p className="text-sm text-[#414042] mt-2">
+          <div className="flex items-center justify-center">
+            <motion.p 
+              className="text-5xl font-bold text-[#e97826]"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                delay: 0.7, 
+                duration: 0.5,
+                type: "spring",
+                stiffness: 100 
+              }}
+            >
+              <CountUpAnimation 
+                value={impact.foodRescued} 
+                duration={2000}
+                className="text-5xl font-bold" 
+              />
+            </motion.p>
+            <motion.p 
+              className="ml-2 text-4xl font-bold text-[#e97826]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.5, duration: 0.3 }}
+            >
+              pounds
+            </motion.p>
+          </div>
+          <p className="text-sm text-[#414042] mt-1">
             of fresh, nutritious food that would otherwise go to waste
           </p>
-        </div>
+        </motion.div>
         
-        {/* Weight Comparison Card */}
+        {/* Weight Comparison Card with Tabs */}
         <motion.div 
           className="bg-[#fef8f3] p-5 sm:p-6 rounded-lg border border-[#e97826]/20 shadow-sm hover:shadow-md transition-shadow w-full"
           initial={{ opacity: 0, y: 20 }}
@@ -86,17 +242,130 @@ export default function FoodRescueComparison({
         >
           <div className="flex flex-col items-center text-center">
             <Scale className="h-10 w-10 text-[#e97826] mb-3" />
-            <h3 className="text-lg font-bold text-[#414042] mb-2">Weight Comparison</h3>
-            <p className="text-2xl font-bold text-[#e97826] mb-1">
-              {impact.weightComparison || "That's equivalent to several large animals!"}
-            </p>
-            <p className="text-sm text-[#414042] mt-2 italic">
+            <h3 className="text-lg font-bold text-[#414042] mb-3">Weight Comparison</h3>
+            
+            {/* Comparison tabs */}
+            <div className="flex space-x-2 mb-4">
+              <button 
+                className={`px-3 py-1.5 rounded-full text-sm ${
+                  activeTab === 'small' 
+                    ? 'bg-[#e97826] text-white font-medium' 
+                    : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                }`}
+                onClick={() => setActiveTab('small')}
+              >
+                Small
+              </button>
+              <button 
+                className={`px-3 py-1.5 rounded-full text-sm ${
+                  activeTab === 'medium' 
+                    ? 'bg-[#e97826] text-white font-medium' 
+                    : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                }`}
+                onClick={() => setActiveTab('medium')}
+              >
+                Medium
+              </button>
+              <button 
+                className={`px-3 py-1.5 rounded-full text-sm ${
+                  activeTab === 'large' 
+                    ? 'bg-[#e97826] text-white font-medium' 
+                    : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                }`}
+                onClick={() => setActiveTab('large')}
+              >
+                Large
+              </button>
+            </div>
+            
+            {/* Tab content with animated transitions */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="w-full"
+              >
+                {activeTab === 'small' && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#e97826] mb-2">
+                      {impact.breadLoaves}
+                    </p>
+                    <div className="flex justify-center space-x-2 mb-2">
+                      {iconSets?.small.map((icon, i) => (
+                        <motion.div 
+                          key={i}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: i * 0.1, duration: 0.3 }}
+                        >
+                          {icon}
+                        </motion.div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-[#414042] mt-1">
+                      Or about {impact.pineapples} or {impact.toddlers}
+                    </p>
+                  </div>
+                )}
+                
+                {activeTab === 'medium' && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#e97826] mb-2">
+                      {impact.bulldogs}
+                    </p>
+                    <div className="flex justify-center space-x-3 mb-2">
+                      {iconSets?.medium.map((icon, i) => (
+                        <motion.div 
+                          key={i}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: i * 0.1, duration: 0.3 }}
+                        >
+                          {icon}
+                        </motion.div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-[#414042] mt-1">
+                      Or about {impact.houseCats} or {impact.goldenRetrievers}
+                    </p>
+                  </div>
+                )}
+                
+                {activeTab === 'large' && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#e97826] mb-2">
+                      {impact.babyElephants}
+                    </p>
+                    <div className="flex justify-center space-x-4 mb-2">
+                      {iconSets?.large.map((icon, i) => (
+                        <motion.div 
+                          key={i}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: i * 0.1, duration: 0.3 }}
+                        >
+                          {icon}
+                        </motion.div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-[#414042] mt-1">
+                      Or about {impact.grizzlyBears} or {impact.cars}
+                    </p>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+            
+            <p className="text-sm text-[#414042] mt-4 italic">
               {impact.weightComparisonText || "Your donation makes a big impact."}
             </p>
           </div>
         </motion.div>
         
-        {/* Food Type Distribution */}
+        {/* Food Type Distribution with Interactive Donut Chart */}
         <motion.div 
           className="bg-[#fef8f3] p-4 sm:p-5 rounded-lg border border-[#e97826]/10 w-full"
           initial={{ opacity: 0, y: 20 }}
@@ -106,23 +375,142 @@ export default function FoodRescueComparison({
           <h3 className="text-center text-[#414042] font-bold mb-3">
             Food Rescued Includes
           </h3>
+          
+          {/* Interactive food distribution chart */}
+          <div className="relative w-full h-32 mb-3">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-32 h-32">
+                {/* Produce section */}
+                <motion.div
+                  className="absolute inset-0"
+                  custom={0}
+                  variants={chartVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <path
+                      d={`M 50 50 L 50 0 A 50 50 0 0 1 ${50 + 50 * Math.sin((impact.producePercentage / 100) * Math.PI * 2)} ${50 - 50 * Math.cos((impact.producePercentage / 100) * Math.PI * 2)} Z`}
+                      fill="#8dc53e"
+                      stroke="#fff"
+                      strokeWidth="1"
+                    />
+                  </svg>
+                </motion.div>
+                
+                {/* Dairy section */}
+                <motion.div
+                  className="absolute inset-0"
+                  custom={1}
+                  variants={chartVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <path
+                      d={`M 50 50 L ${50 + 50 * Math.sin((impact.producePercentage / 100) * Math.PI * 2)} ${50 - 50 * Math.cos((impact.producePercentage / 100) * Math.PI * 2)} A 50 50 0 0 1 ${50 + 50 * Math.sin(((impact.producePercentage + impact.dairyPercentage) / 100) * Math.PI * 2)} ${50 - 50 * Math.cos(((impact.producePercentage + impact.dairyPercentage) / 100) * Math.PI * 2)} Z`}
+                      fill="#227d7f"
+                      stroke="#fff"
+                      strokeWidth="1"
+                    />
+                  </svg>
+                </motion.div>
+                
+                {/* Protein section */}
+                <motion.div
+                  className="absolute inset-0"
+                  custom={2}
+                  variants={chartVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <path
+                      d={`M 50 50 L ${50 + 50 * Math.sin(((impact.producePercentage + impact.dairyPercentage) / 100) * Math.PI * 2)} ${50 - 50 * Math.cos(((impact.producePercentage + impact.dairyPercentage) / 100) * Math.PI * 2)} A 50 50 0 0 1 ${50 + 50 * Math.sin(((impact.producePercentage + impact.dairyPercentage + impact.proteinPercentage) / 100) * Math.PI * 2)} ${50 - 50 * Math.cos(((impact.producePercentage + impact.dairyPercentage + impact.proteinPercentage) / 100) * Math.PI * 2)} Z`}
+                      fill="#e97826"
+                      stroke="#fff"
+                      strokeWidth="1"
+                    />
+                  </svg>
+                </motion.div>
+                
+                {/* Other section */}
+                <motion.div
+                  className="absolute inset-0"
+                  custom={3}
+                  variants={chartVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <path
+                      d={`M 50 50 L ${50 + 50 * Math.sin(((impact.producePercentage + impact.dairyPercentage + impact.proteinPercentage) / 100) * Math.PI * 2)} ${50 - 50 * Math.cos(((impact.producePercentage + impact.dairyPercentage + impact.proteinPercentage) / 100) * Math.PI * 2)} A 50 50 0 0 1 50 0 Z`}
+                      fill="#414042"
+                      stroke="#fff"
+                      strokeWidth="1"
+                    />
+                  </svg>
+                </motion.div>
+                
+                {/* Center hole */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center">
+                    <p className="text-sm font-bold text-[#414042]">100%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Legend for food distribution */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-[#8dc53e]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Produce</p>
-              <p className="text-lg font-bold text-[#8dc53e]">{impact.producePercentage}%</p>
-            </div>
-            <div className="bg-[#227d7f]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Dairy</p>
-              <p className="text-lg font-bold text-[#227d7f]">{impact.dairyPercentage}%</p>
-            </div>
-            <div className="bg-[#e97826]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Protein</p>
-              <p className="text-lg font-bold text-[#e97826]">{impact.proteinPercentage}%</p>
-            </div>
-            <div className="bg-[#414042]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Other</p>
-              <p className="text-lg font-bold text-[#414042]">{100 - impact.freshFoodPercentage}%</p>
-            </div>
+            <motion.div 
+              className="flex items-center p-2 rounded-lg bg-[#8dc53e]/20"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.2 }}
+            >
+              <FoodTypeIcon type="produce" />
+              <div className="ml-2">
+                <p className="text-xs font-medium text-[#414042]">Produce</p>
+                <p className="text-base font-bold text-[#8dc53e]">{impact.producePercentage}%</p>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="flex items-center p-2 rounded-lg bg-[#227d7f]/20"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.2 }}
+            >
+              <FoodTypeIcon type="dairy" />
+              <div className="ml-2">
+                <p className="text-xs font-medium text-[#414042]">Dairy</p>
+                <p className="text-base font-bold text-[#227d7f]">{impact.dairyPercentage}%</p>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="flex items-center p-2 rounded-lg bg-[#e97826]/20"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.2 }}
+            >
+              <FoodTypeIcon type="protein" />
+              <div className="ml-2">
+                <p className="text-xs font-medium text-[#414042]">Protein</p>
+                <p className="text-base font-bold text-[#e97826]">{impact.proteinPercentage}%</p>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="flex items-center p-2 rounded-lg bg-[#414042]/20"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.2 }}
+            >
+              <FoodTypeIcon type="other" />
+              <div className="ml-2">
+                <p className="text-xs font-medium text-[#414042]">Other</p>
+                <p className="text-base font-bold text-[#414042]">{100 - impact.freshFoodPercentage}%</p>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
