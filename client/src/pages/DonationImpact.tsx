@@ -10,6 +10,7 @@ import TimeGivingSlide from "@/components/donation/TimeGivingSlide";
 import PeopleSlide from "@/components/donation/PeopleSlide";
 import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
 import FoodRescueSlide from "@/components/donation/SimpleFoodRescueSlide";
+import FoodRescueComparison from "@/components/donation/FoodRescueComparison";
 import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
 import SummarySlide from "@/components/donation/SummarySlide";
 
@@ -783,6 +784,11 @@ isLastSlide() {
             amount={state.amount}
             {...navigationProps} 
           />
+        )}
+        
+        {/* Food rescue comparison slide (weight-based) */}
+        {state.step === SlideNames.FOOD_RESCUE_COMPARISON && state.impact && (
+          <FoodRescueComparison impact={state.impact} {...navigationProps} />
         )}
 
         {/* Food rescue slide */}
