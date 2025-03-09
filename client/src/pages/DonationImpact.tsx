@@ -223,12 +223,12 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         setTimeout(() => {
           const impact = calculateDonationImpact(amount);
           
-          // Check if we're using donor UI
+          // Check if we're using donor UI (for logging purposes only)
           const urlParams = new URLSearchParams(window.location.search);
           const useDonorSlides = urlParams.get('donorUI') === 'true';
           
-          // For donor UI, go to intro slide; for standard UI, go to donor summary
-          const nextStep = useDonorSlides ? SlideNames.DONOR_INTRO : SlideNames.DONOR_SUMMARY;
+          // Always go to donor intro slide for wrapped data users
+          const nextStep = SlideNames.DONOR_INTRO;
           
           this.setState({
             amount,
@@ -308,12 +308,12 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
           // We have both donation and impact data from the server
           const amount = parseFloat(data.donation.amount.toString());
           
-          // Check if we're using donor UI
+          // Check if we're using donor UI (for logging purposes only)
           const urlParams = new URLSearchParams(window.location.search);
           const useDonorSlides = urlParams.get('donorUI') === 'true';
           
-          // For donor UI, go to intro slide; for standard UI, go to donor summary
-          const nextStep = useDonorSlides ? SlideNames.DONOR_INTRO : SlideNames.DONOR_SUMMARY;
+          // Always go to donor intro slide for all types of users
+          const nextStep = SlideNames.DONOR_INTRO;
           
           this.setState({
             amount,
@@ -394,15 +394,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       const urlParams = new URLSearchParams(window.location.search);
       const useDonorSlides = urlParams.get('donorUI') === 'true';
       
-      // Set the appropriate next step based on interface type
-      let nextStep;
-      if (useDonorSlides) {
-        // For donor UI, always go to donor intro slide after loading
-        nextStep = SlideNames.DONOR_INTRO;
-      } else {
-        // For standard UI, go to donor summary for email donors, otherwise meals
-        nextStep = email ? SlideNames.DONOR_SUMMARY : SlideNames.MEALS;
-      }
+      // Always go to donor intro slide for a consistent experience
+      const nextStep = SlideNames.DONOR_INTRO;
       
       this.setState({
         impact,
