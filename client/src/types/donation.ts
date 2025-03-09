@@ -46,6 +46,7 @@ export enum SlideNames {
   TIME_GIVING = 5,      // Move TIME_GIVING to position 5
   FOOD_RESCUE = 6,      // Move FOOD_RESCUE to position 6
   ENVIRONMENT = 7,      // Move ENVIRONMENT to position 7
-  VOLUNTEER = 8,        // VOLUNTEER stays at position 8
-  SUMMARY = 9           // SUMMARY moves to position 9 (PARTNER removed)
+  FINANCIAL = 8,        // Add FINANCIAL at position 8
+  VOLUNTEER = 9,        // VOLUNTEER moves to position 9
+  SUMMARY = 10          // SUMMARY moves to position 10
 }

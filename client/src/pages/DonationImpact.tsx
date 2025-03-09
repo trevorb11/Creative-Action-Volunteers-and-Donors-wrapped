@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { RouteComponentProps } from "wouter";
 import { SlideNames, DonationState } from "@/types/donation";
+// Original components
 import WelcomeScreen from "@/components/donation/WelcomeScreen";
 import LoadingScreen from "@/components/donation/LoadingScreen";
 import DonorSummarySlide from "@/components/donation/DonorSummarySlide";
@@ -10,8 +11,15 @@ import PeopleSlide from "@/components/donation/PeopleSlide";
 import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
 import FoodRescueSlide from "@/components/donation/SimpleFoodRescueSlide";
 import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
-import PartnerSlide from "@/components/donation/PartnerSlide";
 import SummarySlide from "@/components/donation/SummarySlide";
+
+// New donor-specific components
+import DonorWelcomeSlide from "@/components/donation/DonorWelcomeSlide";
+import DonorLoadingScreen from "@/components/donation/DonorLoadingScreen";
+import DonorMealsSlide from "@/components/donation/DonorMealsSlide";
+import DonorPeopleSlide from "@/components/donation/DonorPeopleSlide";
+import DonorFinancialSlide from "@/components/donation/DonorFinancialSlide";
+
 import { toast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import type { DonationImpact as DonationImpactType } from "@/types/donation";
@@ -546,34 +554,54 @@ isLastSlide() {
       isFirstSlide: this.isFirstSlide(),
       isLastSlide: this.isLastSlide()
     };
+    
+    // Determine if we should use donor-specific slides
+    // For this initial implementation, we'll use a URL parameter to toggle
+    const urlParams = new URLSearchParams(window.location.search);
+    const useDonorSlides = urlParams.get('donorUI') === 'true';
 
     return (
       <div className="min-h-screen relative font-sans overflow-hidden">
+        {/* Welcome screen */}
         {state.step === SlideNames.WELCOME && (
-          <WelcomeScreen onSubmit={this.handleFormSubmit} />
+          useDonorSlides ? 
+            <DonorWelcomeSlide onSubmit={this.handleFormSubmit} /> :
+            <WelcomeScreen onSubmit={this.handleFormSubmit} />
         )}
 
+        {/* Loading screen */}
         {state.step === SlideNames.LOADING && (
-          <LoadingScreen />
+          useDonorSlides ?
+            <DonorLoadingScreen /> :
+            <LoadingScreen />
         )}
 
+        {/* Donor summary slide */}
         {state.step === SlideNames.DONOR_SUMMARY && state.impact && (
           <DonorSummarySlide 
-            impact={state.impact} 
-            donorEmail={state.donorEmail}
             amount={state.amount}
-            {...navigationProps} 
+            impact={state.impact}
+            onReset={this.resetDonation}
+            onShare={this.handleShare}
+            {...navigationProps}
           />
         )}
 
+        {/* Meals slide */}
         {state.step === SlideNames.MEALS && state.impact && (
-          <MealsSlide impact={state.impact} {...navigationProps} />
+          useDonorSlides ?
+            <DonorMealsSlide impact={state.impact} {...navigationProps} /> :
+            <MealsSlide impact={state.impact} {...navigationProps} />
         )}
 
+        {/* People slide */}
         {state.step === SlideNames.PEOPLE && state.impact && (
-          <PeopleSlide impact={state.impact} {...navigationProps} />
+          useDonorSlides ?
+            <DonorPeopleSlide impact={state.impact} {...navigationProps} /> :
+            <PeopleSlide impact={state.impact} {...navigationProps} />
         )}
 
+        {/* Time giving slide */}
         {state.step === SlideNames.TIME_GIVING && state.impact && (
           <TimeGivingSlide 
             impact={state.impact} 
@@ -583,26 +611,47 @@ isLastSlide() {
           />
         )}
 
+        {/* Food rescue slide */}
         {state.step === SlideNames.FOOD_RESCUE && state.impact && (
           <FoodRescueSlide impact={state.impact} {...navigationProps} />
         )}
 
+        {/* Environment slide */}
         {state.step === SlideNames.ENVIRONMENT && state.impact && (
           <EnvironmentSlide impact={state.impact} {...navigationProps} />
         )}
+        
+        {/* Financial benefit slide (donor-specific) */}
+        {state.step === SlideNames.FINANCIAL && state.impact && (
+          <DonorFinancialSlide 
+            impact={state.impact} 
+            amount={state.amount}
+            {...navigationProps} 
+          />
+        )}
 
+        {/* Volunteer / Quotes slide */}
         {state.step === SlideNames.VOLUNTEER && (
           <NeighborQuotesSlide {...navigationProps} />
         )}
 
+        {/* Summary slide */}
         {state.step === SlideNames.SUMMARY && state.impact && (
-          <SummarySlide 
-            amount={state.amount} 
-            impact={state.impact} 
-            onReset={this.resetDonation}
-            onShare={this.handleShare}
-            {...navigationProps}
-          />
+          useDonorSlides ?
+            <DonorSummarySlide 
+              amount={state.amount} 
+              impact={state.impact} 
+              onReset={this.resetDonation}
+              onShare={this.handleShare}
+              {...navigationProps}
+            /> :
+            <SummarySlide 
+              amount={state.amount} 
+              impact={state.impact} 
+              onReset={this.resetDonation}
+              onShare={this.handleShare}
+              {...navigationProps}
+            />
         )}
       </div>
     );
