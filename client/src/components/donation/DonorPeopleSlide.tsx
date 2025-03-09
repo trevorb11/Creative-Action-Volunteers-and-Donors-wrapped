@@ -3,6 +3,7 @@ import { Users, UserCheck, HandHeart } from "lucide-react";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import CountUpAnimation from "./CountUpAnimation";
+import { useEffect, useRef, useState } from "react";
 
 interface DonorPeopleSlideProps {
   impact: DonationImpact;
@@ -19,6 +20,8 @@ export default function DonorPeopleSlide({
   isFirstSlide,
   isLastSlide
 }: DonorPeopleSlideProps) {
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const peopleRef = useRef<HTMLDivElement>(null);
   
   // Container and item variants for staggered animation
   const containerVariants = {
@@ -36,6 +39,30 @@ export default function DonorPeopleSlide({
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
+
+  // Animation for the people visualization dots
+  useEffect(() => {
+    // Animate the people counter with growing dots
+    if (peopleRef.current) {
+      const animation = peopleRef.current.animate(
+        [{ width: '0%' }, { width: '90%' }],
+        {
+          duration: 2000,
+          fill: 'forwards',
+          easing: 'ease-out',
+        }
+      );
+
+      animation.onfinish = () => setAnimationComplete(true);
+
+      return () => {
+        animation.cancel();
+      };
+    }
+  }, []);
+
+  // Calculate how many dots to show - don't show too many
+  const numberOfDots = Math.min(100, impact.peopleServed);
 
   return (
     <SlideLayout
@@ -73,11 +100,40 @@ export default function DonorPeopleSlide({
               className="text-[#0c4428]"
             /> people
           </div>
-          <p className="text-[#414042] mt-2 text-sm sm:text-base">
-            That's {impact.peoplePercentage} of our neighbors in need
-          </p>
         </motion.div>
       </div>
+      
+      {/* People visualization */}
+      <div className="w-full h-16 bg-[#e0f0ea] rounded-lg mb-6 relative overflow-hidden">
+        <div 
+          ref={peopleRef} 
+          className="h-16 rounded-lg flex items-center justify-start overflow-hidden"
+          style={{ width: '0%' }}
+        >
+          <div className="flex flex-wrap p-2">
+            {Array.from({ length: numberOfDots }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="h-2.5 w-2.5 rounded-full mx-1 my-1 bg-[#0c4428]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.01 * i + 1 }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <motion.div
+        className="text-center mb-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5, duration: 0.5 }}
+      >
+        <p className="text-[#414042] text-sm sm:text-base">
+          Each dot represents people in Boulder & Broomfield Counties you've helped.
+        </p>
+      </motion.div>
       
       <motion.div
         className="space-y-4"

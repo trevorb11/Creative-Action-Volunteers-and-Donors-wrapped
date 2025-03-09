@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
@@ -20,6 +20,8 @@ export default function PeopleSlide({
   isFirstSlide,
   isLastSlide 
 }: PeopleSlideProps) {
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const peopleRef = useRef<HTMLDivElement>(null);
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
   
@@ -31,6 +33,30 @@ export default function PeopleSlide({
     
     return () => controls.stop();
   }, [count, impact.peopleServed]);
+
+  // Animation for the people visualization dots
+  useEffect(() => {
+    // Animate the people counter with growing dots
+    if (peopleRef.current) {
+      const animation = peopleRef.current.animate(
+        [{ width: '0%' }, { width: '90%' }],
+        {
+          duration: 2000,
+          fill: 'forwards',
+          easing: 'ease-out',
+        }
+      );
+
+      animation.onfinish = () => setAnimationComplete(true);
+
+      return () => {
+        animation.cancel();
+      };
+    }
+  }, []);
+  
+  // Calculate how many dots to show - don't show too many
+  const numberOfDots = Math.min(100, impact.peopleServed);
   
   // Container and item variants for staggered animation
   const containerVariants = {
@@ -78,10 +104,39 @@ export default function PeopleSlide({
           <p className="text-4xl font-bold text-[#0c4428]">
             <motion.span>{rounded}</motion.span> People
           </p>
-          <p className="text-sm text-[#414042] mt-2">
-            That's <span className="font-medium">{impact.peoplePercentage}</span> of those served in Boulder & Broomfield Counties
-          </p>
         </div>
+        
+        {/* People visualization */}
+        <div className="w-full h-16 bg-[#f0f9f4] rounded-lg mb-4 relative overflow-hidden">
+          <div 
+            ref={peopleRef} 
+            className="h-16 rounded-lg flex items-center justify-start overflow-hidden"
+            style={{ width: '0%' }}
+          >
+            <div className="flex flex-wrap p-2">
+              {Array.from({ length: numberOfDots }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="h-2.5 w-2.5 rounded-full mx-1 my-1 bg-[#0c4428]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.01 * i + 1 }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <motion.div
+          className="text-center mb-1"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5, duration: 0.5 }}
+        >
+          <p className="text-[#414042] text-sm">
+            Each dot represents people in Boulder & Broomfield Counties you've helped.
+          </p>
+        </motion.div>
         
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-center"
@@ -121,7 +176,7 @@ export default function PeopleSlide({
         </motion.div>
         
         <motion.div 
-          className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mt-4"
+          className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mt-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 0.5 }}
