@@ -637,21 +637,13 @@ isLastSlide() {
 
         {/* Summary slide */}
         {state.step === SlideNames.SUMMARY && state.impact && (
-          useDonorSlides ?
-            <DonorSummarySlide 
-              amount={state.amount} 
-              impact={state.impact} 
-              onReset={this.resetDonation}
-              onShare={this.handleShare}
-              {...navigationProps}
-            /> :
-            <SummarySlide 
-              amount={state.amount} 
-              impact={state.impact} 
-              onReset={this.resetDonation}
-              onShare={this.handleShare}
-              {...navigationProps}
-            />
+          <SummarySlide 
+            amount={state.amount} 
+            impact={state.impact} 
+            onReset={this.resetDonation}
+            onShare={this.handleShare}
+            {...navigationProps}
+          />
         )}
       </div>
     );
