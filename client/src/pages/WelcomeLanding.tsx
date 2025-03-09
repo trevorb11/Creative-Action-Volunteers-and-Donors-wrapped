@@ -33,9 +33,14 @@ export default function WelcomeLanding() {
     }
   }, [params, setLocation]);
 
-  const handleGetStarted = () => {
-    // Navigate to the donation impact page
+  const handleDonationImpact = () => {
+    // Navigate to the standard donation impact page
     setLocation("/impact");
+  };
+
+  const handleDonorInterface = () => {
+    // Navigate to the donor-specific interface with the UI parameter
+    setLocation("/impact?donorUI=true");
   };
 
   const handleVolunteerImpact = () => {
@@ -66,18 +71,35 @@ export default function WelcomeLanding() {
                 Discover how your generosity is fighting hunger and changing lives in our community.
               </p>
               <div className="space-y-3">
-                <Button 
-                  onClick={handleGetStarted} 
-                  className="w-full bg-green-600 hover:bg-green-700 text-lg py-6"
-                >
-                  View Donation Impact
-                </Button>
-                <Button 
-                  onClick={handleVolunteerImpact} 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6"
-                >
-                  Volunteer Impact Calculator
-                </Button>
+                {/* Donation impact options */}
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <h3 className="text-lg font-semibold mb-3 text-green-700">Donation Impact</h3>
+                  <div className="grid grid-cols-1 gap-2">
+                    <Button 
+                      onClick={handleDonationImpact} 
+                      className="w-full bg-green-600 hover:bg-green-700 text-md py-3"
+                    >
+                      Standard Donation Impact
+                    </Button>
+                    <Button 
+                      onClick={handleDonorInterface} 
+                      className="w-full bg-green-700 hover:bg-green-800 text-md py-3"
+                    >
+                      Donor-Personalized Impact
+                    </Button>
+                  </div>
+                </div>
+                
+                {/* Volunteer impact option */}
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <h3 className="text-lg font-semibold mb-3 text-blue-700">Volunteer Impact</h3>
+                  <Button 
+                    onClick={handleVolunteerImpact} 
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-md py-3"
+                  >
+                    Volunteer Impact Calculator
+                  </Button>
+                </div>
               </div>
             </>
           )}
