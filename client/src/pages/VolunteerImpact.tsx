@@ -871,7 +871,7 @@ const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: I
     <AnimatedSlide className="w-full max-w-md">
       <Card className="w-full overflow-hidden">
         <CardHeader className="text-center bg-[#0c4428] text-white rounded-t-lg">
-          <CardTitle className="text-2xl font-bold text-white">Your Service Provides</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">Your Service Provided</CardTitle>
           <CardDescription className="text-white opacity-90">
             Making meals possible
           </CardDescription>
