@@ -216,11 +216,18 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         setTimeout(() => {
           const impact = calculateDonationImpact(amount);
           
+          // Check if we're using donor UI
+          const urlParams = new URLSearchParams(window.location.search);
+          const useDonorSlides = urlParams.get('donorUI') === 'true';
+          
+          // For donor UI, go to intro slide; for standard UI, go to donor summary
+          const nextStep = useDonorSlides ? SlideNames.DONOR_INTRO : SlideNames.DONOR_SUMMARY;
+          
           this.setState({
             amount,
             impact,
             isLoading: false,
-            step: SlideNames.DONOR_SUMMARY,
+            step: nextStep,
           });
           
           // Store the wrapped data in sessionStorage for the DonorSummarySlide component
@@ -300,11 +307,18 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
           // We have both donation and impact data from the server
           const amount = parseFloat(data.donation.amount.toString());
           
+          // Check if we're using donor UI
+          const urlParams = new URLSearchParams(window.location.search);
+          const useDonorSlides = urlParams.get('donorUI') === 'true';
+          
+          // For donor UI, go to intro slide; for standard UI, go to donor summary
+          const nextStep = useDonorSlides ? SlideNames.DONOR_INTRO : SlideNames.DONOR_SUMMARY;
+          
           this.setState({
             amount,
             impact: data.impact,
             isLoading: false,
-            step: SlideNames.DONOR_SUMMARY, // Show donor summary first for returning donors
+            step: nextStep,
             donorEmail: data.donation.email || null
           });
           
