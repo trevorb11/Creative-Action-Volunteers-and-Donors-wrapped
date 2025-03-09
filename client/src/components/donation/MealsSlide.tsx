@@ -58,7 +58,7 @@ export default function MealsSlide({
         
         <div className="text-center">
           <p className="text-lg font-semibold text-[#414042]">Your donation provides</p>
-          <p className="text-4xl font-bold text-white">
+          <p className="text-4xl font-bold text-[#0c4428]">
             <motion.span>{rounded}</motion.span> Meals
           </p>
           <p className="text-sm text-[#414042] mt-2">
@@ -72,7 +72,7 @@ export default function MealsSlide({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
-          <p className="text-center text-white">
+          <p className="text-center text-[#0c4428]">
             Your donation helps us provide nutritious food to families in need.
             <span className="block mt-1 font-medium">Every dollar provides 1.52 meals for our community.</span>
           </p>

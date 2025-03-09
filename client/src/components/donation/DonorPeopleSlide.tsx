@@ -3,7 +3,6 @@ import { Users, UserCheck, HandHeart } from "lucide-react";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import CountUpAnimation from "./CountUpAnimation";
-import { useState, useRef, useEffect } from "react";
 
 interface DonorPeopleSlideProps {
   impact: DonationImpact;
@@ -20,8 +19,6 @@ export default function DonorPeopleSlide({
   isFirstSlide,
   isLastSlide
 }: DonorPeopleSlideProps) {
-  const [animationComplete, setAnimationComplete] = useState(false);
-  const peopleRef = useRef<HTMLDivElement>(null);
   
   // Container and item variants for staggered animation
   const containerVariants = {
@@ -40,27 +37,6 @@ export default function DonorPeopleSlide({
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
-  // Animate the people dots
-  useEffect(() => {
-    // Animate the people counter with growing dots
-    if (peopleRef.current) {
-      const animation = peopleRef.current.animate(
-        [{ width: '0%' }, { width: '85%' }],
-        {
-          duration: 2000,
-          fill: 'forwards',
-          easing: 'ease-out',
-        }
-      );
-
-      animation.onfinish = () => setAnimationComplete(true);
-
-      return () => {
-        animation.cancel();
-      };
-    }
-  }, []);
-
   return (
     <SlideLayout
       title="People You've Helped"
@@ -78,7 +54,7 @@ export default function DonorPeopleSlide({
           transition={{ duration: 0.5, type: "spring" }}
           className="w-20 h-20 bg-[#e0f0ea] rounded-full flex items-center justify-center mb-4"
         >
-          <Users className="h-10 w-10 text-white" />
+          <Users className="h-10 w-10 text-[#0c4428]" />
         </motion.div>
         
         <motion.div
@@ -101,27 +77,6 @@ export default function DonorPeopleSlide({
             That's {impact.peoplePercentage} of our neighbors in need
           </p>
         </motion.div>
-        
-        {/* People visualization with dots */}
-        <div className="w-full h-10 bg-[#e0f0ea]/30 rounded-lg mt-4 mb-6 relative overflow-hidden">
-          <div 
-            ref={peopleRef} 
-            className="h-10 rounded-lg flex items-center justify-start overflow-hidden"
-            style={{ width: '0%' }}
-          >
-            <div className="flex flex-wrap">
-              {Array.from({ length: Math.min(100, impact.peopleServed) }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="h-2 w-2 rounded-full mx-1 my-1 bg-[#0c4428]"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.01 * i + 1 }}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
       
       <motion.div
@@ -136,7 +91,7 @@ export default function DonorPeopleSlide({
         >
           <div className="flex items-start">
             <div className="bg-[#e0f0ea] p-2 rounded-full mr-3">
-              <UserCheck className="h-5 w-5 text-white" />
+              <UserCheck className="h-5 w-5 text-[#0c4428]" />
             </div>
             <div>
               <h4 className="font-medium text-[#414042]">Community Impact</h4>
@@ -153,7 +108,7 @@ export default function DonorPeopleSlide({
         >
           <div className="flex items-start">
             <div className="bg-[#e0f0ea] p-2 rounded-full mr-3">
-              <HandHeart className="h-5 w-5 text-white" />
+              <HandHeart className="h-5 w-5 text-[#0c4428]" />
             </div>
             <div>
               <h4 className="font-medium text-[#414042]">Dignity & Respect</h4>

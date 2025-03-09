@@ -54,7 +54,7 @@ export default function DonorMealsSlide({
           transition={{ duration: 0.5, type: "spring" }}
           className="w-20 h-20 bg-[#e6f2ed] rounded-full flex items-center justify-center mb-4"
         >
-          <Utensils className="h-10 w-10 text-white" />
+          <Utensils className="h-10 w-10 text-[#227d7f]" />
         </motion.div>
         
         <motion.div
@@ -66,11 +66,11 @@ export default function DonorMealsSlide({
           <h3 className="text-lg sm:text-xl text-[#414042] font-medium mb-2">
             Your donation provides
           </h3>
-          <div className="text-3xl sm:text-4xl font-bold text-white">
+          <div className="text-3xl sm:text-4xl font-bold text-[#227d7f]">
             <CountUpAnimation
               value={impact.mealsProvided} 
               isCurrency={false}
-              className="text-white"
+              className="text-[#227d7f]"
             /> meals
           </div>
           <p className="text-[#414042] mt-2 text-sm sm:text-base">

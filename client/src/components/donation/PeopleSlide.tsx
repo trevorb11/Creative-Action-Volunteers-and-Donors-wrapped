@@ -70,12 +70,12 @@ export default function PeopleSlide({
             delay: 0.3 
           }}
         >
-          <Users className="h-16 w-16 text-white mb-3" />
+          <Users className="h-16 w-16 text-[#0c4428] mb-3" />
         </motion.div>
         
         <div className="text-center">
           <p className="text-lg font-semibold text-[#414042]">Your donation serves</p>
-          <p className="text-4xl font-bold text-white">
+          <p className="text-4xl font-bold text-[#0c4428]">
             <motion.span>{rounded}</motion.span> People
           </p>
           <p className="text-sm text-[#414042] mt-2">
@@ -126,7 +126,7 @@ export default function PeopleSlide({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 0.5 }}
         >
-          <p className="text-center text-white">
+          <p className="text-center text-[#0c4428]">
             Your donation directly impacts our ability to serve families in need in our community.
             <span className="block mt-1 font-medium">Together, we're building a hunger-free community.</span>
           </p>

@@ -69,7 +69,7 @@ export default function FoodRescueComparison({
         
         <div className="text-center">
           <p className="text-lg font-semibold text-[#414042]">Your donation rescued</p>
-          <p className="text-4xl font-bold text-white">
+          <p className="text-4xl font-bold text-[#e97826]">
             {impact.foodRescued.toLocaleString()} pounds
           </p>
           <p className="text-sm text-[#414042] mt-2">
