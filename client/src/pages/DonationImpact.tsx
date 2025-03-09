@@ -513,11 +513,17 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
           case SlideNames.LOADING:
             // Don't override the loading logic
             break;
+          case SlideNames.DONOR_INTRO:
+            // From intro, go to meals
+            return { ...prev, step: SlideNames.MEALS };
           case SlideNames.MEALS:
+            // From meals, go to people
             return { ...prev, step: SlideNames.PEOPLE };
           case SlideNames.PEOPLE:
+            // From people, go to financial
             return { ...prev, step: SlideNames.FINANCIAL };
           case SlideNames.FINANCIAL:
+            // From financial, go to summary (skip other slides)
             return { ...prev, step: SlideNames.SUMMARY };
           default:
             // For any other case, just increment
@@ -550,11 +556,17 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         // Define the donor UI slide progression in reverse
         switch (prev.step) {
           case SlideNames.SUMMARY:
+            // From summary, go back to financial
             return { ...prev, step: SlideNames.FINANCIAL };
           case SlideNames.FINANCIAL:
+            // From financial, go back to people
             return { ...prev, step: SlideNames.PEOPLE };
           case SlideNames.PEOPLE:
+            // From people, go back to meals
             return { ...prev, step: SlideNames.MEALS };
+          case SlideNames.MEALS:
+            // From meals, go back to intro
+            return { ...prev, step: SlideNames.DONOR_INTRO };
           default:
             // For any other case, just decrement
             break;
@@ -600,7 +612,16 @@ resetDonation() {
  * Check if current slide is the first content slide
  */
 isFirstSlide() {
-  return this.state.step <= SlideNames.DONOR_SUMMARY || this.state.step === SlideNames.MEALS;
+  const urlParams = new URLSearchParams(window.location.search);
+  const useDonorSlides = urlParams.get('donorUI') === 'true';
+  
+  if (useDonorSlides) {
+    // For donor UI, the intro slide is the first content slide
+    return this.state.step === SlideNames.DONOR_INTRO;
+  } else {
+    // For standard UI, donor summary or meals are first content slides
+    return this.state.step <= SlideNames.DONOR_SUMMARY || this.state.step === SlideNames.MEALS;
+  }
 }
 
 /**
@@ -703,6 +724,15 @@ isLastSlide() {
             impact={state.impact}
             onReset={this.resetDonation}
             onShare={this.handleShare}
+            {...navigationProps}
+          />
+        )}
+        
+        {/* Donor intro slide */}
+        {state.step === SlideNames.DONOR_INTRO && state.impact && (
+          <DonorIntroSlide 
+            amount={state.amount}
+            firstName={sessionStorage.getItem('donorFirstName') || undefined}
             {...navigationProps}
           />
         )}
