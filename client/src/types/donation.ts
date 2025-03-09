@@ -56,9 +56,10 @@ export enum SlideNames {
   MEALS = 4,            // Shifted down 1 position
   PEOPLE = 5,           // Shifted down 1 position
   TIME_GIVING = 6,      // Shifted down 1 position
-  FOOD_RESCUE = 7,      // Shifted down 1 position
-  ENVIRONMENT = 8,      // Shifted down 1 position
-  FINANCIAL = 9,        // Shifted down 1 position
-  VOLUNTEER = 10,       // Shifted down 1 position
-  SUMMARY = 11          // Shifted down 1 position
+  FOOD_RESCUE_COMPARISON = 7, // New food rescue comparison slide (weight-based)
+  FOOD_RESCUE = 8,      // Shifted down 1 position
+  ENVIRONMENT = 9,      // Shifted down 1 position
+  FINANCIAL = 10,       // Shifted down 1 position
+  VOLUNTEER = 11,       // Shifted down 1 position
+  SUMMARY = 12          // Shifted down 1 position
 }

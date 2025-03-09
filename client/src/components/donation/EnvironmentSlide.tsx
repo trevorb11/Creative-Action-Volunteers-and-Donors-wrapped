@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
-import { Leaf, Scale, Dog, Cat, Baby, Fish, Truck, Apple } from "lucide-react";
+import { Leaf, Droplet, Car } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
 
 interface EnvironmentSlideProps {
@@ -20,33 +20,28 @@ export default function EnvironmentSlide({
   isFirstSlide,
   isLastSlide
 }: EnvironmentSlideProps) {
-  // State for the current comparison icon
-  const [comparisonIcon, setComparisonIcon] = useState<React.ReactNode>(null);
-  
-  // Get the appropriate icon based on the amount of food rescued
-  useEffect(() => {
-    const lbs = impact.foodRescued;
-    
-    if (lbs < 5) {
-      setComparisonIcon(<Apple className="h-16 w-16 text-[#8dc53e]" />);
-    } else if (lbs < 20) {
-      setComparisonIcon(<Cat className="h-16 w-16 text-[#8dc53e]" />);
-    } else if (lbs < 50) {
-      setComparisonIcon(<Baby className="h-16 w-16 text-[#8dc53e]" />);
-    } else if (lbs < 400) {
-      setComparisonIcon(<Dog className="h-16 w-16 text-[#8dc53e]" />);
-    } else if (lbs < 3000) {
-      setComparisonIcon(<Truck className="h-16 w-16 text-[#8dc53e]" />);
-    } else {
-      setComparisonIcon(<Fish className="h-16 w-16 text-[#8dc53e]" />);
+  // Container and item variants for staggered animation
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.6
+      }
     }
-  }, [impact.foodRescued]);
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
   
   return (
     <SlideLayout
-      title="Food Rescue Comparison"
+      title="Your Environmental Impact"
       variant="environment"
-      quote="When we rescue food, we're not just fighting hunger — we're saving the environment too."
+      quote="When we rescue food, we're not just fighting hunger — we're fighting climate change."
       onNext={onNext}
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
@@ -62,68 +57,66 @@ export default function EnvironmentSlide({
             damping: 20, 
             delay: 0.3 
           }}
-          className="mb-3"
         >
-          {comparisonIcon}
+          <Leaf className="h-16 w-16 text-[#8dc53e] mb-3" />
         </motion.div>
         
         <div className="text-center">
-          <p className="text-lg font-semibold text-[#414042]">Your donation rescued</p>
+          <p className="text-lg font-semibold text-[#414042]">Your donation helps the environment</p>
           <p className="text-4xl font-bold text-[#0c4428]">
-            {impact.foodRescued.toLocaleString()} pounds
+            Environmental Impact
           </p>
           <p className="text-sm text-[#414042] mt-2">
-            of fresh, nutritious food that would otherwise go to waste
+            By rescuing <span className="font-medium">{impact.foodRescued.toLocaleString()}</span> pounds of food, 
+            you're helping the planet too
           </p>
         </div>
         
-        {/* Weight Comparison Card */}
-        <motion.div 
-          className="bg-[#f3ffd7] p-5 sm:p-6 rounded-lg border border-[#8dc53e]/20 shadow-sm hover:shadow-md transition-shadow w-full"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <div className="flex flex-col items-center text-center">
-            <Scale className="h-10 w-10 text-[#8dc53e] mb-3" />
-            <h3 className="text-lg font-bold text-[#414042] mb-2">Weight Comparison</h3>
-            <p className="text-2xl font-bold text-[#0c4428] mb-1">
-              {impact.weightComparison || "That's equivalent to several large animals!"}
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#f3ffd7] border border-[#8dc53e]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <Leaf className="h-8 w-8 text-[#8dc53e] mb-2" />
+            <p className="text-sm font-medium text-[#414042]">CO² Prevented</p>
+            <p className="text-lg sm:text-xl font-semibold text-[#414042]">
+              <CountUpAnimation value={impact.co2Saved} duration={2} /> lbs
             </p>
-            <p className="text-sm text-[#414042] mt-2 italic">
-              {impact.weightComparisonText || "Your donation makes a big impact."}
+            <p className="text-xs text-[#414042] mt-1">
+              Equal to {impact.cars} car{parseInt(impact.cars) !== 1 ? 's' : ''} off the road
             </p>
-          </div>
+          </motion.div>
+          
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#e7f4f2] border border-[#227d7f]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <Droplet className="h-8 w-8 text-[#227d7f] mb-2" />
+            <p className="text-sm font-medium text-[#414042]">Water Saved</p>
+            <p className="text-lg sm:text-xl font-semibold text-[#414042]">
+              <CountUpAnimation value={impact.waterSaved} duration={2} /> gal
+            </p>
+            <p className="text-xs text-[#414042] mt-1">
+              Enough to fill {Math.round(impact.waterSaved / 33)} bathtubs
+            </p>
+          </motion.div>
         </motion.div>
         
-        {/* Food Type Distribution */}
         <motion.div 
-          className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full"
+          className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mt-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
+          transition={{ delay: 1.5, duration: 0.5 }}
         >
-          <h3 className="text-center text-[#0c4428] font-bold mb-3">
-            Food Rescued Includes
-          </h3>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-[#8dc53e]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Produce</p>
-              <p className="text-lg font-bold text-[#0c4428]">{impact.producePercentage}%</p>
-            </div>
-            <div className="bg-[#227d7f]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Dairy</p>
-              <p className="text-lg font-bold text-[#0c4428]">{impact.dairyPercentage}%</p>
-            </div>
-            <div className="bg-[#e97826]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Protein</p>
-              <p className="text-lg font-bold text-[#0c4428]">{impact.proteinPercentage}%</p>
-            </div>
-            <div className="bg-[#414042]/20 p-3 rounded-lg text-center">
-              <p className="text-sm font-medium text-[#414042]">Other</p>
-              <p className="text-lg font-bold text-[#0c4428]">{100 - impact.freshFoodPercentage}%</p>
-            </div>
-          </div>
+          <p className="text-center text-[#0c4428]">
+            Your donation helps us rescue food that would otherwise end up in landfills.
+            <span className="block mt-1 font-medium">Fighting hunger and climate change together.</span>
+          </p>
         </motion.div>
       </div>
     </SlideLayout>
