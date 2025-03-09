@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DonationImpact } from "@shared/schema";
+import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import { formatCurrency } from "@/lib/utils";
 import { apiRequest } from "@/lib/queryClient";

@@ -8,13 +8,13 @@ import MealsSlide from "@/components/donation/MealsSlide";
 import TimeGivingSlide from "@/components/donation/TimeGivingSlide";
 import PeopleSlide from "@/components/donation/PeopleSlide";
 import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
-import FoodRescueSlide from "@/components/donation/FoodRescueSlideNew";
+import FoodRescueSlide from "@/components/donation/SimpleFoodRescueSlide";
 import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
 import PartnerSlide from "@/components/donation/PartnerSlide";
 import SummarySlide from "@/components/donation/SummarySlide";
 import { toast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import type { DonationImpact as DonationImpactType } from "@shared/schema";
+import type { DonationImpact as DonationImpactType } from "@/types/donation";
 import { calculateDonationImpact } from "@/lib/donation-calculator";
 import { SLIDE_CONFIG } from "@/lib/constants";
 
