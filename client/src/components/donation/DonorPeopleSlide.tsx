@@ -3,6 +3,7 @@ import { Users, UserCheck, HandHeart } from "lucide-react";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import CountUpAnimation from "./CountUpAnimation";
+import { useState, useRef, useEffect } from "react";
 
 interface DonorPeopleSlideProps {
   impact: DonationImpact;
@@ -19,6 +20,8 @@ export default function DonorPeopleSlide({
   isFirstSlide,
   isLastSlide
 }: DonorPeopleSlideProps) {
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const peopleRef = useRef<HTMLDivElement>(null);
   
   // Container and item variants for staggered animation
   const containerVariants = {
@@ -36,6 +39,27 @@ export default function DonorPeopleSlide({
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
+
+  // Animate the people dots
+  useEffect(() => {
+    // Animate the people counter with growing dots
+    if (peopleRef.current) {
+      const animation = peopleRef.current.animate(
+        [{ width: '0%' }, { width: '85%' }],
+        {
+          duration: 2000,
+          fill: 'forwards',
+          easing: 'ease-out',
+        }
+      );
+
+      animation.onfinish = () => setAnimationComplete(true);
+
+      return () => {
+        animation.cancel();
+      };
+    }
+  }, []);
 
   return (
     <SlideLayout
@@ -77,6 +101,27 @@ export default function DonorPeopleSlide({
             That's {impact.peoplePercentage} of our neighbors in need
           </p>
         </motion.div>
+        
+        {/* People visualization with dots */}
+        <div className="w-full h-10 bg-[#e0f0ea]/30 rounded-lg mt-4 mb-6 relative overflow-hidden">
+          <div 
+            ref={peopleRef} 
+            className="h-10 rounded-lg flex items-center justify-start overflow-hidden"
+            style={{ width: '0%' }}
+          >
+            <div className="flex flex-wrap">
+              {Array.from({ length: Math.min(100, impact.peopleServed) }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="h-2 w-2 rounded-full mx-1 my-1 bg-white"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.01 * i + 1 }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
       
       <motion.div
