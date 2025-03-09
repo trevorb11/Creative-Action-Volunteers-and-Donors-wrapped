@@ -373,12 +373,26 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     setTimeout(() => {
       // Calculate impact locally for faster response
       const impact = calculateDonationImpact(amount);
-      // For email donors, go to donor summary, otherwise go to MEALS
-      const nextStep = email ? SlideNames.DONOR_SUMMARY : SlideNames.MEALS;
+      
+      // Check if we're using donor UI
+      const urlParams = new URLSearchParams(window.location.search);
+      const useDonorSlides = urlParams.get('donorUI') === 'true';
+      
+      // Set the appropriate next step based on interface type
+      let nextStep;
+      if (useDonorSlides) {
+        // For donor UI, always go to donor meals slide after loading
+        nextStep = SlideNames.MEALS;
+      } else {
+        // For standard UI, go to donor summary for email donors, otherwise meals
+        nextStep = email ? SlideNames.DONOR_SUMMARY : SlideNames.MEALS;
+      }
+      
       this.setState({
         impact,
         isLoading: false,
-        step: nextStep
+        step: nextStep,
+        amount: amount  // Ensure amount is stored in state
       });
 
       // Store email in sessionStorage for components that need it
@@ -391,6 +405,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
 
       // Also call the server for more accurate impact calculation
       this.calculateImpact(amount);
+      
+      console.log("Moving to next step:", nextStep, "with donorUI =", useDonorSlides);
     }, SLIDE_CONFIG.progressDuration);
   }
   
@@ -409,11 +425,28 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         email: email || ''
       };
       
-      const res = await apiRequest('POST', '/api/log-donation', donationData);
-      const data = await res.json();
-      console.log('Donation logged:', data);
+      // Store the email in state for use elsewhere
+      if (email) {
+        this.setState(prevState => ({
+          ...prevState,
+          donorEmail: email
+        }));
+      }
+      
+      // Log the donation but don't wait for it
+      apiRequest('POST', '/api/log-donation', donationData)
+        .then(res => res.json())
+        .then(data => {
+          console.log('Donation logged successfully:', data);
+        })
+        .catch(error => {
+          console.error('Failed to log donation, but continuing:', error);
+          // Don't interrupt the UI flow on logging error
+        });
+      
     } catch (error) {
-      console.error('Failed to log donation:', error);
+      // Don't let errors here affect the UI flow
+      console.error('Failed to prepare donation logging:', error);
     }
   }
   
@@ -425,16 +458,31 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       const res = await apiRequest('POST', '/api/calculate-impact', { amount });
       const data = await res.json();
       
-      this.setState({ 
+      // Update impact data but don't change the current step
+      this.setState(prevState => ({ 
         impact: data.impact,
-        isLoading: false
-      });
-    } catch (error) {
-      this.setState({ 
-        error: 'Failed to calculate impact. Please try again.',
         isLoading: false,
-        step: SlideNames.WELCOME
+        // Maintain the current step
+        step: prevState.step
+      }));
+      
+      console.log("Updated impact data from server, maintaining step:", this.state.step);
+    } catch (error) {
+      console.error("Failed to calculate impact:", error);
+      // Show error toast but don't reset the flow
+      toast({
+        title: "Impact Calculation",
+        description: "We had trouble calculating exact impact numbers. Using estimated values instead.",
+        variant: "destructive"
       });
+      
+      // Keep current state but mark that there was an error
+      this.setState(prevState => ({ 
+        error: 'Failed to calculate impact. Using estimated values.',
+        isLoading: false,
+        // Maintain the current step
+        step: prevState.step
+      }));
     }
   }
   
@@ -446,6 +494,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     const urlParams = new URLSearchParams(window.location.search);
     const useDonorSlides = urlParams.get('donorUI') === 'true';
     
+    console.log("Going to next slide from current step:", this.state.step, "using donor UI:", useDonorSlides);
+    
     this.setState(prev => {
       // If we're at the last slide, don't advance
       if (prev.step >= SlideNames.SUMMARY) {
@@ -454,13 +504,23 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       
       // If using donor slides, handle donor-specific navigation logic
       if (useDonorSlides) {
-        // From PEOPLE, go to FINANCIAL instead of TIME_GIVING
-        if (prev.step === SlideNames.PEOPLE) {
-          return { ...prev, step: SlideNames.FINANCIAL };
-        }
-        // From FINANCIAL, go to VOLUNTEER
-        if (prev.step === SlideNames.FINANCIAL) {
-          return { ...prev, step: SlideNames.VOLUNTEER };
+        // Define the donor UI slide progression
+        switch (prev.step) {
+          case SlideNames.WELCOME:
+            // Don't override the loading screen logic
+            break;
+          case SlideNames.LOADING:
+            // Don't override the loading logic
+            break;
+          case SlideNames.MEALS:
+            return { ...prev, step: SlideNames.PEOPLE };
+          case SlideNames.PEOPLE:
+            return { ...prev, step: SlideNames.FINANCIAL };
+          case SlideNames.FINANCIAL:
+            return { ...prev, step: SlideNames.SUMMARY };
+          default:
+            // For any other case, just increment
+            break;
         }
       }
       
@@ -476,26 +536,32 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     const urlParams = new URLSearchParams(window.location.search);
     const useDonorSlides = urlParams.get('donorUI') === 'true';
     
+    console.log("Going to previous slide from current step:", this.state.step, "using donor UI:", useDonorSlides);
+    
     this.setState(prev => {
-      // If we're at the donor summary or earlier, don't go back
-      if (prev.step <= SlideNames.DONOR_SUMMARY) {
+      // If we're at the first slide, don't go back
+      if (prev.step <= SlideNames.DONOR_SUMMARY || prev.step === SlideNames.WELCOME) {
         return prev;
       }
       
       // If using donor slides, handle donor-specific navigation logic
       if (useDonorSlides) {
-        // From VOLUNTEER, go back to FINANCIAL
-        if (prev.step === SlideNames.VOLUNTEER) {
-          return { ...prev, step: SlideNames.FINANCIAL };
-        }
-        // From FINANCIAL, go back to PEOPLE
-        if (prev.step === SlideNames.FINANCIAL) {
-          return { ...prev, step: SlideNames.PEOPLE };
+        // Define the donor UI slide progression in reverse
+        switch (prev.step) {
+          case SlideNames.SUMMARY:
+            return { ...prev, step: SlideNames.FINANCIAL };
+          case SlideNames.FINANCIAL:
+            return { ...prev, step: SlideNames.PEOPLE };
+          case SlideNames.PEOPLE:
+            return { ...prev, step: SlideNames.MEALS };
+          default:
+            // For any other case, just decrement
+            break;
         }
       }
       
-      // For meals slide, go back to donor summary if we have a donor email
-      if (prev.step === SlideNames.MEALS && prev.donorEmail) {
+      // For meals slide in standard UI, go back to donor summary if we have a donor email
+      if (!useDonorSlides && prev.step === SlideNames.MEALS && prev.donorEmail) {
         return { ...prev, step: SlideNames.DONOR_SUMMARY };
       }
       
