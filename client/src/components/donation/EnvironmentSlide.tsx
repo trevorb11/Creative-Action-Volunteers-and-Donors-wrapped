@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
-import { Leaf, Scale, Dog, Cat, Baby, Fish, Truck, Weight } from "lucide-react";
+import { Leaf, Scale, Dog, Cat, Baby, Fish, Truck, Apple } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
 
 interface EnvironmentSlideProps {
@@ -21,14 +21,14 @@ export default function EnvironmentSlide({
   isLastSlide
 }: EnvironmentSlideProps) {
   // State for the current comparison icon
-  const [comparisonIcon, setComparisonIcon] = useState<JSX.Element>(<Scales className="h-16 w-16 text-[#8dc53e]" />);
+  const [comparisonIcon, setComparisonIcon] = useState<React.ReactNode>(null);
   
   // Get the appropriate icon based on the amount of food rescued
   useEffect(() => {
     const lbs = impact.foodRescued;
     
     if (lbs < 5) {
-      setComparisonIcon(<Weight className="h-16 w-16 text-[#8dc53e]" />);
+      setComparisonIcon(<Apple className="h-16 w-16 text-[#8dc53e]" />);
     } else if (lbs < 20) {
       setComparisonIcon(<Cat className="h-16 w-16 text-[#8dc53e]" />);
     } else if (lbs < 50) {
@@ -38,26 +38,9 @@ export default function EnvironmentSlide({
     } else if (lbs < 3000) {
       setComparisonIcon(<Truck className="h-16 w-16 text-[#8dc53e]" />);
     } else {
-      setComparisonIcon(<Whale className="h-16 w-16 text-[#8dc53e]" />);
+      setComparisonIcon(<Fish className="h-16 w-16 text-[#8dc53e]" />);
     }
   }, [impact.foodRescued]);
-  
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.6
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  };
   
   return (
     <SlideLayout
@@ -102,13 +85,13 @@ export default function EnvironmentSlide({
           transition={{ delay: 0.8, duration: 0.5 }}
         >
           <div className="flex flex-col items-center text-center">
-            <Scales className="h-10 w-10 text-[#8dc53e] mb-3" />
+            <Scale className="h-10 w-10 text-[#8dc53e] mb-3" />
             <h3 className="text-lg font-bold text-[#414042] mb-2">Weight Comparison</h3>
             <p className="text-2xl font-bold text-[#0c4428] mb-1">
-              {impact.weightComparison}
+              {impact.weightComparison || "That's equivalent to several large animals!"}
             </p>
             <p className="text-sm text-[#414042] mt-2 italic">
-              {impact.weightComparisonText}
+              {impact.weightComparisonText || "Your donation makes a big impact."}
             </p>
           </div>
         </motion.div>
