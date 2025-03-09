@@ -90,11 +90,11 @@ export default function DonorPeopleSlide({
           <h3 className="text-lg sm:text-xl text-[#414042] font-medium mb-2">
             Your donation serves
           </h3>
-          <div className="text-3xl sm:text-4xl font-bold text-white">
+          <div className="text-3xl sm:text-4xl font-bold text-[#0c4428]">
             <CountUpAnimation
               value={impact.peopleServed} 
               isCurrency={false}
-              className="text-white"
+              className="text-[#0c4428]"
             /> people
           </div>
           <p className="text-[#414042] mt-2 text-sm sm:text-base">
@@ -113,7 +113,7 @@ export default function DonorPeopleSlide({
               {Array.from({ length: Math.min(100, impact.peopleServed) }).map((_, i) => (
                 <motion.div
                   key={i}
-                  className="h-2 w-2 rounded-full mx-1 my-1 bg-white"
+                  className="h-2 w-2 rounded-full mx-1 my-1 bg-[#0c4428]"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.01 * i + 1 }}

@@ -42,7 +42,7 @@ export default function SlideLayout({
       <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
         <Card className="w-full overflow-hidden">
           <CardHeader className={`text-center ${headerBgColor} text-white rounded-t-lg py-4 md:py-6`}>
-            <CardTitle className="text-2xl md:text-3xl font-bold">{title}</CardTitle>
+            <CardTitle className="text-2xl md:text-3xl font-bold text-white">{title}</CardTitle>
             {subtitle && (
               <CardDescription className="text-white opacity-90">{subtitle}</CardDescription>
             )}

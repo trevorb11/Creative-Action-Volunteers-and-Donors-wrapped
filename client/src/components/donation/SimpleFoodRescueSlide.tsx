@@ -57,12 +57,12 @@ export default function SimpleFoodRescueSlide({
             delay: 0.3 
           }}
         >
-          <ShoppingBag className="h-16 w-16 text-white mb-3" />
+          <ShoppingBag className="h-16 w-16 text-[#dd6b20] mb-3" />
         </motion.div>
         
         <div className="text-center">
           <p className="text-lg font-semibold text-[#414042]">Your donation rescued</p>
-          <p className="text-4xl font-bold text-white">
+          <p className="text-4xl font-bold text-[#dd6b20]">
             <CountUpAnimation value={impact.foodRescued} /> lbs
           </p>
           <p className="text-sm text-[#414042] mt-2">
@@ -91,7 +91,7 @@ export default function SimpleFoodRescueSlide({
             className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#f0f9f4] border border-[#0c4428]/20 shadow-sm hover:shadow-md transition-shadow"
             variants={itemVariants}
           >
-            <Leaf className="h-8 w-8 text-white mb-2" />
+            <Leaf className="h-8 w-8 text-[#0c4428] mb-2" />
             <p className="text-sm font-medium text-[#414042]">Environmental Impact</p>
             <p className="text-sm sm:text-base text-center font-semibold text-[#414042] mt-1">
               Prevented {impact.co2Saved.toLocaleString()} lbs of CO₂ emissions
