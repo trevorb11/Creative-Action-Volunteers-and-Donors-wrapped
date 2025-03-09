@@ -3,8 +3,7 @@ import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { DonationImpact } from "@shared/schema";
 import SlideLayout from "./SlideLayout";
 import { SLIDE_CONFIG } from "@/lib/constants";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Utensils } from "lucide-react";
 
 interface MealsSlideProps {
   impact: DonationImpact;
@@ -23,7 +22,6 @@ export default function MealsSlide({
 }: MealsSlideProps) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
-  const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const controls = animate(count, impact.mealsProvided, {
@@ -34,27 +32,9 @@ export default function MealsSlide({
     return controls.stop;
   }, [count, impact.mealsProvided]);
 
-  useEffect(() => {
-    if (barRef.current) {
-      const animation = barRef.current.animate(
-        [{ width: '0%' }, { width: '80%' }],
-        {
-          duration: SLIDE_CONFIG.counterDuration,
-          fill: 'forwards',
-          easing: 'ease-out',
-        }
-      );
-
-      return () => {
-        animation.cancel();
-      };
-    }
-  }, []);
-
   return (
     <SlideLayout
       title="Your Donation Provides"
-      titleClassName="text-white" // Add white color to title
       variant="meals"
       quote="Community Food Share distributes enough food for nearly 30,000 meals each day."
       onNext={onNext}
@@ -62,39 +42,41 @@ export default function MealsSlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="text-3xl sm:text-6xl md:text-8xl font-heading font-extrabold mb-1 sm:mb-2 md:mb-4">
-        <motion.span>{rounded}</motion.span>
-      </div>
-
-      <h3 className="text-lg sm:text-2xl md:text-4xl font-heading mb-3 sm:mb-5 md:mb-8">Nutritious Meals</h3>
-
-      <p className="text-sm sm:text-lg md:text-xl mb-3 sm:mb-5 md:mb-8">
-        That's enough to feed {impact.peopleFed} for {impact.daysFed}!
-      </p>
-
-      <div className="w-full bg-white/20 h-2 sm:h-3 md:h-4 rounded-full mb-4 sm:mb-6 md:mb-10">
-        <div ref={barRef} className="bg-white h-2 sm:h-3 md:h-4 rounded-full w-0"></div>
-      </div>
-
-      <div className="flex justify-between w-full">
-        {onPrevious && (
-          <Button 
-            onClick={onPrevious} 
-            className="p-1 sm:p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
-            size="icon"
-          >
-            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
-        )}
-        {onNext && (
-          <Button 
-            onClick={onNext} 
-            className="p-1 sm:p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors ml-auto"
-            size="icon"
-          >
-            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
-        )}
+      <div className="flex flex-col items-center space-y-5">
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 260, 
+            damping: 20, 
+            delay: 0.3 
+          }}
+        >
+          <Utensils className="h-16 w-16 text-[#227d7f] mb-3" />
+        </motion.div>
+        
+        <div className="text-center">
+          <p className="text-lg font-semibold text-[#414042]">Your donation provides</p>
+          <p className="text-4xl font-bold text-[#0c4428]">
+            <motion.span>{rounded}</motion.span> Meals
+          </p>
+          <p className="text-sm text-[#414042] mt-2">
+            That's enough to feed {impact.peopleFed} people for {impact.daysFed}!
+          </p>
+        </div>
+        
+        <motion.div 
+          className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mt-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.5 }}
+        >
+          <p className="text-center text-[#0c4428]">
+            Your donation helps us provide nutritious food to families in need.
+            <span className="block mt-1 font-medium">Every dollar makes a difference.</span>
+          </p>
+        </motion.div>
       </div>
     </SlideLayout>
   );

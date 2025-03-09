@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { DonationImpact } from "@shared/schema";
 import SlideLayout from "./SlideLayout";
-import { SLIDE_CONFIG } from "@/lib/constants";
+import { Users } from "lucide-react";
+import CountUpAnimation from "./CountUpAnimation";
 
 interface PeopleSlideProps {
   impact: DonationImpact;
@@ -31,126 +32,106 @@ export default function PeopleSlide({
     return () => controls.stop();
   }, [count, impact.peopleServed]);
   
-  // Extract percentage value
-  const peoplePercentage = parseFloat(impact.peoplePercentage.replace('%', ''));
+  // Container and item variants for staggered animation
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.6
+      }
+    }
+  };
   
-  // Calculate width for progress bar
-  const progressWidth = `${Math.min(100, Math.max(peoplePercentage, 3))}%`;
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
   
   return (
     <SlideLayout
       title="You Helped Serve"
-      titleClassName="text-white"
       variant="people"
+      quote="Every number represents a real person with a name, a story, and hope for tomorrow."
       onNext={onNext}
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      {/* Main count */}
-      <div className="mb-6 sm:mb-8 md:mb-10">
-        <div className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-bold text-center tracking-tight">
-          <motion.span>{rounded}</motion.span>
-        </div>
-        <p className="text-xl sm:text-2xl md:text-3xl font-medium text-center mt-1 sm:mt-2">
-          People in Our Community
-        </p>
-      </div>
-      
-      {/* Visual representation - progress bar style */}
-      <div className="mb-6 sm:mb-8 md:mb-12">
-        <div className="flex justify-between text-xs sm:text-sm mb-1 sm:mb-2">
-          <span>0 people</span>
-          <span>60,000 people</span>
-        </div>
+      <div className="flex flex-col items-center space-y-5">
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 260, 
+            damping: 20, 
+            delay: 0.3 
+          }}
+        >
+          <Users className="h-16 w-16 text-[#0c4428] mb-3" />
+        </motion.div>
         
-        <div className="h-4 sm:h-5 md:h-6 bg-white/10 rounded-full overflow-hidden relative">
-          {/* Background track */}
-          <div className="absolute inset-0 flex">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <div 
-                key={i} 
-                className="h-full flex-1 border-r border-white/20 last:border-0"
-              />
-            ))}
-          </div>
-          
-          {/* Progress indicator */}
-          <motion.div 
-            className="h-full bg-white rounded-full"
-            initial={{ width: "0%" }}
-            animate={{ width: progressWidth }}
-            transition={{ 
-              duration: 1.5, 
-              ease: "easeOut",
-              delay: 0.8
-            }}
-          >
-            <div className="h-full w-full bg-gradient-to-r from-emerald-400 to-teal-500"></div>
-          </motion.div>
-          
-          {/* Animated dot at end of progress */}
-          <motion.div
-            className="absolute top-0 h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 rounded-full bg-white shadow-md flex items-center justify-center transform -translate-x-1/2"
-            initial={{ left: "0%" }}
-            animate={{ left: progressWidth }}
-            transition={{ 
-              duration: 1.5, 
-              ease: "easeOut",
-              delay: 0.8
-            }}
-          >
-            <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 md:h-3 md:w-3 rounded-full bg-emerald-500"></div>
-          </motion.div>
-        </div>
-        
-        <div className="mt-1 text-right">
-          <span className="text-xs sm:text-sm opacity-80">Boulder & Broomfield Counties</span>
-        </div>
-      </div>
-
-      {/* Percentage callout */}
-      <motion.div 
-        className="bg-white/5 border border-white/10 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 md:mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.7 }}
-      >
         <div className="text-center">
-          <p className="text-base sm:text-lg md:text-xl">
-            Your donation helped feed <span className="font-bold">{impact.peoplePercentage}</span> of those served
+          <p className="text-lg font-semibold text-[#414042]">Your donation serves</p>
+          <p className="text-4xl font-bold text-[#0c4428]">
+            <motion.span>{rounded}</motion.span> People
           </p>
-          
-          <div className="mt-2 sm:mt-3 grid grid-cols-3 gap-2 sm:gap-4">
-            <div className="text-center">
-              <p className="text-lg sm:text-2xl md:text-3xl font-bold">{impact.mealsProvided}</p>
-              <p className="text-xs sm:text-sm">Meals Provided</p>
-            </div>
-            
-            <div className="text-center border-x border-white/10">
-              <p className="text-lg sm:text-2xl md:text-3xl font-bold">{impact.daysFed}</p>
-              <p className="text-xs sm:text-sm">Days of Food</p>
-            </div>
-            
-            <div className="text-center">
-              <p className="text-lg sm:text-2xl md:text-3xl font-bold">{impact.foodRescued.toFixed(0)}</p>
-              <p className="text-xs sm:text-sm">lbs of Food</p>
-            </div>
-          </div>
+          <p className="text-sm text-[#414042] mt-2">
+            That's <span className="font-medium">{impact.peoplePercentage}</span> of those served in Boulder & Broomfield Counties
+          </p>
         </div>
-      </motion.div>
-
-      {/* Impact quote */}
-      <motion.div
-        className="bg-white/10 p-3 sm:p-4 md:p-5 rounded-xl text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.7, delay: 1.5 }}
-      >
-        <p className="text-sm sm:text-base md:text-lg italic">
-          "Every number represents a real person with a name, a story, and hope for tomorrow. Your support made a direct impact on their lives."
-        </p>
-      </motion.div>
+        
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#f3ffd7] border border-[#8dc53e]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <p className="text-sm font-medium text-[#414042]">Meals Provided</p>
+            <p className="text-lg sm:text-xl font-semibold text-[#414042]">
+              <CountUpAnimation value={impact.mealsProvided} duration={2} />
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#e7f4f2] border border-[#227d7f]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <p className="text-sm font-medium text-[#414042]">Days of Food</p>
+            <p className="text-lg sm:text-xl font-semibold text-[#414042]">
+              {impact.daysFed}
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#f0f9f4] border border-[#0c4428]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <p className="text-sm font-medium text-[#414042]">Pounds of Food</p>
+            <p className="text-lg sm:text-xl font-semibold text-[#414042]">
+              <CountUpAnimation value={parseInt(impact.foodRescued.toFixed(0))} duration={2} />
+            </p>
+          </motion.div>
+        </motion.div>
+        
+        <motion.div 
+          className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mt-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.5 }}
+        >
+          <p className="text-center text-[#0c4428]">
+            Your donation directly impacts our ability to serve families in need in our community.
+            <span className="block mt-1 font-medium">Together, we're building a hunger-free community.</span>
+          </p>
+        </motion.div>
+      </div>
     </SlideLayout>
   );
 }
