@@ -139,10 +139,12 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
     this.state = {
       amount: 0,
       step: SlideNames.WELCOME,
+      previousStep: SlideNames.WELCOME,
       impact: null,
       isLoading: false,
       error: null,
-      donorEmail: null
+      donorEmail: null,
+      transitionDirection: 'forward'
     };
     
     // Bind methods
@@ -521,6 +523,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         return prevState;
       }
       
+      let nextStep = prevState.step;
+      
       // If using donor slides, handle donor-specific navigation logic
       if (useDonorSlides) {
         // Define the donor UI slide progression
@@ -533,29 +537,42 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             break;
           case SlideNames.DONOR_INTRO:
             // From intro, go to meals
-            return { ...prevState, step: SlideNames.MEALS };
+            nextStep = SlideNames.MEALS;
+            break;
           case SlideNames.MEALS:
             // From meals, go to people
-            return { ...prevState, step: SlideNames.PEOPLE };
+            nextStep = SlideNames.PEOPLE;
+            break;
           case SlideNames.PEOPLE:
             // From people, go to financial
-            return { ...prevState, step: SlideNames.FINANCIAL };
+            nextStep = SlideNames.FINANCIAL;
+            break;
           case SlideNames.FINANCIAL:
             // From financial, go to summary (skip other slides)
-            return { ...prevState, step: SlideNames.SUMMARY };
+            nextStep = SlideNames.SUMMARY;
+            break;
           default:
             // For any other case, just increment
+            nextStep = prevState.step + 1;
             break;
+        }
+      } else {
+        // For standard UI, skip the redundant FOOD_RESCUE slide
+        if (prevState.step === SlideNames.FOOD_RESCUE_COMPARISON) {
+          // Skip the redundant Food Rescue slide and go straight to Environment
+          nextStep = SlideNames.ENVIRONMENT;
+        } else {
+          // Default behavior - move to next slide
+          nextStep = prevState.step + 1;
         }
       }
       
-      // For standard UI, skip the redundant FOOD_RESCUE slide
-      if (prevState.step === SlideNames.FOOD_RESCUE_COMPARISON) {
-        // Skip the redundant Food Rescue slide and go straight to Environment
-        return { ...prevState, step: SlideNames.ENVIRONMENT };
-      }
-      
-      return { ...prevState, step: prevState.step + 1 };
+      return { 
+        ...prevState, 
+        previousStep: prevState.step,
+        step: nextStep,
+        transitionDirection: 'forward'
+      };
     });
   }
   
@@ -580,40 +597,54 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
         return prevState;
       }
       
+      let nextStep = prevState.step;
+      
       // If using donor slides, handle donor-specific navigation logic
       if (useDonorSlides) {
         // Define the donor UI slide progression in reverse
         switch (prevState.step) {
           case SlideNames.SUMMARY:
             // From summary, go back to financial
-            return { ...prevState, step: SlideNames.FINANCIAL };
+            nextStep = SlideNames.FINANCIAL;
+            break;
           case SlideNames.FINANCIAL:
             // From financial, go back to people
-            return { ...prevState, step: SlideNames.PEOPLE };
+            nextStep = SlideNames.PEOPLE;
+            break;
           case SlideNames.PEOPLE:
             // From people, go back to meals
-            return { ...prevState, step: SlideNames.MEALS };
+            nextStep = SlideNames.MEALS;
+            break;
           case SlideNames.MEALS:
             // From meals, go back to intro
-            return { ...prevState, step: SlideNames.DONOR_INTRO };
+            nextStep = SlideNames.DONOR_INTRO;
+            break;
           default:
             // For any other case, just decrement
+            nextStep = prevState.step - 1;
             break;
+        }
+      } else {
+        // For meals slide in standard UI, go back to donor summary if we have a donor email
+        if (prevState.step === SlideNames.MEALS && prevState.donorEmail) {
+          nextStep = SlideNames.DONOR_SUMMARY;
+        }
+        // Special case for the Environment slide to skip the redundant FOOD_RESCUE slide
+        else if (prevState.step === SlideNames.ENVIRONMENT) {
+          // Go back to Food Rescue Comparison, skipping the redundant food rescue slide
+          nextStep = SlideNames.FOOD_RESCUE_COMPARISON;
+        } else {
+          // Default behavior - move to previous slide
+          nextStep = prevState.step - 1;
         }
       }
       
-      // For meals slide in standard UI, go back to donor summary if we have a donor email
-      if (!useDonorSlides && prevState.step === SlideNames.MEALS && prevState.donorEmail) {
-        return { ...prevState, step: SlideNames.DONOR_SUMMARY };
-      }
-      
-      // Also add a special case for the Environment slide to skip the redundant FOOD_RESCUE slide
-      if (prevState.step === SlideNames.ENVIRONMENT) {
-        // Go back to Food Rescue Comparison, skipping the redundant food rescue slide
-        return { ...prevState, step: SlideNames.FOOD_RESCUE_COMPARISON };
-      }
-      
-      return { ...prevState, step: prevState.step - 1 };
+      return {
+        ...prevState,
+        previousStep: prevState.step,
+        step: nextStep,
+        transitionDirection: 'backward'
+      };
     });
   }
 
@@ -627,11 +658,13 @@ resetDonation() {
   
   this.setState({
     amount: 0,
+    previousStep: this.state.step,
     step: SlideNames.WELCOME,
     impact: null,
     isLoading: false,
     error: null,
-    donorEmail: null
+    donorEmail: null,
+    transitionDirection: 'backward'
   });
   
   if (useDonorSlides) {
@@ -736,105 +769,114 @@ isLastSlide() {
     const urlParams = new URLSearchParams(window.location.search);
     const useDonorSlides = urlParams.get('donorUI') === 'true';
 
+    // Function to render the appropriate slide content based on the current step
+    const renderSlideContent = () => {
+      switch (state.step) {
+        case SlideNames.WELCOME:
+          return useDonorSlides ? 
+            <DonorWelcomeSlide onSubmit={this.handleFormSubmit} /> :
+            <WelcomeScreen onSubmit={this.handleFormSubmit} />;
+        
+        case SlideNames.LOADING:
+          return useDonorSlides ?
+            <DonorLoadingScreen /> :
+            <LoadingScreen />;
+        
+        case SlideNames.DONOR_SUMMARY:
+          return state.impact && (
+            <DonorSummarySlide 
+              amount={state.amount}
+              impact={state.impact}
+              onReset={this.resetDonation}
+              onShare={this.handleShare}
+              {...navigationProps}
+            />
+          );
+        
+        case SlideNames.DONOR_INTRO:
+          return state.impact && (
+            <DonorIntroSlide 
+              amount={state.amount}
+              firstName={sessionStorage.getItem('donorFirstName') || undefined}
+              {...navigationProps}
+            />
+          );
+        
+        case SlideNames.MEALS:
+          return state.impact && (
+            useDonorSlides ?
+              <DonorMealsSlide impact={state.impact} {...navigationProps} /> :
+              <MealsSlide impact={state.impact} {...navigationProps} />
+          );
+        
+        case SlideNames.PEOPLE:
+          return state.impact && (
+            useDonorSlides ?
+              <DonorPeopleSlide impact={state.impact} {...navigationProps} /> :
+              <PeopleSlide impact={state.impact} {...navigationProps} />
+          );
+        
+        case SlideNames.TIME_GIVING:
+          return state.impact && (
+            <TimeGivingSlide 
+              impact={state.impact} 
+              donorEmail={state.donorEmail}
+              amount={state.amount}
+              {...navigationProps} 
+            />
+          );
+        
+        case SlideNames.FOOD_RESCUE_COMPARISON:
+          return state.impact && (
+            <FoodRescueComparison impact={state.impact} {...navigationProps} />
+          );
+        
+        case SlideNames.FOOD_RESCUE:
+          return state.impact && (
+            <FoodRescueSlide impact={state.impact} {...navigationProps} />
+          );
+        
+        case SlideNames.ENVIRONMENT:
+          return state.impact && (
+            <EnvironmentSlide impact={state.impact} {...navigationProps} />
+          );
+        
+        case SlideNames.FINANCIAL:
+          return state.impact && (
+            <DonorFinancialSlide 
+              impact={state.impact} 
+              amount={state.amount}
+              {...navigationProps} 
+            />
+          );
+        
+        case SlideNames.VOLUNTEER:
+          return <NeighborQuotesSlide {...navigationProps} />;
+        
+        case SlideNames.SUMMARY:
+          return state.impact && (
+            <SummarySlide 
+              amount={state.amount} 
+              impact={state.impact} 
+              onReset={this.resetDonation}
+              onShare={this.handleShare}
+              {...navigationProps}
+            />
+          );
+        
+        default:
+          return <div>Invalid step</div>;
+      }
+    };
+
     return (
       <div className="min-h-screen relative font-sans overflow-hidden">
-        {/* Welcome screen */}
-        {state.step === SlideNames.WELCOME && (
-          useDonorSlides ? 
-            <DonorWelcomeSlide onSubmit={this.handleFormSubmit} /> :
-            <WelcomeScreen onSubmit={this.handleFormSubmit} />
-        )}
-
-        {/* Loading screen */}
-        {state.step === SlideNames.LOADING && (
-          useDonorSlides ?
-            <DonorLoadingScreen /> :
-            <LoadingScreen />
-        )}
-
-        {/* Donor summary slide */}
-        {state.step === SlideNames.DONOR_SUMMARY && state.impact && (
-          <DonorSummarySlide 
-            amount={state.amount}
-            impact={state.impact}
-            onReset={this.resetDonation}
-            onShare={this.handleShare}
-            {...navigationProps}
-          />
-        )}
-        
-        {/* Donor intro slide */}
-        {state.step === SlideNames.DONOR_INTRO && state.impact && (
-          <DonorIntroSlide 
-            amount={state.amount}
-            firstName={sessionStorage.getItem('donorFirstName') || undefined}
-            {...navigationProps}
-          />
-        )}
-
-        {/* Meals slide */}
-        {state.step === SlideNames.MEALS && state.impact && (
-          useDonorSlides ?
-            <DonorMealsSlide impact={state.impact} {...navigationProps} /> :
-            <MealsSlide impact={state.impact} {...navigationProps} />
-        )}
-
-        {/* People slide */}
-        {state.step === SlideNames.PEOPLE && state.impact && (
-          useDonorSlides ?
-            <DonorPeopleSlide impact={state.impact} {...navigationProps} /> :
-            <PeopleSlide impact={state.impact} {...navigationProps} />
-        )}
-
-        {/* Time giving slide */}
-        {state.step === SlideNames.TIME_GIVING && state.impact && (
-          <TimeGivingSlide 
-            impact={state.impact} 
-            donorEmail={state.donorEmail}
-            amount={state.amount}
-            {...navigationProps} 
-          />
-        )}
-        
-        {/* Food rescue comparison slide (weight-based) */}
-        {state.step === SlideNames.FOOD_RESCUE_COMPARISON && state.impact && (
-          <FoodRescueComparison impact={state.impact} {...navigationProps} />
-        )}
-
-        {/* Food rescue slide */}
-        {state.step === SlideNames.FOOD_RESCUE && state.impact && (
-          <FoodRescueSlide impact={state.impact} {...navigationProps} />
-        )}
-
-        {/* Environment slide */}
-        {state.step === SlideNames.ENVIRONMENT && state.impact && (
-          <EnvironmentSlide impact={state.impact} {...navigationProps} />
-        )}
-        
-        {/* Financial benefit slide (donor-specific) */}
-        {state.step === SlideNames.FINANCIAL && state.impact && (
-          <DonorFinancialSlide 
-            impact={state.impact} 
-            amount={state.amount}
-            {...navigationProps} 
-          />
-        )}
-
-        {/* Volunteer / Quotes slide */}
-        {state.step === SlideNames.VOLUNTEER && (
-          <NeighborQuotesSlide {...navigationProps} />
-        )}
-
-        {/* Summary slide */}
-        {state.step === SlideNames.SUMMARY && state.impact && (
-          <SummarySlide 
-            amount={state.amount} 
-            impact={state.impact} 
-            onReset={this.resetDonation}
-            onShare={this.handleShare}
-            {...navigationProps}
-          />
-        )}
+        <SlideTransition 
+          slideKey={state.step} 
+          direction={state.transitionDirection}
+        >
+          {renderSlideContent()}
+        </SlideTransition>
       </div>
     );
   }

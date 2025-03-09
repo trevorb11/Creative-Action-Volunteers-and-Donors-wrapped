@@ -6,10 +6,12 @@ export interface DonationFormValues {
 export interface DonationState {
   amount: number;
   step: number;
+  previousStep?: number;
   impact: DonationImpact | null;
   isLoading: boolean;
   error: string | null;
   donorEmail: string | null;
+  transitionDirection?: 'forward' | 'backward';
 }
 
 export interface DonationImpact {
