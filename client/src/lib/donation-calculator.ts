@@ -1,4 +1,4 @@
-import { DonationImpact } from "@shared/schema";
+import { DonationImpact } from "@/types/donation";
 import { ALMANAC_DATA } from "./constants";
 
 // Function for selecting the most appropriate weight comparison based on pounds of food
@@ -26,7 +26,7 @@ function generateWeightComparison(lbs: number): string {
 export function calculateDonationImpact(amount: number): DonationImpact {
   const mealsProvided = Math.round(amount * ALMANAC_DATA.mealsPerDollar);
   const peopleServed = Math.round(amount * ALMANAC_DATA.mealsPerDollar * ALMANAC_DATA.peoplePerMeal);
-  const peoplePercentage = ((amount * ALMANAC_DATA.mealsPerDollar * ALMANAC_DATA.peoplePerMeal / ALMANAC_DATA.totalPeopleServed) * 100).toFixed(2);
+  const peoplePercentage = ((amount * ALMANAC_DATA.mealsPerDollar * ALMANAC_DATA.peoplePerMeal / ALMANAC_DATA.totalPeopleServed) * 100).toFixed(2) + '%';
   const foodRescued = Math.round(amount * ALMANAC_DATA.foodRescuePerDollar);
   const co2Saved = Math.round(amount * ALMANAC_DATA.foodRescuePerDollar * ALMANAC_DATA.co2PerPoundFood);
   const waterSaved = Math.round(amount * ALMANAC_DATA.foodRescuePerDollar * ALMANAC_DATA.waterPerPoundFood);

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { DonationImpact } from "@shared/schema";
+import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import { SLIDE_CONFIG } from "@/lib/constants";
 import { Utensils } from "lucide-react";

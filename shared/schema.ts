@@ -87,3 +87,19 @@ export type VolunteerImpact = {
   costSavings: number;
   peopleServedPerDay: number;
 };
+
+export type DonationImpact = {
+  mealsProvided: number;
+  peopleFed: number;
+  daysFed: string;
+  foodRescued: number;
+  foodWeight: string;
+  carbonFootprint: number;
+  carbonEquivalent: string;
+  waterSaved: number;
+  waterAmount: string;
+  volunteerHours: number;
+  peopleServed: number;
+  peoplePercentage: string;
+  weightComparison?: string;
+};

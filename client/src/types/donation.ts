@@ -1,5 +1,3 @@
-import { DonationImpact } from "@shared/schema";
-
 export interface DonationFormValues {
   amount: number;
   email?: string;
@@ -12,6 +10,31 @@ export interface DonationState {
   isLoading: boolean;
   error: string | null;
   donorEmail: string | null;
+}
+
+export interface DonationImpact {
+  mealsProvided: number;
+  peopleFed: string;
+  daysFed: string;
+  foodRescued: number;
+  peopleServed: number;
+  peoplePercentage: string;
+  weightComparison?: string;
+  co2Saved: number;
+  waterSaved: number;
+  producePercentage: number;
+  dairyPercentage: number;
+  proteinPercentage: number;
+  freshFoodPercentage: number;
+  babyElephants: string;
+  bison: string;
+  cars: string;
+  houseCats: string;
+  goldenRetrievers: string;
+  grizzlyBears: string;
+  hippos: string;
+  schoolBuses: string;
+  smallJets: string;
 }
 
 export enum SlideNames {
