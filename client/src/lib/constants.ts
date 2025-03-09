@@ -1,7 +1,9 @@
 export const ALMANAC_DATA = {
-  mealsPerDollar: 0.833, // Based on 10.95M meals distributed at $25.88M value (~$2.36 per meal)
+  mealsPerDollar: 1.52, // Updated: 1.52 meals per $1 (3-year rolling average with SNAP)
+  costPerMeal: 0.66, // Updated: $0.66 per meal based on 3-year rolling average
+  foodRescuePerDollar: 1.83, // Updated: 1.83 pounds per $1 for donation conversions
+  poundsPerMeal: 1.2, // Updated: 1.2 pounds = 1 meal
   peoplePerMeal: 0.328, // Based on serving 60,000 people with 11M meals annually
-  foodRescuePerDollar: 0.421, // Pounds of food rescued per dollar (estimate)
   co2PerPoundFood: 0.84, // CO2 emissions prevented per pound of food
   waterPerPoundFood: 45.2, // Gallons of water saved per pound of food
   foodDistribution: {
@@ -11,6 +13,7 @@ export const ALMANAC_DATA = {
   },
   totalMealsProvided: 10951888, // 10.95 million meals provided in FY 2024
   totalPeopleServed: 60000, // 60,000 people served through partner agencies
+  dailyFoodRescue: 22000, // 11 tons (22,000 pounds) of food rescued daily
 };
 
 export const SLIDE_CONFIG = {

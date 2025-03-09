@@ -24,6 +24,7 @@ function generateWeightComparison(lbs: number): string {
 }
 
 export function calculateDonationImpact(amount: number): DonationImpact {
+  // Updated values based on the Almanac 2023-24 data
   const mealsProvided = Math.round(amount * ALMANAC_DATA.mealsPerDollar);
   const peopleServed = Math.round(amount * ALMANAC_DATA.mealsPerDollar * ALMANAC_DATA.peoplePerMeal);
   const peoplePercentage = ((amount * ALMANAC_DATA.mealsPerDollar * ALMANAC_DATA.peoplePerMeal / ALMANAC_DATA.totalPeopleServed) * 100).toFixed(2) + '%';

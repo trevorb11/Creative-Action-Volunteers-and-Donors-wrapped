@@ -74,7 +74,7 @@ export default function MealsSlide({
         >
           <p className="text-center text-[#0c4428]">
             Your donation helps us provide nutritious food to families in need.
-            <span className="block mt-1 font-medium">Every dollar makes a difference.</span>
+            <span className="block mt-1 font-medium">Every dollar provides 1.52 meals for our community.</span>
           </p>
         </motion.div>
       </div>

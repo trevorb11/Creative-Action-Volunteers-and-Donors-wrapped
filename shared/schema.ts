@@ -72,8 +72,8 @@ export type VolunteerShift = typeof volunteer_shifts.$inferSelect;
 
 export const almanacData = {
   // Volunteer impact metrics
-  mealsPerVolunteerHour: 55,        // Meals provided per volunteer hour
-  valuePerVolunteerHour: 36.36,      // Dollar value of volunteer hour
+  mealsPerVolunteerHour: 55,        // Updated: 55 meals per volunteer hour
+  valuePerVolunteerHour: 36.30,      // Dollar value of volunteer hour (55 meals * $0.66 per meal)
   mealsPerDay: 3,                    // Meals per person per day
   
   // For reference or calculations
