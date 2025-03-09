@@ -52,8 +52,9 @@ export default function CountUpAnimation({
     };
   }, [value, duration, delay]);
   
+  // Use motion.span instead of motion.div to avoid nesting issues in paragraph elements
   return (
-    <motion.div
+    <motion.span
       className={className}
       animate={{
         scale: [1, 1.05, 1],
@@ -66,6 +67,6 @@ export default function CountUpAnimation({
       }}
     >
       {isCurrency ? formatCurrency(count) : count.toLocaleString()}
-    </motion.div>
+    </motion.span>
   );
 }

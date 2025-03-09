@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { SLIDE_COLORS } from "@/lib/constants";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface SlideLayoutProps {
   children: ReactNode;
@@ -9,7 +11,7 @@ interface SlideLayoutProps {
   variant: keyof typeof SLIDE_COLORS;
   subtitle?: string;
   quote?: string;
-  titleClassName?: string; // Added for custom title styling
+  titleClassName?: string; 
   onNext?: () => void;
   onPrevious?: () => void;
   isFirstSlide?: boolean;
@@ -29,92 +31,72 @@ export default function SlideLayout({
   isLastSlide = false
 }: SlideLayoutProps) {
   const bgColor = SLIDE_COLORS[variant];
+  const headerBgColor = variant === 'meals' ? 'bg-[#227d7f]' : 
+                        variant === 'donor' || variant === 'donorSummary' ? 'bg-[#8dc53e]' : 
+                        variant === 'people' || variant === 'summary' ? 'bg-[#0c4428]' : 
+                        variant === 'environment' ? 'bg-[#227d7f]' : 
+                        variant === 'foodRescue' ? 'bg-[#8dc53e]' : 'bg-[#0c4428]';
   
   return (
-    <div className={`min-h-screen w-full flex items-center justify-center ${bgColor} text-white relative overflow-x-hidden`}>
-      {/* Community Food Share logo */}
-      <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-20">
-        <div className="flex items-center">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">
-            Community Food Share
-          </h3>
-        </div>
-      </div>
-      
-      {/* Left navigation arrow */}
-      {onPrevious && !isFirstSlide && (
-        <button 
-          onClick={onPrevious}
-          className="absolute left-2 sm:left-4 md:left-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-2 sm:p-3 text-white transition-all duration-300 z-10"
-          aria-label="Previous slide"
-        >
-          <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-        </button>
-      )}
-      
-      {/* Main content */}
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col items-center justify-center">
-        <div className="text-center w-full max-w-3xl mx-auto">
-          <motion.h2 
-            className={`text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6 ${titleClassName}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{ fontFamily: 'Spectral, serif' }}
-          >
-            {title}
-          </motion.h2>
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-green-50 to-green-100 p-4">
+      <div className="w-full max-w-md">
+        <Card className="w-full overflow-hidden">
+          <CardHeader className={`text-center ${headerBgColor} text-white rounded-t-lg`}>
+            <CardTitle className="text-2xl font-bold">{title}</CardTitle>
+            {subtitle && (
+              <CardDescription className="text-white opacity-90">{subtitle}</CardDescription>
+            )}
+          </CardHeader>
           
-          {subtitle && (
-            <motion.h3 
-              className="text-lg sm:text-xl md:text-2xl mb-4 sm:mb-8 font-medium"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              style={{ fontFamily: 'Open Sans, sans-serif' }}
-            >
-              {subtitle}
-            </motion.h3>
-          )}
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-6 sm:mb-8 w-full"
-          >
-            {children}
-          </motion.div>
-          
-          {quote && (
+          <CardContent className="pt-6 sm:pt-8 space-y-5 sm:space-y-6">
             <motion.div
-              className="mt-8 sm:mt-12 w-full max-w-2xl mx-auto px-4 sm:px-6 py-3 sm:py-4 bg-white/10 rounded-lg border-l-4 border-cfs-yellow"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="w-full"
             >
-              <p className="text-base sm:text-lg italic" style={{ fontFamily: 'Open Sans, sans-serif' }}>
-                "{quote}"
-              </p>
+              {children}
             </motion.div>
-          )}
-        </div>
+            
+            {quote && (
+              <motion.div
+                className="bg-green-50 p-4 rounded-lg border-l-4 border-green-300"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+              >
+                <p className="text-[#414042] text-sm italic font-medium">
+                  "{quote}"
+                </p>
+              </motion.div>
+            )}
+          </CardContent>
+          
+          <CardFooter>
+            <div className="flex justify-between w-full mt-4">
+              {!isFirstSlide && onPrevious && (
+                <Button variant="outline" onClick={onPrevious} className="border-[#227d7f] text-[#227d7f] hover:bg-[#227d7f] hover:text-white">
+                  <ArrowLeft className="mr-2 h-4 w-4" /> Previous
+                </Button>
+              )}
+              {!isFirstSlide && isLastSlide && (
+                <div />
+              )}
+              {!isLastSlide && onNext && (
+                <Button variant="outline" onClick={onNext} className="ml-auto border-[#227d7f] text-[#227d7f] hover:bg-[#227d7f] hover:text-white">
+                  Next <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          </CardFooter>
+        </Card>
       </div>
-      
-      {/* Right navigation arrow */}
-      {onNext && !isLastSlide && (
-        <button 
-          onClick={onNext}
-          className="absolute right-2 sm:right-4 md:right-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 rounded-full p-2 sm:p-3 text-white transition-all duration-300 z-10"
-          aria-label="Next slide"
-        >
-          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-        </button>
-      )}
       
       {/* Footer */}
-      <div className="absolute bottom-2 sm:bottom-4 w-full text-center text-white/70 text-xs sm:text-sm">
-        <p>Together, we're building a hunger-free community</p>
+      <div className="mt-4 text-center">
+        <p className="text-[#0c4428] text-xs">
+          © Community Food Share {new Date().getFullYear()}
+        </p>
       </div>
     </div>
   );
