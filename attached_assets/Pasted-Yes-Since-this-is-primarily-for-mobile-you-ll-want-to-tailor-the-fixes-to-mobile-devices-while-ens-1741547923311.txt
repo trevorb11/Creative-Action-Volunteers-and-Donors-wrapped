@@ -1,0 +1,87 @@
+Yes! Since this is primarily for mobile, you’ll want to tailor the fixes to mobile devices while ensuring they don’t disrupt the experience on desktop. Here’s how:
+
+⸻
+
+1. Ensure Each Page Loads at the Top (Mobile)
+
+On mobile, scrolling behavior is handled differently than on desktop, so we need to reset scroll position every time a new page loads.
+
+Solution: Use JavaScript to Force Scroll to Top (Mobile Only)
+
+Add this snippet inside your script that handles page transitions:
+
+function goToNextSlide() {
+    // Scroll to top of the page for mobile devices
+    if (window.innerWidth <= 768) { 
+        window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    }
+}
+
+Why?
+	•	window.innerWidth <= 768 ensures this only runs on screens 768px wide or smaller (tablets & phones).
+	•	behavior: 'smooth' makes it a smooth scroll instead of a jarring jump.
+
+⸻
+
+2. Ensure Page Loads Fully Zoomed Out on Mobile
+
+Mobile browsers sometimes zoom in by default, which messes up the layout.
+
+Solution: Adjust <meta> Viewport for Mobile
+
+Make sure this is inside your <head> in your HTML file:
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+What this does:
+
+✔ width=device-width: Ensures the page adapts to mobile screen size.
+✔ initial-scale=1.0: Starts at 100% zoom instead of zoomed in.
+✔ maximum-scale=1.0: Prevents browsers from zooming in unexpectedly.
+✔ user-scalable=no: Stops users from accidentally zooming in.
+
+⸻
+
+3. Prevent Mobile Safari from Auto-Zooming on Input Fields
+
+If you have any input fields (like email entry), iOS Safari will auto-zoom, which could break the formatting.
+
+Fix: Set Input Font Size to 16px or Larger
+
+input, textarea {
+    font-size: 16px;
+}
+
+	•	iOS automatically zooms in when input fields are smaller than 16px. This prevents that.
+
+⸻
+
+4. Fine-Tune Mobile Zoom with CSS
+
+If the zoom still feels off, force scaling using media queries:
+
+@media screen and (max-width: 768px) {
+    body {
+        transform: scale(1);
+        transform-origin: top left;
+        width: 100vw;
+        height: 100vh;
+        overflow-x: hidden;
+    }
+}
+
+	•	Ensures 100% zoom on mobile.
+	•	Prevents horizontal scrolling issues.
+
+⸻
+
+Final Implementation Checklist
+
+✅ Fix scrolling: window.scrollTo({ top: 0, behavior: 'smooth' }); (mobile only).
+✅ Prevent zooming issues: <meta name="viewport"> update.
+✅ Stop Safari input zoom: Set input font size to 16px.
+✅ Force proper scaling: Mobile-specific CSS fix.
+
+⸻
+
+This should fix both issues on mobile while keeping the UI clean and smooth. Let me know if you need further tweaks! 🚀
