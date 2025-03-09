@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
-import { DonationState, SlideNames } from "@/types/donation";
-import { DonationImpact } from "@shared/schema";
+import { DonationState, SlideNames, DonationImpact } from "@/types/donation";
 import { SLIDE_CONFIG } from "@/lib/constants";
 import { calculateDonationImpact } from "@/lib/donation-calculator";
 

@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { DonationImpact } from "@shared/schema";
+import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import { Leaf, Droplet, Car } from "lucide-react";
+import CountUpAnimation from "./CountUpAnimation";
 
 interface EnvironmentSlideProps {
   impact: DonationImpact;
@@ -19,100 +20,120 @@ export default function EnvironmentSlide({
   isFirstSlide,
   isLastSlide
 }: EnvironmentSlideProps) {
-  const co2Count = useMotionValue(0);
-  const roundedCO2 = useTransform(co2Count, (latest) => Math.round(latest));
+  // Container and item variants for staggered animation
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.6
+      }
+    }
+  };
   
-  const waterCount = useMotionValue(0);
-  const roundedWater = useTransform(waterCount, (latest) => Math.round(latest));
-  
-  useEffect(() => {
-    const co2Controls = animate(co2Count, impact.co2Saved, {
-      duration: 2,
-      ease: "easeOut"
-    });
-    
-    const waterControls = animate(waterCount, impact.waterSaved, {
-      duration: 2,
-      ease: "easeOut"
-    });
-    
-    return () => {
-      co2Controls.stop();
-      waterControls.stop();
-    };
-  }, [co2Count, waterCount, impact]);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
   
   return (
     <SlideLayout
       title="Your Environmental Impact"
-      titleClassName="text-white" // Make title white
       variant="environment"
-      quote="When we rescue food, we're not just fighting hunger — we're fighting climate change. Each pound of food rescued prevents about 3.2 pounds of CO2 emissions."
+      quote="When we rescue food, we're not just fighting hunger — we're fighting climate change."
       onNext={onNext}
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5 md:gap-8 mb-4 sm:mb-6 md:mb-8">
-        <motion.div 
-          className="bg-white/20 p-3 sm:p-4 md:p-6 rounded-xl"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+      <div className="flex flex-col items-center space-y-5">
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 260, 
+            damping: 20, 
+            delay: 0.3 
+          }}
         >
-          <div className="flex items-center justify-center mb-3 sm:mb-4">
-            <Leaf className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12" />
-          </div>
-          <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-1 sm:mb-2">
-            <motion.span>{roundedCO2}</motion.span>
-          </div>
-          <p className="text-base sm:text-lg md:text-xl font-heading">Pounds of CO2 Emissions Prevented</p>
-          <p className="text-sm sm:text-md mt-1 sm:mt-2 opacity-80">
-            That's like taking {impact.cars} off the road for a day
+          <Leaf className="h-16 w-16 text-[#8dc53e] mb-3" />
+        </motion.div>
+        
+        <div className="text-center">
+          <p className="text-lg font-semibold text-[#414042]">Your donation helps the environment</p>
+          <p className="text-4xl font-bold text-[#0c4428]">
+            Rescued Food Impact
           </p>
+          <p className="text-sm text-[#414042] mt-2">
+            By rescuing <span className="font-medium">{impact.foodRescued.toLocaleString()}</span> pounds of food, 
+            you're helping the planet too
+          </p>
+        </div>
+        
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#f3ffd7] border border-[#8dc53e]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <Leaf className="h-8 w-8 text-[#8dc53e] mb-2" />
+            <p className="text-sm font-medium text-[#414042]">CO² Prevented</p>
+            <p className="text-lg sm:text-xl font-semibold text-[#414042]">
+              <CountUpAnimation value={impact.co2Saved} duration={2} /> lbs
+            </p>
+            <p className="text-xs text-[#414042] mt-1">
+              Equal to {impact.cars} car{parseInt(impact.cars) !== 1 ? 's' : ''} off the road
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#e7f4f2] border border-[#227d7f]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <Droplet className="h-8 w-8 text-[#227d7f] mb-2" />
+            <p className="text-sm font-medium text-[#414042]">Water Saved</p>
+            <p className="text-lg sm:text-xl font-semibold text-[#414042]">
+              <CountUpAnimation value={impact.waterSaved} duration={2} /> gal
+            </p>
+            <p className="text-xs text-[#414042] mt-1">
+              Enough to fill {Math.round(impact.waterSaved / 33)} bathtubs
+            </p>
+          </motion.div>
+        </motion.div>
+        
+        {/* Weight Comparison */}
+        <motion.div 
+          className="w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
+        >
+          <div className="bg-[#f0f9f4] p-4 rounded-lg border border-[#0c4428]/10">
+            <p className="text-center text-[#0c4428] text-sm">
+              <span className="font-medium block mb-1">Did you know?</span>
+              The {impact.foodRescued.toLocaleString()} pounds of food you helped rescue weighs as much as {impact.weightComparison}!
+            </p>
+          </div>
         </motion.div>
         
         <motion.div 
-          className="bg-white/20 p-3 sm:p-4 md:p-6 rounded-xl"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mt-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.5 }}
         >
-          <div className="flex items-center justify-center mb-3 sm:mb-4">
-            <Droplet className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12" />
-          </div>
-          <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-1 sm:mb-2">
-            <motion.span>{roundedWater}</motion.span>
-          </div>
-          <p className="text-base sm:text-lg md:text-xl font-heading">Gallons of Water Saved</p>
-          <p className="text-sm sm:text-md mt-1 sm:mt-2 opacity-80">
-            Enough to fill {Math.round(impact.waterSaved / 33)} bathtubs
+          <p className="text-center text-[#0c4428]">
+            Your donation helps us rescue food that would otherwise end up in landfills.
+            <span className="block mt-1 font-medium">Fighting hunger and climate change together.</span>
           </p>
         </motion.div>
       </div>
-      
-      {/* Car emissions visualization */}
-      <motion.div
-        className="flex justify-center items-center flex-wrap gap-2 my-4 sm:my-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-      >
-        {Array.from({ length: Math.min(10, parseInt(impact.cars)) }).map((_, idx) => (
-          <motion.div 
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 + (idx * 0.1) }}
-          >
-            <Car className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
-          </motion.div>
-        ))}
-      </motion.div>
-      
-      <p className="text-base sm:text-lg md:text-xl mt-3 sm:mt-4">
-        Your support helps Community Food Share rescue food that would otherwise end up in landfills, preventing greenhouse gas emissions and conserving water resources.
-      </p>
     </SlideLayout>
   );
 }
