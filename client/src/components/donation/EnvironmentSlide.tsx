@@ -107,21 +107,6 @@ export default function EnvironmentSlide({
           </motion.div>
         </motion.div>
         
-        {/* Weight Comparison */}
-        <motion.div 
-          className="w-full"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-        >
-          <div className="bg-[#f0f9f4] p-4 rounded-lg border border-[#0c4428]/10">
-            <p className="text-center text-[#0c4428] text-sm">
-              <span className="font-medium block mb-1">Did you know?</span>
-              The {impact.foodRescued.toLocaleString()} pounds of food you helped rescue weighs as much as {impact.weightComparison}!
-            </p>
-          </div>
-        </motion.div>
-        
         <motion.div 
           className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mt-4"
           initial={{ opacity: 0, y: 20 }}
