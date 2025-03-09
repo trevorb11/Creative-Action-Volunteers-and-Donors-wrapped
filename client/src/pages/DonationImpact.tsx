@@ -19,6 +19,7 @@ import DonorLoadingScreen from "@/components/donation/DonorLoadingScreen";
 import DonorMealsSlide from "@/components/donation/DonorMealsSlide";
 import DonorPeopleSlide from "@/components/donation/DonorPeopleSlide";
 import DonorFinancialSlide from "@/components/donation/DonorFinancialSlide";
+import DonorIntroSlide from "@/components/donation/DonorIntroSlide";
 
 import { toast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -381,8 +382,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
       // Set the appropriate next step based on interface type
       let nextStep;
       if (useDonorSlides) {
-        // For donor UI, always go to donor meals slide after loading
-        nextStep = SlideNames.MEALS;
+        // For donor UI, always go to donor intro slide after loading
+        nextStep = SlideNames.DONOR_INTRO;
       } else {
         // For standard UI, go to donor summary for email donors, otherwise meals
         nextStep = email ? SlideNames.DONOR_SUMMARY : SlideNames.MEALS;

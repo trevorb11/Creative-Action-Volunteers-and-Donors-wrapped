@@ -41,12 +41,13 @@ export enum SlideNames {
   WELCOME = 0,
   LOADING = 1,
   DONOR_SUMMARY = 2,
-  MEALS = 3,            // Keep MEALS at position 3
-  PEOPLE = 4,           // Move PEOPLE to position 4
-  TIME_GIVING = 5,      // Move TIME_GIVING to position 5
-  FOOD_RESCUE = 6,      // Move FOOD_RESCUE to position 6
-  ENVIRONMENT = 7,      // Move ENVIRONMENT to position 7
-  FINANCIAL = 8,        // Add FINANCIAL at position 8
-  VOLUNTEER = 9,        // VOLUNTEER moves to position 9
-  SUMMARY = 10          // SUMMARY moves to position 10
+  DONOR_INTRO = 3,      // New slide for donor introduction
+  MEALS = 4,            // Shifted down 1 position
+  PEOPLE = 5,           // Shifted down 1 position
+  TIME_GIVING = 6,      // Shifted down 1 position
+  FOOD_RESCUE = 7,      // Shifted down 1 position
+  ENVIRONMENT = 8,      // Shifted down 1 position
+  FINANCIAL = 9,        // Shifted down 1 position
+  VOLUNTEER = 10,       // Shifted down 1 position
+  SUMMARY = 11          // Shifted down 1 position
 }
