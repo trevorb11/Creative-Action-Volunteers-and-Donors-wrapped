@@ -63,7 +63,7 @@ export default function EnvironmentSlide({
         
         <div className="text-center">
           <p className="text-lg font-semibold text-[#414042]">Your donation helps the environment</p>
-          <p className="text-4xl font-bold text-[#0c4428]">
+          <p className="text-4xl font-bold text-white">
             Environmental Impact
           </p>
           <p className="text-sm text-[#414042] mt-2">
