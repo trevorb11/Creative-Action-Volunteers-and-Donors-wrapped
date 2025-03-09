@@ -16,8 +16,11 @@ const upload = multer({
 export function calculateVolunteerImpact(hours: number) {
   return {
     hoursWorked: hours,
+    // Using updated value of 55 meals per volunteer hour
     mealsProvided: Math.round(hours * almanacData.mealsPerVolunteerHour),
+    // Using updated value of $36.30 per volunteer hour (55 meals * $0.66/meal)
     costSavings: parseFloat((hours * almanacData.valuePerVolunteerHour).toFixed(2)),
+    // Assuming 3 meals per person per day
     peopleServedPerDay: Math.round((hours * almanacData.mealsPerVolunteerHour) / almanacData.mealsPerDay)
   };
 }

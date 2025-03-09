@@ -79,6 +79,17 @@ export default function DonorMealsSlide({
         </motion.div>
       </div>
       
+      <motion.div 
+        className="bg-[#f0f9f4] p-4 sm:p-5 rounded-lg border border-[#0c4428]/10 w-full mb-4 mt-2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+      >
+        <p className="text-center text-[#0c4428]">
+          Each dollar you donate provides <span className="font-bold">1.52 meals</span> for our neighbors in need.
+        </p>
+      </motion.div>
+        
       <motion.div
         className="space-y-4"
         variants={containerVariants}

@@ -139,7 +139,7 @@ export default function SimpleFoodRescueSlide({
           <p className="text-center text-[#414042]">
             <span className="text-[#dd6b20] font-medium">{impact.freshFoodPercentage}%</span> of rescued food is fresh, nutritious food 
             that would otherwise end up in landfills.
-            <span className="block mt-1 text-sm">Every pound rescued helps both hungry families and our environment.</span>
+            <span className="block mt-1 text-sm">Every dollar you donate helps us rescue 1.83 pounds of food.</span>
           </p>
         </motion.div>
       </div>
