@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
-import { DonationImpact } from "@shared/schema";
+import { DonationImpact } from "@/types/donation";
 import { Button } from "@/components/ui/button";
-import { RefreshCcw, Share2, Download, Heart } from "lucide-react";
+import { RefreshCcw, Share2, Download, Heart, Check, Award } from "lucide-react";
 import SlideLayout from "./SlideLayout";
+import CountUpAnimation from "./CountUpAnimation";
 
 interface SummarySlideProps {
   amount: number;
@@ -152,10 +153,26 @@ export default function SummarySlide({
     printWindow.document.close();
   };
   
+  // Container and item variants for staggered animation
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
     <SlideLayout
       title="Your Impact Summary"
-      titleClassName="text-white" // Make title white
       variant="summary"
       quote="Thank you for making a difference in our community!"
       onNext={onNext}
@@ -163,65 +180,94 @@ export default function SummarySlide({
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <motion.div 
-        ref={summaryRef}
-        className="bg-white/20 p-8 rounded-xl mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h3 className="text-2xl font-heading mb-6 text-[#8dc53e]">
-          With your ${amount.toLocaleString()} donation:
-        </h3>
+      <div className="flex flex-col items-center space-y-6">
+        {/* Certificate-style header */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center"
+        >
+          <Award className="h-16 w-16 text-[#8dc53e] mb-2" />
+          <h3 className="text-2xl font-bold text-[#414042] text-center">
+            Thank you for your donation of
+          </h3>
+          <p className="text-4xl font-bold text-[#8dc53e] mt-1">
+            ${amount.toLocaleString()}
+          </p>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-          {impactItems.map((item, index) => (
-            <motion.div 
-              key={index}
-              className="flex items-start"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-            >
-              <Heart className="h-6 w-6 mr-2 mt-1 flex-shrink-0 text-[#8dc53e]" />
-              <p className="text-lg">{item.text}</p>
-            </motion.div>
-          ))}
+        {/* Impact achievements */}
+        <div ref={summaryRef} className="w-full">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {impactItems.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="flex items-start bg-white p-3 rounded-lg shadow-sm border border-gray-100"
+                variants={itemVariants}
+              >
+                <div className="bg-[#8dc53e]/10 p-2 rounded-full mr-3">
+                  <Check className="h-5 w-5 text-[#8dc53e]" />
+                </div>
+                <div>
+                  <p className="text-base sm:text-base font-medium text-[#414042]">{item.text}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          <motion.div
+            className="mt-6 bg-[#f3fae7] p-4 rounded-lg border border-[#8dc53e]/20 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+          >
+            <p className="text-[#414042]">
+              <span className="font-medium">Your generosity matters.</span> Together, we're building a hunger-free community.
+            </p>
+          </motion.div>
         </div>
-      </motion.div>
-      
-      <motion.div 
-        className="space-y-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.7 }}
-      >
-        <div className="flex flex-wrap justify-center gap-4">
+        
+        {/* Action buttons */}
+        <motion.div 
+          className="flex flex-wrap justify-center gap-3 mt-4 w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.5 }}
+        >
           <Button
             onClick={onReset}
-            className="px-6 py-3 bg-white text-primary font-bold rounded-lg shadow hover:bg-neutral-100 transition duration-300"
+            className="bg-white text-[#414042] border border-[#8dc53e]/30 hover:bg-gray-50"
+            size="lg"
           >
-            <RefreshCcw className="h-5 w-5 mr-2" />
+            <RefreshCcw className="h-4 w-4 mr-2" />
             Donate Again
           </Button>
           
           <Button
             onClick={onShare}
-            className="px-6 py-3 bg-secondary text-white font-bold rounded-lg shadow hover:bg-secondary/90 transition duration-300 flex items-center"
+            className="bg-[#0c4428] text-white hover:bg-[#0c4428]/90"
+            size="lg"
           >
-            <Share2 className="h-5 w-5 mr-2" />
+            <Share2 className="h-4 w-4 mr-2" />
             Share Your Impact
           </Button>
           
           <Button
             onClick={handleDownload}
-            className="px-6 py-3 bg-[#8dc53e] text-white font-bold rounded-lg shadow hover:bg-[#7db22d] transition duration-300 flex items-center"
+            className="bg-[#8dc53e] text-white hover:bg-[#7db22d]"
+            size="lg"
           >
-            <Download className="h-5 w-5 mr-2" />
-            Download Summary
+            <Download className="h-4 w-4 mr-2" />
+            Download Certificate
           </Button>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </SlideLayout>
   );
 }
