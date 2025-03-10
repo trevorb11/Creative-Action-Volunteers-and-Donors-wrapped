@@ -181,7 +181,7 @@ export default function FoodRescueComparison({
           <div className="relative h-40 w-full flex justify-center">
             {/* Green circle at top */}
             <motion.div 
-              className="absolute top-1 right-[65%] transform -translate-x-1/2 h-6 w-6 rounded-full border-2 border-[#BAD9A3] bg-white flex items-center justify-center"
+              className="absolute top-1 right-[50%] transform -translate-x-1/2 h-6 w-6 rounded-full border-2 border-[#BAD9A3] bg-white flex items-center justify-center"
               animate={{ 
                 scale: [1, 1.05, 1, 1.05, 1],
                 opacity: [0.9, 1, 0.9, 1, 0.9]
@@ -199,7 +199,7 @@ export default function FoodRescueComparison({
             
             {/* Scale beam - readjusted position */}
             <motion.div 
-              className="absolute top-12 right-[65%] transform -translate-x-1/2 h-2 w-28 bg-[#F08445] rounded-md"
+              className="absolute top-12 right-[50%] transform -translate-x-1/2 h-2 w-28 bg-[#F08445] rounded-md"
               animate={{ 
                 rotate: [-2, 2, -1, 2, -2] 
               }}
