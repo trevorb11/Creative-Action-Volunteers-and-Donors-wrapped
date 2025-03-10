@@ -194,8 +194,7 @@ export default function FoodRescueComparison({
               <CircleDot className="h-4 w-4 text-[#BAD9A3]" />
             </motion.div>
             
-            {/* Scale base */}
-            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-14 bg-[#F08445] rounded-md" />
+            {/* Scale base - removed for cleaner look */}
             
             {/* Scale pole */}
             <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-4 bg-[#F08445] rounded-t-sm" />
@@ -366,8 +365,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'cat' && impact.houseCats}
                     {primaryComparisonType === 'baby' && impact.toddlers}
                     {primaryComparisonType === 'dog' && impact.goldenRetrievers}
-                    {primaryComparisonType === 'truck' && impact.cars}
-                    {primaryComparisonType === 'fish' && (impact.hippopotamus || impact.babyElephants)}
+                    {primaryComparisonType === 'elephant' && `Equivalent to ${Math.ceil(impact.foodRescued/200)} baby elephants`}
                   </p>
                   
                   <div className="flex justify-center space-x-3 mb-2">
@@ -387,8 +385,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'cat' && `About ${impact.houseCats}`}
                     {primaryComparisonType === 'baby' && `That's ${impact.toddlers}`}
                     {primaryComparisonType === 'dog' && `Equals ${impact.goldenRetrievers} in weight`}
-                    {primaryComparisonType === 'truck' && `Similar to ${impact.cars} in total weight`}
-                    {primaryComparisonType === 'fish' && `Comparable to ${impact.hippopotamus ? impact.hippopotamus : impact.babyElephants}`}
+                    {primaryComparisonType === 'elephant' && `Each baby elephant weighs about 200 pounds`}
                   </p>
                 </div>
               </motion.div>
@@ -509,7 +506,7 @@ export default function FoodRescueComparison({
                     {activeTab === 'large' && (
                       <div className="text-center">
                         <p className="text-2xl font-bold text-[#F08445] mb-2">
-                          {impact.babyElephants || "Baby Elephants"}
+                          {`${Math.ceil(impact.foodRescued/200)} Baby Elephants`}
                         </p>
                         <div className="flex justify-center space-x-4 mb-2">
                           {iconSets?.large.map((icon, i) => (
@@ -524,7 +521,7 @@ export default function FoodRescueComparison({
                           ))}
                         </div>
                         <p className="text-sm text-[#414042] mt-1">
-                          Or about {impact.babyElephants} or {impact.cars}
+                          Each baby elephant weighs about 200 pounds
                         </p>
                       </div>
                     )}
