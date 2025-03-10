@@ -197,9 +197,9 @@ export default function FoodRescueComparison({
             
             {/* Scale base and pole removed for cleaner look */}
             
-            {/* Scale beam - adjusted position */}
+            {/* Scale beam - readjusted position */}
             <motion.div 
-              className="absolute top-12 left-[45%] transform -translate-x-1/2 h-2 w-28 bg-[#F08445] rounded-md"
+              className="absolute top-12 left-[52%] transform -translate-x-1/2 h-2 w-28 bg-[#F08445] rounded-md"
               animate={{ 
                 rotate: [-2, 2, -1, 2, -2] 
               }}
