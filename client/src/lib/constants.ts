@@ -4,7 +4,7 @@ export const ALMANAC_DATA = {
   foodRescuePerDollar: 1.83, // Updated: 1.83 pounds per $1 for donation conversions
   poundsPerMeal: 1.2, // Updated: 1.2 pounds = 1 meal
   peoplePerMeal: 0.328, // Based on serving 60,000 people with 11M meals annually
-  co2PerPoundFood: 0.84, // CO2 emissions prevented per pound of food
+  co2PerPoundFood: 8.65, // CO₂e emissions prevented per pound of food rescued
   waterPerPoundFood: 45.2, // Gallons of water saved per pound of food
   foodDistribution: {
     produce: 31.92, // Percentage

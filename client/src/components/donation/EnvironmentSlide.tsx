@@ -208,7 +208,7 @@ export default function EnvironmentSlide({
           >
             <div className="flex items-center">
               <Recycle className="h-4 w-4 mr-1" />
-              <span>CO₂ Prevented</span>
+              <span>CO₂e Prevented</span>
             </div>
           </motion.button>
           

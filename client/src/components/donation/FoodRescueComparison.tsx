@@ -330,7 +330,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'baby' && impact.toddlers}
                     {primaryComparisonType === 'dog' && impact.goldenRetrievers}
                     {primaryComparisonType === 'truck' && impact.cars}
-                    {primaryComparisonType === 'fish' && impact.whaleSharkPups || impact.babyElephants}
+                    {primaryComparisonType === 'fish' && (impact.whaleSharkPups || impact.babyElephants)}
                   </p>
                   
                   <div className="flex justify-center space-x-3 mb-2">
@@ -351,7 +351,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'baby' && `That's ${impact.toddlers}`}
                     {primaryComparisonType === 'dog' && `Equals ${impact.goldenRetrievers} in weight`}
                     {primaryComparisonType === 'truck' && `Similar to ${impact.cars} in total weight`}
-                    {primaryComparisonType === 'fish' && `Comparable to ${impact.blueWhaleCalf || impact.babyElephants}`}
+                    {primaryComparisonType === 'fish' && `Comparable to ${impact.blueWhaleCalf ? impact.blueWhaleCalf : impact.babyElephants}`}
                   </p>
                 </div>
               </motion.div>
