@@ -24,7 +24,7 @@ interface EnvironmentSlideProps {
   isLastSlide?: boolean;
 }
 
-type ImpactMetric = 'co2' | 'water' | 'landfill';
+type ImpactMetric = 'co2' | 'water';
 
 export default function EnvironmentSlide({ 
   impact, 
@@ -194,10 +194,10 @@ export default function EnvironmentSlide({
           </p>
         </motion.div>
         
-        {/* Environmental metrics tabs */}
-        <div className="flex justify-center space-x-2 w-full">
+        {/* Environmental metrics tabs - Waste Reduction tab removed */}
+        <div className="flex justify-center space-x-4 w-full">
           <motion.button
-            className={`px-3 py-2 rounded-full text-sm ${
+            className={`px-4 py-2 rounded-full text-sm ${
               activeMetric === 'co2' 
                 ? 'bg-[#8dc53e] text-white font-medium' 
                 : 'bg-[#8dc53e]/10 text-[#414042] hover:bg-[#8dc53e]/20'
@@ -213,7 +213,7 @@ export default function EnvironmentSlide({
           </motion.button>
           
           <motion.button
-            className={`px-3 py-2 rounded-full text-sm ${
+            className={`px-4 py-2 rounded-full text-sm ${
               activeMetric === 'water' 
                 ? 'bg-[#227d7f] text-white font-medium' 
                 : 'bg-[#227d7f]/10 text-[#414042] hover:bg-[#227d7f]/20'
@@ -225,22 +225,6 @@ export default function EnvironmentSlide({
             <div className="flex items-center">
               <Droplet className="h-4 w-4 mr-1" />
               <span>Water Saved</span>
-            </div>
-          </motion.button>
-          
-          <motion.button
-            className={`px-3 py-2 rounded-full text-sm ${
-              activeMetric === 'landfill' 
-                ? 'bg-[#414042] text-white font-medium' 
-                : 'bg-[#414042]/10 text-[#414042] hover:bg-[#414042]/20'
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setActiveMetric('landfill')}
-          >
-            <div className="flex items-center">
-              <Trash2 className="h-4 w-4 mr-1" />
-              <span>Waste Reduction</span>
             </div>
           </motion.button>
         </div>
@@ -354,45 +338,7 @@ export default function EnvironmentSlide({
             </motion.div>
           )}
           
-          {activeMetric === 'landfill' && (
-            <motion.div
-              key="landfill"
-              className="bg-[#f9f9f9] p-5 sm:p-6 rounded-lg border border-[#414042]/20 shadow-md w-full"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="flex flex-col items-center">
-                <div className="flex items-center justify-center mb-3">
-                  <Trash2 className="h-10 w-10 text-[#414042] mr-3" />
-                  <div>
-                    <h3 className="text-xl font-bold text-[#414042]">Landfill Diversion</h3>
-                    <p className="text-sm text-[#414042]">Keeping food out of landfills</p>
-                  </div>
-                </div>
-                
-                <div className="bg-white/70 rounded-lg p-4 w-full mb-4">
-                  <div className="flex items-end justify-center">
-                    <CountUpAnimation 
-                      value={impact.foodRescued} 
-                      duration={2} 
-                      className="text-4xl font-bold text-[#414042]"
-                    />
-                    <span className="text-2xl font-semibold text-[#414042] ml-2">pounds</span>
-                  </div>
-                </div>
-                
-                <div className="bg-white p-4 rounded-lg w-full shadow-sm">
-                  <p className="text-center text-[#414042]">
-                    When food decomposes in landfills, it produces methane—a greenhouse gas 25x more potent than CO₂. 
-                    By rescuing <span className="font-bold">{impact.foodRescued.toLocaleString()} pounds</span> of food, 
-                    you've prevented harmful methane emissions and kept perfectly good food in our community.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
+          {/* Landfill section removed as requested */}
         </AnimatePresence>
         
         {/* Call to action */}
