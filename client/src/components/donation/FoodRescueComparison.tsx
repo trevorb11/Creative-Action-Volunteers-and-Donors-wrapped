@@ -50,10 +50,9 @@ function getComparisonIconSets(lbs: number): {
     primaryIcon = <Baby className="h-20 w-20 text-[#F08445]" />;
   } else if (lbs < 400) {
     primaryIcon = <Dog className="h-20 w-20 text-[#F08445]" />;
-  } else if (lbs < 3000) {
-    primaryIcon = <Truck className="h-20 w-20 text-[#F08445]" />;
   } else {
-    primaryIcon = <Fish className="h-20 w-20 text-[#F08445]" />;
+    // For all larger donations, use the Baby Elephant
+    primaryIcon = <Fish className="h-20 w-20 text-[#F08445]" />; // Using Fish icon as a stand-in for elephant
   }
   
   return {
@@ -124,10 +123,9 @@ export default function FoodRescueComparison({
       setPrimaryComparisonType('baby');
     } else if (lbs < 400) {
       setPrimaryComparisonType('dog');
-    } else if (lbs < 3000) {
-      setPrimaryComparisonType('truck');
     } else {
-      setPrimaryComparisonType('fish');
+      // For all larger donations, use the baby elephant comparison
+      setPrimaryComparisonType('elephant');
     }
   }, [impact.foodRescued]);
   
