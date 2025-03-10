@@ -244,8 +244,8 @@ export default function EnvironmentSlide({
                 <div className="flex items-center justify-center mb-3">
                   <Recycle className="h-10 w-10 text-[#8dc53e] mr-3" />
                   <div>
-                    <h3 className="text-xl font-bold text-[#414042]">CO₂ Emissions Prevented</h3>
-                    <p className="text-sm text-[#414042]">By keeping food out of landfills</p>
+                    <h3 className="text-xl font-bold text-[#414042]">CO₂e Emissions Prevented</h3>
+                    <p className="text-sm text-[#414042]">8.65 pounds saved per pound of food rescued</p>
                   </div>
                 </div>
                 
