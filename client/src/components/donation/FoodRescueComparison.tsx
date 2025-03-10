@@ -178,18 +178,13 @@ export default function FoodRescueComparison({
           className="mb-2 relative flex flex-col items-center"
         >
           {/* Scale with balancing animation */}
-          <div className="relative h-28 w-24">
-            {/* Scale base */}
-            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-6 w-14 bg-[#e97826] rounded-md" />
-            
-            {/* Scale pole */}
-            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-16 w-2 bg-[#e97826] rounded-t-sm" />
-            
-            {/* Scale beam */}
+          <div className="relative h-40 w-32">
+            {/* Green circle at top */}
             <motion.div 
-              className="absolute top-6 left-1/2 transform -translate-x-1/2 h-2 w-20 bg-[#e97826] rounded-md"
+              className="absolute top-1 left-1/2 transform -translate-x-1/2 h-6 w-6 rounded-full border-2 border-[#8dc53e] bg-white flex items-center justify-center"
               animate={{ 
-                rotate: [-5, 5, -3, 4, -5] 
+                scale: [1, 1.05, 1, 1.05, 1],
+                opacity: [0.9, 1, 0.9, 1, 0.9]
               }}
               transition={{ 
                 repeat: Infinity, 
@@ -197,41 +192,78 @@ export default function FoodRescueComparison({
                 ease: "easeInOut" 
               }}
             >
-              {/* Left scale pan - connected to beam with string */}
-              <div className="absolute left-0 top-0 h-8 flex items-center justify-center">
-                <div className="h-6 w-[1px] bg-[#e97826]"></div>
+              <CircleDot className="h-4 w-4 text-[#8dc53e]" />
+            </motion.div>
+            
+            {/* Scale base */}
+            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-14 bg-[#e97826] rounded-md" />
+            
+            {/* Scale pole */}
+            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-4 bg-[#e97826] rounded-t-sm" />
+            
+            {/* Scale beam */}
+            <motion.div 
+              className="absolute top-12 left-1/2 transform -translate-x-1/2 h-2 w-28 bg-[#e97826] rounded-md"
+              animate={{ 
+                rotate: [-2, 2, -1, 2, -2] 
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 5, 
+                ease: "easeInOut" 
+              }}
+            >
+              {/* Left scale pan - with connecting string */}
+              <div className="absolute left-0 top-0 flex flex-col items-center">
+                <div className="h-7 w-[1px] bg-[#e97826]"></div>
                 <motion.div 
-                  className="absolute left-[-14px] top-5 h-8 w-8 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
+                  className="h-10 w-10 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
                   animate={{ 
-                    y: [0, 8, 2, 6, 0] 
+                    y: [0, 4, 1, 3, 0] 
                   }}
                   transition={{ 
                     repeat: Infinity, 
-                    duration: 4, 
+                    duration: 5, 
                     ease: "easeInOut" 
                   }}
                 >
-                  <Leaf className="h-4 w-4 text-[#8dc53e]" />
+                  <Leaf className="h-5 w-5 text-[#8dc53e]" />
                 </motion.div>
               </div>
               
-              {/* Right scale pan - connected to beam with string */}
-              <div className="absolute right-0 top-0 h-8 flex items-center justify-center">
-                <div className="h-6 w-[1px] bg-[#e97826]"></div>
+              {/* Right scale pan - with connecting string */}
+              <div className="absolute right-0 top-0 flex flex-col items-center">
+                <div className="h-7 w-[1px] bg-[#e97826]"></div>
                 <motion.div 
-                  className="absolute right-[-14px] top-5 h-8 w-8 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
+                  className="h-10 w-10 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
                   animate={{ 
-                    y: [8, 0, 6, 2, 8] 
+                    y: [4, 0, 3, 1, 4] 
                   }}
                   transition={{ 
                     repeat: Infinity, 
-                    duration: 4, 
+                    duration: 5, 
                     ease: "easeInOut" 
                   }}
                 >
-                  <Scale className="h-4 w-4 text-[#227d7f]" />
+                  <Scale className="h-5 w-5 text-[#227d7f]" />
                 </motion.div>
               </div>
+            </motion.div>
+            
+            {/* Small circle decorative element */}
+            <motion.div 
+              className="absolute bottom-1/3 left-8 h-4 w-4 rounded-full border border-[#e97826]/70 bg-white flex items-center justify-center"
+              animate={{ 
+                scale: [1, 1.1, 1, 1.1, 1],
+                opacity: [0.7, 0.9, 0.7, 0.9, 0.7]
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 3, 
+                ease: "easeInOut" 
+              }}
+            >
+              <CircleDot className="h-2 w-2 text-[#e97826]" />
             </motion.div>
           </div>
           
@@ -336,7 +368,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'baby' && impact.toddlers}
                     {primaryComparisonType === 'dog' && impact.goldenRetrievers}
                     {primaryComparisonType === 'truck' && impact.cars}
-                    {primaryComparisonType === 'fish' && (impact.hippos || impact.babyElephants)}
+                    {primaryComparisonType === 'fish' && (impact.hippopotamus || impact.babyElephants)}
                   </p>
                   
                   <div className="flex justify-center space-x-3 mb-2">
@@ -357,7 +389,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'baby' && `That's ${impact.toddlers}`}
                     {primaryComparisonType === 'dog' && `Equals ${impact.goldenRetrievers} in weight`}
                     {primaryComparisonType === 'truck' && `Similar to ${impact.cars} in total weight`}
-                    {primaryComparisonType === 'fish' && `Comparable to ${impact.hippos ? impact.hippos : impact.babyElephants}`}
+                    {primaryComparisonType === 'fish' && `Comparable to ${impact.hippopotamus ? impact.hippopotamus : impact.babyElephants}`}
                   </p>
                 </div>
               </motion.div>

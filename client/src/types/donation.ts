@@ -36,6 +36,7 @@ export interface DonationImpact {
   goldenRetrievers: string;
   grizzlyBears: string;
   hippos: string;
+  hippopotamus: string;
   schoolBuses: string;
   smallJets: string;
   // Additional weight comparison fields

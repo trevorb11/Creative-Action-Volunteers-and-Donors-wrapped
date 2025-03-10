@@ -56,6 +56,7 @@ export function calculateDonationImpact(amount: number): DonationImpact {
   const goldenRetrievers = `${Math.max(1, Math.round(lbs / 70))} Golden Retrievers`;
   const grizzlyBears = `${Math.max(1, Math.round(lbs / 700))} grizzly bears`;
   const hippos = `${Math.max(1, Math.round(lbs / 3000))} hippos`;
+  const hippopotamus = `${Math.max(1, Math.round(lbs / 3000))} Hippopotamus`;
   const schoolBuses = `${(lbs / 24000).toFixed(1)} school buses`;
   const smallJets = `${(lbs / 90000).toFixed(2)} small jets`;
   
@@ -120,6 +121,7 @@ export function calculateDonationImpact(amount: number): DonationImpact {
     goldenRetrievers,
     grizzlyBears,
     hippos,
+    hippopotamus,
     schoolBuses,
     smallJets,
     // Additional weight comparison fields
