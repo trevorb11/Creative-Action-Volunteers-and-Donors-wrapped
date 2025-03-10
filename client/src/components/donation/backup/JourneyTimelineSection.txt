@@ -1,0 +1,136 @@
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Journey Timeline */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              <Card className="overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-green-100 to-blue-100 pb-2 sm:pb-3 px-3 sm:px-6">
+                  <CardTitle className="text-base sm:text-lg font-semibold flex items-center">
+                    <History className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-indigo-500" />
+                    Your Giving Timeline
+                  </CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">
+                    {years > 0 
+                      ? `You've been supporting Community Food Share since ${donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "the beginning"}`
+                      : "Beginning your journey with Community Food Share"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-3 sm:pt-4 px-3 sm:px-6">
+                  <div className="relative">
+                    {/* Timeline line */}
+                    <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                    
+                    {/* Timeline items */}
+                    <div className="space-y-4 sm:space-y-6 relative z-10">
+                      {/* Current year marker */}
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-green-500 text-white mr-2 sm:mr-4">
+                          <Star className="h-3 w-3 sm:h-4 sm:w-4" />
+                        </div>
+                        <div className="flex-grow pt-0.5 sm:pt-1">
+                          <h4 className="text-sm sm:text-base font-medium text-gray-800">{new Date().getFullYear()}</h4>
+                          <p className="text-xs sm:text-sm text-gray-600">
+                            {donorFirstName 
+                              ? `${donorFirstName}'s most recent donation helps us continue our mission!` 
+                              : "Your most recent donation helps us continue our mission!"}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Show fiscal year 2025 giving data if available */}
+                      {fiscalYearGiving.fy25 !== undefined && fiscalYearGiving.fy25 > 0 && (
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-blue-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                          </div>
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2025</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!` 
+                                : `You gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!`}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Show fiscal year 2024 giving data if available */}
+                      {fiscalYearGiving.fy24 !== undefined && fiscalYearGiving.fy24 > 0 && (
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-teal-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                          </div>
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2024</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!` 
+                                : `You contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!`}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Show fiscal year 2023 giving data if available */}
+                      {fiscalYearGiving.fy23 !== undefined && fiscalYearGiving.fy23 > 0 && (
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-indigo-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                          </div>
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2023</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName}'s ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.` 
+                                : `Your ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.`}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Show fiscal year 2022 giving data if available */}
+                      {fiscalYearGiving.fy22 !== undefined && fiscalYearGiving.fy22 > 0 && (
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-400 text-white mr-2 sm:mr-4">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                          </div>
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2022</h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.` 
+                                : `You donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.`}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* First gift */}
+                      {years >= 1 && (
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-500 text-white mr-2 sm:mr-4">
+                            <Heart className="h-3 w-3 sm:h-4 sm:w-4" />
+                          </div>
+                          <div className="flex-grow pt-0.5 sm:pt-1">
+                            <h4 className="text-sm sm:text-base font-medium text-gray-800">
+                              {donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "First Gift"}
+                            </h4>
+                            <p className="text-xs sm:text-sm text-gray-600">
+                              {donorFirstName 
+                                ? `${donorFirstName} made their first gift to Community Food Share!` 
+                                : "You made your first gift to Community Food Share!"}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
