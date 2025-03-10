@@ -12,7 +12,7 @@ interface CountUpAnimationProps {
 
 export default function CountUpAnimation({ 
   value,
-  duration = 1.5,
+  duration = 1.0, // Reduced default duration from 1.5 to 1.0 seconds for faster animations
   delay = 0,
   className = "",
   isCurrency = false

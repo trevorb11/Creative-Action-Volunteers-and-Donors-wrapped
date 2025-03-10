@@ -215,7 +215,7 @@ export default function FoodRescueComparison({
             >
               <CountUpAnimation 
                 value={impact.foodRescued} 
-                duration={2000}
+                duration={0.8} // Reduced from 2000 to 0.8 seconds for much faster animation
                 className="text-5xl font-bold" 
               />
             </motion.p>
@@ -223,7 +223,7 @@ export default function FoodRescueComparison({
               className="ml-2 text-4xl font-bold text-[#e97826]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2.5, duration: 0.3 }}
+              transition={{ delay: 1.0, duration: 0.3 }} // Reduced from 2.5s to 1.0s to match faster count animation
             >
               pounds
             </motion.p>
