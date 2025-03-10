@@ -51,9 +51,9 @@ function getComparisonIconSets(lbs: number): {
   } else if (lbs < 400) {
     primaryIcon = <Dog className="h-20 w-20 text-[#F08445]" />;
   } else if (lbs < 3000) {
-    primaryIcon = <Truck className="h-20 w-20 text-[#e97826]" />;
+    primaryIcon = <Truck className="h-20 w-20 text-[#F08445]" />;
   } else {
-    primaryIcon = <Fish className="h-20 w-20 text-[#e97826]" />;
+    primaryIcon = <Fish className="h-20 w-20 text-[#F08445]" />;
   }
   
   return {
@@ -71,7 +71,7 @@ function FoodTypeIcon({ type }: { type: string }) {
     case "dairy":
       return <Milk className="h-6 w-6 text-[#227d7f]" />;
     case "protein":
-      return <Beef className="h-6 w-6 text-[#e97826]" />;
+      return <Beef className="h-6 w-6 text-[#F08445]" />;
     default:
       return <Coffee className="h-6 w-6 text-[#414042]" />;
   }
@@ -363,7 +363,7 @@ export default function FoodRescueComparison({
               >
                 {/* Display the primary comparison based on the primary icon type */}
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-[#e97826] mb-2">
+                  <p className="text-2xl font-bold text-[#F08445] mb-2">
                     {primaryComparisonType === 'apple' && 'Equivalent to several bags of apples'}
                     {primaryComparisonType === 'cat' && impact.houseCats}
                     {primaryComparisonType === 'baby' && impact.toddlers}
@@ -399,7 +399,7 @@ export default function FoodRescueComparison({
             {/* See More Comparisons button */}
             {!showMoreComparisons && (
               <motion.button
-                className="mt-2 px-4 py-2 bg-[#e97826]/10 text-[#e97826] rounded-lg font-medium text-sm hover:bg-[#e97826]/20 transition-colors"
+                className="mt-2 px-4 py-2 bg-[#F08445]/10 text-[#F08445] rounded-lg font-medium text-sm hover:bg-[#F08445]/20 transition-colors"
                 onClick={() => setShowMoreComparisons(true)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -423,8 +423,8 @@ export default function FoodRescueComparison({
                   <button 
                     className={`px-3 py-1.5 rounded-full text-sm ${
                       activeTab === 'small' 
-                        ? 'bg-[#e97826] text-white font-medium' 
-                        : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                        ? 'bg-[#F08445] text-white font-medium' 
+                        : 'bg-[#F08445]/10 text-[#414042] hover:bg-[#F08445]/20'
                     }`}
                     onClick={() => setActiveTab('small')}
                   >
@@ -433,8 +433,8 @@ export default function FoodRescueComparison({
                   <button 
                     className={`px-3 py-1.5 rounded-full text-sm ${
                       activeTab === 'medium' 
-                        ? 'bg-[#e97826] text-white font-medium' 
-                        : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                        ? 'bg-[#F08445] text-white font-medium' 
+                        : 'bg-[#F08445]/10 text-[#414042] hover:bg-[#F08445]/20'
                     }`}
                     onClick={() => setActiveTab('medium')}
                   >
@@ -535,7 +535,7 @@ export default function FoodRescueComparison({
                 
                 {/* Button to collapse back to single view */}
                 <motion.button
-                  className="mt-3 px-4 py-2 bg-[#e97826]/10 text-[#e97826] rounded-lg font-medium text-sm hover:bg-[#e97826]/20 transition-colors"
+                  className="mt-3 px-4 py-2 bg-[#F08445]/10 text-[#F08445] rounded-lg font-medium text-sm hover:bg-[#F08445]/20 transition-colors"
                   onClick={() => setShowMoreComparisons(false)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
