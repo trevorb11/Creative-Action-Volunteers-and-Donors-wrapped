@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { DollarSign, TrendingUp, FilePlus } from "lucide-react";
+import { DollarSign, TrendingUp } from "lucide-react";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import CountUpAnimation from "./CountUpAnimation";
@@ -40,12 +40,8 @@ export default function DonorFinancialSlide({
   };
   
   // Calculate financial metrics (leverage factor is how many times the donation is multiplied in value)
-  const leverageFactor = 5;
+  const leverageFactor = 6; // Updated to show $1 = $6 worth of groceries
   const communityValue = amount * leverageFactor;
-  
-  // Calculate tax savings (simplified placeholder for example purposes)
-  const taxRate = 0.30; // Assuming 30% tax bracket
-  const potentialTaxSavings = amount * taxRate;
 
   return (
     <SlideLayout
@@ -106,24 +102,7 @@ export default function DonorFinancialSlide({
             <div>
               <h4 className="font-medium text-[#414042]">Economic Value</h4>
               <p className="text-sm text-gray-600">
-                Every dollar you donate helps us secure and distribute up to {leverageFactor} pounds of food through our partnerships
-              </p>
-            </div>
-          </div>
-        </motion.div>
-        
-        <motion.div 
-          className="bg-white p-4 rounded-lg shadow-sm border border-gray-100"
-          variants={itemVariants}
-        >
-          <div className="flex items-start">
-            <div className="bg-[#f3fae7] p-2 rounded-full mr-3">
-              <FilePlus className="h-5 w-5 text-[#8dc53e]" />
-            </div>
-            <div>
-              <h4 className="font-medium text-[#414042]">Potential Tax Benefits</h4>
-              <p className="text-sm text-gray-600">
-                Your donation may qualify for a tax deduction, potentially saving you up to ${potentialTaxSavings.toFixed(2)} depending on your tax situation
+                Every dollar you donate helps us secure and distribute ${leverageFactor} worth of groceries through our partnerships
               </p>
             </div>
           </div>
@@ -137,7 +116,7 @@ export default function DonorFinancialSlide({
         transition={{ delay: 1.2, duration: 0.5 }}
       >
         <p className="text-[#414042] text-sm">
-          <span className="font-medium">Note:</span> This is not tax advice. Please consult with a tax professional regarding deductibility of your donations.
+          Every dollar you donate helps us provide <span className="font-medium">${leverageFactor}</span> worth of nutritious groceries to families in need.
         </p>
       </motion.div>
     </SlideLayout>
