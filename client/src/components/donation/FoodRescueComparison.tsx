@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import { Leaf, Scale, Dog, Cat, Baby, Fish, Truck, Apple, Banana, PawPrint, Beef, Milk, Coffee, Car, Citrus, CircleDot } from "lucide-react";
+import { GiElephant } from "react-icons/gi";
 import CountUpAnimation from "./CountUpAnimation";
 
 interface FoodRescueComparisonProps {
@@ -34,9 +35,9 @@ function getComparisonIconSets(lbs: number): {
   ];
   
   const largeIcons = [
+    <GiElephant key="elephant" className="h-14 w-14 text-[#F08445]" />,
     <Truck key="truck" className="h-14 w-14 text-[#227d7f]" />,
-    <Car key="car" className="h-14 w-14 text-[#0c4428]" />,
-    <Fish key="fish" className="h-14 w-14 text-[#284a75]" />
+    <Car key="car" className="h-14 w-14 text-[#0c4428]" />
   ];
   
   // Primary icon based on weight
@@ -52,7 +53,7 @@ function getComparisonIconSets(lbs: number): {
     primaryIcon = <Dog className="h-20 w-20 text-[#F08445]" />;
   } else {
     // For all larger donations, use the Baby Elephant
-    primaryIcon = <Fish className="h-20 w-20 text-[#F08445]" />; // Using Fish icon as a stand-in for elephant
+    primaryIcon = <GiElephant className="h-20 w-20 text-[#F08445]" />;
   }
   
   return {
