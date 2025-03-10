@@ -195,10 +195,7 @@ export default function FoodRescueComparison({
               <CircleDot className="h-4 w-4 text-[#BAD9A3]" />
             </motion.div>
             
-            {/* Scale base - removed for cleaner look */}
-            
-            {/* Scale pole */}
-            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-4 bg-[#F08445] rounded-t-sm" />
+            {/* Scale base and pole removed for cleaner look */}
             
             {/* Scale beam */}
             <motion.div 
