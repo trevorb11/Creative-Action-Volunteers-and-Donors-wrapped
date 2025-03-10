@@ -183,8 +183,8 @@ export default function NeighborQuotesSlide({
             </motion.div>
           </AnimatePresence>
           
-          {/* Navigation buttons */}
-          <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-10">
+          {/* Navigation buttons - moved further away from the quotes */}
+          <div className="absolute top-1/2 left-2 sm:-left-4 md:-left-6 transform -translate-y-1/2 z-10">
             <Button 
               variant="outline" 
               size="icon"
@@ -194,7 +194,7 @@ export default function NeighborQuotesSlide({
               <ArrowLeft className="h-5 w-5 text-gray-600" />
             </Button>
           </div>
-          <div className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10">
+          <div className="absolute top-1/2 right-2 sm:-right-4 md:-right-6 transform -translate-y-1/2 z-10">
             <Button 
               variant="outline" 
               size="icon"

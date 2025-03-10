@@ -157,12 +157,11 @@ export default function FoodRescueComparison({
       isLastSlide={isLastSlide}
     >
       <div className="flex flex-col items-center space-y-6">
-        {/* Primary Icon with Floating Effect */}
+        {/* Animated Scale Icon */}
         <motion.div
-          initial={{ scale: 0, rotate: -180, y: 0 }}
+          initial={{ scale: 0, y: 0 }}
           animate={{ 
-            scale: 1, 
-            rotate: 0,
+            scale: 1,
             y: [0, -5, 0, -3, 0] 
           }}
           transition={{ 
@@ -176,11 +175,61 @@ export default function FoodRescueComparison({
               ease: "easeInOut",
             }
           }}
-          className="mb-2 relative"
+          className="mb-2 relative flex flex-col items-center"
         >
-          {iconSets?.primary}
+          {/* Scale with balancing animation */}
+          <div className="relative h-24 w-24">
+            {/* Scale base */}
+            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-6 w-14 bg-[#e97826] rounded-md" />
+            
+            {/* Scale pole */}
+            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-14 w-2 bg-[#e97826] rounded-t-sm" />
+            
+            {/* Scale beam */}
+            <motion.div 
+              className="absolute top-2 left-1/2 transform -translate-x-1/2 h-2 w-20 bg-[#e97826] rounded-md"
+              animate={{ 
+                rotate: [-10, 10, -5, 8, -10] 
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 4, 
+                ease: "easeInOut" 
+              }}
+            >
+              {/* Left scale pan */}
+              <motion.div 
+                className="absolute left-0 top-1 h-8 w-8 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
+                animate={{ 
+                  y: [0, 8, 2, 6, 0] 
+                }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 4, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <Leaf className="h-4 w-4 text-[#8dc53e]" />
+              </motion.div>
+              
+              {/* Right scale pan */}
+              <motion.div 
+                className="absolute right-0 top-1 h-8 w-8 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
+                animate={{ 
+                  y: [8, 0, 6, 2, 8] 
+                }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 4, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <Scale className="h-4 w-4 text-[#227d7f]" />
+              </motion.div>
+            </motion.div>
+          </div>
           
-          {/* Floating particles around the icon */}
+          {/* Floating particles around the scale */}
           <motion.div 
             className="absolute -top-2 -right-2 h-4 w-4"
             animate={{ 
