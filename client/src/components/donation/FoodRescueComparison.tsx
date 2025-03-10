@@ -344,7 +344,7 @@ export default function FoodRescueComparison({
         
         {/* Weight Comparison Card */}
         <motion.div 
-          className="bg-[#fef8f3] p-5 sm:p-6 rounded-lg border border-[#e97826]/20 shadow-sm hover:shadow-md transition-shadow w-full"
+          className="bg-[#fef8f3] p-5 sm:p-6 rounded-lg border border-[#F08445]/20 shadow-sm hover:shadow-md transition-shadow w-full"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.5 }}
@@ -414,7 +414,7 @@ export default function FoodRescueComparison({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 transition={{ duration: 0.3 }}
-                className="w-full mt-4 border-t border-[#e97826]/20 pt-4"
+                className="w-full mt-4 border-t border-[#F08445]/20 pt-4"
               >
                 <p className="text-sm font-medium text-[#414042] mb-3">Compare by size:</p>
                 
@@ -443,8 +443,8 @@ export default function FoodRescueComparison({
                   <button 
                     className={`px-3 py-1.5 rounded-full text-sm ${
                       activeTab === 'large' 
-                        ? 'bg-[#e97826] text-white font-medium' 
-                        : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                        ? 'bg-[#F08445] text-white font-medium' 
+                        : 'bg-[#F08445]/10 text-[#414042] hover:bg-[#F08445]/20'
                     }`}
                     onClick={() => setActiveTab('large')}
                   >
@@ -464,7 +464,7 @@ export default function FoodRescueComparison({
                   >
                     {activeTab === 'small' && (
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-[#e97826] mb-2">
+                        <p className="text-2xl font-bold text-[#F08445] mb-2">
                           {impact.breadLoaves}
                         </p>
                         <div className="flex justify-center space-x-2 mb-2">
@@ -487,7 +487,7 @@ export default function FoodRescueComparison({
                     
                     {activeTab === 'medium' && (
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-[#e97826] mb-2">
+                        <p className="text-2xl font-bold text-[#F08445] mb-2">
                           {impact.goldenRetrievers}
                         </p>
                         <div className="flex justify-center space-x-3 mb-2">
@@ -510,7 +510,7 @@ export default function FoodRescueComparison({
                     
                     {activeTab === 'large' && (
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-[#e97826] mb-2">
+                        <p className="text-2xl font-bold text-[#F08445] mb-2">
                           {impact.babyElephants || "Baby Elephants"}
                         </p>
                         <div className="flex justify-center space-x-4 mb-2">
@@ -553,7 +553,7 @@ export default function FoodRescueComparison({
         
         {/* Food Type Distribution with Interactive Donut Chart */}
         <motion.div 
-          className="bg-[#fef8f3] p-4 sm:p-5 rounded-lg border border-[#e97826]/10 w-full"
+          className="bg-[#fef8f3] p-4 sm:p-5 rounded-lg border border-[#F08445]/10 w-full"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.5 }}
@@ -613,7 +613,7 @@ export default function FoodRescueComparison({
                   <svg width="100%" height="100%" viewBox="0 0 100 100">
                     <path
                       d={`M 50 50 L ${50 + 50 * Math.sin(((impact.producePercentage + impact.dairyPercentage) / 100) * Math.PI * 2)} ${50 - 50 * Math.cos(((impact.producePercentage + impact.dairyPercentage) / 100) * Math.PI * 2)} A 50 50 0 0 1 ${50 + 50 * Math.sin(((impact.producePercentage + impact.dairyPercentage + impact.proteinPercentage) / 100) * Math.PI * 2)} ${50 - 50 * Math.cos(((impact.producePercentage + impact.dairyPercentage + impact.proteinPercentage) / 100) * Math.PI * 2)} Z`}
-                      fill="#e97826"
+                      fill="#F08445"
                       stroke="#fff"
                       strokeWidth="1"
                     />
@@ -675,14 +675,14 @@ export default function FoodRescueComparison({
             </motion.div>
             
             <motion.div 
-              className="flex items-center p-2 rounded-lg bg-[#e97826]/20"
+              className="flex items-center p-2 rounded-lg bg-[#F08445]/20"
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
             >
               <FoodTypeIcon type="protein" />
               <div className="ml-2">
                 <p className="text-xs font-medium text-[#414042]">Protein</p>
-                <p className="text-base font-bold text-[#e97826]">{impact.proteinPercentage}%</p>
+                <p className="text-base font-bold text-[#F08445]">{impact.proteinPercentage}%</p>
               </div>
             </motion.div>
             
