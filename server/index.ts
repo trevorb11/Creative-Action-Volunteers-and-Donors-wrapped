@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { setupDatabase } from "./db-setup";
 import { setupKeepAlive } from "./keep-alive";
+import { createHttpServer, startServer } from "./server-manager";
 
 const app = express();
 app.use(express.json());
@@ -44,18 +45,43 @@ app.use((req, res, next) => {
     await setupDatabase();
     log("Database initialized successfully");
     
+    // Add a ping route to keep the server active
+    app.get('/ping', (_req, res) => {
+      res.status(200).send('pong');
+    });
+
+    // Add a health check endpoint
+    app.get('/health', (_req, res) => {
+      res.status(200).json({
+        status: 'up',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+      });
+    });
+
     // Register API routes
     const server = await registerRoutes(app);
 
+    // Enhanced error handling middleware
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
 
-      res.status(status).json({ message });
+      // Log the error with additional details in development
       console.error("Error:", err);
+      
+      // Send appropriate response based on environment
+      res.status(status).json({ 
+        message,
+        // Include error details in development only
+        ...(process.env.NODE_ENV !== 'production' && { 
+          stack: err.stack,
+          name: err.name
+        })
+      });
     });
 
-    // importantly only setup vite in development and after
+    // Importantly only setup vite in development and after
     // setting up all the other routes so the catch-all route
     // doesn't interfere with the other routes
     if (app.get("env") === "development") {
@@ -64,46 +90,11 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    // ALWAYS serve the app on port 5000
-    // this serves both the API and the client
-    const port = process.env.PORT || 5000;
+    // Start the server with enhanced error handling and auto-restart capability
+    startServer(server, app);
     
-    // Enable keep-alive connections
-    server.keepAliveTimeout = 65000; // 65 seconds - higher than default of ALB/ELB (60 seconds)
-    server.headersTimeout = 66000; // Ensure this is higher than keepAliveTimeout
-    
-    // Add error handling for the server
-    server.on('error', (error: Error) => {
-      console.error('Server error:', error);
-      // Attempt to restart if the port is not in use
-      if ((error as any).code === 'EADDRINUSE') {
-        log(`Port ${port} is in use, attempting to restart...`);
-        setTimeout(() => {
-          server.close();
-          server.listen({
-            port,
-            host: "0.0.0.0",
-            reusePort: true,
-          });
-        }, 1000);
-      }
-    });
-    
-    // Add a ping route to keep the server active
-    app.get('/ping', (_req, res) => {
-      res.status(200).send('pong');
-    });
-    
-    server.listen({
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    }, () => {
-      log(`serving on port ${port}`);
-      
-      // Start the keep-alive mechanism once the server is running
-      setupKeepAlive();
-    });
+    // Start the keep-alive mechanism
+    setupKeepAlive();
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);

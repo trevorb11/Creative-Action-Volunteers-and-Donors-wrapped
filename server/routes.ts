@@ -260,8 +260,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create http server and setup WS support
+  // Create http server for the application
   const server = createServer(app);
+  
+  // Add a ping endpoint for keep-alive and health checks
+  app.get('/ping', (_req, res) => {
+    res.status(200).send('pong');
+  });
   
   // Error handling middleware
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
