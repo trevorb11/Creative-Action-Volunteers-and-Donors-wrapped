@@ -24,7 +24,7 @@ function getComparisonIconSets(lbs: number): {
   const smallIcons = [
     <Apple key="apple" className="h-10 w-10 text-[#8dc53e]" />,
     <Banana key="banana" className="h-10 w-10 text-[#e9c326]" />,
-    <Citrus key="citrus" className="h-10 w-10 text-[#e97826]" />
+    <Citrus key="citrus" className="h-10 w-10 text-[#F08445]" />
   ];
   
   const mediumIcons = [
@@ -43,13 +43,13 @@ function getComparisonIconSets(lbs: number): {
   let primaryIcon;
   
   if (lbs < 5) {
-    primaryIcon = <Apple className="h-20 w-20 text-[#e97826]" />;
+    primaryIcon = <Apple className="h-20 w-20 text-[#F08445]" />;
   } else if (lbs < 20) {
-    primaryIcon = <Cat className="h-20 w-20 text-[#e97826]" />;
+    primaryIcon = <Cat className="h-20 w-20 text-[#F08445]" />;
   } else if (lbs < 50) {
-    primaryIcon = <Baby className="h-20 w-20 text-[#e97826]" />;
+    primaryIcon = <Baby className="h-20 w-20 text-[#F08445]" />;
   } else if (lbs < 400) {
-    primaryIcon = <Dog className="h-20 w-20 text-[#e97826]" />;
+    primaryIcon = <Dog className="h-20 w-20 text-[#F08445]" />;
   } else if (lbs < 3000) {
     primaryIcon = <Truck className="h-20 w-20 text-[#e97826]" />;
   } else {
@@ -350,7 +350,7 @@ export default function FoodRescueComparison({
           transition={{ delay: 0.8, duration: 0.5 }}
         >
           <div className="flex flex-col items-center text-center">
-            <Scale className="h-10 w-10 text-[#e97826] mb-3" />
+            <Scale className="h-10 w-10 text-[#F08445] mb-3" />
             <h3 className="text-lg font-bold text-[#414042] mb-3">Weight Comparison</h3>
             
             {/* Primary comparison (always shown) */}
