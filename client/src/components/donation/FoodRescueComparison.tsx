@@ -95,6 +95,9 @@ export default function FoodRescueComparison({
   // State for the active weight comparison tab
   const [activeTab, setActiveTab] = useState<'small' | 'medium' | 'large'>('medium');
   
+  // State to track if more comparisons are shown
+  const [showMoreComparisons, setShowMoreComparisons] = useState(false);
+  
   // Get the appropriate icon based on the amount of food rescued
   useEffect(() => {
     const lbs = impact.foodRescued;
@@ -233,7 +236,7 @@ export default function FoodRescueComparison({
           </p>
         </motion.div>
         
-        {/* Weight Comparison Card with Tabs */}
+        {/* Weight Comparison Card */}
         <motion.div 
           className="bg-[#fef8f3] p-5 sm:p-6 rounded-lg border border-[#e97826]/20 shadow-sm hover:shadow-md transition-shadow w-full"
           initial={{ opacity: 0, y: 20 }}
@@ -244,57 +247,25 @@ export default function FoodRescueComparison({
             <Scale className="h-10 w-10 text-[#e97826] mb-3" />
             <h3 className="text-lg font-bold text-[#414042] mb-3">Weight Comparison</h3>
             
-            {/* Comparison tabs */}
-            <div className="flex space-x-2 mb-4">
-              <button 
-                className={`px-3 py-1.5 rounded-full text-sm ${
-                  activeTab === 'small' 
-                    ? 'bg-[#e97826] text-white font-medium' 
-                    : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
-                }`}
-                onClick={() => setActiveTab('small')}
-              >
-                Small
-              </button>
-              <button 
-                className={`px-3 py-1.5 rounded-full text-sm ${
-                  activeTab === 'medium' 
-                    ? 'bg-[#e97826] text-white font-medium' 
-                    : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
-                }`}
-                onClick={() => setActiveTab('medium')}
-              >
-                Medium
-              </button>
-              <button 
-                className={`px-3 py-1.5 rounded-full text-sm ${
-                  activeTab === 'large' 
-                    ? 'bg-[#e97826] text-white font-medium' 
-                    : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
-                }`}
-                onClick={() => setActiveTab('large')}
-              >
-                Large
-              </button>
-            </div>
-            
-            {/* Tab content with animated transitions */}
+            {/* Primary comparison (always shown) */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="w-full"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="w-full mb-3"
               >
-                {activeTab === 'small' && (
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-[#e97826] mb-2">
-                      {impact.breadLoaves}
-                    </p>
-                    <div className="flex justify-center space-x-2 mb-2">
-                      {iconSets?.small.map((icon, i) => (
+                {/* Display the primary comparison based on the weight category */}
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-[#e97826] mb-2">
+                    {activeTab === 'small' ? impact.breadLoaves : 
+                     activeTab === 'medium' ? impact.bulldogs : 
+                     impact.babyElephants}
+                  </p>
+                  
+                  <div className="flex justify-center space-x-3 mb-2">
+                    {activeTab === 'small' ? (
+                      iconSets?.small.map((icon, i) => (
                         <motion.div 
                           key={i}
                           initial={{ scale: 0 }}
@@ -303,21 +274,9 @@ export default function FoodRescueComparison({
                         >
                           {icon}
                         </motion.div>
-                      ))}
-                    </div>
-                    <p className="text-sm text-[#414042] mt-1">
-                      Or about {impact.pineapples} or {impact.toddlers}
-                    </p>
-                  </div>
-                )}
-                
-                {activeTab === 'medium' && (
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-[#e97826] mb-2">
-                      {impact.bulldogs}
-                    </p>
-                    <div className="flex justify-center space-x-3 mb-2">
-                      {iconSets?.medium.map((icon, i) => (
+                      ))
+                    ) : activeTab === 'medium' ? (
+                      iconSets?.medium.map((icon, i) => (
                         <motion.div 
                           key={i}
                           initial={{ scale: 0 }}
@@ -326,21 +285,9 @@ export default function FoodRescueComparison({
                         >
                           {icon}
                         </motion.div>
-                      ))}
-                    </div>
-                    <p className="text-sm text-[#414042] mt-1">
-                      Or about {impact.houseCats} or {impact.goldenRetrievers}
-                    </p>
-                  </div>
-                )}
-                
-                {activeTab === 'large' && (
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-[#e97826] mb-2">
-                      {impact.babyElephants}
-                    </p>
-                    <div className="flex justify-center space-x-4 mb-2">
-                      {iconSets?.large.map((icon, i) => (
+                      ))
+                    ) : (
+                      iconSets?.large.map((icon, i) => (
                         <motion.div 
                           key={i}
                           initial={{ scale: 0 }}
@@ -349,15 +296,169 @@ export default function FoodRescueComparison({
                         >
                           {icon}
                         </motion.div>
-                      ))}
-                    </div>
-                    <p className="text-sm text-[#414042] mt-1">
-                      Or about {impact.grizzlyBears} or {impact.cars}
-                    </p>
+                      ))
+                    )}
                   </div>
-                )}
+                  
+                  <p className="text-sm text-[#414042] mt-1">
+                    {activeTab === 'small' ? 
+                      `Or about ${impact.pineapples} or ${impact.toddlers}` : 
+                     activeTab === 'medium' ? 
+                      `Or about ${impact.houseCats} or ${impact.goldenRetrievers}` : 
+                      `Or about ${impact.grizzlyBears} or ${impact.cars}`}
+                  </p>
+                </div>
               </motion.div>
             </AnimatePresence>
+            
+            {/* See More Comparisons button */}
+            {!showMoreComparisons && (
+              <motion.button
+                className="mt-2 px-4 py-2 bg-[#e97826]/10 text-[#e97826] rounded-lg font-medium text-sm hover:bg-[#e97826]/20 transition-colors"
+                onClick={() => setShowMoreComparisons(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                See More Comparisons
+              </motion.button>
+            )}
+            
+            {/* Additional comparisons - only shown after clicking "See More" */}
+            {showMoreComparisons && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                transition={{ duration: 0.3 }}
+                className="w-full mt-4 border-t border-[#e97826]/20 pt-4"
+              >
+                <p className="text-sm font-medium text-[#414042] mb-3">Compare by size:</p>
+                
+                {/* Comparison tabs */}
+                <div className="flex space-x-2 mb-4">
+                  <button 
+                    className={`px-3 py-1.5 rounded-full text-sm ${
+                      activeTab === 'small' 
+                        ? 'bg-[#e97826] text-white font-medium' 
+                        : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                    }`}
+                    onClick={() => setActiveTab('small')}
+                  >
+                    Small
+                  </button>
+                  <button 
+                    className={`px-3 py-1.5 rounded-full text-sm ${
+                      activeTab === 'medium' 
+                        ? 'bg-[#e97826] text-white font-medium' 
+                        : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                    }`}
+                    onClick={() => setActiveTab('medium')}
+                  >
+                    Medium
+                  </button>
+                  <button 
+                    className={`px-3 py-1.5 rounded-full text-sm ${
+                      activeTab === 'large' 
+                        ? 'bg-[#e97826] text-white font-medium' 
+                        : 'bg-[#e97826]/10 text-[#414042] hover:bg-[#e97826]/20'
+                    }`}
+                    onClick={() => setActiveTab('large')}
+                  >
+                    Large
+                  </button>
+                </div>
+                
+                {/* Tab content with animated transitions */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="w-full"
+                  >
+                    {activeTab === 'small' && (
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-[#e97826] mb-2">
+                          {impact.breadLoaves}
+                        </p>
+                        <div className="flex justify-center space-x-2 mb-2">
+                          {iconSets?.small.map((icon, i) => (
+                            <motion.div 
+                              key={i}
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ delay: i * 0.1, duration: 0.3 }}
+                            >
+                              {icon}
+                            </motion.div>
+                          ))}
+                        </div>
+                        <p className="text-sm text-[#414042] mt-1">
+                          Or about {impact.pineapples} or {impact.toddlers}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {activeTab === 'medium' && (
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-[#e97826] mb-2">
+                          {impact.bulldogs}
+                        </p>
+                        <div className="flex justify-center space-x-3 mb-2">
+                          {iconSets?.medium.map((icon, i) => (
+                            <motion.div 
+                              key={i}
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ delay: i * 0.1, duration: 0.3 }}
+                            >
+                              {icon}
+                            </motion.div>
+                          ))}
+                        </div>
+                        <p className="text-sm text-[#414042] mt-1">
+                          Or about {impact.houseCats} or {impact.goldenRetrievers}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {activeTab === 'large' && (
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-[#e97826] mb-2">
+                          {impact.babyElephants}
+                        </p>
+                        <div className="flex justify-center space-x-4 mb-2">
+                          {iconSets?.large.map((icon, i) => (
+                            <motion.div 
+                              key={i}
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ delay: i * 0.1, duration: 0.3 }}
+                            >
+                              {icon}
+                            </motion.div>
+                          ))}
+                        </div>
+                        <p className="text-sm text-[#414042] mt-1">
+                          Or about {impact.grizzlyBears} or {impact.cars}
+                        </p>
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+                
+                {/* Button to collapse back to single view */}
+                <motion.button
+                  className="mt-3 px-4 py-2 bg-[#e97826]/10 text-[#e97826] rounded-lg font-medium text-sm hover:bg-[#e97826]/20 transition-colors"
+                  onClick={() => setShowMoreComparisons(false)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Show Less
+                </motion.button>
+              </motion.div>
+            )}
             
             <p className="text-sm text-[#414042] mt-4 italic">
               {impact.weightComparisonText || "Your donation makes a big impact."}
