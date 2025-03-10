@@ -98,6 +98,9 @@ export default function FoodRescueComparison({
   // State to track if more comparisons are shown
   const [showMoreComparisons, setShowMoreComparisons] = useState(false);
   
+  // State to track which primary comparison to show
+  const [primaryComparisonType, setPrimaryComparisonType] = useState<string>('');
+  
   // Get the appropriate icon based on the amount of food rescued
   useEffect(() => {
     const lbs = impact.foodRescued;
@@ -110,6 +113,21 @@ export default function FoodRescueComparison({
       setActiveTab('medium');
     } else {
       setActiveTab('large');
+    }
+    
+    // Determine which primary comparison to show based on the icon
+    if (lbs < 5) {
+      setPrimaryComparisonType('apple');
+    } else if (lbs < 20) {
+      setPrimaryComparisonType('cat');
+    } else if (lbs < 50) {
+      setPrimaryComparisonType('baby');
+    } else if (lbs < 400) {
+      setPrimaryComparisonType('dog');
+    } else if (lbs < 3000) {
+      setPrimaryComparisonType('truck');
+    } else {
+      setPrimaryComparisonType('fish');
     }
   }, [impact.foodRescued]);
   
@@ -255,57 +273,36 @@ export default function FoodRescueComparison({
                 transition={{ duration: 0.4 }}
                 className="w-full mb-3"
               >
-                {/* Display the primary comparison based on the weight category */}
+                {/* Display the primary comparison based on the primary icon type */}
                 <div className="text-center">
                   <p className="text-2xl font-bold text-[#e97826] mb-2">
-                    {activeTab === 'small' ? impact.breadLoaves : 
-                     activeTab === 'medium' ? impact.bulldogs : 
-                     impact.babyElephants}
+                    {primaryComparisonType === 'apple' && 'Equivalent to several bags of apples'}
+                    {primaryComparisonType === 'cat' && impact.houseCats}
+                    {primaryComparisonType === 'baby' && impact.toddlers}
+                    {primaryComparisonType === 'dog' && impact.bulldogs}
+                    {primaryComparisonType === 'truck' && impact.cars}
+                    {primaryComparisonType === 'fish' && impact.whaleSharkPups || impact.babyElephants}
                   </p>
                   
                   <div className="flex justify-center space-x-3 mb-2">
-                    {activeTab === 'small' ? (
-                      iconSets?.small.map((icon, i) => (
-                        <motion.div 
-                          key={i}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: i * 0.1, duration: 0.3 }}
-                        >
-                          {icon}
-                        </motion.div>
-                      ))
-                    ) : activeTab === 'medium' ? (
-                      iconSets?.medium.map((icon, i) => (
-                        <motion.div 
-                          key={i}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: i * 0.1, duration: 0.3 }}
-                        >
-                          {icon}
-                        </motion.div>
-                      ))
-                    ) : (
-                      iconSets?.large.map((icon, i) => (
-                        <motion.div 
-                          key={i}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: i * 0.1, duration: 0.3 }}
-                        >
-                          {icon}
-                        </motion.div>
-                      ))
-                    )}
+                    {/* Display primary icon representation */}
+                    <motion.div 
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.4 }}
+                      className="flex items-center justify-center"
+                    >
+                      {iconSets?.primary}
+                    </motion.div>
                   </div>
                   
                   <p className="text-sm text-[#414042] mt-1">
-                    {activeTab === 'small' ? 
-                      `Or about ${impact.pineapples} or ${impact.toddlers}` : 
-                     activeTab === 'medium' ? 
-                      `Or about ${impact.houseCats} or ${impact.goldenRetrievers}` : 
-                      `Or about ${impact.grizzlyBears} or ${impact.cars}`}
+                    {primaryComparisonType === 'apple' && `About ${impact.breadLoaves}`}
+                    {primaryComparisonType === 'cat' && `About ${impact.houseCats}`}
+                    {primaryComparisonType === 'baby' && `That's ${impact.toddlers}`}
+                    {primaryComparisonType === 'dog' && `Equals ${impact.bulldogs} in weight`}
+                    {primaryComparisonType === 'truck' && `Similar to ${impact.cars} in total weight`}
+                    {primaryComparisonType === 'fish' && `Comparable to ${impact.blueWhaleCalf || impact.babyElephants}`}
                   </p>
                 </div>
               </motion.div>
