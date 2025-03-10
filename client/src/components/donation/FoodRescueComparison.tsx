@@ -30,7 +30,7 @@ function getComparisonIconSets(lbs: number): {
   const mediumIcons = [
     <Cat key="cat" className="h-12 w-12 text-[#414042]" />,
     <PawPrint key="pawprint" className="h-12 w-12 text-[#665544]" />,
-    <Dog key="dog" className="h-12 w-12 text-[#896645]" />
+    <Baby key="baby" className="h-12 w-12 text-[#896645]" /> // Changed from Dog to Baby
   ];
   
   const largeIcons = [
@@ -464,7 +464,7 @@ export default function FoodRescueComparison({
                           ))}
                         </div>
                         <p className="text-sm text-[#414042] mt-1">
-                          Or about {impact.houseCats} or {impact.goldenRetrievers}
+                          Or about {impact.houseCats} or {impact.toddlers}
                         </p>
                       </div>
                     )}
@@ -472,7 +472,7 @@ export default function FoodRescueComparison({
                     {activeTab === 'large' && (
                       <div className="text-center">
                         <p className="text-2xl font-bold text-[#e97826] mb-2">
-                          {impact.babyElephants}
+                          {impact.babyElephants || "Baby Elephants"}
                         </p>
                         <div className="flex justify-center space-x-4 mb-2">
                           {iconSets?.large.map((icon, i) => (
@@ -487,7 +487,7 @@ export default function FoodRescueComparison({
                           ))}
                         </div>
                         <p className="text-sm text-[#414042] mt-1">
-                          Or about {impact.grizzlyBears} or {impact.cars}
+                          Or about {impact.babyElephants} or {impact.cars}
                         </p>
                       </div>
                     )}
