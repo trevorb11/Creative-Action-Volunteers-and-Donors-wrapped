@@ -155,6 +155,7 @@ export default function FoodRescueComparison({
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
+      titleClassName="text-cfs-mobilePantry"
     >
       <div className="flex flex-col items-center space-y-6">
         {/* Animated Scale Icon */}
@@ -178,10 +179,10 @@ export default function FoodRescueComparison({
           className="mb-2 relative flex flex-col items-center"
         >
           {/* Scale with balancing animation */}
-          <div className="relative h-40 w-32">
+          <div className="relative h-40 w-full flex justify-center">
             {/* Green circle at top */}
             <motion.div 
-              className="absolute top-1 left-1/2 transform -translate-x-1/2 h-6 w-6 rounded-full border-2 border-[#8dc53e] bg-white flex items-center justify-center"
+              className="absolute top-1 left-1/2 transform -translate-x-1/2 h-6 w-6 rounded-full border-2 border-[#BAD9A3] bg-white flex items-center justify-center"
               animate={{ 
                 scale: [1, 1.05, 1, 1.05, 1],
                 opacity: [0.9, 1, 0.9, 1, 0.9]
@@ -192,18 +193,18 @@ export default function FoodRescueComparison({
                 ease: "easeInOut" 
               }}
             >
-              <CircleDot className="h-4 w-4 text-[#8dc53e]" />
+              <CircleDot className="h-4 w-4 text-[#BAD9A3]" />
             </motion.div>
             
             {/* Scale base */}
-            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-14 bg-[#e97826] rounded-md" />
+            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-14 bg-[#F08445] rounded-md" />
             
             {/* Scale pole */}
-            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-4 bg-[#e97826] rounded-t-sm" />
+            <motion.div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-10 w-4 bg-[#F08445] rounded-t-sm" />
             
             {/* Scale beam */}
             <motion.div 
-              className="absolute top-12 left-1/2 transform -translate-x-1/2 h-2 w-28 bg-[#e97826] rounded-md"
+              className="absolute top-12 left-1/2 transform -translate-x-1/2 h-2 w-28 bg-[#F08445] rounded-md"
               animate={{ 
                 rotate: [-2, 2, -1, 2, -2] 
               }}
@@ -215,9 +216,9 @@ export default function FoodRescueComparison({
             >
               {/* Left scale pan - with connecting string */}
               <div className="absolute left-0 top-0 flex flex-col items-center">
-                <div className="h-7 w-[1px] bg-[#e97826]"></div>
+                <div className="h-7 w-[1px] bg-[#F08445]"></div>
                 <motion.div 
-                  className="h-10 w-10 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
+                  className="h-10 w-10 rounded-full border-2 border-[#F08445] bg-white flex items-center justify-center"
                   animate={{ 
                     y: [0, 4, 1, 3, 0] 
                   }}
@@ -227,15 +228,15 @@ export default function FoodRescueComparison({
                     ease: "easeInOut" 
                   }}
                 >
-                  <Leaf className="h-5 w-5 text-[#8dc53e]" />
+                  <Leaf className="h-5 w-5 text-[#BAD9A3]" />
                 </motion.div>
               </div>
               
               {/* Right scale pan - with connecting string */}
               <div className="absolute right-0 top-0 flex flex-col items-center">
-                <div className="h-7 w-[1px] bg-[#e97826]"></div>
+                <div className="h-7 w-[1px] bg-[#F08445]"></div>
                 <motion.div 
-                  className="h-10 w-10 rounded-full border-2 border-[#e97826] bg-white flex items-center justify-center"
+                  className="h-10 w-10 rounded-full border-2 border-[#F08445] bg-white flex items-center justify-center"
                   animate={{ 
                     y: [4, 0, 3, 1, 4] 
                   }}
@@ -252,7 +253,7 @@ export default function FoodRescueComparison({
             
             {/* Small circle decorative element */}
             <motion.div 
-              className="absolute bottom-1/3 left-8 h-4 w-4 rounded-full border border-[#e97826]/70 bg-white flex items-center justify-center"
+              className="absolute bottom-1/3 left-1/4 h-4 w-4 rounded-full border border-[#F08445]/70 bg-white flex items-center justify-center"
               animate={{ 
                 scale: [1, 1.1, 1, 1.1, 1],
                 opacity: [0.7, 0.9, 0.7, 0.9, 0.7]
@@ -263,7 +264,7 @@ export default function FoodRescueComparison({
                 ease: "easeInOut" 
               }}
             >
-              <CircleDot className="h-2 w-2 text-[#e97826]" />
+              <CircleDot className="h-2 w-2 text-[#F08445]" />
             </motion.div>
           </div>
           
@@ -281,7 +282,7 @@ export default function FoodRescueComparison({
               ease: "easeInOut" 
             }}
           >
-            <CircleDot className="text-[#8dc53e] h-full w-full" />
+            <CircleDot className="text-[#BAD9A3] h-full w-full" />
           </motion.div>
           
           <motion.div 
@@ -297,7 +298,7 @@ export default function FoodRescueComparison({
               ease: "easeInOut" 
             }}
           >
-            <CircleDot className="text-[#e97826] h-full w-full" />
+            <CircleDot className="text-[#F08445] h-full w-full" />
           </motion.div>
         </motion.div>
         
@@ -311,7 +312,7 @@ export default function FoodRescueComparison({
           <p className="text-lg font-semibold text-[#414042]">Your donation rescued</p>
           <div className="flex items-center justify-center">
             <motion.p 
-              className="text-5xl font-bold text-[#e97826]"
+              className="text-5xl font-bold text-[#F08445]"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ 
@@ -328,7 +329,7 @@ export default function FoodRescueComparison({
               />
             </motion.p>
             <motion.p 
-              className="ml-2 text-4xl font-bold text-[#e97826]"
+              className="ml-2 text-4xl font-bold text-[#F08445]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.0, duration: 0.3 }} // Reduced from 2.5s to 1.0s to match faster count animation

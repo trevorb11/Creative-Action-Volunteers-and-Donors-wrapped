@@ -69,6 +69,8 @@ export default {
           yellow: "#efeb03",
           darkGray: "#414042",
           lightBlue: "#00d6dd",
+          communityRoots: "#b8d0a",     // Community Roots pale green
+          mobilePantry: "#ff9559",      // Mobile Pantry orange
         },
       },
       keyframes: {

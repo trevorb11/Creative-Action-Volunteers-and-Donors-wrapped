@@ -18,6 +18,12 @@ interface SlideLayoutProps {
   isLastSlide?: boolean;
 }
 
+// Updated color palette to use brand colors
+const BRAND_COLORS = {
+  COMMUNITY_ROOTS: "#BAD9A3",
+  MOBILE_PANTRY: "#F08445"
+};
+
 export default function SlideLayout({
   children,
   title,
@@ -32,13 +38,13 @@ export default function SlideLayout({
 }: SlideLayoutProps) {
   const bgColor = SLIDE_COLORS[variant];
   const headerBgColor = variant === 'meals' ? 'bg-[#227d7f]' : 
-                        variant === 'donor' || variant === 'donorSummary' ? 'bg-[#8dc53e]' : 
+                        variant === 'donor' || variant === 'donorSummary' ? 'bg-[#BAD9A3]' : 
                         variant === 'people' || variant === 'summary' ? 'bg-[#0c4428]' : 
                         variant === 'environment' ? 'bg-[#227d7f]' : 
-                        variant === 'foodRescue' ? 'bg-[#8dc53e]' : 'bg-[#0c4428]';
+                        variant === 'foodRescue' ? 'bg-[#F08445]' : 'bg-[#0c4428]';
   
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-green-50 to-green-100 p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-[#BAD9A3]/10 to-[#BAD9A3]/30 p-4 md:p-6 lg:p-8">
       <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
         <Card className="w-full overflow-hidden">
           <CardHeader className={`text-center ${headerBgColor} text-white rounded-t-lg py-4 md:py-6`}>
@@ -60,7 +66,7 @@ export default function SlideLayout({
             
             {quote && (
               <motion.div
-                className="bg-green-50 p-4 md:p-6 rounded-lg border-l-4 border-green-300"
+                className="bg-[#BAD9A3]/20 p-4 md:p-6 rounded-lg border-l-4 border-[#BAD9A3]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
