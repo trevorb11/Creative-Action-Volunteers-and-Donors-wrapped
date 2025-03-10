@@ -328,7 +328,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'apple' && 'Equivalent to several bags of apples'}
                     {primaryComparisonType === 'cat' && impact.houseCats}
                     {primaryComparisonType === 'baby' && impact.toddlers}
-                    {primaryComparisonType === 'dog' && impact.bulldogs}
+                    {primaryComparisonType === 'dog' && impact.goldenRetrievers}
                     {primaryComparisonType === 'truck' && impact.cars}
                     {primaryComparisonType === 'fish' && impact.whaleSharkPups || impact.babyElephants}
                   </p>
@@ -349,7 +349,7 @@ export default function FoodRescueComparison({
                     {primaryComparisonType === 'apple' && `About ${impact.breadLoaves}`}
                     {primaryComparisonType === 'cat' && `About ${impact.houseCats}`}
                     {primaryComparisonType === 'baby' && `That's ${impact.toddlers}`}
-                    {primaryComparisonType === 'dog' && `Equals ${impact.bulldogs} in weight`}
+                    {primaryComparisonType === 'dog' && `Equals ${impact.goldenRetrievers} in weight`}
                     {primaryComparisonType === 'truck' && `Similar to ${impact.cars} in total weight`}
                     {primaryComparisonType === 'fish' && `Comparable to ${impact.blueWhaleCalf || impact.babyElephants}`}
                   </p>
@@ -449,7 +449,7 @@ export default function FoodRescueComparison({
                     {activeTab === 'medium' && (
                       <div className="text-center">
                         <p className="text-2xl font-bold text-[#e97826] mb-2">
-                          {impact.bulldogs}
+                          {impact.goldenRetrievers}
                         </p>
                         <div className="flex justify-center space-x-3 mb-2">
                           {iconSets?.medium.map((icon, i) => (

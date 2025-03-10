@@ -36,15 +36,14 @@ export default function EnvironmentSlide({
   // State for which environmental metric to highlight
   const [activeMetric, setActiveMetric] = useState<ImpactMetric>('co2');
   
-  // Auto-rotate through metrics
+  // Auto-rotate through metrics (slower transition time)
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveMetric(current => {
         if (current === 'co2') return 'water';
-        if (current === 'water') return 'landfill';
         return 'co2';
       });
-    }, 6000);
+    }, 9000); // Increased from 6000 to 9000 ms for slower transitions
     
     return () => clearInterval(interval);
   }, []);
