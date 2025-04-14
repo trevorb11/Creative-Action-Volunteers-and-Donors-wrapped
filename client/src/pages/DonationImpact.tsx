@@ -5,15 +5,22 @@ import { SlideNames, DonationState } from "@/types/donation";
 import WelcomeScreen from "@/components/donation/WelcomeScreen";
 import LoadingScreen from "@/components/donation/LoadingScreen";
 import DonorSummarySlide from "@/components/donation/DonorSummarySlide";
-import MealsSlide from "@/components/donation/MealsSlide";
 import TimeGivingSlide from "@/components/donation/TimeGivingSlide";
-import PeopleSlide from "@/components/donation/PeopleSlide";
+import SlideTransition from "@/components/donation/SlideTransition";
+import SummarySlide from "@/components/donation/SummarySlide";
+
+// Creative Action components
+import MealsSlide from "@/components/donation/MealsSlide"; // Repurposed as Students slide
+import PeopleSlide from "@/components/donation/PeopleSlide"; // Repurposed as TeachingArtists slide
+import ProgramsSlide from "@/components/donation/ProgramsSlide"; // New Creative Action programs slide
+import MuralsSlide from "@/components/donation/MuralsSlide"; // New Creative Action murals slide
+import SELImpactSlide from "@/components/donation/SELImpactSlide"; // New Creative Action SEL slide
+
+// Original components kept for backward compatibility
 import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
 import FoodRescueSlide from "@/components/donation/SimpleFoodRescueSlide";
 import FoodRescueComparison from "@/components/donation/FoodRescueComparison";
 import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
-import SummarySlide from "@/components/donation/SummarySlide";
-import SlideTransition from "@/components/donation/SlideTransition";
 
 // New donor-specific components
 import DonorWelcomeSlide from "@/components/donation/DonorWelcomeSlide";
@@ -798,14 +805,14 @@ isLastSlide() {
             />
           );
         
-        case SlideNames.MEALS:
+        case SlideNames.STUDENTS:
           return state.impact && (
             useDonorSlides ?
               <DonorMealsSlide impact={state.impact} {...navigationProps} /> :
               <MealsSlide impact={state.impact} {...navigationProps} />
           );
         
-        case SlideNames.PEOPLE:
+        case SlideNames.TEACHING_ARTISTS:
           return state.impact && (
             useDonorSlides ?
               <DonorPeopleSlide impact={state.impact} {...navigationProps} /> :
@@ -822,19 +829,19 @@ isLastSlide() {
             />
           );
         
-        case SlideNames.FOOD_RESCUE_COMPARISON:
+        case SlideNames.PROGRAMS:
           return state.impact && (
-            <FoodRescueComparison impact={state.impact} {...navigationProps} />
+            <ProgramsSlide impact={state.impact} {...navigationProps} />
           );
         
-        case SlideNames.FOOD_RESCUE:
+        case SlideNames.MURALS:
           return state.impact && (
-            <FoodRescueSlide impact={state.impact} {...navigationProps} />
+            <MuralsSlide impact={state.impact} {...navigationProps} />
           );
         
-        case SlideNames.ENVIRONMENT:
+        case SlideNames.SEL_IMPACT:
           return state.impact && (
-            <EnvironmentSlide impact={state.impact} {...navigationProps} />
+            <SELImpactSlide impact={state.impact} {...navigationProps} />
           );
         
         case SlideNames.FINANCIAL:
@@ -846,7 +853,7 @@ isLastSlide() {
             />
           );
         
-        case SlideNames.VOLUNTEER:
+        case SlideNames.SCHOOL_PARTNERSHIPS:
           return <NeighborQuotesSlide {...navigationProps} />;
         
         case SlideNames.SUMMARY:

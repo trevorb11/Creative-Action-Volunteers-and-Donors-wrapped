@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
-import { Brush, ColorPalette, Users } from "lucide-react";
+import { Brush, Palette, Users } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
 
 interface MuralsSlideProps {
@@ -121,7 +121,7 @@ export default function MuralsSlide({
             variants={itemVariants}
           >
             <div className="bg-[#FFCA28] p-2 rounded-full mb-2">
-              <ColorPalette className="h-5 w-5 text-white" />
+              <Palette className="h-5 w-5 text-white" />
             </div>
             <p className="text-sm font-medium text-[#424242]">Art Supplies</p>
             <p className="text-lg sm:text-xl font-semibold text-[#424242]">
