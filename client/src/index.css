@@ -5,13 +5,23 @@
 @tailwind utilities;
 
 :root {
-  /* Community Food Share Brand Colors */
-  --cfs-dark-green: #0c4428;
-  --cfs-teal: #227d7f;
-  --cfs-bright-green: #8dc53e;
-  --cfs-yellow: #efeb03;
-  --cfs-dark-gray: #414042;
-  --cfs-light-blue: #00d6dd;
+  /* Creative Action Brand Colors */
+  --ca-purple: #6A1B9A;
+  --ca-pink: #EC407A;
+  --ca-orange: #FF8A65;
+  --ca-blue: #42A5F5;
+  --ca-green: #66BB6A;
+  --ca-yellow: #FFCA28;
+  --ca-dark-gray: #424242;
+  --ca-light-gray: #EEEEEE;
+  
+  /* For backward compatibility */
+  --cfs-dark-green: #6A1B9A; /* Now purple */
+  --cfs-teal: #42A5F5; /* Now blue */
+  --cfs-bright-green: #66BB6A; /* Now green */
+  --cfs-yellow: #FFCA28; /* Still yellow */
+  --cfs-dark-gray: #424242; /* Still dark gray */
+  --cfs-light-blue: #EC407A; /* Now pink */
 }
 
 @layer base {
@@ -66,16 +76,34 @@
 }
 
 @layer components {
+  /* Creative Action buttons */
+  .ca-btn-primary {
+    @apply bg-[#6A1B9A] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
+  }
+
+  .ca-btn-secondary {
+    @apply bg-[#42A5F5] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
+  }
+
+  .ca-btn-accent {
+    @apply bg-[#EC407A] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
+  }
+  
+  .ca-card {
+    @apply bg-white p-6 rounded-lg shadow-md border border-gray-100;
+  }
+  
+  /* For backward compatibility */
   .cfs-btn-primary {
-    @apply bg-[#8dc53e] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
+    @apply bg-[#66BB6A] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
   }
 
   .cfs-btn-secondary {
-    @apply bg-[#227d7f] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
+    @apply bg-[#42A5F5] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
   }
 
   .cfs-btn-tertiary {
-    @apply bg-[#0c4428] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
+    @apply bg-[#6A1B9A] text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-opacity-90 transition-all;
   }
   
   .cfs-card {

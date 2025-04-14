@@ -25,7 +25,56 @@ export function calculateVolunteerImpact(hours: number) {
   };
 }
 
+// Function to calculate donation impact based on Creative Action's metrics
+export function calculateDonationImpact(amount: number) {
+  // Define impact equivalencies based on Creative Action's program costs
+  const instructionHoursPerDollar = amount / 10; // 1 hour of creative instruction costs ~$10
+  const artSuppliesPerDollar = amount / 250; // 1 student-led mural supplies cost ~$250
+  const teachingArtistHoursPerDollar = amount / 50; // 1 hour of teaching artist pay is ~$50
+  const selEnrichmentPerDollar = amount / 25; // 1 student SEL enrichment module costs ~$25
+  const theaterWorkshopPerDollar = amount / 30; // 1 student theater workshop costs ~$30
+  const braveSchoolsPerDollar = amount / 100; // 1 Brave Schools class lesson costs ~$100
+  
+  // Calculate impact values
+  return {
+    instructionHours: Math.round(instructionHoursPerDollar),
+    muralsSupported: Math.max(1, Math.round(artSuppliesPerDollar)),
+    teachingArtistHours: Math.round(teachingArtistHoursPerDollar),
+    selStudents: Math.round(selEnrichmentPerDollar),
+    theaterStudents: Math.round(theaterWorkshopPerDollar),
+    braveSchoolsLessons: Math.round(braveSchoolsPerDollar),
+    studentsReached: Math.round(instructionHoursPerDollar * 5), // Each hour reaches ~5 students
+    programAreas: {
+      afterSchool: 35, // Percentage allocation
+      communityMural: 15,
+      teachingArtist: 20,
+      selEnrichment: 10,
+      youthTheater: 10,
+      schoolPartnership: 10
+    }
+  };
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // API endpoint to calculate donation impact - POST method
+  app.post('/api/calculate-impact', async (req, res) => {
+    try {
+      const schema = z.object({
+        amount: z.number().min(1)
+      });
+
+      const { amount } = schema.parse(req.body);
+      
+      // Calculate Creative Action donation impact metrics
+      const impact = calculateDonationImpact(amount);
+      
+      res.json({ impact });
+    } catch (error) {
+      console.error("Error calculating donation impact:", error);
+      res.status(400).json({ error: 'Invalid donation amount' });
+    }
+  });
+
   // API endpoint to calculate volunteer impact based on hours - GET method
   app.get('/api/calculate-volunteer-impact', async (req, res) => {
     try {

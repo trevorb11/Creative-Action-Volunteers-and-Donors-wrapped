@@ -1,19 +1,28 @@
-export const ALMANAC_DATA = {
-  mealsPerDollar: 1.52, // Updated: 1.52 meals per $1 (3-year rolling average with SNAP)
-  costPerMeal: 0.66, // Updated: $0.66 per meal based on 3-year rolling average
-  foodRescuePerDollar: 1.83, // Updated: 1.83 pounds per $1 for donation conversions
-  poundsPerMeal: 1.2, // Updated: 1.2 pounds = 1 meal
-  peoplePerMeal: 0.328, // Based on serving 60,000 people with 11M meals annually
-  co2PerPoundFood: 8.65, // CO₂e emissions prevented per pound of food rescued
-  waterPerPoundFood: 45.2, // Gallons of water saved per pound of food
-  foodDistribution: {
-    produce: 31.92, // Percentage
-    dairy: 21.67,   // Percentage
-    protein: 18.33  // Percentage
+export const CREATIVE_ACTION_DATA = {
+  // Cost-to-impact metrics based on Creative Action's programs
+  costPerCreativeInstructionHour: 10, // $10 per hour of creative instruction per student
+  costPerMuralSupplies: 250, // $250 per student-led mural supplies
+  costPerTeachingArtistHour: 50, // $50 per hour of instruction pay
+  costPerSELModule: 25, // $25 per student for social-emotional learning module
+  costPerTheaterWorkshop: 30, // $30 per student participation in workshop session
+  costPerBraveSchoolsLesson: 100, // $100 per Brave Schools class lesson
+  
+  // Program distribution
+  programAreas: {
+    afterSchool: 35, // Percentage allocation
+    communityMural: 15,
+    teachingArtist: 20,
+    selEnrichment: 10,
+    youthTheater: 10,
+    schoolPartnership: 10
   },
-  totalMealsProvided: 10951888, // 10.95 million meals provided in FY 2024
-  totalPeopleServed: 60000, // 60,000 people served through partner agencies
-  dailyFoodRescue: 22000, // 11 tons (22,000 pounds) of food rescued daily
+  
+  // Impact metrics
+  studentsPerInstructionHour: 5, // Each hour of instruction reaches about 5 students
+  studentsPerYear: 15000, // Approximate number of students served annually
+  teachingArtistsSupported: 45, // Number of teaching artists employed
+  schoolsServed: 65, // Number of schools in partnership
+  communityMuralsPerYear: 12, // Average number of community murals completed annually
 };
 
 export const SLIDE_CONFIG = {
