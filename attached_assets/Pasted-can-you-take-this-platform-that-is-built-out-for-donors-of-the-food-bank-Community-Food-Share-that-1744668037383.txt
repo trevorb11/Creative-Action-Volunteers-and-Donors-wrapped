@@ -1,0 +1,45 @@
+can you take this platform that is built out for donors of the food bank, Community Food Share, that is similar to a "spotify wrapped" style engagement tool to show the impact a donor has made. There is a base mode for just one gift and a more detailed flow if a full breakdown of donor history is passed through url peramters. Can you take the base functionality of this platform, and update it so that rather than being for Community Food Share, it is built out for Creative Action with the details below:
+
+Here's a full blueprint for a Creative Action Impact Tracker—a custom donor engagement web platform tailored to reflect their arts-based mission and show personalized donor impact.
+
+🎯 PLATFORM OVERVIEW: "Creative Impact"
+🔹 What it is:
+A web-based app that turns donor contributions into visual, emotional, and data-backed stories about the impact they’re making on students, teaching artists, and communities through Creative Action’s programs.
+
+🛠️ CORE FUNCTIONALITY
+1. Donation Input
+User enters the amount they donated (can be linked to CRM for auto-population in future)
+
+Option to log multiple donations over time
+
+2. Impact Equivalency Engine
+Breaks down the donation based on predefined cost-to-impact formulas.
+
+Sample Equivalency Items:
+Program Area	Unit Description	Est. Cost
+After-School Programs	1 hour of creative instruction per student	$8–12
+Community Mural Project	Art supplies for 1 student-led mural	$250
+Teaching Artist Support	1 hour of instruction pay	$50
+SEL Enrichment Module	1 student per module	$25
+Youth Theater Ensemble	1 student participation in a workshop session	$30
+School Partnership	1 Brave Schools class lesson	$100
+3. Personalized Impact Report
+Shows exact number of hours taught, students reached, artists employed, murals painted, etc.
+
+Includes program-specific stats (“Your gift supported 3 youth-led theater scenes on bullying prevention.”)
+
+Option to download as PDF
+
+4. Visual Dashboard
+Charts: Pie chart of program types funded
+
+Animated equivalencies (e.g., murals being painted, classrooms filled)
+
+Photo/video carousel featuring student art or performances
+
+5. Cumulative Donor Portal
+View your impact over time
+
+Badges or milestones unlocked (gamification optional)
+
+Tax receipts or summary documents 
