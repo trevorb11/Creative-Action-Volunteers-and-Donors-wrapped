@@ -20,6 +20,12 @@ export default function CountUpAnimation({
   const [count, setCount] = useState(0);
   
   useEffect(() => {
+    // Guard against undefined or NaN values
+    if (value === undefined || isNaN(value)) {
+      setCount(0);
+      return;
+    }
+
     let startTime: number;
     let animationFrameId: number;
     
@@ -66,7 +72,9 @@ export default function CountUpAnimation({
         repeatDelay: 3,
       }}
     >
-      {isCurrency ? formatCurrency(count) : count.toLocaleString()}
+      {count !== undefined && count !== null ? 
+        (isCurrency ? formatCurrency(count) : count.toLocaleString()) 
+        : '0'}
     </motion.span>
   );
 }

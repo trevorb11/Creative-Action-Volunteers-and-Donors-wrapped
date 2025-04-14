@@ -28,30 +28,126 @@ export function calculateVolunteerImpact(hours: number) {
 // Function to calculate donation impact based on Creative Action's metrics
 export function calculateDonationImpact(amount: number) {
   // Define impact equivalencies based on Creative Action's program costs
-  const instructionHoursPerDollar = amount / 10; // 1 hour of creative instruction costs ~$10
-  const artSuppliesPerDollar = amount / 250; // 1 student-led mural supplies cost ~$250
-  const teachingArtistHoursPerDollar = amount / 50; // 1 hour of teaching artist pay is ~$50
-  const selEnrichmentPerDollar = amount / 25; // 1 student SEL enrichment module costs ~$25
-  const theaterWorkshopPerDollar = amount / 30; // 1 student theater workshop costs ~$30
-  const braveSchoolsPerDollar = amount / 100; // 1 Brave Schools class lesson costs ~$100
+  const costPerCreativeInstructionHour = 10; // $10 per hour of creative instruction per student
+  const costPerMuralSupplies = 250; // $250 per student-led mural supplies
+  const costPerTeachingArtistHour = 50; // $50 per hour of instruction pay
+  const costPerSELModule = 25; // $25 per student for social-emotional learning module
+  const costPerTheaterWorkshop = 30; // $30 per student participation in workshop session
+  const costPerBraveSchoolsLesson = 100; // $100 per Brave Schools class lesson
+  const studentsPerInstructionHour = 5; // Each hour of instruction reaches about 5 students
+  const studentsPerYear = 15000; // Approximate number of students served annually
   
-  // Calculate impact values
+  // Calculate impact metrics
+  const instructionHours = Math.round(amount / costPerCreativeInstructionHour);
+  const muralsSupported = Math.max(1, Math.round(amount / costPerMuralSupplies));
+  const teachingArtistHours = Math.round(amount / costPerTeachingArtistHour);
+  const selStudents = Math.round(amount / costPerSELModule);
+  const theaterStudents = Math.round(amount / costPerTheaterWorkshop);
+  const braveSchoolsLessons = Math.round(amount / costPerBraveSchoolsLesson);
+  
+  // Calculate students reached using the instruction hours metric
+  const studentsReached = Math.round(instructionHours * studentsPerInstructionHour);
+  
+  // Calculate percentage of total students served annually
+  const studentPercentage = ((studentsReached / studentsPerYear) * 100).toFixed(2) + '%';
+  
+  // Generate classroom size comparison
+  let classroomComparison = "";
+  if (studentsReached < 10) {
+    classroomComparison = `a small group workshop (${studentsReached} students)`;
+  } else if (studentsReached < 25) {
+    classroomComparison = `a typical classroom (${studentsReached} students)`;
+  } else if (studentsReached < 60) {
+    classroomComparison = `${Math.round(studentsReached / 25)} typical classrooms (${studentsReached} students)`;
+  } else if (studentsReached < 150) {
+    classroomComparison = `a small school assembly (${studentsReached} students)`;
+  } else if (studentsReached < 500) {
+    classroomComparison = `a large school assembly (${studentsReached} students)`;
+  } else if (studentsReached < 1000) {
+    classroomComparison = `an entire small school (${studentsReached} students)`;
+  } else {
+    classroomComparison = `multiple school communities (${studentsReached} students)`;
+  }
+  
+  // Generate impact description
+  let impactDescription = "";
+  if (amount < 25) {
+    impactDescription = "Your donation provides vital art supplies for creative expression.";
+  } else if (amount < 50) {
+    impactDescription = "You're helping students explore their creative talents and build confidence!";
+  } else if (amount < 100) {
+    impactDescription = "Your gift supports teaching artists who inspire the next generation.";
+  } else if (amount < 250) {
+    impactDescription = "You're making social-emotional learning through arts possible for so many students!";
+  } else if (amount < 500) {
+    impactDescription = "Your generosity helps create safe spaces for youth to express themselves.";
+  } else if (amount < 1000) {
+    impactDescription = "You're helping transform communities through collaborative art projects!";
+  } else {
+    impactDescription = "Your extraordinary gift is helping create lasting change through arts education!";
+  }
+  
+  // Program distribution data
+  const programDistribution = {
+    afterSchool: 35, // Percentage allocation
+    communityMural: 15,
+    teachingArtist: 20,
+    selEnrichment: 10,
+    youthTheater: 10,
+    schoolPartnership: 10
+  };
+  
+  // Map Creative Action metrics to the expected return type
   return {
-    instructionHours: Math.round(instructionHoursPerDollar),
-    muralsSupported: Math.max(1, Math.round(artSuppliesPerDollar)),
-    teachingArtistHours: Math.round(teachingArtistHoursPerDollar),
-    selStudents: Math.round(selEnrichmentPerDollar),
-    theaterStudents: Math.round(theaterWorkshopPerDollar),
-    braveSchoolsLessons: Math.round(braveSchoolsPerDollar),
-    studentsReached: Math.round(instructionHoursPerDollar * 5), // Each hour reaches ~5 students
-    programAreas: {
-      afterSchool: 35, // Percentage allocation
-      communityMural: 15,
-      teachingArtist: 20,
-      selEnrichment: 10,
-      youthTheater: 10,
-      schoolPartnership: 10
-    }
+    // Creative Action specific metrics
+    instructionHours,
+    muralsSupported,
+    teachingArtistHours,
+    selStudents,
+    theaterStudents,
+    braveSchoolsLessons,
+    studentsReached,
+    studentPercentage,
+    impactDescription,
+    classroomComparison,
+    programDistribution,
+    
+    // Required fields for backward compatibility
+    mealsProvided: instructionHours, // Repurposing meals as instruction hours
+    peopleServed: studentsReached,
+    peoplePercentage: studentPercentage,
+    foodRescued: amount, // For simplicity in transition
+    co2Saved: amount,
+    waterSaved: amount,
+    producePercentage: programDistribution.afterSchool,
+    dairyPercentage: programDistribution.communityMural,
+    proteinPercentage: programDistribution.teachingArtist,
+    freshFoodPercentage: programDistribution.afterSchool + 
+                       programDistribution.communityMural + 
+                       programDistribution.teachingArtist,
+    peopleFed: classroomComparison,
+    daysFed: "creative experiences",
+    weightComparison: impactDescription,
+    weightComparisonText: impactDescription,
+    
+    // These fields are included for backward compatibility
+    babyElephants: "1",
+    bison: "1",
+    cars: "1",
+    houseCats: "1",
+    goldenRetrievers: "1",
+    grizzlyBears: "1",
+    hippos: "1",
+    hippopotamus: "1",
+    schoolBuses: "1",
+    smallJets: "1",
+    breadLoaves: "1",
+    pineapples: "1",
+    toddlers: "1",
+    bulldogs: "1",
+    rvs: "1",
+    whaleSharkPups: "1",
+    blueWhaleCalf: "1"
   };
 }
 
