@@ -22,13 +22,13 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
   }, []);
   
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-green-50 to-green-100 p-4">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-purple-50 to-blue-50 p-4">
       <div className="w-full max-w-md">
         <Card className="w-full shadow-lg overflow-hidden">
-          <CardHeader className="text-center bg-[#0c4428] text-white">
-            <CardTitle className="text-3xl font-bold">Community Food Share</CardTitle>
+          <CardHeader className="text-center bg-[#6A1B9A] text-white">
+            <CardTitle className="text-3xl font-bold">Creative Action</CardTitle>
             <CardDescription className="text-white text-lg opacity-90">
-              {isPersonalized ? "Your Personal Impact Wrapped" : "Your Impact Wrapped"}
+              {isPersonalized ? "Your Personal Creative Impact" : "Your Creative Impact"}
             </CardDescription>
           </CardHeader>
           
@@ -39,15 +39,15 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
               transition={{ duration: 0.5 }}
               className="text-center"
             >
-              <p className="text-lg text-[#414042] mb-4">
+              <p className="text-lg text-[#424242] mb-4">
                 {isPersonalized 
                   ? "We're loading your donation history to show your personal impact" 
-                  : "See how your donation makes a difference at Community Food Share"
+                  : "See how your donation transforms lives through arts education"
                 }
               </p>
               
               <p className="text-sm text-gray-500 mb-5">
-                Based on FY 2024 data
+                Turning donations into creative experiences
               </p>
             </motion.div>
             
@@ -58,7 +58,7 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <h2 className="text-xl font-bold mb-4 text-center text-[#0c4428]">
+                <h2 className="text-xl font-bold mb-4 text-center text-[#6A1B9A]">
                   Enter Your Donation Amount
                 </h2>
                 <DonationForm onSubmit={onSubmit} />
@@ -72,11 +72,11 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <h2 className="text-xl font-bold mb-4 text-center text-[#0c4428]">
+                <h2 className="text-xl font-bold mb-4 text-center text-[#6A1B9A]">
                   Loading Your Donation History...
                 </h2>
-                <Loader2 className="h-12 w-12 animate-spin text-[#8dc53e] mx-auto my-4" />
-                <p className="mt-4 text-sm text-[#227d7f]">Please wait while we prepare your personalized impact visualization</p>
+                <Loader2 className="h-12 w-12 animate-spin text-[#EC407A] mx-auto my-4" />
+                <p className="mt-4 text-sm text-[#42A5F5]">Please wait while we prepare your personalized creative impact visualization</p>
               </motion.div>
             )}
           </CardContent>
@@ -90,8 +90,8 @@ export default function WelcomeScreen({ onSubmit }: WelcomeScreenProps) {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.8 }}
       >
-        <p className="text-[#0c4428] text-xs">
-          © Community Food Share {new Date().getFullYear()} • Together, we're building a hunger-free community
+        <p className="text-[#6A1B9A] text-xs">
+          © Creative Action {new Date().getFullYear()} • Inspiring creativity, courage, and critical thinking
         </p>
       </motion.div>
     </div>

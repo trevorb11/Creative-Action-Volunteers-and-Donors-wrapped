@@ -15,6 +15,27 @@ export interface DonationState {
 }
 
 export interface DonationImpact {
+  // Creative Action specific metrics
+  instructionHours: number;
+  muralsSupported: number;
+  teachingArtistHours: number;
+  selStudents: number;
+  theaterStudents: number;
+  braveSchoolsLessons: number;
+  studentsReached: number;
+  studentPercentage: string;
+  impactDescription: string;
+  classroomComparison: string;
+  programDistribution: {
+    afterSchool: number;
+    communityMural: number;
+    teachingArtist: number;
+    selEnrichment: number;
+    youthTheater: number;
+    schoolPartnership: number;
+  };
+  
+  // Legacy fields kept for compatibility with existing components
   mealsProvided: number;
   peopleFed: string;
   daysFed: string;
@@ -28,7 +49,8 @@ export interface DonationImpact {
   dairyPercentage: number;
   proteinPercentage: number;
   freshFoodPercentage: number;
-  // Weight comparison fields
+  
+  // Legacy comparison fields kept for compatibility
   babyElephants: string;
   bison: string;
   cars: string;
@@ -39,7 +61,6 @@ export interface DonationImpact {
   hippopotamus: string;
   schoolBuses: string;
   smallJets: string;
-  // Additional weight comparison fields
   breadLoaves?: string;
   pineapples?: string;
   toddlers?: string;
@@ -47,7 +68,6 @@ export interface DonationImpact {
   rvs?: string;
   whaleSharkPups?: string;
   blueWhaleCalf?: string;
-  // Text descriptions for comparisons
   weightComparisonText?: string;
 }
 
@@ -55,14 +75,14 @@ export enum SlideNames {
   WELCOME = 0,
   LOADING = 1,
   DONOR_SUMMARY = 2,
-  DONOR_INTRO = 3,      // New slide for donor introduction
-  MEALS = 4,            // Shifted down 1 position
-  PEOPLE = 5,           // Shifted down 1 position
-  TIME_GIVING = 6,      // Shifted down 1 position
-  FOOD_RESCUE_COMPARISON = 7, // New food rescue comparison slide (weight-based)
-  FOOD_RESCUE = 8,      // Shifted down 1 position
-  ENVIRONMENT = 9,      // Shifted down 1 position
-  FINANCIAL = 10,       // Shifted down 1 position
-  VOLUNTEER = 11,       // Shifted down 1 position
-  SUMMARY = 12          // Shifted down 1 position
+  DONOR_INTRO = 3,        // Introduction slide
+  STUDENTS = 4,           // Creative instruction hours impact (was MEALS)
+  TEACHING_ARTISTS = 5,   // Teaching artists support (was PEOPLE)
+  TIME_GIVING = 6,        // History of giving
+  PROGRAMS = 7,           // Program areas breakdown (was FOOD_RESCUE_COMPARISON)
+  MURALS = 8,             // Community murals (was FOOD_RESCUE)
+  SEL_IMPACT = 9,         // Social-emotional learning impact (was ENVIRONMENT)
+  FINANCIAL = 10,         // Financial impact
+  SCHOOL_PARTNERSHIPS = 11, // School partnerships (was VOLUNTEER)
+  SUMMARY = 12            // Summary slide
 }

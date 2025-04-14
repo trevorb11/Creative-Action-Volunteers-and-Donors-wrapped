@@ -32,16 +32,29 @@ export const SLIDE_CONFIG = {
 };
 
 export const SLIDE_COLORS = {
+  // Creative Action slide colors using the new color scheme
   welcome: "bg-white",
-  loading: "bg-cfs-darkGreen", 
-  donor: "bg-cfs-teal", // Donor summary slide
-  donorSummary: "bg-cfs-brightGreen", // For backward compatibility
-  meals: "bg-cfs-teal", // Main brand color - teal
-  nutrition: "bg-cfs-brightGreen", // Bright green
-  people: "bg-cfs-darkGreen", // Dark green
-  environment: "bg-cfs-teal",
-  foodRescue: "bg-cfs-brightGreen",
-  volunteer: "bg-cfs-darkGreen",
-  partner: "bg-cfs-teal",
-  summary: "bg-cfs-darkGreen", // Dark green
+  loading: "bg-[#6A1B9A]", // Purple
+  donor: "bg-[#42A5F5]", // Blue
+  donorSummary: "bg-[#66BB6A]", // Green
+  
+  // New slides for Creative Action
+  students: "bg-[#42A5F5]", // Blue
+  teachingArtists: "bg-[#6A1B9A]", // Purple
+  timeGiving: "bg-[#FF8A65]", // Orange
+  programs: "bg-[#66BB6A]", // Green
+  murals: "bg-[#FFCA28]", // Yellow
+  selImpact: "bg-[#EC407A]", // Pink
+  financial: "bg-[#42A5F5]", // Blue
+  schoolPartnerships: "bg-[#6A1B9A]", // Purple
+  summary: "bg-[#66BB6A]", // Green
+  
+  // Legacy colors kept for compatibility
+  meals: "bg-[#42A5F5]", // Blue (was teal)
+  nutrition: "bg-[#66BB6A]", // Green (was bright green)
+  people: "bg-[#6A1B9A]", // Purple (was dark green)
+  environment: "bg-[#EC407A]", // Pink (was teal)
+  foodRescue: "bg-[#FFCA28]", // Yellow (was bright green)
+  volunteer: "bg-[#6A1B9A]", // Purple (was dark green)
+  partner: "bg-[#42A5F5]", // Blue (was teal)
 };

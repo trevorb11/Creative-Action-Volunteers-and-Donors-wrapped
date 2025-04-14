@@ -40,15 +40,17 @@ export default function LoadingScreen() {
     <div className={`min-h-screen ${SLIDE_COLORS.loading} flex items-center justify-center relative overflow-hidden`}>
       {/* Decorative background patterns */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
-        <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-cfs-brightGreen"></div>
-        <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-cfs-teal"></div>
+        <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#EC407A]"></div>
+        <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-[#42A5F5]"></div>
+        <div className="absolute top-40 right-20 w-32 h-32 rounded-full bg-[#FFCA28]"></div>
+        <div className="absolute bottom-40 left-20 w-48 h-48 rounded-full bg-[#66BB6A]"></div>
       </div>
       
-      {/* Community Food Share logo */}
+      {/* Creative Action logo */}
       <div className="absolute top-6 left-6">
         <div className="flex items-center">
           <h3 className="text-lg md:text-xl font-bold text-white">
-            Community Food Share
+            Creative Action
           </h3>
         </div>
       </div>
@@ -62,7 +64,7 @@ export default function LoadingScreen() {
             transition={{ duration: 0.5 }}
             style={{ fontFamily: 'Spectral, serif' }}
           >
-            Calculating Your Impact
+            Visualizing Your Impact
           </motion.h2>
           
           <motion.p 
@@ -72,7 +74,7 @@ export default function LoadingScreen() {
             transition={{ duration: 0.5, delay: 0.2 }}
             style={{ fontFamily: 'Open Sans, sans-serif' }}
           >
-            Analyzing how your generosity helps our neighbors in Boulder and Broomfield Counties...
+            Calculating how your generosity transforms lives through creative arts education...
           </motion.p>
           
           <div className="relative w-64 h-64 mx-auto">
@@ -83,7 +85,7 @@ export default function LoadingScreen() {
                 cy="100" 
                 r="80" 
                 fill="none" 
-                stroke="#8dc53e" 
+                stroke="#EC407A" 
                 strokeWidth="12" 
                 strokeDasharray={circumference} 
                 strokeDashoffset={offset}
@@ -104,7 +106,7 @@ export default function LoadingScreen() {
             transition={{ duration: 0.5, delay: 1 }}
           >
             <p className="text-white/80 text-sm italic">
-              "Every dollar you give turns into fresh meals for neighbors in need."
+              "Every donation unlocks creative potential in students across our community."
             </p>
           </motion.div>
         </div>
@@ -112,7 +114,7 @@ export default function LoadingScreen() {
       
       {/* Footer */}
       <div className="absolute bottom-4 w-full text-center text-white/70 text-sm">
-        <p>Together, we're building a hunger-free community</p>
+        <p>Together, we're inspiring creativity, courage, and critical thinking</p>
       </div>
     </div>
   );
