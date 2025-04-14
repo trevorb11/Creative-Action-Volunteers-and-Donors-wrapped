@@ -541,19 +541,31 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             // Don't override the loading logic
             break;
           case SlideNames.DONOR_INTRO:
-            // From intro, go to meals
-            nextStep = SlideNames.MEALS;
+            // From intro, go to students slide (formerly meals)
+            nextStep = SlideNames.STUDENTS;
             break;
-          case SlideNames.MEALS:
-            // From meals, go to people
-            nextStep = SlideNames.PEOPLE;
+          case SlideNames.STUDENTS:
+            // From students, go to teaching artists (formerly people)
+            nextStep = SlideNames.TEACHING_ARTISTS;
             break;
-          case SlideNames.PEOPLE:
-            // From people, go to financial
+          case SlideNames.TEACHING_ARTISTS:
+            // From teaching artists, go to programs
+            nextStep = SlideNames.PROGRAMS;
+            break;
+          case SlideNames.PROGRAMS:
+            // From programs, go to murals
+            nextStep = SlideNames.MURALS;
+            break;
+          case SlideNames.MURALS:
+            // From murals, go to SEL impact
+            nextStep = SlideNames.SEL_IMPACT;
+            break;
+          case SlideNames.SEL_IMPACT:
+            // From SEL impact, go to financial
             nextStep = SlideNames.FINANCIAL;
             break;
           case SlideNames.FINANCIAL:
-            // From financial, go to summary (skip other slides)
+            // From financial, go to summary (skip school partnerships for now)
             nextStep = SlideNames.SUMMARY;
             break;
           default:
@@ -562,14 +574,8 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             break;
         }
       } else {
-        // For standard UI, skip the redundant FOOD_RESCUE slide
-        if (prevState.step === SlideNames.FOOD_RESCUE_COMPARISON) {
-          // Skip the redundant Food Rescue slide and go straight to Environment
-          nextStep = SlideNames.ENVIRONMENT;
-        } else {
-          // Default behavior - move to next slide
-          nextStep = prevState.step + 1;
-        }
+        // For standard UI, use the default progression
+        nextStep = prevState.step + 1;
       }
       
       return { 
@@ -611,15 +617,27 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             nextStep = SlideNames.FINANCIAL;
             break;
           case SlideNames.FINANCIAL:
-            // From financial, go back to people
-            nextStep = SlideNames.PEOPLE;
+            // From financial, go back to SEL impact
+            nextStep = SlideNames.SEL_IMPACT;
             break;
-          case SlideNames.PEOPLE:
-            // From people, go back to meals
-            nextStep = SlideNames.MEALS;
+          case SlideNames.SEL_IMPACT:
+            // From SEL impact, go back to murals
+            nextStep = SlideNames.MURALS;
             break;
-          case SlideNames.MEALS:
-            // From meals, go back to intro
+          case SlideNames.MURALS:
+            // From murals, go back to programs
+            nextStep = SlideNames.PROGRAMS;
+            break;
+          case SlideNames.PROGRAMS:
+            // From programs, go back to teaching artists
+            nextStep = SlideNames.TEACHING_ARTISTS;
+            break;
+          case SlideNames.TEACHING_ARTISTS:
+            // From teaching artists, go back to students
+            nextStep = SlideNames.STUDENTS;
+            break;
+          case SlideNames.STUDENTS:
+            // From students, go back to intro
             nextStep = SlideNames.DONOR_INTRO;
             break;
           default:
@@ -628,14 +646,9 @@ export default class DonationImpactPage extends Component<RouteComponentProps, D
             break;
         }
       } else {
-        // For meals slide in standard UI, go back to donor summary if we have a donor email
-        if (prevState.step === SlideNames.MEALS && prevState.donorEmail) {
+        // For students slide in standard UI, go back to donor summary if we have a donor email
+        if (prevState.step === SlideNames.STUDENTS && prevState.donorEmail) {
           nextStep = SlideNames.DONOR_SUMMARY;
-        }
-        // Special case for the Environment slide to skip the redundant FOOD_RESCUE slide
-        else if (prevState.step === SlideNames.ENVIRONMENT) {
-          // Go back to Food Rescue Comparison, skipping the redundant food rescue slide
-          nextStep = SlideNames.FOOD_RESCUE_COMPARISON;
         } else {
           // Default behavior - move to previous slide
           nextStep = prevState.step - 1;
@@ -690,8 +703,8 @@ isFirstSlide() {
     // For donor UI, the intro slide is the first content slide
     return this.state.step === SlideNames.DONOR_INTRO;
   } else {
-    // For standard UI, donor summary or meals are first content slides
-    return this.state.step <= SlideNames.DONOR_SUMMARY || this.state.step === SlideNames.MEALS;
+    // For standard UI, donor summary or students slide are first content slides
+    return this.state.step <= SlideNames.DONOR_SUMMARY || this.state.step === SlideNames.STUDENTS;
   }
 }
 
@@ -725,8 +738,8 @@ isLastSlide() {
     }
     
     // Prepare the sharing message
-    const shareTitle = "My Donation Impact at Community Food Share";
-    const shareText = `I just donated $${this.state.amount} to Community Food Share, providing ${this.state.impact?.mealsProvided} meals and helping ${this.state.impact?.peopleServed} people in our community!`;
+    const shareTitle = "My Donation Impact at Creative Action";
+    const shareText = `I just donated $${this.state.amount} to Creative Action, supporting ${this.state.impact?.studentsReached} students and helping transform lives through art education!`;
     
     console.log("Sharing URL:", shareUrl);
     
