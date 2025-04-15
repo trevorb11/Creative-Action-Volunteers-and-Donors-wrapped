@@ -821,8 +821,8 @@ isLastSlide() {
         case SlideNames.STUDENTS:
           return state.impact && (
             useDonorSlides ?
-              <DonorMealsSlide impact={state.impact} {...navigationProps} /> :
-              <MealsSlide impact={state.impact} {...navigationProps} />
+              <DonorStudentsSlide impact={state.impact} {...navigationProps} /> :
+              <StudentsSlide impact={state.impact} {...navigationProps} />
           );
         
         case SlideNames.TEACHING_ARTISTS:
