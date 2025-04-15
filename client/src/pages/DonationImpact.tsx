@@ -10,7 +10,7 @@ import SlideTransition from "@/components/donation/SlideTransition";
 import SummarySlide from "@/components/donation/SummarySlide";
 
 // Creative Action components
-import MealsSlide from "@/components/donation/MealsSlide"; // Repurposed as Students slide
+import StudentsSlide from "@/components/donation/StudentsSlide"; // Main students slide
 import PeopleSlide from "@/components/donation/PeopleSlide"; // Repurposed as TeachingArtists slide
 import ProgramsSlide from "@/components/donation/ProgramsSlide"; // New Creative Action programs slide
 import MuralsSlide from "@/components/donation/MuralsSlide"; // New Creative Action murals slide
@@ -25,7 +25,7 @@ import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
 // New donor-specific components
 import DonorWelcomeSlide from "@/components/donation/DonorWelcomeSlide";
 import DonorLoadingScreen from "@/components/donation/DonorLoadingScreen";
-import DonorMealsSlide from "@/components/donation/DonorMealsSlide";
+import DonorStudentsSlide from "@/components/donation/DonorStudentsSlide"; // New donor students slide
 import DonorPeopleSlide from "@/components/donation/DonorPeopleSlide";
 import DonorFinancialSlide from "@/components/donation/DonorFinancialSlide";
 import DonorIntroSlide from "@/components/donation/DonorIntroSlide";
