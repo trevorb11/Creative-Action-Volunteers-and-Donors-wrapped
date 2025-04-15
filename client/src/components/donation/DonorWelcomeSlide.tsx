@@ -43,18 +43,18 @@ export default function DonorWelcomeSlide({ onSubmit }: DonorWelcomeSlideProps) 
   const watchAmount = form.watch("amount") || 0;
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-green-50 to-green-100 p-4">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-purple-50 to-blue-50 p-4">
       <div className="w-full max-w-md">
         <Card className="w-full overflow-hidden">
-          <CardHeader className="text-center bg-[#8dc53e] text-white rounded-t-lg">
+          <CardHeader className="text-center bg-[#6A1B9A] text-white rounded-t-lg">
             <motion.div
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <CardTitle className="text-2xl font-bold">Your Donation Impact</CardTitle>
+              <CardTitle className="text-2xl font-bold">Your Creative Impact</CardTitle>
               <CardDescription className="text-white opacity-90">
-                See how your generosity helps our community
+                See how your generosity transforms lives through art
               </CardDescription>
             </motion.div>
           </CardHeader>
@@ -67,7 +67,7 @@ export default function DonorWelcomeSlide({ onSubmit }: DonorWelcomeSlideProps) 
               className="flex justify-center mb-6"
             >
               <div 
-                className="w-24 h-24 rounded-full bg-[#e6f2ed] flex items-center justify-center"
+                className="w-24 h-24 rounded-full bg-[#f3e5f5] flex items-center justify-center"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
               >
@@ -78,7 +78,7 @@ export default function DonorWelcomeSlide({ onSubmit }: DonorWelcomeSlideProps) 
                   }}
                   transition={{ duration: 0.5 }}
                 >
-                  <DollarSign className="h-12 w-12 text-[#8dc53e]" />
+                  <DollarSign className="h-12 w-12 text-[#6A1B9A]" />
                 </motion.div>
               </div>
             </motion.div>
@@ -105,7 +105,7 @@ export default function DonorWelcomeSlide({ onSubmit }: DonorWelcomeSlideProps) 
                             <Input
                               type="number"
                               placeholder="Enter donation amount"
-                              className="border-[#8dc53e] focus-visible:ring-[#8dc53e]"
+                              className="border-[#6A1B9A] focus-visible:ring-[#6A1B9A]"
                               {...field}
                             />
                           </FormControl>
@@ -130,7 +130,7 @@ export default function DonorWelcomeSlide({ onSubmit }: DonorWelcomeSlideProps) 
                             <Input
                               type="email"
                               placeholder="your@email.com"
-                              className="border-[#8dc53e] focus-visible:ring-[#8dc53e]"
+                              className="border-[#6A1B9A] focus-visible:ring-[#6A1B9A]"
                               {...field}
                             />
                           </FormControl>
@@ -147,19 +147,19 @@ export default function DonorWelcomeSlide({ onSubmit }: DonorWelcomeSlideProps) 
                     className="pt-2"
                   >
                     {watchAmount >= 5 && (
-                      <div className="rounded-lg bg-green-50 p-3 mb-4 border border-green-100">
+                      <div className="rounded-lg bg-purple-50 p-3 mb-4 border border-purple-100">
                         <p className="text-[#414042] text-sm">
-                          <span className="font-medium">Preview:</span> Your ${watchAmount} donation will provide approximately {Math.round(watchAmount * 3)} meals to those in need.
+                          <span className="font-medium">Preview:</span> Your ${watchAmount} donation will support approximately {Math.round(watchAmount * 0.5)} students through Creative Action's arts education programs.
                         </p>
                       </div>
                     )}
                     
                     <Button 
                       type="submit" 
-                      className="w-full bg-[#8dc53e] hover:bg-[#7db22d] text-white" 
+                      className="w-full bg-[#6A1B9A] hover:bg-[#4A148C] text-white" 
                       size="lg"
                     >
-                      <Heart className="mr-2 h-5 w-5" /> See Your Impact
+                      <Heart className="mr-2 h-5 w-5" /> See Your Creative Impact
                     </Button>
                   </motion.div>
                 </form>
@@ -171,8 +171,8 @@ export default function DonorWelcomeSlide({ onSubmit }: DonorWelcomeSlideProps) 
       
       {/* Footer */}
       <div className="mt-4 text-center">
-        <p className="text-[#0c4428] text-xs">
-          © Community Food Share {new Date().getFullYear()}
+        <p className="text-[#6A1B9A] text-xs">
+          © Creative Action {new Date().getFullYear()} • Inspiring creativity, courage, and critical thinking
         </p>
       </div>
     </div>
