@@ -306,39 +306,39 @@ export default function TimeGivingSlide({
       };
     } else if (years === 1) {
       return {
-        title: `${milestone.emoji} ${namePrefix}One Year of Fighting Hunger`,
-        message: "You've completed your first year with us! In just 12 months, you've already made a significant difference by helping provide nutritious meals to people in need.",
-        funFact: "Fun fact: In your first year of giving, you've joined thousands of other one-year donors who collectively help us serve over 40,000 meals annually!"
+        title: `${milestone.emoji} ${namePrefix}One Year of Inspiring Creativity`,
+        message: "You've completed your first year with us! In just 12 months, you've already made a significant difference by helping provide arts education to students who need it most.",
+        funFact: "Fun fact: In your first year of giving, you've joined thousands of other one-year donors who collectively help us reach over 15,000 students annually!"
       };
     } else if (years === 2) {
       return {
         title: `${milestone.emoji} ${namePrefix}Two Years of Growing Impact`,
-        message: "Two years in, and your commitment to fighting hunger is growing stronger. Your continued support means more families have reliable access to nutritious food.",
+        message: "Two years in, and your commitment to arts education is growing stronger. Your continued support means more students have reliable access to creative learning opportunities.",
         funFact: "Did you know? Second-year donors like you have a 70% higher impact than first-time donors because you understand where help is needed most!"
       };
     } else if (years === 3) {
       return {
         title: `${milestone.emoji} ${namePrefix}Three Years of Dedicated Support`,
-        message: "Three years of consistent support makes you a veteran hunger fighter! Your commitment is helping build a healthier community with sustainable food security.",
+        message: "Three years of consistent support makes you a veteran arts advocate! Your commitment is helping build a more creative community with sustainable arts education.",
         funFact: "Fun fact: Three-year donors like you make up just 15% of our donor base but contribute nearly 40% of our annual donation revenue!"
       };
     } else if (years === 4) {
       return {
         title: `${milestone.emoji} ${namePrefix}Four Years of Transformative Giving`,
-        message: "Your support over four years is like fertile soil for our community—nurturing growth and resilience through continued food access. That's something to celebrate!",
-        funFact: "Amazing! At four years of giving, you've likely helped provide enough meals to feed a family of four for over six months!"
+        message: "Your support over four years is like fertile soil for our community—nurturing creativity and resilience through continued arts programs. That's something to celebrate!",
+        funFact: "Amazing! At four years of giving, you've likely helped provide arts education to over 500 students through our programs!"
       };
     } else if (years >= 5 && years < 10) {
       return {
-        title: `${milestone.emoji} ${namePrefix}${years} Years as a Food Security Champion`,
-        message: `For ${years} years, you've been a cornerstone of our hunger relief efforts. Your long-term commitment means thousands of meals for families in our community.`,
-        funFact: `Incredible! Donors who have given for ${years} years are among our most valued supporters, with a deep understanding of local food insecurity challenges.`
+        title: `${milestone.emoji} ${namePrefix}${years} Years as a Creative Arts Champion`,
+        message: `For ${years} years, you've been a cornerstone of our arts education efforts. Your long-term commitment means creative opportunities for thousands of students in our community.`,
+        funFact: `Incredible! Donors who have given for ${years} years are among our most valued supporters, with a deep understanding of arts education challenges and opportunities.`
       };
     } else {
       return {
         title: `${milestone.emoji} ${namePrefix}A Decade+ of Extraordinary Impact`,
-        message: `After an incredible ${years} years of support, you're truly a pillar of our mission. Your extraordinary commitment has helped countless neighbors facing food insecurity.`,
-        funFact: `Remarkable! Less than 3% of our donors have supported us for ${years}+ years, placing you among our most loyal and dedicated hunger fighters!`
+        message: `After an incredible ${years} years of support, you're truly a pillar of our mission. Your extraordinary commitment has helped countless students discover the power of creative expression.`,
+        funFact: `Remarkable! Less than 3% of our donors have supported us for ${years}+ years, placing you among our most loyal and dedicated arts education champions!`
       };
     }
   };
@@ -511,7 +511,7 @@ export default function TimeGivingSlide({
                   </CardContent>
                 </Card>
                 
-                {/* Hunger Fighting Hero */}
+                {/* Creative Arts Hero */}
                 <Card className="bg-gradient-to-br from-rose-50 to-pink-50 shadow-md hover:shadow-lg transition-all">
                   <CardContent className="p-3 sm:p-4 flex flex-col items-center text-center relative">
                     <div className="bg-rose-100 p-1.5 sm:p-2 rounded-full mb-1 sm:mb-2">
@@ -527,7 +527,7 @@ export default function TimeGivingSlide({
                     <p className="text-base sm:text-lg md:text-xl font-bold text-rose-700">
                       {years >= 5 ? "Champion" : years >= 3 ? "Advocate" : years >= 1 ? "Supporter" : "Newcomer"}
                     </p>
-                    <p className="text-xs sm:text-sm font-medium text-rose-600">Hunger Fighting Hero</p>
+                    <p className="text-xs sm:text-sm font-medium text-rose-600">Creative Arts Hero</p>
                   </CardContent>
                 </Card>
               </div>
@@ -547,8 +547,8 @@ export default function TimeGivingSlide({
                   </CardTitle>
                   <CardDescription className="text-xs sm:text-sm">
                     {years > 0 
-                      ? `You've been supporting Community Food Share since ${donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "the beginning"}`
-                      : "Beginning your journey with Community Food Share"}
+                      ? `You've been supporting Creative Action since ${donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "the beginning"}`
+                      : "Beginning your journey with Creative Action"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-3 sm:pt-4 px-3 sm:px-6">
@@ -583,8 +583,8 @@ export default function TimeGivingSlide({
                             <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2025</h4>
                             <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
-                                ? `${donorFirstName} gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!` 
-                                : `You gave ${formatCurrency(fiscalYearGiving.fy25)} to support our hunger relief efforts!`}
+                                ? `${donorFirstName} gave ${formatCurrency(fiscalYearGiving.fy25)} to support our arts education programs!` 
+                                : `You gave ${formatCurrency(fiscalYearGiving.fy25)} to support our arts education programs!`}
                             </p>
                           </div>
                         </div>
@@ -653,8 +653,8 @@ export default function TimeGivingSlide({
                             </h4>
                             <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
-                                ? `${donorFirstName} made their first gift to Community Food Share!` 
-                                : "You made your first gift to Community Food Share!"}
+                                ? `${donorFirstName} made their first gift to Creative Action!` 
+                                : "You made your first gift to Creative Action!"}
                             </p>
                           </div>
                         </div>
