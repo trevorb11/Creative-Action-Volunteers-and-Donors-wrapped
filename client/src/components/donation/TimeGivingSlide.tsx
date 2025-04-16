@@ -300,9 +300,9 @@ export default function TimeGivingSlide({
     
     if (years <= 0) {
       return {
-        title: `${milestone.emoji} ${namePrefix}Welcome to the Community Food Share Family!`,
-        message: "You're just beginning your hunger-fighting journey with us. Your support will help ensure nutritious food reaches those who need it most.",
-        funFact: "Did you know? First-time donors like you help us expand our reach to new communities every year!"
+        title: `${milestone.emoji} ${namePrefix}Welcome to the Creative Action Family!`,
+        message: "You're just beginning your creative journey with us. Your support will help ensure arts education reaches students who need it most.",
+        funFact: "Did you know? First-time donors like you help us expand our creative programs to more students every year!"
       };
     } else if (years === 1) {
       return {

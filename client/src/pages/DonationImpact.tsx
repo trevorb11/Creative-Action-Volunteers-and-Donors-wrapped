@@ -11,10 +11,10 @@ import SummarySlide from "@/components/donation/SummarySlide";
 
 // Creative Action components
 import StudentsSlide from "@/components/donation/StudentsSlide"; // Main students slide
-import PeopleSlide from "@/components/donation/PeopleSlide"; // Repurposed as TeachingArtists slide
-import ProgramsSlide from "@/components/donation/ProgramsSlide"; // New Creative Action programs slide
-import MuralsSlide from "@/components/donation/MuralsSlide"; // New Creative Action murals slide
-import SELImpactSlide from "@/components/donation/SELImpactSlide"; // New Creative Action SEL slide
+import TeachingArtistsSlide from "@/components/donation/TeachingArtistsSlide"; // Teaching artists slide
+import ProgramsSlide from "@/components/donation/ProgramsSlide"; // Programs breakdown slide
+import MuralsSlide from "@/components/donation/MuralsSlide"; // Community murals slide
+import SELImpactSlide from "@/components/donation/SELImpactSlide"; // Social-emotional learning slide
 
 // Original components kept for backward compatibility
 import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
@@ -25,8 +25,8 @@ import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
 // New donor-specific components
 import DonorWelcomeSlide from "@/components/donation/DonorWelcomeSlide";
 import DonorLoadingScreen from "@/components/donation/DonorLoadingScreen";
-import DonorStudentsSlide from "@/components/donation/DonorStudentsSlide"; // New donor students slide
-import DonorPeopleSlide from "@/components/donation/DonorPeopleSlide";
+import DonorStudentsSlide from "@/components/donation/DonorStudentsSlide"; // Personalized students impact
+import DonorTeachingArtistsSlide from "@/components/donation/DonorTeachingArtistsSlide"; // Personalized teaching artists
 import DonorFinancialSlide from "@/components/donation/DonorFinancialSlide";
 import DonorIntroSlide from "@/components/donation/DonorIntroSlide";
 
@@ -828,8 +828,8 @@ isLastSlide() {
         case SlideNames.TEACHING_ARTISTS:
           return state.impact && (
             useDonorSlides ?
-              <DonorPeopleSlide impact={state.impact} {...navigationProps} /> :
-              <PeopleSlide impact={state.impact} {...navigationProps} />
+              <DonorTeachingArtistsSlide impact={state.impact} {...navigationProps} /> :
+              <TeachingArtistsSlide impact={state.impact} {...navigationProps} />
           );
         
         case SlideNames.TIME_GIVING:
