@@ -15,12 +15,7 @@ import TeachingArtistsSlide from "@/components/donation/TeachingArtistsSlide"; /
 import ProgramsSlide from "@/components/donation/ProgramsSlide"; // Programs breakdown slide
 import MuralsSlide from "@/components/donation/MuralsSlide"; // Community murals slide
 import SELImpactSlide from "@/components/donation/SELImpactSlide"; // Social-emotional learning slide
-
-// Original components kept for backward compatibility
-import EnvironmentSlide from "@/components/donation/EnvironmentSlide";
-import FoodRescueSlide from "@/components/donation/SimpleFoodRescueSlide";
-import FoodRescueComparison from "@/components/donation/FoodRescueComparison";
-import NeighborQuotesSlide from "@/components/donation/NeighborQuotesSlide";
+import SchoolPartnershipsSlide from "@/components/donation/SchoolPartnershipsSlide"; // School partnerships slide
 
 // New donor-specific components
 import DonorWelcomeSlide from "@/components/donation/DonorWelcomeSlide";
@@ -29,6 +24,8 @@ import DonorStudentsSlide from "@/components/donation/DonorStudentsSlide"; // Pe
 import DonorTeachingArtistsSlide from "@/components/donation/DonorTeachingArtistsSlide"; // Personalized teaching artists
 import DonorFinancialSlide from "@/components/donation/DonorFinancialSlide";
 import DonorIntroSlide from "@/components/donation/DonorIntroSlide";
+import DonorSELImpactSlide from "@/components/donation/DonorSELImpactSlide"; // Personalized SEL impact
+import DonorSchoolPartnershipsSlide from "@/components/donation/DonorSchoolPartnershipsSlide"; // Personalized school partnerships
 
 import { toast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -867,7 +864,9 @@ isLastSlide() {
           );
         
         case SlideNames.SCHOOL_PARTNERSHIPS:
-          return <NeighborQuotesSlide {...navigationProps} />;
+          return state.impact && (
+            <SchoolPartnershipsSlide impact={state.impact} {...navigationProps} />
+          );
         
         case SlideNames.SUMMARY:
           return state.impact && (
