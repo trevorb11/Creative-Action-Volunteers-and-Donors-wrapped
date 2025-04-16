@@ -379,17 +379,17 @@ export default function TimeGivingSlide({
     const lifetimeAmount = totalFromFiscalYears > 0 ? totalFromFiscalYears : (donorSummary?.lifetimeGiving || 0);
     
     // Calculate estimates based on actual data when available
-    const mealsPerDollar = 2; // Each dollar provides approximately 2 meals
-    const estimatedMealsProvided = Math.round(lifetimeAmount * mealsPerDollar);
-    const estimatedPeopleHelped = Math.round(estimatedMealsProvided / 12); // Assume 12 meals per person helped
-    const estimatedVisits = Math.max(actualYears * 3, 1); // Assume 3 donations per year on average
-    const estimatedVolunteerHours = Math.max(actualYears * 2, 2); // Assume 2 volunteer hours per year
+    const studentsPerDollar = 0.5; // Each dollar helps reach approximately 0.5 students
+    const estimatedStudentsReached = Math.round(lifetimeAmount * studentsPerDollar);
+    const estimatedTeachingArtistsSupported = Math.round(estimatedStudentsReached / 30); // Assume each teaching artist reaches 30 students
+    const estimatedPrograms = Math.max(Math.round(lifetimeAmount / 1000), 1); // Estimate number of programs supported
+    const estimatedCreativeHours = Math.max(actualYears * 10, 10); // Estimate creative hours enabled
     
     return {
-      mealsProvided: estimatedMealsProvided,
-      peopleHelped: estimatedPeopleHelped,
-      visits: estimatedVisits,
-      volunteerHours: estimatedVolunteerHours,
+      studentsReached: estimatedStudentsReached,
+      teachingArtistsSupported: estimatedTeachingArtistsSupported,
+      programs: estimatedPrograms,
+      creativeHours: estimatedCreativeHours,
       totalGiving: lifetimeAmount,
       years: actualYears
     };
@@ -600,8 +600,8 @@ export default function TimeGivingSlide({
                             <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2024</h4>
                             <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
-                                ? `${donorFirstName} contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!` 
-                                : `You contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to provide approximately ${Math.round(fiscalYearGiving.fy24 * 2)} meals!`}
+                                ? `${donorFirstName} contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to reach approximately ${Math.round(fiscalYearGiving.fy24 * 0.5)} students!` 
+                                : `You contributed ${formatCurrency(fiscalYearGiving.fy24)}, helping to reach approximately ${Math.round(fiscalYearGiving.fy24 * 0.5)} students!`}
                             </p>
                           </div>
                         </div>
@@ -617,8 +617,8 @@ export default function TimeGivingSlide({
                             <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2023</h4>
                             <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
-                                ? `${donorFirstName}'s ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.` 
-                                : `Your ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide food security to families in need.`}
+                                ? `${donorFirstName}'s ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide arts education to students across our community.` 
+                                : `Your ${formatCurrency(fiscalYearGiving.fy23)} gift helped provide arts education to students across our community.`}
                             </p>
                           </div>
                         </div>
@@ -634,8 +634,8 @@ export default function TimeGivingSlide({
                             <h4 className="text-sm sm:text-base font-medium text-gray-800">FY 2022</h4>
                             <p className="text-xs sm:text-sm text-gray-600">
                               {donorFirstName 
-                                ? `${donorFirstName} donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.` 
-                                : `You donated ${formatCurrency(fiscalYearGiving.fy22)}, making a significant impact during a challenging year.`}
+                                ? `${donorFirstName} donated ${formatCurrency(fiscalYearGiving.fy22)}, helping support our teaching artists and creative programs.` 
+                                : `You donated ${formatCurrency(fiscalYearGiving.fy22)}, helping support our teaching artists and creative programs.`}
                             </p>
                           </div>
                         </div>
