@@ -89,17 +89,58 @@ export type VolunteerImpact = {
 };
 
 export type DonationImpact = {
+  // Creative Action specific metrics
+  instructionHours: number;
+  muralsSupported: number;
+  teachingArtistHours: number;
+  selStudents: number;
+  theaterStudents: number;
+  braveSchoolsLessons: number;
+  studentsReached: number;
+  studentPercentage: string;
+  impactDescription: string;
+  classroomComparison: string;
+  programDistribution: {
+    afterSchool: number;
+    communityMural: number;
+    teachingArtist: number;
+    selEnrichment: number;
+    youthTheater: number;
+    schoolPartnership: number;
+  };
+  
+  // Legacy fields kept for compatibility with existing components
   mealsProvided: number;
-  peopleFed: number;
+  peopleFed: string;
   daysFed: string;
   foodRescued: number;
-  foodWeight: string;
-  carbonFootprint: number;
-  carbonEquivalent: string;
-  waterSaved: number;
-  waterAmount: string;
-  volunteerHours: number;
   peopleServed: number;
   peoplePercentage: string;
   weightComparison?: string;
+  co2Saved: number;
+  waterSaved: number;
+  producePercentage: number;
+  dairyPercentage: number;
+  proteinPercentage: number;
+  freshFoodPercentage: number;
+  
+  // Legacy comparison fields kept for compatibility
+  babyElephants?: string;
+  bison?: string;
+  cars?: string;
+  houseCats?: string;
+  goldenRetrievers?: string;
+  grizzlyBears?: string;
+  hippos?: string;
+  hippopotamus?: string;
+  schoolBuses?: string;
+  smallJets?: string;
+  breadLoaves?: string;
+  pineapples?: string;
+  toddlers?: string;
+  bulldogs?: string;
+  rvs?: string;
+  whaleSharkPups?: string;
+  blueWhaleCalf?: string;
+  weightComparisonText?: string;
 };
