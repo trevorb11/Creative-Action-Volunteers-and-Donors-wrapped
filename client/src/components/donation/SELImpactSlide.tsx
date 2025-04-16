@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
-import { Heart, Brain, Lightbulb, MessageCircle, Users } from "lucide-react";
+import { Heart, Brain, Sparkles } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
 
 interface SELImpactSlideProps {
@@ -32,45 +32,28 @@ export default function SELImpactSlide({
     return controls.stop;
   }, [count, impact.selStudents]);
   
-  // SEL skills that Creative Action helps develop
-  const selSkills = [
-    {
-      name: "Self-Awareness",
-      description: "Identifying emotions and recognizing strengths",
-      icon: <Heart className="h-5 w-5 text-white" />,
-      color: "bg-[#EC407A]"
-    },
-    {
-      name: "Social Awareness",
-      description: "Understanding perspectives of others and empathy",
-      icon: <Users className="h-5 w-5 text-white" />,
-      color: "bg-[#EC407A]"
-    },
-    {
-      name: "Self-Management",
-      description: "Regulating emotions and setting personal goals",
-      icon: <Brain className="h-5 w-5 text-white" />,
-      color: "bg-[#EC407A]"
-    },
-    {
-      name: "Relationship Skills",
-      description: "Establishing healthy relationships and communication",
-      icon: <MessageCircle className="h-5 w-5 text-white" />,
-      color: "bg-[#EC407A]"
-    },
-    {
-      name: "Responsible Decision-Making",
-      description: "Making constructive choices about behavior",
-      icon: <Lightbulb className="h-5 w-5 text-white" />,
-      color: "bg-[#EC407A]"
+  // Container and item variants for staggered animation
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.6
+      }
     }
-  ];
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
   
   return (
     <SlideLayout
       title="Social-Emotional Learning"
       variant="selImpact"
-      quote="Through the arts, young people develop essential life skills that support their growth as empathetic, confident individuals."
+      quote="Arts education builds essential life skills that help students succeed in school and beyond."
       onNext={onNext}
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
@@ -96,7 +79,7 @@ export default function SELImpactSlide({
             <motion.span>{rounded}</motion.span> Students
           </p>
           <p className="text-sm text-[#424242] mt-2">
-            Developing crucial social-emotional learning skills through the arts
+            Receiving social-emotional learning through arts education
           </p>
         </div>
         
@@ -107,40 +90,77 @@ export default function SELImpactSlide({
           transition={{ delay: 1, duration: 0.5 }}
         >
           <p className="text-center text-[#424242]">
-            Creative Action's SEL programs help students develop the skills needed to succeed in school, career, and life.
+            Creative Action uses the power of the arts to help students develop <span className="font-semibold">essential life skills</span> that support their social and emotional wellbeing.
           </p>
         </motion.div>
         
-        {/* SEL Skills List */}
-        <div className="w-full space-y-3">
-          {selSkills.map((skill, index) => (
-            <motion.div 
-              key={skill.name}
-              className="flex items-start p-3 bg-white rounded-lg shadow-sm border border-gray-100"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 + (index * 0.1), duration: 0.5 }}
-            >
-              <div className={`${skill.color} p-2 rounded-full mr-3 mt-0.5`}>
-                {skill.icon}
-              </div>
-              <div>
-                <h3 className="font-semibold text-[#424242]">{skill.name}</h3>
-                <p className="text-sm text-[#666666]">{skill.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#FCE4EC] border border-[#EC407A]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <div className="bg-[#EC407A] p-2 rounded-full mb-2">
+              <Heart className="h-5 w-5 text-white" />
+            </div>
+            <p className="text-sm font-medium text-[#424242]">Empathy</p>
+            <p className="text-xs text-center text-[#616161] mt-1">
+              Understanding others' feelings and perspectives
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#FCE4EC] border border-[#EC407A]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <div className="bg-[#EC407A] p-2 rounded-full mb-2">
+              <Brain className="h-5 w-5 text-white" />
+            </div>
+            <p className="text-sm font-medium text-[#424242]">Self-Awareness</p>
+            <p className="text-xs text-center text-[#616161] mt-1">
+              Recognizing emotions and personal strengths
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#FCE4EC] border border-[#EC407A]/20 shadow-sm hover:shadow-md transition-shadow"
+            variants={itemVariants}
+          >
+            <div className="bg-[#EC407A] p-2 rounded-full mb-2">
+              <Sparkles className="h-5 w-5 text-white" />
+            </div>
+            <p className="text-sm font-medium text-[#424242]">Collaboration</p>
+            <p className="text-xs text-center text-[#616161] mt-1">
+              Working together toward shared goals
+            </p>
+          </motion.div>
+        </motion.div>
         
         <motion.div 
-          className="bg-[#FCE4EC] py-3 px-4 rounded-lg text-center w-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 0.5 }}
+          className="w-full mt-4 bg-white rounded-lg shadow-sm border border-gray-100 p-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.5 }}
         >
-          <p className="text-[#EC407A] font-semibold">
-            Students with strong SEL skills have 11% higher academic achievement
-          </p>
+          <h3 className="font-semibold text-[#424242] mb-2">SEL Program Outcomes:</h3>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <div className="min-w-4 h-4 rounded-full bg-[#EC407A] mt-1 mr-2"></div>
+              <p className="text-sm text-[#424242]">Students show improved behavior and emotional regulation</p>
+            </li>
+            <li className="flex items-start">
+              <div className="min-w-4 h-4 rounded-full bg-[#EC407A] mt-1 mr-2"></div>
+              <p className="text-sm text-[#424242]">Teachers report increased classroom engagement and focus</p>
+            </li>
+            <li className="flex items-start">
+              <div className="min-w-4 h-4 rounded-full bg-[#EC407A] mt-1 mr-2"></div>
+              <p className="text-sm text-[#424242]">Students develop critical thinking and creative problem-solving skills</p>
+            </li>
+          </ul>
         </motion.div>
       </div>
     </SlideLayout>
