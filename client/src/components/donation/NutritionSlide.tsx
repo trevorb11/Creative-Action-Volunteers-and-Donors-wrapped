@@ -248,45 +248,45 @@ export default function TimeGivingSlide({
     
     if (years <= 0) {
       return {
-        title: `${milestone.emoji} Welcome to the Community Food Share Family!`,
-        message: "You're just beginning your hunger-fighting journey with us. Your support will help ensure nutritious food reaches those who need it most.",
-        funFact: "Did you know? First-time donors like you help us expand our reach to new communities every year!"
+        title: `${milestone.emoji} Welcome to the Creative Action Family!`,
+        message: "You're just beginning your arts education journey with us. Your support will help ensure creative programs reach students who need them most.",
+        funFact: "Did you know? First-time donors like you help us expand our reach to new schools and communities every year!"
       };
     } else if (years === 1) {
       return {
-        title: `${milestone.emoji} One Year of Fighting Hunger`,
-        message: "You've completed your first year with us! In just 12 months, you've already made a significant difference by helping provide nutritious meals to people in need.",
-        funFact: "Fun fact: In your first year of giving, you've joined thousands of other one-year donors who collectively help us serve over 40,000 meals annually!"
+        title: `${milestone.emoji} One Year of Empowering Creativity`,
+        message: "You've completed your first year with us! In just 12 months, you've already made a significant difference by helping provide arts education to students across Central Texas.",
+        funFact: "Fun fact: In your first year of giving, you've joined thousands of other one-year donors who collectively help us reach over 20,000 students annually!"
       };
     } else if (years === 2) {
       return {
-        title: `${milestone.emoji} Two Years of Growing Impact`,
-        message: "Two years in, and your commitment to fighting hunger is growing stronger. Your continued support means more families have reliable access to nutritious food.",
-        funFact: "Did you know? Second-year donors like you have a 70% higher impact than first-time donors because you understand where help is needed most!"
+        title: `${milestone.emoji} Two Years of Growing Creative Impact`,
+        message: "Two years in, and your commitment to arts education is growing stronger. Your continued support means more students have reliable access to creative expression opportunities.",
+        funFact: "Did you know? Second-year donors like you have a 70% higher impact than first-time donors because you understand where creative programs are needed most!"
       };
     } else if (years === 3) {
       return {
         title: `${milestone.emoji} Three Years of Dedicated Support`,
-        message: "Three years of consistent support makes you a veteran hunger fighter! Your commitment is helping build a healthier community with sustainable food security.",
+        message: "Three years of consistent support makes you a champion of arts education! Your commitment is helping build a more creative community with sustainable arts programming.",
         funFact: "Fun fact: Three-year donors like you make up just 15% of our donor base but contribute nearly 40% of our annual donation revenue!"
       };
     } else if (years === 4) {
       return {
         title: `${milestone.emoji} Four Years of Transformative Giving`,
-        message: "Your support over four years is like fertile soil for our community—nurturing growth and resilience through continued food access. That's something to celebrate!",
-        funFact: "Amazing! At four years of giving, you've likely helped provide enough meals to feed a family of four for over six months!"
+        message: "Your support over four years is like creative soil for our community—nurturing imagination and resilience through continued arts access. That's something to celebrate!",
+        funFact: "Amazing! At four years of giving, you've likely helped provide enough creative instruction hours to support dozens of students for an entire school year!"
       };
     } else if (years >= 5 && years < 10) {
       return {
-        title: `${milestone.emoji} ${years} Years as a Food Security Champion`,
-        message: `For ${years} years, you've been a cornerstone of our hunger relief efforts. Your long-term commitment means thousands of meals for families in our community.`,
-        funFact: `Incredible! Donors who have given for ${years} years are among our most valued supporters, with a deep understanding of local food insecurity challenges.`
+        title: `${milestone.emoji} ${years} Years as an Arts Education Champion`,
+        message: `For ${years} years, you've been a cornerstone of our creative education efforts. Your long-term commitment means thousands of students experiencing the power of arts education.`,
+        funFact: `Incredible! Donors who have given for ${years} years are among our most valued supporters, with a deep understanding of arts education challenges.`
       };
     } else {
       return {
         title: `${milestone.emoji} A Decade+ of Extraordinary Impact`,
-        message: `After an incredible ${years} years of support, you're truly a pillar of our mission. Your extraordinary commitment has helped countless neighbors facing food insecurity.`,
-        funFact: `Remarkable! Less than 3% of our donors have supported us for ${years}+ years, placing you among our most loyal and dedicated hunger fighters!`
+        message: `After an incredible ${years} years of support, you're truly a pillar of our mission. Your extraordinary commitment has helped countless students discover their creative potential.`,
+        funFact: `Remarkable! Less than 3% of our donors have supported us for ${years}+ years, placing you among our most loyal and dedicated arts education champions!`
       };
     }
   };
@@ -383,8 +383,8 @@ export default function TimeGivingSlide({
                   </CardTitle>
                   <CardDescription>
                     {years > 0 
-                      ? `You've been supporting Community Food Share since ${donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "the beginning"}`
-                      : "Beginning your journey with Community Food Share"}
+                      ? `You've been supporting Creative Action since ${donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() : "the beginning"}`
+                      : "Beginning your journey with Creative Action"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4">
@@ -426,7 +426,7 @@ export default function TimeGivingSlide({
                           </div>
                           <div className="flex-grow pt-1">
                             <h4 className="font-medium text-gray-800">{donorSummary?.firstGiftDate ? new Date(donorSummary.firstGiftDate).getFullYear() + Math.floor(years/2) : "Mid-journey"}</h4>
-                            <p className="text-sm text-gray-600">You've become a consistent supporter of our hunger relief programs!</p>
+                            <p className="text-sm text-gray-600">You've become a consistent supporter of our creative arts programs!</p>
                           </div>
                         </div>
                       )}
