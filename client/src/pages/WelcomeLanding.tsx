@@ -49,10 +49,10 @@ export default function WelcomeLanding() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-50 to-green-100 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#F3E5F5] to-[#EDE7F6] p-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-green-700">Community Food Share</CardTitle>
+          <CardTitle className="text-3xl font-bold text-[#6A1B9A]">Creative Action</CardTitle>
           <CardDescription className="text-xl mt-2">
             See the Impact You Made
           </CardDescription>
@@ -60,7 +60,7 @@ export default function WelcomeLanding() {
         <CardContent className="space-y-6">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-8">
-              <Loader2 className="h-12 w-12 animate-spin text-green-600" />
+              <Loader2 className="h-12 w-12 animate-spin text-[#6A1B9A]" />
               <p className="mt-4 text-center text-gray-600">
                 Looking for your donation information...
               </p>
@@ -68,22 +68,22 @@ export default function WelcomeLanding() {
           ) : (
             <>
               <p className="text-center text-gray-600">
-                Discover how your generosity is fighting hunger and changing lives in our community.
+                Discover how your generosity is bringing arts education and creative expression to youth across Central Texas.
               </p>
               <div className="space-y-3">
                 {/* Donation impact options */}
                 <div className="bg-white rounded-lg p-4 border border-gray-200">
-                  <h3 className="text-lg font-semibold mb-3 text-green-700">Donation Impact</h3>
+                  <h3 className="text-lg font-semibold mb-3 text-[#6A1B9A]">Donation Impact</h3>
                   <div className="grid grid-cols-1 gap-2">
                     <Button 
                       onClick={handleDonationImpact} 
-                      className="w-full bg-green-600 hover:bg-green-700 text-md py-3"
+                      className="w-full bg-[#6A1B9A] hover:bg-[#4A148C] text-md py-3"
                     >
                       Standard Donation Impact
                     </Button>
                     <Button 
                       onClick={handleDonorInterface} 
-                      className="w-full bg-green-700 hover:bg-green-800 text-md py-3"
+                      className="w-full bg-[#8E24AA] hover:bg-[#6A1B9A] text-md py-3"
                     >
                       Donor-Personalized Impact
                     </Button>
@@ -92,12 +92,12 @@ export default function WelcomeLanding() {
                 
                 {/* Volunteer impact option */}
                 <div className="bg-white rounded-lg p-4 border border-gray-200">
-                  <h3 className="text-lg font-semibold mb-3 text-blue-700">Volunteer Impact</h3>
+                  <h3 className="text-lg font-semibold mb-3 text-[#66CDAA]">Teaching Artist Impact</h3>
                   <Button 
                     onClick={handleVolunteerImpact} 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-md py-3"
+                    className="w-full bg-[#66CDAA] hover:bg-[#4DB6AC] text-md py-3"
                   >
-                    Volunteer Impact Calculator
+                    Teaching Artist Impact Calculator
                   </Button>
                 </div>
               </div>
@@ -107,14 +107,14 @@ export default function WelcomeLanding() {
         
         <CardFooter className="flex justify-between text-sm text-gray-500 border-t pt-4">
           <Link href="/admin">
-            <Button size="sm" variant="ghost" className="flex items-center gap-1">
+            <Button size="sm" variant="ghost" className="flex items-center gap-1 text-[#6A1B9A]">
               <Wrench className="h-4 w-4" />
               Admin
             </Button>
           </Link>
           
           <Link href="/test-url">
-            <Button size="sm" variant="ghost" className="flex items-center gap-1">
+            <Button size="sm" variant="ghost" className="flex items-center gap-1 text-[#6A1B9A]">
               <TestTube className="h-4 w-4" />
               URL Tester
             </Button>
