@@ -595,7 +595,7 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
             className="mt-6 text-center"
           >
             <p className="text-sm text-[#414042]">
-              Together, we're building a hunger-free community. Every volunteer hour matters!
+              Together, we're igniting creativity in the next generation. Every teaching artist hour matters!
             </p>
           </motion.div>
           
@@ -606,7 +606,7 @@ const WelcomeSlide = ({ onSubmit }: { onSubmit: (hours: number, email?: string) 
             transition={{ delay: 1.2, duration: 0.5 }}
             className="mt-6"
           >
-            <CFSLogo height={50} />
+            <CALogo height={50} />
           </motion.div>
         </CardContent>
       </Card>
@@ -837,7 +837,7 @@ const SummarySlide = ({ impact, onNext, isFirstSlide, isLastSlide }: ImpactSlide
           >
             <p className="text-center text-[#0c4428]">
               Your volunteer time directly impacts our ability to serve the community. 
-              <span className="block mt-1 font-medium">Together, we're building a hunger-free community.</span>
+              <span className="block mt-1 font-medium">Together, we're inspiring creativity in the next generation of change makers.</span>
             </p>
           </motion.div>
         </CardContent>
