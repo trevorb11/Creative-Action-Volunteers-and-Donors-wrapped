@@ -795,7 +795,7 @@ const SummarySlide = ({ impact, onNext, isFirstSlide, isLastSlide }: ImpactSlide
               className="flex flex-col items-center p-3 sm:p-4 rounded-lg bg-[#e6f2ed] border border-[#0c4428]/20 shadow-sm hover:shadow-md transition-shadow"
               variants={itemVariants}
             >
-              <AnimatedIcon icon={Utensils} size={32} color="#0c4428" className="mb-2" />
+              <AnimatedIcon icon={Palette} size={32} color="#6A1B9A" className="mb-2" />
               <p className="text-sm font-medium text-[#0c4428]">Meals</p>
               <p className="text-lg sm:text-xl font-semibold text-[#0c4428]">
                 <AnimatedCounter value={impact.mealsProvided} duration={2} />
@@ -892,7 +892,7 @@ const MealsSlide = ({ impact, onNext, onPrevious, isFirstSlide, isLastSlide }: I
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <AnimatedIcon icon={Utensils} size={46} color="#0c4428" className="mb-4" />
+            <AnimatedIcon icon={Palette} size={46} color="#6A1B9A" className="mb-4" />
           </motion.div>
           
           <div className="text-center mb-6 sm:mb-8">
@@ -1245,8 +1245,8 @@ const IntroSlide = ({
             
             <p className="text-[#414042] leading-relaxed text-lg">
               {firstName 
-                ? `Thank you for donating your time to help fight hunger in our community.`
-                : `Your volunteer contribution is making a significant impact in our fight against hunger.`
+                ? `Thank you for dedicating your time to inspire creativity in students across our community.`
+                : `Your teaching artist contribution is making a significant impact in our mission to bring arts education to all students.`
               }
             </p>
             
