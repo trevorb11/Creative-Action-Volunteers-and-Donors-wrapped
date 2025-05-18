@@ -29,22 +29,22 @@ export default function SummarySlide({
 }: SummarySlideProps) {
   const summaryRef = useRef<HTMLDivElement>(null);
   
-  // Create a list of impact achievements
+  // Create a list of Creative Action impact achievements
   const impactItems = [
     { 
-      text: `Provided ${impact.mealsProvided.toLocaleString()} nutritious meals` 
+      text: `Supported ${impact.instructionHours.toLocaleString()} hours of creative instruction` 
     },
     { 
-      text: `Helped serve ${impact.peopleServed.toLocaleString()} people in need` 
+      text: `Reached ${impact.studentsReached.toLocaleString()} students with arts education` 
     },
     { 
-      text: `Rescued ${impact.foodRescued.toLocaleString()} lbs of food` 
+      text: `Funded ${impact.teachingArtistHours.toLocaleString()} teaching artist hours` 
     },
     { 
-      text: `Prevented ${impact.co2Saved.toLocaleString()} lbs of CO2 emissions` 
+      text: `Supported ${impact.selStudents.toLocaleString()} students with social-emotional learning` 
     },
     {
-      text: `Saved ${impact.waterSaved.toLocaleString()} gallons of water`
+      text: `Helped create ${impact.muralsSupported.toLocaleString()} community murals`
     }
   ];
   
@@ -68,7 +68,7 @@ export default function SummarySlide({
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Your Impact Summary</title>
+          <title>Your Creative Impact Summary</title>
           <style>
             body {
               font-family: 'Open Sans', sans-serif;
@@ -79,13 +79,13 @@ export default function SummarySlide({
               padding: 2rem;
             }
             h1, h2, h3 {
-              color: #8dc53e;
-              font-family: 'Spectral', serif;
+              color: #6A1B9A;
+              font-family: 'Arial', sans-serif;
             }
             .impact-header {
               text-align: center;
               margin-bottom: 2rem;
-              border-bottom: 2px solid #8dc53e;
+              border-bottom: 2px solid #6A1B9A;
               padding-bottom: 1rem;
             }
             .impact-item {
@@ -95,7 +95,7 @@ export default function SummarySlide({
             }
             .impact-icon {
               margin-right: 1rem;
-              color: #8dc53e;
+              color: #6A1B9A;
             }
             .footer {
               margin-top: 3rem;
@@ -120,7 +120,7 @@ export default function SummarySlide({
         </head>
         <body>
           <div class="impact-header">
-            <h1>Your Community Food Share Impact</h1>
+            <h1>Your Creative Action Impact</h1>
             <p>Thank you for your donation of $${amount.toLocaleString()}!</p>
             <p class="date">${new Date().toLocaleDateString()}</p>
           </div>
@@ -137,12 +137,12 @@ export default function SummarySlide({
           </div>
           
           <div class="footer">
-            <p>Community Food Share | Together, we're building a hunger-free community</p>
-            <p>Visit us at communityfoodshare.org</p>
+            <p>Creative Action | Where creativity meets possibility</p>
+            <p>Igniting the next generation of change makers through arts education</p>
           </div>
           
           <div class="no-print" style="margin-top: 2rem; text-align: center;">
-            <button onclick="window.print();" style="padding: 0.5rem 1rem; background: #8dc53e; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            <button onclick="window.print();" style="padding: 0.5rem 1rem; background: #6A1B9A; color: white; border: none; border-radius: 4px; cursor: pointer;">
               Print This Page
             </button>
           </div>
@@ -188,11 +188,11 @@ export default function SummarySlide({
           transition={{ duration: 0.5 }}
           className="flex flex-col items-center"
         >
-          <Award className="h-16 w-16 text-[#8dc53e] mb-2" />
+          <Award className="h-16 w-16 text-[#6A1B9A] mb-2" />
           <h3 className="text-2xl font-bold text-[#414042] text-center">
             Thank you for your donation of
           </h3>
-          <p className="text-4xl font-bold text-[#8dc53e] mt-1">
+          <p className="text-4xl font-bold text-[#6A1B9A] mt-1">
             ${amount.toLocaleString()}
           </p>
         </motion.div>
@@ -211,8 +211,8 @@ export default function SummarySlide({
                 className="flex items-start bg-white p-3 rounded-lg shadow-sm border border-gray-100"
                 variants={itemVariants}
               >
-                <div className="bg-[#8dc53e]/10 p-2 rounded-full mr-3">
-                  <Check className="h-5 w-5 text-[#8dc53e]" />
+                <div className="bg-[#6A1B9A]/10 p-2 rounded-full mr-3">
+                  <Check className="h-5 w-5 text-[#6A1B9A]" />
                 </div>
                 <div>
                   <p className="text-base sm:text-base font-medium text-[#414042]">{item.text}</p>
@@ -222,13 +222,13 @@ export default function SummarySlide({
           </motion.div>
           
           <motion.div
-            className="mt-6 bg-[#f3fae7] p-4 rounded-lg border border-[#8dc53e]/20 text-center"
+            className="mt-6 bg-[#F3E5F5] p-4 rounded-lg border border-[#6A1B9A]/20 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
           >
             <p className="text-[#414042]">
-              <span className="font-medium">Your generosity matters.</span> Together, we're building a hunger-free community.
+              <span className="font-medium">Your generosity matters.</span> Together, we're igniting creativity in the next generation of change makers.
             </p>
           </motion.div>
         </div>
@@ -242,7 +242,7 @@ export default function SummarySlide({
         >
           <Button
             onClick={onReset}
-            className="bg-white text-[#414042] border border-[#8dc53e]/30 hover:bg-gray-50"
+            className="bg-white text-[#414042] border border-[#6A1B9A]/30 hover:bg-gray-50"
             size="lg"
           >
             <RefreshCcw className="h-4 w-4 mr-2" />
@@ -251,7 +251,7 @@ export default function SummarySlide({
           
           <Button
             onClick={onShare}
-            className="bg-[#0c4428] text-white hover:bg-[#0c4428]/90"
+            className="bg-[#66CDAA] text-white hover:bg-[#50B898]"
             size="lg"
           >
             <Share2 className="h-4 w-4 mr-2" />
@@ -260,7 +260,7 @@ export default function SummarySlide({
           
           <Button
             onClick={handleDownload}
-            className="bg-[#8dc53e] text-white hover:bg-[#7db22d]"
+            className="bg-[#6A1B9A] text-white hover:bg-[#4A148C]"
             size="lg"
           >
             <Download className="h-4 w-4 mr-2" />
