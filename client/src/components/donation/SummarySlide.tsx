@@ -17,10 +17,10 @@ interface SummarySlideProps {
   isLastSlide?: boolean;
 }
 
-export default function SummarySlide({ 
-  amount, 
-  impact, 
-  onReset, 
+export default function SummarySlide({
+  amount,
+  impact,
+  onReset,
   onShare,
   onNext,
   onPrevious,
@@ -28,23 +28,37 @@ export default function SummarySlide({
   isLastSlide
 }: SummarySlideProps) {
   const summaryRef = useRef<HTMLDivElement>(null);
-  
-  // Create a list of Creative Action impact achievements
+
+  const formatImpactNumber = (value: number) => {
+    if (!Number.isFinite(value)) {
+      return "0";
+    }
+
+    if (value >= 10) {
+      return Math.round(value).toLocaleString();
+    }
+
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+    });
+  };
+
   const impactItems = [
-    { 
-      text: `Supported ${impact.instructionHours.toLocaleString()} hours of creative instruction` 
-    },
-    { 
-      text: `Reached ${impact.studentsReached.toLocaleString()} students with arts education` 
-    },
-    { 
-      text: `Funded ${impact.teachingArtistHours.toLocaleString()} teaching artist hours` 
-    },
-    { 
-      text: `Supported ${impact.selStudents.toLocaleString()} students with social-emotional learning` 
+    {
+      text: `Invested in ${formatImpactNumber(impact.studentsSupported)} students' creative journeys`
     },
     {
-      text: `Helped create ${impact.muralsSupported.toLocaleString()} community murals`
+      text: `Made ${formatImpactNumber(impact.dayCampExperiences)} day camp experiences possible`
+    },
+    {
+      text: `Powered ${formatImpactNumber(impact.afterSchoolMonthsFunded)} months of after-school programming`
+    },
+    {
+      text: `Backed ${formatImpactNumber(impact.residencyStudentsFunded)} year-long residencies at Campbell`
+    },
+    {
+      text: `Average cost per student experience ≈ $${impact.averageStudentCost.toLocaleString()}`
     }
   ];
   

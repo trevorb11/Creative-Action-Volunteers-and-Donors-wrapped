@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { DollarSign, TrendingUp } from "lucide-react";
+import { DollarSign, TrendingUp, Sparkles } from "lucide-react";
 import { DonationImpact } from "@/types/donation";
 import SlideLayout from "./SlideLayout";
 import CountUpAnimation from "./CountUpAnimation";
@@ -13,56 +13,70 @@ interface DonorFinancialSlideProps {
   isLastSlide?: boolean;
 }
 
-export default function DonorFinancialSlide({ 
-  impact,
-  amount,
-  onNext,
-  onPrevious,
-  isFirstSlide,
-  isLastSlide
-}: DonorFinancialSlideProps) {
-  
-  // Container and item variants for staggered animation
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
+export default function DonorFinancialSlide({ impact, amount, onNext, onPrevious, isFirstSlide, isLastSlide }: DonorFinancialSlideProps) {
+  const {
+    studentsSupported,
+    dayCampExperiences,
+    afterSchoolMonthsFunded,
+    residencyStudentsFunded,
+    averageStudentCost,
+  } = impact;
+
+  const studentCountDecimals = studentsSupported >= 10 ? 0 : 1;
+
+  const conversionMetrics = [
+    {
+      label: "Creative Camp Days",
+      description: "$75 = one child attends a Creative Action day camp.",
+      value: dayCampExperiences,
+    },
+    {
+      label: "Months of After-School",
+      description: "$345 = one month of after-school programming for a student.",
+      value: afterSchoolMonthsFunded,
+    },
+    {
+      label: "Year-Long Residencies",
+      description: "$486 = a student's theatre + digital media residency at Campbell.",
+      value: residencyStudentsFunded,
+    },
+  ];
+
+  const formatImpactNumber = (value: number) => {
+    if (!Number.isFinite(value)) {
+      return "0";
     }
+
+    if (value >= 10) {
+      return Math.round(value).toLocaleString();
+    }
+
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+    });
   };
-  
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  };
-  
-  // Calculate financial metrics (leverage factor is how many times the donation is multiplied in value)
-  const leverageFactor = 6; // Updated to show $1 = $6 worth of groceries
-  const communityValue = amount * leverageFactor;
 
   return (
     <SlideLayout
       title="Financial Impact"
       variant="donor"
-      quote="Your donation goes further than you might think, creating ripple effects throughout our community."
+      quote="Every dollar you invest unlocks creative opportunities for young people across Central Texas."
       onNext={onNext}
       onPrevious={onPrevious}
       isFirstSlide={isFirstSlide}
       isLastSlide={isLastSlide}
     >
-      <div className="flex flex-col items-center mb-6">
+      <div className="flex flex-col items-center mb-6 space-y-4">
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ duration: 0.5, type: "spring" }}
-          className="w-20 h-20 bg-[#f3fae7] rounded-full flex items-center justify-center mb-4"
+          className="w-20 h-20 bg-[#E8F5E9] rounded-full flex items-center justify-center"
         >
-          <DollarSign className="h-10 w-10 text-[#8dc53e]" />
+          <DollarSign className="h-10 w-10 text-[#43A047]" />
         </motion.div>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,53 +84,48 @@ export default function DonorFinancialSlide({
           className="text-center"
         >
           <h3 className="text-lg sm:text-xl text-[#414042] font-medium mb-2">
-            Your ${amount} donation creates
+            Your ${amount.toLocaleString()} donation directly supports approximately
           </h3>
-          <div className="text-3xl sm:text-4xl font-bold text-[#8dc53e]">
-            <CountUpAnimation
-              value={communityValue} 
-              isCurrency={true}
-              className="text-[#8dc53e]"
-            /> in community value
+          <div className="text-3xl sm:text-4xl font-bold text-[#43A047]">
+            <CountUpAnimation value={studentsSupported} decimals={studentCountDecimals} /> students
           </div>
           <p className="text-[#414042] mt-2 text-sm sm:text-base">
-            That's a {leverageFactor}x return on your investment!
+            Average cost per student experience ≈ ${averageStudentCost.toLocaleString()}.
           </p>
         </motion.div>
       </div>
-      
+
       <motion.div
-        className="space-y-4"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.div 
-          className="bg-white p-4 rounded-lg shadow-sm border border-gray-100"
-          variants={itemVariants}
-        >
-          <div className="flex items-start">
-            <div className="bg-[#f3fae7] p-2 rounded-full mr-3">
-              <TrendingUp className="h-5 w-5 text-[#8dc53e]" />
-            </div>
-            <div>
-              <h4 className="font-medium text-[#414042]">Economic Value</h4>
-              <p className="text-sm text-gray-600">
-                Every dollar you donate helps us secure and distribute ${leverageFactor} worth of groceries through our partnerships
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-      
-      <motion.div
-        className="mt-6 bg-[#f3fae7] p-4 rounded-lg border border-[#8dc53e]/20 text-center"
+        className="grid grid-cols-1 md:grid-cols-3 gap-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
       >
-        <p className="text-[#414042] text-sm">
-          Every dollar you donate helps us provide <span className="font-medium">${leverageFactor}</span> worth of nutritious groceries to families in need.
+        {conversionMetrics.map((metric) => (
+          <div key={metric.label} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+            <div className="flex items-start mb-3">
+              <div className="bg-[#E8F5E9] p-2 rounded-full mr-3">
+                <TrendingUp className="h-5 w-5 text-[#43A047]" />
+              </div>
+              <div>
+                <h4 className="font-medium text-[#414042]">{metric.label}</h4>
+                <p className="text-sm text-gray-600">{metric.description}</p>
+              </div>
+            </div>
+            <p className="text-3xl font-semibold text-[#43A047]">{formatImpactNumber(metric.value)}</p>
+          </div>
+        ))}
+      </motion.div>
+
+      <motion.div
+        className="mt-6 bg-[#E8F5E9] p-4 rounded-lg border border-[#43A047]/20 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9, duration: 0.5 }}
+      >
+        <p className="text-[#414042] text-sm sm:text-base">
+          <Sparkles className="inline-block h-4 w-4 text-[#43A047] mr-1" aria-hidden />
+          You make tangible creative experiences possible — from camp days to year-long residencies.
         </p>
       </motion.div>
     </SlideLayout>

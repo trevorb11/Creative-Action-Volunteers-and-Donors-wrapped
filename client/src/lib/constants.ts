@@ -6,6 +6,12 @@ export const CREATIVE_ACTION_DATA = {
   costPerSELModule: 25, // $25 per student for social-emotional learning module
   costPerTheaterWorkshop: 30, // $30 per student participation in workshop session
   costPerBraveSchoolsLesson: 100, // $100 per Brave Schools class lesson
+
+  // Core conversion metrics highlighted in the 2024 wrapped
+  averageStudentCost: 142, // ~$142 to support a student for the year
+  dayCampCost: 75, // $75 sends a child to day camp
+  afterSchoolMonthlyCost: 345, // $345 funds a month of after-school programming
+  residencyCost: 486, // $486 supports a full-year residency at Campbell
   
   // Program distribution
   programAreas: {

@@ -3,40 +3,35 @@ import { CREATIVE_ACTION_DATA } from "./constants";
 
 // Generate creative impact description based on donation amount
 function generateImpactDescription(amount: number): string {
-  if (amount < 25) {
-    return "Your donation provides vital art supplies for creative expression.";
-  } else if (amount < 50) {
-    return "You're helping students explore their creative talents and build confidence!";
-  } else if (amount < 100) {
-    return "Your gift supports teaching artists who inspire the next generation.";
-  } else if (amount < 250) {
-    return "You're making social-emotional learning through arts possible for so many students!";
-  } else if (amount < 500) {
-    return "Your generosity helps create safe spaces for youth to express themselves.";
-  } else if (amount < 1000) {
-    return "You're helping transform communities through collaborative art projects!";
+  if (amount < 50) {
+    return "Your donation provides vital art supplies and creative materials.";
+  } else if (amount < CREATIVE_ACTION_DATA.dayCampCost) {
+    return "You're helping a student get one step closer to camp this year.";
+  } else if (amount < CREATIVE_ACTION_DATA.averageStudentCost) {
+    return "You just sent a student to a full day of Creative Action camp!";
+  } else if (amount < CREATIVE_ACTION_DATA.afterSchoolMonthlyCost) {
+    return "You're covering a student's core creative learning experience for the year.";
+  } else if (amount < CREATIVE_ACTION_DATA.residencyCost) {
+    return "You're funding a full month of after-school programming for a student.";
+  } else if (amount < CREATIVE_ACTION_DATA.residencyCost * 2) {
+    return "You just underwrote a year-long arts residency for a student at Campbell.";
   } else {
-    return "Your extraordinary gift is helping create lasting change through arts education!";
+    return "Your extraordinary gift funds multiple year-long residencies for emerging creatives!";
   }
 }
 
-// Generate classroom size comparison based on students reached
-function generateClassroomComparison(students: number): string {
-  if (students < 10) {
-    return `a small group workshop (${students} students)`;
-  } else if (students < 25) {
-    return `a typical classroom (${students} students)`;
-  } else if (students < 60) {
-    return `${Math.round(students / 25)} typical classrooms (${students} students)`;
-  } else if (students < 150) {
-    return `a small school assembly (${students} students)`;
-  } else if (students < 500) {
-    return `a large school assembly (${students} students)`;
-  } else if (students < 1000) {
-    return `an entire small school (${students} students)`;
-  } else {
-    return `multiple school communities (${students} students)`;
+// Generate summary text for student experiences
+function generateStudentExperienceSummary(students: number): string {
+  if (students >= 10) {
+    return `${Math.round(students).toLocaleString()} students' creative journeys`;
   }
+
+  if (students >= 1) {
+    return `${students.toFixed(1)} students' creative journeys`;
+  }
+
+  const percentage = Math.max(1, Math.round(students * 100));
+  return `${percentage}% of a student's creative journey`;
 }
 
 export function calculateDonationImpact(amount: number): DonationImpact {
@@ -48,16 +43,28 @@ export function calculateDonationImpact(amount: number): DonationImpact {
   const theaterStudents = Math.round(amount / CREATIVE_ACTION_DATA.costPerTheaterWorkshop);
   const braveSchoolsLessons = Math.round(amount / CREATIVE_ACTION_DATA.costPerBraveSchoolsLesson);
   
-  // Calculate students reached using the instruction hours metric
-  const studentsReached = Math.round(instructionHours * CREATIVE_ACTION_DATA.studentsPerInstructionHour);
-  
+  // Core conversions for the wrapped experience
+  const studentsSupportedRaw = amount / CREATIVE_ACTION_DATA.averageStudentCost;
+  const studentsSupported = Number(studentsSupportedRaw.toFixed(2));
+  const studentsFullyFunded = Math.floor(studentsSupportedRaw);
+  const partialStudentPercentage = studentsSupportedRaw > studentsFullyFunded
+    ? Math.round((studentsSupportedRaw - studentsFullyFunded) * 100)
+    : 0;
+
+  const dayCampExperiences = Number((amount / CREATIVE_ACTION_DATA.dayCampCost).toFixed(2));
+  const afterSchoolMonthsFunded = Number((amount / CREATIVE_ACTION_DATA.afterSchoolMonthlyCost).toFixed(2));
+  const residencyStudentsFunded = Number((amount / CREATIVE_ACTION_DATA.residencyCost).toFixed(2));
+
+  // Calculate students reached based on the new average cost metric
+  const studentsReached = Number(studentsSupported.toFixed(2));
+
   // Calculate percentage of total students served annually
-  const studentPercentage = ((studentsReached / CREATIVE_ACTION_DATA.studentsPerYear) * 100).toFixed(2) + '%';
-  
+  const studentPercentage = ((studentsReached / CREATIVE_ACTION_DATA.studentsPerYear) * 100).toFixed(3) + '%';
+
   // Generate text descriptions
   const impactDescription = generateImpactDescription(amount);
-  const classroomComparison = generateClassroomComparison(studentsReached);
-  
+  const classroomComparison = generateStudentExperienceSummary(studentsSupportedRaw);
+
   // Map these metrics to the expected return type for now
   // Some properties are kept for backward compatibility
   return {
@@ -73,6 +80,14 @@ export function calculateDonationImpact(amount: number): DonationImpact {
     impactDescription,
     classroomComparison,
     programDistribution: CREATIVE_ACTION_DATA.programAreas,
+
+    averageStudentCost: CREATIVE_ACTION_DATA.averageStudentCost,
+    studentsSupported,
+    studentsFullyFunded,
+    partialStudentPercentage,
+    dayCampExperiences,
+    afterSchoolMonthsFunded,
+    residencyStudentsFunded,
     
     // Required fields for backward compatibility
     mealsProvided: instructionHours, // Repurposing meals as instruction hours

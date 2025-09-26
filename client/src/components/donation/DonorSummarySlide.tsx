@@ -16,10 +16,10 @@ interface DonorSummarySlideProps {
   isLastSlide?: boolean;
 }
 
-export default function DonorSummarySlide({ 
-  amount, 
-  impact, 
-  onReset, 
+export default function DonorSummarySlide({
+  amount,
+  impact,
+  onReset,
   onShare,
   onNext,
   onPrevious,
@@ -27,23 +27,37 @@ export default function DonorSummarySlide({
   isLastSlide
 }: DonorSummarySlideProps) {
   const summaryRef = useRef<HTMLDivElement>(null);
-  
-  // Create a list of impact achievements
+
+  const formatImpactNumber = (value: number) => {
+    if (!Number.isFinite(value)) {
+      return "0";
+    }
+
+    if (value >= 10) {
+      return Math.round(value).toLocaleString();
+    }
+
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+    });
+  };
+
   const impactItems = [
-    { 
-      text: `Provided ${impact.mealsProvided.toLocaleString()} nutritious meals` 
-    },
-    { 
-      text: `Helped serve ${impact.peopleServed.toLocaleString()} people in need` 
-    },
-    { 
-      text: `Rescued ${impact.foodRescued.toLocaleString()} lbs of food` 
-    },
-    { 
-      text: `Prevented ${impact.co2Saved.toLocaleString()} lbs of CO2 emissions` 
+    {
+      text: `Invested in ${formatImpactNumber(impact.studentsSupported)} students' creative journeys`
     },
     {
-      text: `Saved ${impact.waterSaved.toLocaleString()} gallons of water`
+      text: `Made ${formatImpactNumber(impact.dayCampExperiences)} day camp experiences possible`
+    },
+    {
+      text: `Powered ${formatImpactNumber(impact.afterSchoolMonthsFunded)} months of after-school programming`
+    },
+    {
+      text: `Backed ${formatImpactNumber(impact.residencyStudentsFunded)} year-long residencies at Campbell`
+    },
+    {
+      text: `Average cost per student experience ≈ $${impact.averageStudentCost.toLocaleString()}`
     }
   ];
   
@@ -67,7 +81,7 @@ export default function DonorSummarySlide({
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Your Impact Summary</title>
+          <title>Your Creative Impact Summary</title>
           <style>
             body {
               font-family: 'Open Sans', sans-serif;
@@ -153,13 +167,13 @@ export default function DonorSummarySlide({
         <body>
           <div class="certificate">
             <div class="impact-header">
-              <h1>Community Food Share Impact Certificate</h1>
-              <p>Presented to: <strong>Community Supporter</strong></p>
-              <p>For a generous donation of: <strong>$${amount.toLocaleString()}</strong></p>
-              <p class="date">${new Date().toLocaleDateString()}</p>
-            </div>
-            
-            <h2>Your donation's impact:</h2>
+            <h1>Creative Action Impact Certificate</h1>
+            <p>Presented to: <strong>Creative Action Supporter</strong></p>
+            <p>For a generous donation of: <strong>$${amount.toLocaleString()}</strong></p>
+            <p class="date">${new Date().toLocaleDateString()}</p>
+          </div>
+
+          <h2>Your donation's impact:</h2>
             
             <div class="impact-items">
               ${impactItems.map(item => `
@@ -172,8 +186,8 @@ export default function DonorSummarySlide({
           </div>
           
           <div class="footer">
-            <p>Community Food Share | Together, we're building a hunger-free community</p>
-            <p>Visit us at communityfoodshare.org</p>
+            <p>Creative Action | Where creativity meets possibility</p>
+            <p>Igniting the next generation of change makers through arts education</p>
           </div>
           
           <div class="no-print" style="margin-top: 2rem; text-align: center;">

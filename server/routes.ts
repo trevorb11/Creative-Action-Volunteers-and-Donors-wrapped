@@ -36,7 +36,11 @@ export function calculateDonationImpact(amount: number) {
   const costPerBraveSchoolsLesson = 100; // $100 per Brave Schools class lesson
   const studentsPerInstructionHour = 5; // Each hour of instruction reaches about 5 students
   const studentsPerYear = 15000; // Approximate number of students served annually
-  
+  const averageStudentCost = 142; // Average annual cost to serve one student
+  const dayCampCost = 75; // $75 sends a child to a day camp day
+  const afterSchoolMonthlyCost = 345; // $345 funds a month of after-school programming
+  const residencyCost = 486; // $486 supports a year-long residency at Campbell
+
   // Calculate impact metrics
   const instructionHours = Math.round(amount / costPerCreativeInstructionHour);
   const muralsSupported = Math.max(1, Math.round(amount / costPerMuralSupplies));
@@ -44,47 +48,52 @@ export function calculateDonationImpact(amount: number) {
   const selStudents = Math.round(amount / costPerSELModule);
   const theaterStudents = Math.round(amount / costPerTheaterWorkshop);
   const braveSchoolsLessons = Math.round(amount / costPerBraveSchoolsLesson);
-  
-  // Calculate students reached using the instruction hours metric
-  const studentsReached = Math.round(instructionHours * studentsPerInstructionHour);
-  
+
+  // Core wrapped conversions
+  const studentsSupportedRaw = amount / averageStudentCost;
+  const studentsSupported = Number(studentsSupportedRaw.toFixed(2));
+  const studentsFullyFunded = Math.floor(studentsSupportedRaw);
+  const partialStudentPercentage = studentsSupportedRaw > studentsFullyFunded
+    ? Math.round((studentsSupportedRaw - studentsFullyFunded) * 100)
+    : 0;
+
+  const dayCampExperiences = Number((amount / dayCampCost).toFixed(2));
+  const afterSchoolMonthsFunded = Number((amount / afterSchoolMonthlyCost).toFixed(2));
+  const residencyStudentsFunded = Number((amount / residencyCost).toFixed(2));
+
+  // Calculate students reached based on the new average cost metric
+  const studentsReached = Number(studentsSupported.toFixed(2));
+
   // Calculate percentage of total students served annually
-  const studentPercentage = ((studentsReached / studentsPerYear) * 100).toFixed(2) + '%';
-  
-  // Generate classroom size comparison
+  const studentPercentage = ((studentsReached / studentsPerYear) * 100).toFixed(3) + '%';
+
+  // Generate student experience summary
   let classroomComparison = "";
-  if (studentsReached < 10) {
-    classroomComparison = `a small group workshop (${studentsReached} students)`;
-  } else if (studentsReached < 25) {
-    classroomComparison = `a typical classroom (${studentsReached} students)`;
-  } else if (studentsReached < 60) {
-    classroomComparison = `${Math.round(studentsReached / 25)} typical classrooms (${studentsReached} students)`;
-  } else if (studentsReached < 150) {
-    classroomComparison = `a small school assembly (${studentsReached} students)`;
-  } else if (studentsReached < 500) {
-    classroomComparison = `a large school assembly (${studentsReached} students)`;
-  } else if (studentsReached < 1000) {
-    classroomComparison = `an entire small school (${studentsReached} students)`;
+  if (studentsSupportedRaw >= 10) {
+    classroomComparison = `${Math.round(studentsSupportedRaw).toLocaleString()} students' creative journeys`;
+  } else if (studentsSupportedRaw >= 1) {
+    classroomComparison = `${studentsSupportedRaw.toFixed(1)} students' creative journeys`;
   } else {
-    classroomComparison = `multiple school communities (${studentsReached} students)`;
+    const percentage = Math.max(1, Math.round(studentsSupportedRaw * 100));
+    classroomComparison = `${percentage}% of a student's creative journey`;
   }
-  
+
   // Generate impact description
   let impactDescription = "";
-  if (amount < 25) {
-    impactDescription = "Your donation provides vital art supplies for creative expression.";
-  } else if (amount < 50) {
-    impactDescription = "You're helping students explore their creative talents and build confidence!";
-  } else if (amount < 100) {
-    impactDescription = "Your gift supports teaching artists who inspire the next generation.";
-  } else if (amount < 250) {
-    impactDescription = "You're making social-emotional learning through arts possible for so many students!";
-  } else if (amount < 500) {
-    impactDescription = "Your generosity helps create safe spaces for youth to express themselves.";
-  } else if (amount < 1000) {
-    impactDescription = "You're helping transform communities through collaborative art projects!";
+  if (amount < 50) {
+    impactDescription = "Your donation provides vital art supplies and creative materials.";
+  } else if (amount < dayCampCost) {
+    impactDescription = "You're helping a student get one step closer to camp this year.";
+  } else if (amount < averageStudentCost) {
+    impactDescription = "You just sent a student to a full day of Creative Action camp!";
+  } else if (amount < afterSchoolMonthlyCost) {
+    impactDescription = "You're covering a student's core creative learning experience for the year.";
+  } else if (amount < residencyCost) {
+    impactDescription = "You're funding a full month of after-school programming for a student.";
+  } else if (amount < residencyCost * 2) {
+    impactDescription = "You just underwrote a year-long arts residency for a student at Campbell.";
   } else {
-    impactDescription = "Your extraordinary gift is helping create lasting change through arts education!";
+    impactDescription = "Your extraordinary gift funds multiple year-long residencies for emerging creatives!";
   }
   
   // Program distribution data
@@ -111,6 +120,14 @@ export function calculateDonationImpact(amount: number) {
     impactDescription,
     classroomComparison,
     programDistribution,
+
+    averageStudentCost,
+    studentsSupported,
+    studentsFullyFunded,
+    partialStudentPercentage,
+    dayCampExperiences,
+    afterSchoolMonthsFunded,
+    residencyStudentsFunded,
     
     // Required fields for backward compatibility
     mealsProvided: instructionHours, // Repurposing meals as instruction hours

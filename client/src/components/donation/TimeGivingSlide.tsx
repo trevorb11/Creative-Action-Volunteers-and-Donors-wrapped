@@ -23,6 +23,7 @@ import {
   Gift
 } from "lucide-react";
 import CountUpAnimation from "./CountUpAnimation";
+import { CREATIVE_ACTION_DATA } from "@/lib/constants";
 
 interface TimeGivingSlideProps {
   impact: DonationImpact;
@@ -379,8 +380,8 @@ export default function TimeGivingSlide({
     const lifetimeAmount = totalFromFiscalYears > 0 ? totalFromFiscalYears : (donorSummary?.lifetimeGiving || 0);
     
     // Calculate estimates based on actual data when available
-    const studentsPerDollar = 0.5; // Each dollar helps reach approximately 0.5 students
-    const estimatedStudentsReached = Math.round(lifetimeAmount * studentsPerDollar);
+    const studentsPerDollar = 1 / CREATIVE_ACTION_DATA.averageStudentCost;
+    const estimatedStudentsReached = Math.round(lifetimeAmount * studentsPerDollar * 10) / 10;
     const estimatedTeachingArtistsSupported = Math.round(estimatedStudentsReached / 30); // Assume each teaching artist reaches 30 students
     const estimatedPrograms = Math.max(Math.round(lifetimeAmount / 1000), 1); // Estimate number of programs supported
     const estimatedCreativeHours = Math.max(actualYears * 10, 10); // Estimate creative hours enabled
