@@ -96,6 +96,9 @@ export type DonationImpact = {
   selStudents: number;
   theaterStudents: number;
   braveSchoolsLessons: number;
+  studentsSupported: number;
+  studentsFullyFunded: number;
+  partialStudentPercentage: number;
   studentsReached: number;
   studentPercentage: string;
   impactDescription: string;

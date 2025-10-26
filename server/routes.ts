@@ -44,7 +44,29 @@ export function calculateDonationImpact(amount: number) {
   const selStudents = Math.round(amount / costPerSELModule);
   const theaterStudents = Math.round(amount / costPerTheaterWorkshop);
   const braveSchoolsLessons = Math.round(amount / costPerBraveSchoolsLesson);
-  
+
+  // Calculate detailed student funding metrics using precise fractions
+  const studentsSupportedRaw = amount / costPerSELModule;
+  const epsilon = 1e-9;
+  let studentsFullyFunded = Math.floor(studentsSupportedRaw + epsilon);
+  let fractionalStudent = studentsSupportedRaw - studentsFullyFunded;
+
+  if (fractionalStudent >= 1 - epsilon) {
+    studentsFullyFunded += 1;
+    fractionalStudent = 0;
+  }
+
+  if (fractionalStudent <= epsilon) {
+    fractionalStudent = 0;
+  }
+
+  const partialPercentageHundredths =
+    fractionalStudent > 0 ? Math.floor(fractionalStudent * 10000) : 0;
+
+  const partialStudentPercentage = partialPercentageHundredths / 100;
+  const studentsSupported =
+    studentsFullyFunded + partialPercentageHundredths / 10000;
+
   // Calculate students reached using the instruction hours metric
   const studentsReached = Math.round(instructionHours * studentsPerInstructionHour);
   
@@ -106,6 +128,9 @@ export function calculateDonationImpact(amount: number) {
     selStudents,
     theaterStudents,
     braveSchoolsLessons,
+    studentsSupported,
+    studentsFullyFunded,
+    partialStudentPercentage,
     studentsReached,
     studentPercentage,
     impactDescription,
