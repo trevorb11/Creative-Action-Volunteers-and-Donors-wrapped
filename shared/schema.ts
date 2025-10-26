@@ -108,6 +108,15 @@ export type DonationImpact = {
     youthTheater: number;
     schoolPartnership: number;
   };
+
+  // Core cost conversion metrics for the 2024 wrapped experience
+  averageStudentCost: number;
+  studentsSupported: number;
+  studentsFullyFunded: number;
+  partialStudentPercentage: number;
+  dayCampExperiences: number;
+  afterSchoolMonthsFunded: number;
+  residencyStudentsFunded: number;
   
   // Legacy fields kept for compatibility with existing components
   mealsProvided: number;
@@ -125,16 +134,16 @@ export type DonationImpact = {
   freshFoodPercentage: number;
   
   // Legacy comparison fields kept for compatibility
-  babyElephants?: string;
-  bison?: string;
-  cars?: string;
-  houseCats?: string;
-  goldenRetrievers?: string;
-  grizzlyBears?: string;
-  hippos?: string;
-  hippopotamus?: string;
-  schoolBuses?: string;
-  smallJets?: string;
+  babyElephants: string;
+  bison: string;
+  cars: string;
+  houseCats: string;
+  goldenRetrievers: string;
+  grizzlyBears: string;
+  hippos: string;
+  hippopotamus: string;
+  schoolBuses: string;
+  smallJets: string;
   breadLoaves?: string;
   pineapples?: string;
   toddlers?: string;

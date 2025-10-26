@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DonationImpact } from "@/types/donation";
-import SlideLayout from "./SlideLayout";
+import SlideLayout from "../SlideLayout";
 import { formatCurrency } from "@/lib/utils";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import {
   Rocket,
   Gift
 } from "lucide-react";
-import CountUpAnimation from "./CountUpAnimation";
+import CountUpAnimation from "../CountUpAnimation";
 
 interface TimeGivingSlideProps {
   impact: DonationImpact;

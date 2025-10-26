@@ -86,7 +86,7 @@ export function useDonationImpact() {
           amount,
           impact: data.impact,
           isLoading: false,
-          step: SlideNames.MEALS, // Move directly to the first content slide
+          step: SlideNames.STUDENTS, // Move directly to the first content slide
           donorEmail: data.donation.email || null
         }));
         
@@ -132,7 +132,7 @@ export function useDonationImpact() {
         ...prev,
         impact,
         isLoading: false,
-        step: SlideNames.MEALS
+        step: SlideNames.STUDENTS
       }));
       
       // Log the donation with email if provided
@@ -163,7 +163,7 @@ export function useDonationImpact() {
   const goToPreviousSlide = () => {
     setState(prev => {
       // If we're at the first content slide or earlier, don't go back
-      if (prev.step <= SlideNames.MEALS) {
+      if (prev.step <= SlideNames.STUDENTS) {
         return prev;
       }
       return { ...prev, step: prev.step - 1 };
@@ -187,7 +187,7 @@ export function useDonationImpact() {
 
   // Check if current slide is the first content slide
   const isFirstSlide = () => {
-    return state.step <= SlideNames.MEALS;
+    return state.step <= SlideNames.STUDENTS;
   };
 
   // Check if current slide is the last slide

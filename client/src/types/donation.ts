@@ -34,6 +34,15 @@ export interface DonationImpact {
     youthTheater: number;
     schoolPartnership: number;
   };
+
+  // Core cost conversion metrics for the 2024 wrapped
+  averageStudentCost: number;
+  studentsSupported: number;
+  studentsFullyFunded: number;
+  partialStudentPercentage: number;
+  dayCampExperiences: number;
+  afterSchoolMonthsFunded: number;
+  residencyStudentsFunded: number;
   
   // Legacy fields kept for compatibility with existing components
   mealsProvided: number;

@@ -700,7 +700,9 @@ const LoadingSlide = () => (
             transition={{ delay: 1.2, duration: 0.5 }}
             className="mt-6"
           >
-            <CFSLogo height={40} />
+            <p className="text-lg font-semibold text-[#6A1B9A] tracking-wide uppercase">
+              Creative Action
+            </p>
           </motion.div>
         </motion.div>
       </CardContent>
@@ -1280,7 +1282,9 @@ const IntroSlide = ({
             transition={{ delay: 1.0, duration: 0.5 }}
             className="mt-6 flex justify-center"
           >
-            <CFSLogo height={40} />
+            <p className="text-lg font-semibold text-[#6A1B9A] tracking-wide uppercase">
+              Creative Action
+            </p>
           </motion.div>
         </CardContent>
       </Card>
@@ -1393,14 +1397,16 @@ const ThankYouSlide = ({ hours, onReset, onShare, onPrevious, isFirstSlide, isLa
             </p>
           </motion.div>
           
-          {/* Add CFS Logo */}
+          {/* Creative Action brand text */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4, duration: 0.5 }}
             className="w-full flex justify-end mt-4 mb-2"
           >
-            <CFSLogo height={40} />
+            <p className="text-base font-semibold text-[#6A1B9A] tracking-wide uppercase">
+              Creative Action
+            </p>
           </motion.div>
           
           <motion.div 
